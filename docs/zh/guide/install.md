@@ -97,16 +97,63 @@ sudo systemctl status msm
 
 #### 3. 配置防火墙
 
+MSM 需要开放以下端口：
+
 **Ubuntu/Debian (UFW)**:
 ```bash
+# Web 管理界面
 sudo ufw allow 7777/tcp
+
+# DNS 服务端口
+sudo ufw allow 53/tcp
+sudo ufw allow 53/udp
+sudo ufw allow 1053/tcp
+sudo ufw allow 1053/udp
+
+# 代理服务端口
+sudo ufw allow 7890/tcp
+sudo ufw allow 7891/tcp
+sudo ufw allow 7892/tcp
+
+# 管理端口
+sudo ufw allow 6666/tcp
 ```
 
 **CentOS/RHEL (firewalld)**:
 ```bash
-sudo firewall-cmd --permanent --add-port=7777/tcp
+# 批量开放端口
+for port in 7777 53 1053 7890 7891 7892 6666; do
+  sudo firewall-cmd --permanent --add-port=${port}/tcp
+  sudo firewall-cmd --permanent --add-port=${port}/udp
+done
 sudo firewall-cmd --reload
 ```
+
+::: warning 端口说明
+- **7777**: Web 管理界面
+- **53, 1053**: MosDNS DNS 服务
+- **7890, 7891, 7892**: SingBox/Mihomo 代理服务
+- **6666**: 管理端口
+:::
+
+#### 4. 处理端口冲突
+
+如果 53 端口被占用（如 systemd-resolved），需要停止冲突服务：
+
+```bash
+# 停止 systemd-resolved
+sudo systemctl stop systemd-resolved
+sudo systemctl disable systemd-resolved
+
+# 更新 DNS 配置
+sudo rm /etc/resolv.conf
+echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+echo "nameserver 1.1.1.1" | sudo tee -a /etc/resolv.conf
+```
+
+::: tip 提示
+一键安装脚本会自动处理端口冲突，无需手动操作。
+:::
 
 ## MSM 命令详解
 

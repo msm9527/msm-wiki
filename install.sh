@@ -186,22 +186,87 @@ install_service() {
     print_success "系统服务已安装"
 }
 
+# 检查并处理端口冲突
+check_port_conflicts() {
+    print_info "检查端口占用情况..."
+
+    # 检查 53 端口
+    if command -v lsof &> /dev/null; then
+        local port53_process=$(lsof -i :53 -t 2>/dev/null | head -1)
+        if [ -n "$port53_process" ]; then
+            local process_name=$(ps -p $port53_process -o comm= 2>/dev/null)
+            print_warning "检测到 53 端口被占用: $process_name (PID: $port53_process)"
+
+            # 处理 systemd-resolved
+            if systemctl is-active --quiet systemd-resolved 2>/dev/null; then
+                print_info "停止 systemd-resolved 服务..."
+                systemctl stop systemd-resolved
+                systemctl disable systemd-resolved
+                print_success "systemd-resolved 已停止并禁用"
+
+                # 备份并修改 resolv.conf
+                if [ -L /etc/resolv.conf ]; then
+                    rm /etc/resolv.conf
+                    echo "nameserver 8.8.8.8" > /etc/resolv.conf
+                    echo "nameserver 1.1.1.1" >> /etc/resolv.conf
+                    print_success "已更新 DNS 配置"
+                fi
+            fi
+
+            # 检查其他可能占用 53 端口的服务
+            for service in dnsmasq named bind9; do
+                if systemctl is-active --quiet $service 2>/dev/null; then
+                    print_info "停止 $service 服务..."
+                    systemctl stop $service
+                    systemctl disable $service
+                    print_success "$service 已停止并禁用"
+                fi
+            done
+        fi
+    elif command -v netstat &> /dev/null; then
+        if netstat -tuln | grep -q ":53 "; then
+            print_warning "检测到 53 端口被占用"
+            print_warning "尝试停止可能冲突的服务..."
+
+            for service in systemd-resolved dnsmasq named bind9; do
+                if systemctl is-active --quiet $service 2>/dev/null; then
+                    systemctl stop $service
+                    systemctl disable $service
+                    print_success "$service 已停止并禁用"
+                fi
+            done
+        fi
+    fi
+}
+
 # 配置防火墙
 configure_firewall() {
     print_info "配置防火墙..."
 
+    local ports="7777 53 1053 7890 7891 7892 6666"
+
     # 检测防火墙类型
     if command -v ufw &> /dev/null; then
         # Ubuntu/Debian UFW
-        ufw allow 7777/tcp > /dev/null 2>&1 || true
+        for port in $ports; do
+            ufw allow ${port}/tcp > /dev/null 2>&1 || true
+            ufw allow ${port}/udp > /dev/null 2>&1 || true
+        done
         print_success "UFW 防火墙规则已添加"
     elif command -v firewall-cmd &> /dev/null; then
         # CentOS/RHEL firewalld
-        firewall-cmd --permanent --add-port=7777/tcp > /dev/null 2>&1 || true
+        for port in $ports; do
+            firewall-cmd --permanent --add-port=${port}/tcp > /dev/null 2>&1 || true
+            firewall-cmd --permanent --add-port=${port}/udp > /dev/null 2>&1 || true
+        done
         firewall-cmd --reload > /dev/null 2>&1 || true
         print_success "firewalld 防火墙规则已添加"
     else
-        print_warning "未检测到防火墙，请手动开放 7777 端口"
+        print_warning "未检测到防火墙，请手动开放以下端口："
+        print_warning "  TCP/UDP: 7777 (Web 管理界面)"
+        print_warning "  TCP/UDP: 53, 1053 (DNS 服务)"
+        print_warning "  TCP/UDP: 7890, 7891, 7892 (代理服务)"
+        print_warning "  TCP/UDP: 6666 (管理端口)"
     fi
 }
 
@@ -291,6 +356,9 @@ main() {
 
     # 安装 MSM
     install_msm $temp_dir
+
+    # 检查并处理端口冲突
+    check_port_conflicts
 
     # 安装系统服务
     install_service
