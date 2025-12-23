@@ -82,6 +82,20 @@ jobs:
             runs_on: ubuntu-24.04
             goos: linux
             goarch: arm64
+          - target: linux-armv7
+            runs_on: ubuntu-24.04
+            goos: linux
+            goarch: arm
+            goarm: "7"
+          - target: linux-armv6
+            runs_on: ubuntu-24.04
+            goos: linux
+            goarch: arm
+            goarm: "6"
+          - target: linux-386
+            runs_on: ubuntu-24.04
+            goos: linux
+            goarch: "386"
           - target: darwin-amd64
             runs_on: macos-15-intel
             goos: darwin
@@ -119,6 +133,7 @@ jobs:
         env:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
+          GOARM: ${{ matrix.goarm || '' }}
           CGO_ENABLED: ${{ matrix.goos == 'darwin' && '1' || '0' }}
         run: |
           set -euo pipefail
@@ -155,6 +170,7 @@ jobs:
         env:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
+          GOARM: ${{ matrix.goarm || '' }}
           CGO_ENABLED: ${{ matrix.goos == 'darwin' && '1' || '0' }}
         run: |
           set -euo pipefail
