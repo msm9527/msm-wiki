@@ -16,6 +16,17 @@ NC='\033[0m' # No Color
 GITHUB_REPO="msm9527/msm-wiki"
 RELEASE_URL="https://github.com/${GITHUB_REPO}/releases/latest"
 SERVICE_NAME="msm"
+GITHUB_PROXY="${MSM_GITHUB_PROXY:-${GITHUB_PROXY:-}}"
+GITHUB_PROXY="${GITHUB_PROXY%/}"
+GITHUB_PROXY_CANDIDATES=(
+    "$GITHUB_PROXY"
+    "https://edgeone.gh-proxy.org"
+    "https://hk.gh-proxy.org"
+    "https://cdn.gh-proxy.org"
+    "https://ghfast.top"
+    "https://gh-proxy.org"
+    "https://v6.gh-proxy.org"
+)
 
 # 打印带颜色的消息
 print_info() {
@@ -32,6 +43,67 @@ print_warning() {
 
 print_error() {
     echo -e "${RED}[ERROR]${NC} $1" >&2
+}
+
+# 拼接代理地址
+build_proxy_url() {
+    local base="$1"
+    local url="$2"
+    base="${base%/}"
+    echo "${base}/${url}"
+}
+
+# 获取文本内容（支持 GitHub 代理回退）
+fetch_text() {
+    local url="$1"
+    local result=""
+    local urls=("$url")
+
+    for proxy in "${GITHUB_PROXY_CANDIDATES[@]}"; do
+        [ -n "$proxy" ] || continue
+        urls+=("$(build_proxy_url "$proxy" "$url")")
+    done
+
+    for u in "${urls[@]}"; do
+        if [ "$DOWNLOAD_CMD" = "wget" ]; then
+            result=$(wget -qO- "$u" 2>/dev/null || true)
+        else
+            result=$(curl -fsSL "$u" 2>/dev/null || true)
+        fi
+        if [ -n "$result" ]; then
+            echo "$result"
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+# 下载文件（支持 GitHub 代理回退）
+download_with_fallback() {
+    local url="$1"
+    local output="$2"
+    local urls=("$url")
+
+    for proxy in "${GITHUB_PROXY_CANDIDATES[@]}"; do
+        [ -n "$proxy" ] || continue
+        urls+=("$(build_proxy_url "$proxy" "$url")")
+    done
+
+    for u in "${urls[@]}"; do
+        if [ "$DOWNLOAD_CMD" = "wget" ]; then
+            if wget --progress=bar:force:noscroll "$u" -O "$output" 2>&1; then
+                return 0
+            fi
+        else
+            if curl -fL "$u" -o "$output"; then
+                return 0
+            fi
+        fi
+        print_warning "下载失败，尝试下一个镜像..."
+    done
+
+    return 1
 }
 
 # 检查是否为 root 用户
@@ -152,14 +224,20 @@ get_latest_version() {
     print_info "获取最新版本信息..."
 
     local version
-    if [ "$DOWNLOAD_CMD" = "wget" ]; then
-        version=$(wget -qO- "https://api.github.com/repos/${GITHUB_REPO}/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-    else
-        version=$(curl -s "https://api.github.com/repos/${GITHUB_REPO}/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    local api_url="https://api.github.com/repos/${GITHUB_REPO}/releases/latest"
+    local response
+
+    if ! response=$(fetch_text "$api_url"); then
+        print_error "无法获取最新版本信息"
+        print_info "可尝试设置 MSM_GITHUB_PROXY 或 GITHUB_PROXY 后重试"
+        exit 1
     fi
+
+    version=$(echo "$response" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 
     if [ -z "$version" ]; then
         print_error "无法获取最新版本信息"
+        print_info "可尝试设置 MSM_GITHUB_PROXY 或 GITHUB_PROXY 后重试"
         exit 1
     fi
 
@@ -192,20 +270,11 @@ download_msm() {
     cd $temp_dir
 
     # 下载文件（显示进度条）
-    if [ "$DOWNLOAD_CMD" = "wget" ]; then
-        # wget: 显示进度条、速度、剩余时间
-        if ! wget --progress=bar:force:noscroll "$download_url" -O "${filename}" 2>&1; then
-            print_error "下载失败"
-            rm -rf $temp_dir
-            exit 1
-        fi
-    else
-        # curl: 显示详细下载信息（百分比、速度、时间）
-        if ! curl -L "$download_url" -o "${filename}"; then
-            print_error "下载失败"
-            rm -rf $temp_dir
-            exit 1
-        fi
+    if ! download_with_fallback "$download_url" "${filename}"; then
+        print_error "下载失败"
+        print_info "可尝试设置 MSM_GITHUB_PROXY 或 GITHUB_PROXY 后重试"
+        rm -rf $temp_dir
+        exit 1
     fi
     echo ""
 

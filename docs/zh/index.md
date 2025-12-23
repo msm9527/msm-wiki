@@ -83,7 +83,7 @@ wget -qO- https://raw.githubusercontent.com/msm9527/msm-wiki/main/install.sh | s
 ```
 
 ::: tip 国内加速
-如果 GitHub 访问速度较慢，推荐使用加速镜像：
+如果 GitHub 访问速度较慢，推荐使用加速镜像（如 curl 连接失败可改用 wget 或切换其他镜像）：
 ```bash
 # 普通用户
 curl -fsSL https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/msm9527/msm-wiki/main/install.sh | sudo bash
@@ -92,6 +92,7 @@ curl -fsSL https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/msm952
 curl -fsSL https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/msm9527/msm-wiki/main/install.sh | bash
 ```
 更多镜像选项请查看[详细安装教程](/zh/guide/install)。
+如脚本内下载 release 失败，可设置 MSM_GITHUB_PROXY 或 GITHUB_PROXY 后重试。
 :::
 
 安装完成后访问 `http://your-server-ip:7777`
@@ -128,4 +129,3 @@ chmod +x msm
 ## 社区
 
 - [GitHub Issues](https://github.com/msm9527/msm-wiki/issues) - 报告问题
-

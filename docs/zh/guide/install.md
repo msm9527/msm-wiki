@@ -91,6 +91,15 @@ curl -fsSL https://v6.gh-proxy.org/https://raw.githubusercontent.com/msm9527/msm
 # root 用户
 curl -fsSL https://v6.gh-proxy.org/https://raw.githubusercontent.com/msm9527/msm-wiki/main/install.sh | bash
 ```
+
+**安装脚本下载失败时的处理**：
+```bash
+# 使用代理转发 GitHub API/Release 下载（普通用户示例）
+MSM_GITHUB_PROXY=https://cdn.gh-proxy.org curl -fsSL https://raw.githubusercontent.com/msm9527/msm-wiki/main/install.sh | sudo bash
+
+# 若 curl 连接失败，可改用 wget
+MSM_GITHUB_PROXY=https://cdn.gh-proxy.org wget -qO- https://raw.githubusercontent.com/msm9527/msm-wiki/main/install.sh | sudo bash
+```
 :::
 
 脚本会自动：
