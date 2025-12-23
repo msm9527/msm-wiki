@@ -149,9 +149,6 @@ msm-wiki/
 - [GitHub Pages](https://pages.github.com/) - 托管平台
 - [GitHub Actions](https://github.com/features/actions) - 自动部署
 
-## 📄 许可证
-
-[MIT License](LICENSE)
 
 ## 🔗 相关链接
 
