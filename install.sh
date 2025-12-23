@@ -92,7 +92,7 @@ download_with_fallback() {
 
     for u in "${urls[@]}"; do
         if [ "$DOWNLOAD_CMD" = "wget" ]; then
-            if wget --progress=bar:force:noscroll "$u" -O "$output" 2>&1; then
+            if wget --progress=bar:force:noscroll "$u" -O "$output"; then
                 return 0
             fi
         else
@@ -268,13 +268,13 @@ download_msm() {
 
     local download_url="https://github.com/${GITHUB_REPO}/releases/download/${version}/${filename}"
 
-    print_info "下载 MSM ${version} (${os}-${arch}${libc:+-$libc})..."
+    print_info "下载 MSM ${version} (${os}-${arch}${libc_suffix})..."
     print_info "下载地址: $download_url"
-    echo ""
+    printf '\n' >&2
 
     # 创建临时目录
     local temp_dir=$(mktemp -d)
-    cd $temp_dir
+    cd "$temp_dir"
 
     # 下载文件（显示进度条）
     if ! download_with_fallback "$download_url" "${filename}"; then
@@ -283,7 +283,7 @@ download_msm() {
         rm -rf $temp_dir
         exit 1
     fi
-    echo ""
+    printf '\n' >&2
 
     # 解压文件
     print_info "解压文件..."
@@ -296,7 +296,7 @@ download_msm() {
     # 删除压缩包
     rm "${filename}"
 
-    echo $temp_dir
+    printf '%s\n' "$temp_dir"
 }
 
 # 安装 MSM
