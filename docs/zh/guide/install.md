@@ -66,6 +66,9 @@ curl -fsSL https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/msm952
 
 # root 用户
 curl -fsSL https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/msm9527/msm-wiki/main/install.sh | bash
+
+# 如果 curl 连接失败，可指定 UA 重试
+curl -fsSL -A "Wget/1.24.5" https://edgeone.gh-proxy.org/https://raw.githubusercontent.com/msm9527/msm-wiki/main/install.sh | bash
 ```
 
 **其他可选镜像**：
