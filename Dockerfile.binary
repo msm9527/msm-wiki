@@ -5,26 +5,25 @@ FROM debian:13-slim
 ARG TARGETPLATFORM
 
 # 安装运行时依赖
+# 包含 iptables、iproute2 等网络工具以支持透明代理和 TUN 设备
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     tzdata \
     curl \
+    iptables \
+    iproute2 \
+    kmod \
     && rm -rf /var/lib/apt/lists/*
 
-# 创建非 root 用户
-RUN useradd -m -u 1000 -s /bin/bash msm
-
 # 创建必要的目录
-RUN mkdir -p /opt/msm /var/log/msm && \
-    chown -R msm:msm /opt/msm /var/log/msm
+RUN mkdir -p /opt/msm /var/log/msm
 
 # 复制对应架构的二进制文件
 # TARGETPLATFORM 格式: linux/amd64, linux/arm64, linux/arm/v7, linux/arm/v6, linux/386
 COPY binaries/${TARGETPLATFORM}/msm /usr/local/bin/msm
 RUN chmod +x /usr/local/bin/msm
 
-# 切换到非 root 用户
-USER msm
+# 以 root 用户运行以支持透明代理、TUN 设备等高级网络功能
 WORKDIR /opt/msm
 
 # 暴露端口
