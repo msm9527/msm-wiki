@@ -384,9 +384,7 @@ jobs:
           file: ./Dockerfile.binary
           platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/386
           push: true
-          tags: |
-            msmbox/msm:${{ needs.prepare.outputs.version }}
-            msmbox/msm:latest
+          tags: msmbox/msm:${{ needs.prepare.outputs.version }},msmbox/msm:latest
           labels: |
             org.opencontainers.image.title=MSM
             org.opencontainers.image.description=Mosdns Singbox Mihomo Manager
@@ -397,6 +395,7 @@ jobs:
           sbom: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          outputs: type=image,push=true
 
       - name: 显示镜像信息
         shell: bash
