@@ -27,6 +27,7 @@ docker run -d \
   --name msm \
   -p 7777:7777 \
   -p 53:53/udp \
+  -p 53:53/tcp \
   -p 7890:7890 \
   -v /opt/msm:/opt/msm \
   msmbox/msm:latest
@@ -46,7 +47,8 @@ services:
     restart: unless-stopped
     ports:
       - "7777:7777"   # Web 管理界面
-      - "53:53/udp"   # DNS 服务
+      - "53:53/udp"   # DNS 服务 (UDP)
+      - "53:53/tcp"   # DNS 服务 (TCP)
       - "1053:1053"   # DNS 备用端口
       - "7890:7890"   # HTTP 代理
       - "7891:7891"   # SOCKS5 代理
@@ -56,7 +58,6 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - MSM_PORT=7777
-      - JWT_SECRET=your_secure_secret_here
 ```
 
 ## 🔧 环境变量
@@ -73,7 +74,7 @@ services:
 | 端口 | 协议 | 用途 |
 |------|------|------|
 | 7777 | TCP | Web 管理界面 |
-| 53 | UDP | DNS 服务（MosDNS） |
+| 53 | UDP/TCP | DNS 服务（MosDNS） |
 | 1053 | UDP | DNS 备用端口 |
 | 7890 | TCP | HTTP 代理 |
 | 7891 | TCP | SOCKS5 代理 |

@@ -29,13 +29,13 @@ WORKDIR /opt/msm
 
 # 暴露端口
 # 7777: MSM Web 管理界面
-# 53: DNS (MosDNS)
+# 53: DNS (MosDNS) - UDP 和 TCP
 # 1053: DNS 备用端口
 # 7890: HTTP 代理 (SingBox/Mihomo)
 # 7891: SOCKS5 代理 (SingBox/Mihomo)
 # 7892: 混合代理端口 (SingBox/Mihomo)
 # 6666: 管理端口
-EXPOSE 7777 53 1053 7890 7891 7892 6666
+EXPOSE 7777 53/tcp 53/udp 1053 7890 7891 7892 6666
 
 # 环境变量
 ENV JWT_SECRET="" \
