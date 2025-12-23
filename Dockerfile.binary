@@ -5,14 +5,10 @@ FROM debian:13-slim
 ARG TARGETPLATFORM
 
 # 安装运行时依赖
-# 包含 iptables、iproute2 等网络工具以支持透明代理和 TUN 设备
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     tzdata \
     curl \
-    iptables \
-    iproute2 \
-    kmod \
     && rm -rf /var/lib/apt/lists/*
 
 # 创建必要的目录

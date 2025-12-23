@@ -167,11 +167,11 @@ docker ps --format "table {{.Names}}\t{{.Status}}"
 欢迎提交 Issue
 ---
 
-<sub>🤖 由 GitHub Actions 每日自动构建 | 基于 Debian 13 Slim | 镜像大小约 60MB（单架构）</sub>
+<sub>🤖 由 GitHub Actions 每日自动构建 | 基于 Debian 13 Slim | 镜像大小约 55MB（单架构）</sub>
 
 ## ⚠️ 重要说明
 
 - 容器以 **root 权限**运行，并需要 **特权模式** 以支持透明代理、TUN 设备等高级网络功能
-- 已内置 `iptables`、`iproute2`、`kmod` 等网络工具
+- 所有网络功能（iptables、路由配置等）均由 Golang 实现，无需外部依赖
 - 自动映射 `/dev/net/tun` 设备以支持 TUN 模式
 - 建议在可信网络环境中运行，或配置适当的网络隔离措施
