@@ -153,7 +153,7 @@ export default defineConfig({
     ],
 
     footer: {
-      message: 'MSM - 统一管理 MosDNS、SingBox、Mihomo 的开源平台',
+      message: 'MSM - 统一管理 MosDNS、SingBox、Mihomo 的平台',
       copyright: 'Copyright © 2024-present MSM Project'
     },
 
