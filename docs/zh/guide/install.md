@@ -176,18 +176,39 @@ sudo chmod +x /usr/local/bin/msm
 请将版本号 `0.7.1` 替换为最新版本号。
 :::
 
-#### 2. 安装系统服务
+### 方式三：macOS 桌面应用（推荐）
+
+#### 1. 下载 DMG 安装包
+
+访问 [Releases 页面](https://github.com/msm9527/msm-wiki/releases/latest) 下载 macOS 桌面应用安装包：
+
+- **Intel 芯片**: `msm-desktop-x64.dmg`
+- **Apple Silicon (M1/M2/M3)**: `msm-desktop-arm64.dmg`
+
+#### 2. 安装应用
+
+1. 双击下载的 `.dmg` 文件打开安装镜像
+2. 将 `msm-desktop.app` 拖拽到 `Applications` 文件夹
+
+#### 3. 解除系统安全限制
+
+由于应用未经过 Apple 公证，首次运行前需要执行以下命令解除安全限制：
 
 ```bash
-# 安装系统服务并设置开机自启
-sudo msm service install
+# 移除扩展属性（解除隔离标记）
+/usr/bin/xattr -cr "/Applications/msm-desktop.app"
 
-# 启动服务
-sudo systemctl start msm
-
-# 查看状态
-sudo systemctl status msm
+# 重新签名应用
+/usr/bin/codesign -fs - "/Applications/msm-desktop.app"
 ```
+
+::: warning 安全提示
+这些命令会移除 macOS 的 Gatekeeper 保护。请确保从官方 GitHub Releases 页面下载应用。
+:::
+
+#### 4. 启动应用
+
+完成上述步骤后，即可从启动台或应用程序文件夹中打开 MSM Desktop。
 
 ## MSM 命令详解
 
