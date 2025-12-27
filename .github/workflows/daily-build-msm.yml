@@ -217,12 +217,6 @@ jobs:
         if: matrix.goos == 'darwin'
         uses: dtolnay/rust-toolchain@stable
 
-      - name: 安装 DMG 打包工具 (macOS only)
-        if: matrix.goos == 'darwin'
-        shell: bash
-        run: |
-          brew install create-dmg
-
       - name: 构建 Tauri 桌面应用 (macOS only)
         if: matrix.goos == 'darwin'
         shell: bash
@@ -268,82 +262,11 @@ jobs:
           # 恢复原始配置
           mv "$TAURI_CONF.backup" "$TAURI_CONF"
 
-          # 准备重新打包 DMG，添加安装说明和修复脚本
-          DMG_TEMP_DIR="/tmp/msm-dmg-repack"
-          rm -rf "$DMG_TEMP_DIR"
-          mkdir -p "$DMG_TEMP_DIR"
-
-          # 挂载原始 DMG
-          ORIGINAL_DMG="$SRC_TAURI_DIR/target/release/bundle/dmg"/*.dmg
-          hdiutil attach "$ORIGINAL_DMG" -mountpoint "$DMG_TEMP_DIR/mount" -nobrowse
-
-          # 复制 app 到临时目录
-          cp -R "$DMG_TEMP_DIR/mount"/*.app "$DMG_TEMP_DIR/"
-          APP_NAME=$(basename "$DMG_TEMP_DIR"/*.app)
-
-          # 卸载原始 DMG
-          hdiutil detach "$DMG_TEMP_DIR/mount"
-
-          # 创建安装说明文件
-          cat > "$DMG_TEMP_DIR/安装说明.txt" << 'EOF'
-          将 msm-desktop.app 拖拽到 Applications 文件夹进行安装
-
-          安装后执行以下命令：
-
-          /usr/bin/xattr -cr "/Applications/msm-desktop.app"
-
-          /usr/bin/codesign -fs - "/Applications/msm-desktop.app"
-          EOF
-
-          # 创建修复脚本
-          cat > "$DMG_TEMP_DIR/修复app启动失败.command" << 'EOF'
-          #!/bin/bash
-          
-          echo "正在修复 msm-desktop.app 启动问题..."
-          echo ""
-          
-          if [ ! -d "/Applications/msm-desktop.app" ]; then
-              echo "错误: 未找到 /Applications/msm-desktop.app"
-              echo "请先将应用拖拽到 Applications 文件夹"
-              echo ""
-              read -p "按回车键退出..."
-              exit 1
-          fi
-          
-          echo "步骤 1/2: 移除扩展属性..."
-          /usr/bin/xattr -cr "/Applications/msm-desktop.app"
-          
-          echo "步骤 2/2: 重新签名应用..."
-          /usr/bin/codesign -fs - "/Applications/msm-desktop.app"
-          
-          echo ""
-          echo "✅ 修复完成！现在可以启动 msm-desktop 了"
-          echo ""
-          read -p "按回车键退出..."
-          EOF
-
-          chmod +x "$DMG_TEMP_DIR/修复app启动失败.command"
-
-          # 使用 create-dmg 重新打包
+          # 复制 DMG 到 dist 目录
           mkdir -p "$DIST_ROOT"
-          OUTPUT_DMG="$DIST_ROOT/msm-desktop-${VERSION}-${{ matrix.target }}.dmg"
+          cp "$SRC_TAURI_DIR/target/release/bundle/dmg"/*.dmg "$DIST_ROOT/msm-desktop-${VERSION}-${{ matrix.target }}.dmg"
 
-          create-dmg \
-            --volname "MSM Desktop" \
-            --window-pos 200 120 \
-            --window-size 800 450 \
-            --icon-size 100 \
-            --icon "$APP_NAME" 200 150 \
-            --hide-extension "$APP_NAME" \
-            --app-drop-link 600 150 \
-            --text-size 12 \
-            "$OUTPUT_DMG" \
-            "$DMG_TEMP_DIR"
-
-          # 清理临时目录
-          rm -rf "$DMG_TEMP_DIR"
-
-          # 现在打包二进制 tar.gz
+          # 打包二进制 tar.gz
           cd "$DIST_ROOT"
           tar -czf "msm-${VERSION}-${{ matrix.target }}.tar.gz" msm
           rm -f msm
