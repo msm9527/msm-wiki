@@ -399,6 +399,49 @@ check_port_conflicts() {
                 fi
             done
         fi
+    elif command -v ss &> /dev/null; then
+        local ss_out=""
+        ss_out=$(ss -H -lntup 'sport = :53' 2>/dev/null || true)
+        ss_out="${ss_out}"$'\n'"$(ss -H -lnup 'sport = :53' 2>/dev/null || true)"
+
+        if echo "$ss_out" | grep -q '[^[:space:]]'; then
+            local port53_process=$(echo "$ss_out" | grep -oE 'pid=[0-9]+' | head -1 | cut -d= -f2)
+            local process_name=$(echo "$ss_out" | sed -n 's/.*users:(("\([^"]\+\)".*/\1/p' | head -1)
+            if [ -z "$process_name" ] && [ -n "$port53_process" ]; then
+                process_name=$(ps -p $port53_process -o comm= 2>/dev/null)
+            fi
+            if [ -n "$process_name" ] && [ -n "$port53_process" ]; then
+                print_warning "检测到 53 端口被占用: $process_name (PID: $port53_process)"
+            else
+                print_warning "检测到 53 端口被占用"
+            fi
+
+            # 处理 systemd-resolved
+            if systemctl is-active --quiet systemd-resolved 2>/dev/null; then
+                print_info "停止 systemd-resolved 服务..."
+                systemctl stop systemd-resolved
+                systemctl disable systemd-resolved
+                print_success "systemd-resolved 已停止并禁用"
+
+                # 备份并修改 resolv.conf
+                if [ -L /etc/resolv.conf ]; then
+                    rm /etc/resolv.conf
+                    echo "nameserver 8.8.8.8" > /etc/resolv.conf
+                    echo "nameserver 1.1.1.1" >> /etc/resolv.conf
+                    print_success "已更新 DNS 配置"
+                fi
+            fi
+
+            # 检查其他可能占用 53 端口的服务
+            for service in dnsmasq named bind9; do
+                if systemctl is-active --quiet $service 2>/dev/null; then
+                    print_info "停止 $service 服务..."
+                    systemctl stop $service
+                    systemctl disable $service
+                    print_success "$service 已停止并禁用"
+                fi
+            done
+        fi
     elif command -v netstat &> /dev/null; then
         if netstat -tuln | grep -q ":53 "; then
             print_warning "检测到 53 端口被占用"
