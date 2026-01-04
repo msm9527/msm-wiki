@@ -48,6 +48,21 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1" >&2
 }
 
+print_proxy_tips() {
+    print_info "网络访问受限时，可配置代理后重试(示例)："
+    print_info "  export https_proxy=http://192.168.12.239:6152"
+    print_info "  export http_proxy=http://192.168.12.239:6152"
+    print_info "  export all_proxy=socks5://192.168.12.239:6153"
+    print_info "  如通过 sudo 运行，建议使用 sudo -E 保留代理环境变量"
+}
+
+normalize_proxy_env() {
+    [ -n "$http_proxy" ] || [ -z "$HTTP_PROXY" ] || export http_proxy="$HTTP_PROXY"
+    [ -n "$https_proxy" ] || [ -z "$HTTPS_PROXY" ] || export https_proxy="$HTTPS_PROXY"
+    [ -n "$all_proxy" ] || [ -z "$ALL_PROXY" ] || export all_proxy="$ALL_PROXY"
+    [ -n "$no_proxy" ] || [ -z "$NO_PROXY" ] || export no_proxy="$NO_PROXY"
+}
+
 # 拼接代理地址
 build_proxy_url() {
     local base="$1"
@@ -250,6 +265,7 @@ get_latest_version() {
     if [ -z "$version" ]; then
         print_error "无法获取最新版本信息"
         print_info "可尝试设置 MSM_GITHUB_PROXY 或 GITHUB_PROXY 后重试"
+        print_proxy_tips
         exit 1
     fi
 
@@ -285,6 +301,7 @@ download_msm() {
     if ! download_with_fallback "$download_url" "${filename}"; then
         print_error "下载失败"
         print_info "可尝试设置 MSM_GITHUB_PROXY 或 GITHUB_PROXY 后重试"
+        print_proxy_tips
         rm -rf $temp_dir
         exit 1
     fi
@@ -698,6 +715,9 @@ main() {
 
     # 检查 root 权限
     check_root
+
+    # 代理环境变量兼容处理
+    normalize_proxy_env
 
     # 检测操作系统和架构
     local os=$(detect_os)
