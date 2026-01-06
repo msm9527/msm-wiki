@@ -187,13 +187,34 @@ download_with_fallback() {
             print_warning "下载失败，尝试备用镜像 ($attempt)..."
         fi
 
+        # 调试：显示实际下载的 URL
+        if [ "${MSM_DEBUG:-0}" = "1" ]; then
+            print_info "下载 URL: $u"
+        fi
+
+        local download_success=0
         if [ "$DOWNLOAD_CMD" = "wget" ]; then
-            if wget --progress=bar:force:noscroll "$u" -O "$output" 2>&1; then
-                return 0
+            # wget: 30秒连接超时，300秒读取超时
+            if wget --timeout=30 --read-timeout=300 --progress=bar:force:noscroll "$u" -O "$output" 2>&1; then
+                download_success=1
             fi
         else
-            if curl -fL "$u" -o "$output" 2>&1; then
+            # curl: 30秒连接超时，300秒最大时间，显示进度
+            if curl --connect-timeout 30 --max-time 300 -fL --progress-bar "$u" -o "$output" 2>&1; then
+                download_success=1
+            fi
+        fi
+
+        if [ $download_success -eq 1 ]; then
+            # 验证文件是否下载成功（文件大小 > 0）
+            if [ -f "$output" ] && [ -s "$output" ]; then
+                if [ "${MSM_DEBUG:-0}" = "1" ]; then
+                    local file_size=$(stat -f%z "$output" 2>/dev/null || stat -c%s "$output" 2>/dev/null || echo "unknown")
+                    print_info "下载成功，文件大小: $file_size 字节"
+                fi
                 return 0
+            else
+                print_warning "下载的文件为空或不存在"
             fi
         fi
     done
