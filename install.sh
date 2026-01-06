@@ -194,13 +194,13 @@ download_with_fallback() {
 
         local download_success=0
         if [ "$DOWNLOAD_CMD" = "wget" ]; then
-            # wget: 30秒连接超时，300秒读取超时
-            if wget --timeout=30 --read-timeout=300 --progress=bar:force:noscroll "$u" -O "$output" 2>&1; then
+            # wget: 30秒连接超时，300秒读取超时，显示进度条
+            if wget --timeout=30 --read-timeout=300 --progress=bar:force:noscroll "$u" -O "$output"; then
                 download_success=1
             fi
         else
-            # curl: 30秒连接超时，300秒最大时间，显示进度
-            if curl --connect-timeout 30 --max-time 300 -fL --progress-bar "$u" -o "$output" 2>&1; then
+            # curl: 30秒连接超时，300秒最大时间，显示进度条
+            if curl --connect-timeout 30 --max-time 300 -fL --progress-bar "$u" -o "$output"; then
                 download_success=1
             fi
         fi
