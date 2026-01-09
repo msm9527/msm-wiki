@@ -164,33 +164,33 @@ jobs:
                       role: 'user',
                       content: `请分析以下 Git 提交记录，生成结构化的版本发布文档。
 
-          提交记录（共 ${commits.length} 个）：
-          ${commits.map(c => `- ${c.subject} (${c.author}, ${c.date})`).join('\n')}
-          
-          要求：
-          1. 用中文输出
-          2. 按照以下格式分类输出：
+              提交记录（共 ${commits.length} 个）：
+              ${commits.map(c => `- ${c.subject} (${c.author}, ${c.date})`).join('\n')}
+            
+              要求：
+                1. 用中文输出
+                2. 按照以下格式分类输出：
 
-          ### ✨ 新增（Added）
-          - 新增的功能或特性
-
-          ### 🔧 变更（Changed）
-          - 行为调整、重构、配置变更等
-
-          ### 🐛 修复（Fixed）
-          - Bug 修复、问题解决等
-
-          ### ⚠️ 废弃（Deprecated）
-          - 即将废弃的功能（如果有）
-
-          ### 📝 备注（Notes）
-          - 重要的使用注意事项或兼容性说明（如果有）
-
-          3. **重要**：如果某个分类没有内容，完全省略该分类的标题和内容，不要输出"（无）"
-          4. 每个要点简洁明了，不超过 30 字
-          5. 合并相似的提交
-          6. 突出重要变更
-          7. 只输出有内容的分类和要点，不要其他内容`
+            ### ✨ 新增（Added）
+            - 新增的功能或特性
+  
+            ### 🔧 变更（Changed）
+            - 行为调整、重构、配置变更等
+  
+            ### 🐛 修复（Fixed）
+            - Bug 修复、问题解决等
+  
+            ### ⚠️ 废弃（Deprecated）
+            - 即将废弃的功能（如果有）
+  
+            ### 📝 备注（Notes）
+            - 重要的使用注意事项或兼容性说明（如果有）
+  
+            3. **重要**：如果某个分类没有内容，完全省略该分类的标题和内容，不要输出"（无）"
+            4. 每个要点简洁明了，不超过 30 字
+            5. 合并相似的提交
+            6. 突出重要变更
+            7. 只输出有内容的分类和要点，不要其他内容`
                             }
                   ],
                   temperature: 0.7,
@@ -683,30 +683,38 @@ jobs:
             const releasesPath = 'docs/zh/guide/releases.md';
             let content = fs.readFileSync(releasesPath, 'utf-8');
 
-            // 获取当前日期
-            const now = new Date();
-            const dateStr = now.toISOString().split('T')[0];
+            // 使用最后一个 commit 的时间作为发布日期（精确到分钟）
+            // commitDate 格式: "2026-01-09 12:34:56 +0800"
+            const commitDateObj = new Date(commitDate);
+            const dateStr = commitDateObj.toLocaleString('zh-CN', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false
+            }).replace(/\//g, '-');
 
             // 构建新版本的内容（使用新的 UI 格式）
             const newVersionContent = `
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 12px; color: white; margin: 2rem 0;">
-              <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-                <div>
-                  <h3 style="margin: 0; color: white; font-size: 2rem;">v${version}</h3>
-                  <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">发布日期：${dateStr}</p>
-                </div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                  <a href="https://github.com/msm9527/msm-wiki/releases/tag/${version}" target="_blank" style="background: white; color: #667eea; padding: 0.5rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
-                    📥 下载
-                  </a>
-                  <a href="https://github.com/msm9527/msm-wiki/releases/tag/${version}" target="_blank" style="background: rgba(255,255,255,0.2); color: white; padding: 0.5rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
-                    📝 查看详情
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-            ${aiSummary}
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 12px; color: white; margin: 2rem 0;">
+  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+    <div>
+      <h3 style="margin: 0; color: white; font-size: 2rem;">v${version}</h3>
+      <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">发布日期：${dateStr}</p>
+    </div>
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <a href="https://github.com/msm9527/msm-wiki/releases/tag/${version}" target="_blank" style="background: white; color: #667eea; padding: 0.5rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
+        📥 下载
+      </a>
+      <a href="https://github.com/msm9527/msm-wiki/releases/tag/${version}" target="_blank" style="background: rgba(255,255,255,0.2); color: white; padding: 0.5rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
+        📝 查看详情
+      </a>
+    </div>
+  </div>
+</div>
+
+${aiSummary}
             
             ::: details 📋 构建信息
             - **源提交**: [\`${commitSha}\`](https://github.com/msm9527/msm/commit/${{ needs.prepare.outputs.commit_sha }})

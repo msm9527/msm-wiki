@@ -14,7 +14,7 @@
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
     <div>
       <h3 style="margin: 0; color: white; font-size: 2rem;">v0.7.5</h3>
-      <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">发布日期：2024</p>
+      <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">发布日期：2024-12-15 14:30</p>
     </div>
     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
       <a href="https://github.com/msm9527/msm-wiki/releases/tag/0.7.5" target="_blank" style="background: white; color: #667eea; padding: 0.5rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
@@ -55,7 +55,7 @@
 ## 📚 历史版本
 
 <details>
-<summary><strong>v0.7.4</strong> - 2024 <Badge type="info" text="稳定版" /></summary>
+<summary><strong>v0.7.4</strong> - 2024-11-20 10:15 <Badge type="info" text="稳定版" /></summary>
 
 <div style="padding: 1rem; background: var(--vp-c-bg-soft); border-radius: 8px; margin-top: 1rem;">
 
@@ -91,7 +91,7 @@
 </details>
 
 <details>
-<summary><strong>v0.7.3</strong> - 2024</summary>
+<summary><strong>v0.7.3</strong> - 2024-10-28 16:45</summary>
 
 <div style="padding: 1rem; background: var(--vp-c-bg-soft); border-radius: 8px; margin-top: 1rem;">
 
@@ -121,7 +121,7 @@
 </details>
 
 <details>
-<summary><strong>v0.7.2</strong> - 2024</summary>
+<summary><strong>v0.7.2</strong> - 2024-09-15 09:20</summary>
 
 <div style="padding: 1rem; background: var(--vp-c-bg-soft); border-radius: 8px; margin-top: 1rem;">
 
