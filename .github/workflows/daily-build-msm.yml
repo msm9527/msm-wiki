@@ -689,34 +689,34 @@ jobs:
 
             // 构建新版本的内容（使用新的 UI 格式）
             const newVersionContent = `
-<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 12px; color: white; margin: 2rem 0;">
-  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-    <div>
-      <h3 style="margin: 0; color: white; font-size: 2rem;">v${version}</h3>
-      <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">发布日期：${dateStr}</p>
-    </div>
-    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-      <a href="https://github.com/msm9527/msm-wiki/releases/tag/${version}" target="_blank" style="background: white; color: #667eea; padding: 0.5rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
-        📥 下载
-      </a>
-      <a href="https://github.com/msm9527/msm-wiki/releases/tag/${version}" target="_blank" style="background: rgba(255,255,255,0.2); color: white; padding: 0.5rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
-        📝 查看详情
-      </a>
-    </div>
-  </div>
-</div>
-
-${aiSummary}
-
-::: details 📋 构建信息
-- **源提交**: [\`${commitSha}\`](https://github.com/msm9527/msm/commit/${{ needs.prepare.outputs.commit_sha }})
-- **提交信息**: ${commitMessage}
-- **提交作者**: ${commitAuthor}
-- **提交时间**: ${commitDate}
-:::
-
----
-`;
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 12px; color: white; margin: 2rem 0;">
+              <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                  <h3 style="margin: 0; color: white; font-size: 2rem;">v${version}</h3>
+                  <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">发布日期：${dateStr}</p>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <a href="https://github.com/msm9527/msm-wiki/releases/tag/${version}" target="_blank" style="background: white; color: #667eea; padding: 0.5rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
+                    📥 下载
+                  </a>
+                  <a href="https://github.com/msm9527/msm-wiki/releases/tag/${version}" target="_blank" style="background: rgba(255,255,255,0.2); color: white; padding: 0.5rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
+                    📝 查看详情
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+            ${aiSummary}
+            
+            ::: details 📋 构建信息
+            - **源提交**: [\`${commitSha}\`](https://github.com/msm9527/msm/commit/${{ needs.prepare.outputs.commit_sha }})
+            - **提交信息**: ${commitMessage}
+            - **提交作者**: ${commitAuthor}
+            - **提交时间**: ${commitDate}
+            :::
+            
+            ---
+            `;
 
             // 查找"## 🚀 最新版本"标记
             const latestVersionMarker = '## 🚀 最新版本';
