@@ -399,7 +399,7 @@ sudo systemctl start msm
 sudo systemctl stop msm
 
 # 恢复整个配置目录
-sudo tar -xzf /root/msm-backup-20240101.tar.gz -C /
+sudo tar -xzf /root/msm-backup-20260101.tar.gz -C /
 
 # 启动服务
 sudo systemctl start msm

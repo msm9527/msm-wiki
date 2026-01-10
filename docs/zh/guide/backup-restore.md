@@ -150,7 +150,7 @@ sudo mv /root/.msm /root/.msm.old
 sudo mv /usr/local/bin/msm /usr/local/bin/msm.old
 
 # 恢复备份
-sudo tar -xzf /root/msm-backup-20240101-120000.tar.gz -C /
+sudo tar -xzf /root/msm-backup-20260101-120000.tar.gz -C /
 
 # 启动服务
 sudo systemctl start msm
@@ -174,7 +174,7 @@ sudo systemctl stop msm
 sudo cp /root/.msm/mosdns/config.yaml /root/.msm/mosdns/config.yaml.old
 
 # 从备份中提取配置
-sudo tar -xzf /root/msm-backup-20240101-120000.tar.gz \
+sudo tar -xzf /root/msm-backup-20260101-120000.tar.gz \
   -C / \
   root/.msm/mosdns/config.yaml
 
@@ -192,7 +192,7 @@ sudo systemctl stop msm
 sudo cp /root/.msm/singbox/config.json /root/.msm/singbox/config.json.old
 
 # 从备份中提取配置
-sudo tar -xzf /root/msm-backup-20240101-120000.tar.gz \
+sudo tar -xzf /root/msm-backup-20260101-120000.tar.gz \
   -C / \
   root/.msm/singbox/config.json
 
@@ -210,7 +210,7 @@ sudo systemctl stop msm
 sudo cp /root/.msm/data/msm.db /root/.msm/data/msm.db.old
 
 # 从备份中提取数据库
-sudo tar -xzf /root/msm-backup-20240101-120000.tar.gz \
+sudo tar -xzf /root/msm-backup-20260101-120000.tar.gz \
   -C / \
   root/.msm/data/msm.db
 
@@ -265,7 +265,7 @@ sudo systemctl status msm
 ls -lh /root/msm-backup-*.tar.gz
 
 # 检查备份文件完整性
-tar -tzf /root/msm-backup-20240101-120000.tar.gz > /dev/null
+tar -tzf /root/msm-backup-20260101-120000.tar.gz > /dev/null
 echo $?  # 应该输出 0
 ```
 

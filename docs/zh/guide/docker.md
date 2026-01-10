@@ -311,7 +311,7 @@ docker-compose up -d
 docker-compose down
 
 # 恢复数据
-tar -xzf msm-backup-20240101.tar.gz -C /
+tar -xzf msm-backup-20260101.tar.gz -C /
 
 # 启动容器
 docker-compose up -d

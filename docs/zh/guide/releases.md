@@ -1,197 +1,134 @@
 # 📦 版本发布
 
-<div style="text-align: center; margin: 2rem 0;">
-  <p style="font-size: 1.1rem; color: var(--vp-c-text-2);">
-    查看 MSM 的版本更新历史和发布说明
-  </p>
-</div>
+用于查看 MSM 各版本的更新内容和升级建议。
 
 ---
 
-## 🚀 最新版本
+## 🚀 最新稳定版本
 
-<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 12px; color: white; margin: 2rem 0;">
-  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-    <div>
-      <h3 style="margin: 0; color: white; font-size: 2rem;">v0.7.5</h3>
-      <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">发布日期：2026-01-09 11:28</p>
-    </div>
-    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-      <a href="https://github.com/msm9527/msm-wiki/releases/tag/0.7.5" target="_blank" style="background: white; color: #667eea; padding: 0.5rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
-        📥 下载
-      </a>
-      <a href="https://github.com/msm9527/msm-wiki/releases/tag/0.7.5" target="_blank" style="background: rgba(255,255,255,0.2); color: white; padding: 0.5rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block;">
-        📝 查看详情
-      </a>
-    </div>
-  </div>
-</div>
+> 当前稳定版本：`v0.7.5`  
+> 发布时间：2026-01-09 11:28  
+> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/0.7.5>  
+> - 下载方式：同一发布页内提供各平台二进制与安装包
 
-::: tip ✨ 新增功能
-**UI 全面升级**
-- 🎨 登录与 Setup 页 UI 全量重制：左右分栏、动画 Logo、统一配色与文案
-- 🌍 Setup 界面时区设置更改系统全局
-- 📦 登录页依赖裁剪、无用组件移除，前端包体减小
+### ✨ 主要变更（v0.7.5）
 
-**性能优化**
-- ⚡ 时区���步流程改为非阻塞，降低启动卡顿
-- 🧹 同步方案包清理为历史
+::: tip 新增与优化
+- UI 全面升级：登录页、首次 Setup 页重做，统一配色与文案，布局更紧凑
+- Setup 界面新增时区设置，并同步为系统全局时区
+- 登录页裁剪无用依赖与组件，前端包体更小、加载更快
+- 时区同步流程改为非阻塞执行，减轻启动卡顿
+- 同步方案包改为历史清理策略，减少长期堆积
 :::
 
-::: info 🐛 问题修复
-- ✅ 修复移动端动画效果问题
-- ✅ 登录页布局/文案细节与未使用引用清理
-- ✅ 时区应用异常对运行的影响降级为警告
+::: info 问题修复
+- 修复移动端动画与布局异常
+- 清理登录页布局/文案细节及未使用引用
+- 时区应用异常对运行影响从错误降级为警告，稳定性更好
 :::
 
-::: warning 🧪 实验性功能
-- 🔧 Mihomo 规则/Provider 编辑器继续迭代：多处交互微调与默认值完善
-- 🔄 系统升级 Mihomo 会进行自动配置合并
-- 🔄 系统升级 MosDNS 会进行配置自动升级
+::: warning 实验性内容
+- Mihomo 规则 / Provider 编辑器持续迭代中：交互细节与默认值仍在调整
+- 升级 Mihomo 时会尝试自动合并现有配置
+- 升级 MosDNS 时会自动迁移配置到新版本格式
 :::
 
 ---
 
 ## 📚 历史版本
 
-<details>
-<summary><strong>v0.7.4</strong> - 2026-01-05 21:16 <Badge type="info" text="稳定版" /></summary>
+> 下面仅列出最近几个版本的主要变更，完整变更记录以 GitHub Release 为准。
 
-<div style="padding: 1rem; background: var(--vp-c-bg-soft); border-radius: 8px; margin-top: 1rem;">
+### v0.7.4（2026-01-05 21:16） <Badge type="info" text="稳定版" />
 
-**版本链接**: [GitHub Release](https://github.com/msm9527/msm-wiki/releases/tag/0.7.4)
+- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/0.7.4>
 
-**✨ 新增功能**
-- 🔧 **Mihomo 规则管理增强**
-  - 规则页按配置文件排序、快速定位编辑
-  - 规则/Provider 可选重启生效
-  - 默认 interval 调整
+**新增 / 优化**
+- Mihomo 规则管理增强  
+  - 规则页支持按配置文件分组排序，方便快速定位  
+  - 规则 / Provider 支持“可选重启生效”  
+  - 默认 `interval` 等参数调整为更合理的值
+- Setup 流程优化  
+  - 保存配置时增加下载进度提示  
+  - 运行期可切换代理核心，缺失核心自动下载
+- 项目管理与下载优化  
+  - 新增 Issue 模板与 VPS 预设（含 Mihomo）  
+  - CLI / 下载链路默认优先使用内置加速源，界面展示下载进度
 
-- ⚙️ **Setup 流程优化**
-  - 保存流程带下载进度提示
-  - 支持运行期切换代理核心并自动下载缺失核心
+**问题修复**
+- 修复 Mihomo 规则编辑器初始化报错、弹窗越界、空 `{}` YAML 导致损坏等问题
+- 修复前端启停代理、日志级别解析、Toast 长文本、导航高亮等多处 UI / 交互问题
+- 修复部分版本号、路径、配置读取错位，尤其是 Setup 与缓存相关逻辑
 
-- 📋 **项目管理**
-  - Issue 模板新增
-  - VPS 预设配置加入 Mihomo
+**注意事项**
+- Tauri 桌面链路已基本稳定，但在 macOS 上仍建议重点验证 `launchctl` 工作目录与权限场景
 
-- 📥 **下载优化**
-  - CLI/下载链路默认优先内置加速源
-  - 用户界面增加进度提示
+---
 
-**🐛 问题修复**
-- ✅ Mihomo 规则编辑器初始化报错、弹窗越界、空 `{}` YAML 破坏等
-- ✅ 前端启停代理、日志级别解析、Toast 长文本、导航高亮等 UI/交互问题
-- ✅ 多处版本号、路径、配置读取错位（尤其 Setup 与缓存）
+### v0.7.3（2026-01-01 13:29）
 
-**⚠️ 注意事项**
-- Tauri 桌面链路已基本稳定，但仍建议在 macOS 上验证 launchctl 工作目录及权限场景
+- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/0.7.3>
 
-</div>
-</details>
+**新增 / 优化**
+- Connections 页面重做  
+  - 采用弹窗模式，支持保持展开状态，更紧凑的布局  
+  - 测速与展开可并存，便于排查连接质量
+- 代理链展示优化  
+  - 切换操作不再强制折叠，补充更多测速信息  
+  - 规则页节点卡片新增图标、双列瀑布流布局
+- Setup 优化  
+  - 初始化流程与版本号管理进行了多处微调
 
-<details>
-<summary><strong>v0.7.3</strong> - 2026-01-01 13:29</summary>
+**问题修复**
+- 修复 IPv6 / DNS 开关在保存和读取旧配置时的不一致问题
+- 修复 Mihomo 页面若干弹窗居中、溢出与 YAML 处理错误
+- 修复白屏、布局跳动等零碎 UI 问题
 
-<div style="padding: 1rem; background: var(--vp-c-bg-soft); border-radius: 8px; margin-top: 1rem;">
+**注意事项**
+- 桌面端与 SSE 改造仍处于快速演进阶段，升级后建议重点观察 SSE 长连接稳定性
 
-**版本链接**: [GitHub Release](https://github.com/msm9527/msm-wiki/releases/tag/0.7.3)
+---
 
-**✨ 新增功能**
-- 🔄 **Connections 页面重做**
-  - 弹窗模式：保持展开状态、更紧凑布局
-  - 测速/展开可并存
+### v0.7.2（2025-12-31 20:52）
 
-- 🔗 **代理链展示优化**
-  - 切换操作不再折叠，补充测速
-  - 规则页节点卡新增图标、双列瀑布流布局
+- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/0.7.2>
 
-- ⚙️ **Setup 优化**
-  - 初始化与版本号管理多处微调
-
-**🐛 问题修复**
-- ✅ IPv6/DNS 开关保存与读取旧配置问题
-- ✅ Mihomo 页面若干弹窗居中、溢出与 YAML 处理错误
-- ✅ 白屏/布局跳动等细碎 UI 问题
-
-**⚠️ 注意事项**
-- 桌面端与 SSE 改造已初步落地，仍属快速演进期，建议升级时验证 SSE 长连接稳定性
-
-</div>
-</details>
-
-<details>
-<summary><strong>v0.7.2</strong> - 2025-12-31 20:52</summary>
-
-<div style="padding: 1rem; background: var(--vp-c-bg-soft); border-radius: 8px; margin-top: 1rem;">
-
-**版本链接**: [GitHub Release](https://github.com/msm9527/msm-wiki/releases/tag/0.7.2)
-
-**✨ 核心内容**
-- 🖥️ **桌面端服务管理**
-  - 桌面端服务管理与托盘初版
-  - 自动安装/提权、首次运行门禁、状态面板
-
-- 🎨 **UI 优化**
-  - MosDNS/Mihomo UI 大幅优化
-  - SSE 相对路径、CORS、静态资源与代理概览链路梳理
-
-- 🐛 **问题修复**
-  - 大量 macOS DMG、权限、服务检测问题修复
-  - Connections 刷新/测速/展开等问题修复
-
-</div>
-</details>
+**核心内容**
+- 桌面端服务管理  
+  - 桌面端服务管理与托盘初版  
+  - 支持自动安装 / 提权、首次运行门禁、状态面板等
+- UI 与链路优化  
+  - MosDNS / Mihomo 管理界面大幅改版  
+  - 梳理 SSE 相对路径、CORS、静态资源与代理概览链路
+- 问题修复  
+  - 修复大量 macOS DMG、权限、服务检测相关问题  
+  - 修复 Connections 刷新 / 测速 / 展开等问题
 
 ---
 
 ## 🔄 升级建议
 
 ::: warning 升级前准备
-1. 升级前建议进行备份，避免漏过资源/配置迁移
-2. 桌面端（Tauri）用户：升级后确认 launchctl/托盘服务状态与本地 API 可访问性
-3. Mihomo 规则/Provider 编辑器自 0.7.3 快速演进，升级后建议备份并复核生成的 YAML
+1. 升级前建议先备份配置目录和重要数据，避免遗漏迁移
+2. 桌面端（Tauri）用户：升级后请确认 `launchctl` / 托盘服务状态，以及本地 API 是否可访问
+3. Mihomo 规则 / Provider 编辑器自 0.7.3 起快速演进，升级前建议备份现有 YAML，升级后复核生成结果
 :::
 
 ### 📖 如何升级
 
-详细的升级步骤请参考 [更新升级指南](/zh/guide/update)。
+详细步骤请参考：[更新升级指南](/zh/guide/update)。
 
-### 🔗 版本兼容性
+### 🔗 版本兼容性（0.7.x 系列）
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0;">
-  <div style="padding: 1rem; background: var(--vp-c-bg-soft); border-radius: 8px; border-left: 4px solid #10b981;">
-    <div style="font-weight: 600; margin-bottom: 0.5rem;">✅ 直接升级</div>
-    <div style="font-size: 0.9rem; color: var(--vp-c-text-2);">0.7.x 系列版本之间可以直接升级</div>
-  </div>
-  <div style="padding: 1rem; background: var(--vp-c-bg-soft); border-radius: 8px; border-left: 4px solid #3b82f6;">
-    <div style="font-weight: 600; margin-bottom: 0.5rem;">🔄 自动迁移</div>
-    <div style="font-size: 0.9rem; color: var(--vp-c-text-2);">配置文件会自动迁移和合并</div>
-  </div>
-  <div style="padding: 1rem; background: var(--vp-c-bg-soft); border-radius: 8px; border-left: 4px solid #f59e0b;">
-    <div style="font-weight: 600; margin-bottom: 0.5rem;">💾 定期备份</div>
-    <div style="font-size: 0.9rem; color: var(--vp-c-text-2);">建议定期备份配置文件</div>
-  </div>
-</div>
+- ✅ 0.7.x 系列版本之间可以直接升级
+- 🔄 配置文件在升级过程中会自动迁移和合并
+- 💾 建议定期备份配置目录，尤其在跨大版本前
 
 ---
 
 ## 💬 获取帮助
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
-  <a href="/zh/faq/" style="padding: 1.5rem; background: var(--vp-c-bg-soft); border-radius: 8px; text-decoration: none; color: inherit; transition: transform 0.2s; display: block;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
-    <div style="font-size: 2rem; margin-bottom: 0.5rem;">❓</div>
-    <div style="font-weight: 600; margin-bottom: 0.5rem;">常见问题</div>
-    <div style="font-size: 0.9rem; color: var(--vp-c-text-2);">查看常见问题解答</div>
-  </a>
-  <a href="/zh/faq/troubleshooting" style="padding: 1.5rem; background: var(--vp-c-bg-soft); border-radius: 8px; text-decoration: none; color: inherit; transition: transform 0.2s; display: block;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
-    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔧</div>
-    <div style="font-weight: 600; margin-bottom: 0.5rem;">故障排查</div>
-    <div style="font-size: 0.9rem; color: var(--vp-c-text-2);">解决常见技术问题</div>
-  </a>
-  <a href="https://github.com/msm9527/msm-wiki/issues" target="_blank" style="padding: 1.5rem; background: var(--vp-c-bg-soft); border-radius: 8px; text-decoration: none; color: inherit; transition: transform 0.2s; display: block;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
-    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🐛</div>
-    <div style="font-weight: 600; margin-bottom: 0.5rem;">提交问题</div>
-    <div style="font-size: 0.9rem; color: var(--vp-c-text-2);">在 GitHub 上报告问题</div>
-  </a>
-</div>
+- 📘 [常见问题](/zh/faq/)：排查常见使用问题
+- 🔧 [故障排查](/zh/faq/troubleshooting.html)：定位复杂故障
+- 🐛 [GitHub Issues](https://github.com/msm9527/msm-wiki/issues)：报告 Bug 或提交功能需求
+- 💬 [GitHub Discussions](https://github.com/msm9527/msm-wiki/discussions)：交流使用经验与方案

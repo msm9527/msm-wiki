@@ -7,7 +7,8 @@
 
 .vp-doc .custom-block {
   position: relative;
-  padding-left: var(--msm-space-12);
+  /* 左侧为图标预留一点空间，尽量收紧，避免压缩正文 */
+  padding-left: var(--msm-space-8);
 }
 
 /* 移除默认图标 */
@@ -19,10 +20,12 @@
 .vp-doc .custom-block::after {
   content: '';
   position: absolute;
-  left: var(--msm-space-4);
-  top: var(--msm-space-4);
-  width: 32px;
-  height: 32px;
+  /* 更靠左靠上，避免遮挡标题内容 */
+  left: var(--msm-space-2);
+  top: var(--msm-space-2);
+  /* 略微放大一点，保持不抢视线 */
+  width: 20px;
+  height: 20px;
   border-radius: var(--msm-radius-md);
   display: flex;
   align-items: center;
@@ -183,64 +186,6 @@
 
 .VPHome .VPFeature:hover .icon::before {
   opacity: 0.6;
-}
-
-/* ==================== 代码块增强 ==================== */
-
-/* 语言标识 - 渐变徽章 */
-.vp-doc div[class*='language-'] .lang {
-  position: absolute;
-  top: var(--msm-space-3);
-  right: var(--msm-space-4);
-  padding: var(--msm-space-1) var(--msm-space-3);
-  font-size: var(--msm-font-size-xs);
-  font-weight: var(--msm-font-weight-semibold);
-  color: white;
-  background: var(--msm-gradient-brand);
-  border-radius: var(--msm-radius-full);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
-  z-index: 10;
-}
-
-/* 复制按钮增强 */
-.vp-doc div[class*='language-'] button.copy {
-  position: absolute;
-  top: var(--msm-space-3);
-  right: var(--msm-space-3);
-  width: 32px;
-  height: 32px;
-  border-radius: var(--msm-radius-md);
-  background: var(--msm-glass-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--msm-glass-border);
-  color: var(--msm-c-text-2);
-  cursor: pointer;
-  transition: all 0.3s var(--msm-fluid-ease);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  z-index: 20; /* 确保在语言标签上方 */
-}
-
-.vp-doc div[class*='language-']:hover button.copy {
-  opacity: 1;
-}
-
-.vp-doc div[class*='language-'] button.copy:hover {
-  background: var(--msm-gradient-brand);
-  color: white;
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-}
-
-/* 复制成功状态 */
-.vp-doc div[class*='language-'] button.copy.copied {
-  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-  color: white;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
 /* ==================== 链接图标 ==================== */

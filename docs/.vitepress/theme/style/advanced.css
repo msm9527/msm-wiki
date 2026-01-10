@@ -346,7 +346,8 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 3px;
+  /* 左侧高亮条窄一点，减少视觉压迫感 */
+  width: 2px;
   background: var(--msm-gradient-brand);
   transform: scaleY(0);
   transition: transform 0.3s var(--msm-fluid-ease);
@@ -359,51 +360,15 @@
 
 .VPSidebar .link:hover {
   color: var(--msm-c-brand);
-  background: var(--msm-glass-bg);
-  transform: translateX(4px);
+  /* 使用普通背景色而不是强玻璃态，避免太亮 */
+  background: var(--msm-c-bg-soft);
+  transform: translateX(2px);
 }
 
 .VPSidebar .link.active {
   color: var(--msm-c-brand);
-  background: var(--msm-glass-bg);
-  font-weight: var(--msm-font-weight-medium);
-}
-
-/* ==================== 滚动条 - 渐变 ==================== */
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
   background: var(--msm-c-bg-soft);
-  border-radius: var(--msm-radius-full);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--msm-gradient-brand);
-  border-radius: var(--msm-radius-full);
-  transition: all 0.3s var(--msm-fluid-ease);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg,
-    var(--msm-mesh-2) 0%,
-    var(--msm-mesh-3) 100%
-  );
-}
-
-/* ==================== 选中文本 - 高对比度 ==================== */
-
-::selection {
-  background: rgba(37, 99, 235, 0.3);
-  color: var(--msm-c-text-1);
-}
-
-.dark ::selection {
-  background: rgba(59, 130, 246, 0.4);
-  color: var(--msm-c-text-1);
+  font-weight: var(--msm-font-weight-medium);
 }
 
 /* ==================== 页面加载动画 ==================== */

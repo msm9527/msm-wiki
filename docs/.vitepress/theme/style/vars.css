@@ -104,9 +104,12 @@
 
   /* ==================== 布局 ==================== */
 
-  --msm-layout-max-width: 1400px;
-  --msm-content-max-width: 900px;
-  --msm-sidebar-width: 280px;
+  /* 整体布局最大宽度（包含左侧导航 + 正文 + 右侧目录） */
+  --msm-layout-max-width: 1440px;
+  /* 正文区域最大宽度：加宽一点，减轻“太窄”的感觉 */
+  --msm-content-max-width: 1280px;
+  /* 左侧导航栏再缩窄一些，给内容和右侧目录腾出空间 */
+  --msm-sidebar-width: 220px;
   --msm-navbar-height: 64px;
 
   /* ==================== 动画 ==================== */

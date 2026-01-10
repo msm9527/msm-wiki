@@ -20,13 +20,25 @@ body {
 
 /* ==================== 布局优化 ==================== */
 
-/* 增加内容区域宽度 */
+/* 增加内容区域宽度（整体容器） */
 .VPDoc.has-sidebar .container {
   max-width: var(--msm-layout-max-width) !important;
 }
 
+/* 中间正文 + 右侧目录这一块的最大宽度 */
 .VPDoc .content-container {
   max-width: var(--msm-content-max-width) !important;
+}
+
+/* 让中间正文区域尽量吃满可用宽度，而不是保持默认的窄列布局 */
+.VPDoc .content {
+  flex: 1 1 auto;
+  max-width: 100% !important;
+}
+
+/* 取消默认对文档正文的窄 max-width 限制，改为占满 content 宽度 */
+.VPDoc .main .vp-doc {
+  max-width: 100% !important;
 }
 
 /* 侧边栏优化 */
@@ -174,41 +186,77 @@ body {
 /* 代码块内容 */
 .vp-doc div[class*='language-'] pre {
   padding: var(--msm-space-4);
+  /* 给顶部和右侧多留一点空间，避免被语言标签和复制按钮遮挡 */
+  padding-top: calc(var(--msm-space-4) + 8px);
+  padding-right: calc(var(--msm-space-4) + 40px);
   margin: 0;
   line-height: 1.6;
   font-size: var(--msm-font-size-sm);
   font-family: var(--msm-font-family-mono);
 }
 
-/* 代码块语言标识 */
+/* 代码块语言标识与复制按钮（重新简化实现） */
+
+/* 顶部一条干净的工具栏：左侧语言，右侧复制 */
+.vp-doc div[class*='language-'] {
+  position: relative;
+}
+
 .vp-doc div[class*='language-'] .lang {
   position: absolute;
-  top: var(--msm-space-2);
-  right: var(--msm-space-3);
+  top: 10px;
+  left: 12px;
+  padding: 2px 8px;
   font-size: var(--msm-font-size-xs);
   font-weight: var(--msm-font-weight-medium);
   color: var(--msm-c-text-3);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  background-color: rgba(148, 163, 184, 0.12);
 }
 
-/* 复制按钮优化 */
 .vp-doc div[class*='language-'] button.copy {
   position: absolute;
-  top: var(--msm-space-3);
-  right: var(--msm-space-3);
-  opacity: 0;
-  transition: opacity var(--msm-transition-fast);
-  z-index: 3;
+  top: 8px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid var(--msm-c-border);
+  background-color: rgba(15, 23, 42, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.9;
+  transition:
+    background-color var(--msm-transition-fast),
+    border-color var(--msm-transition-fast),
+    box-shadow var(--msm-transition-fast),
+    opacity var(--msm-transition-fast),
+    transform var(--msm-transition-fast);
 }
 
 .vp-doc div[class*='language-']:hover button.copy {
   opacity: 1;
 }
 
-/* 确保复制按钮不被语言标识遮挡 */
-.vp-doc div[class*='language-'] .lang {
-  right: var(--msm-space-12);
+.vp-doc div[class*='language-'] button.copy:hover {
+  background-color: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.4);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18);
+}
+
+.vp-doc div[class*='language-'] button.copy:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.3);
+}
+
+/* 复制成功：不改图标，只加强一点边框和背景，对比度略提高 */
+.vp-doc div[class*='language-'] button.copy.copied {
+  background-color: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.6);
 }
 
 /* ==================== 表格优化 ==================== */
@@ -261,6 +309,11 @@ body {
 .vp-doc .custom-block.tip {
   background-color: rgba(37, 99, 235, 0.05);
   border-color: var(--msm-c-brand);
+}
+
+/* 取消默认的提示图标气泡（只屏蔽默认 ::before，保留我们在 icons.css 里自定义的 ::after 图标） */
+.vp-doc .custom-block.tip::before {
+  content: none !important;
 }
 
 .vp-doc .custom-block.warning {
@@ -358,6 +411,135 @@ body {
   background-color: rgba(15, 23, 42, 0.8);
 }
 
+/* ==================== 自定义移动端汉堡抽屉导航 ==================== */
+
+/* 关闭 VitePress 自带的 NavScreen，完全使用自定义实现，避免行为冲突 */
+@media (max-width: 768px) {
+  #VPNavScreen {
+    display: none !important;
+  }
+}
+
+/* 抽屉遮罩 */
+#msm-nav-overlay {
+  position: fixed;
+  inset: 0;
+  /* 稍微淡一点的遮罩，避免压得太闷 */
+  background: radial-gradient(circle at top, rgba(59, 130, 246, 0.25), transparent 55%),
+    rgba(15, 23, 42, 0.4);
+  z-index: 1001;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease-out;
+}
+
+#msm-nav-overlay.msm-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 抽屉本体：从右侧滑出，悬浮在内容之上 */
+#msm-nav-drawer {
+  position: fixed;
+  top: calc(var(--msm-navbar-height) + 10px);
+  left: 50%;
+  right: auto;
+  bottom: var(--msm-space-3);
+  width: 92%;
+  max-width: 360px;
+  background:
+    linear-gradient(135deg, rgba(59, 130, 246, 0.12), transparent 45%),
+    var(--msm-c-bg);
+  z-index: 1002;
+  box-shadow: -18px 0 42px rgba(15, 23, 42, 0.35);
+  border-radius: var(--msm-radius-xl, 20px);
+  transform: translate(-50%, -12px) scale(0.96);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--msm-space-4) var(--msm-space-4) var(--msm-space-5);
+  gap: var(--msm-space-1);
+  overflow-y: auto;
+  transition:
+    transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.26s ease-out;
+}
+
+#msm-nav-drawer.msm-open {
+  transform: translate(-50%, 0) scale(1);
+  opacity: 1;
+  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.42);
+}
+
+/* 抽屉顶部小标题，增加一点层次感 */
+#msm-nav-drawer::before {
+  content: '导航';
+  display: block;
+  font-size: var(--msm-font-size-xs);
+  font-weight: var(--msm-font-weight-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--msm-c-text-3);
+  margin-bottom: var(--msm-space-2);
+}
+
+/* 分组标题（目前预留，方便未来在 JS 里插入） */
+#msm-nav-drawer .msm-nav-group-title {
+  margin-top: var(--msm-space-3);
+  margin-bottom: var(--msm-space-1);
+  font-size: var(--msm-font-size-xs);
+  font-weight: var(--msm-font-weight-semibold);
+  color: var(--msm-c-text-3);
+}
+
+#msm-nav-drawer a.msm-nav-link {
+  display: block;
+  margin: 2px 0;
+  padding: 10px var(--msm-space-3);
+  font-size: var(--msm-font-size-sm);
+  color: var(--msm-c-text-1);
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: color var(--msm-transition-fast),
+    background-color var(--msm-transition-fast),
+    padding-left var(--msm-transition-fast),
+    box-shadow var(--msm-transition-fast),
+    border-color var(--msm-transition-fast);
+}
+
+#msm-nav-drawer a.msm-nav-link.active {
+  color: #ffffff;
+  font-weight: var(--msm-font-weight-medium);
+  padding-left: calc(var(--msm-space-3) + 2px);
+  background-image: linear-gradient(120deg, #2563eb, #4f46e5);
+  border-color: rgba(59, 130, 246, 0.85);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+}
+
+#msm-nav-drawer a.msm-nav-link:not(.active):hover {
+  background-color: rgba(148, 163, 184, 0.16);
+  padding-left: calc(var(--msm-space-3) + 2px);
+  border-color: rgba(148, 163, 184, 0.6);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
+}
+
+/* 抽屉打开时，给菜单项一个轻微的滑入动效 */
+#msm-nav-drawer.msm-open a.msm-nav-link {
+  animation: msmNavItemIn 0.25s ease-out;
+}
+
+@keyframes msmNavItemIn {
+  from {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 /* ==================== 侧边栏优化 ==================== */
 
 .VPSidebar .group {
@@ -400,6 +582,26 @@ body {
 
 .VPDocAsideOutline {
   padding-left: var(--msm-space-4);
+  /* 控制右侧目录自身宽度，避免占用太多水平空间 */
+  max-width: 200px;
+  margin-left: auto; /* 靠右对齐到容器边缘，看起来更靠右一些 */
+}
+
+/* 右侧整个 aside 宽度收窄一点，避免压缩正文 */
+.VPDocAside {
+  max-width: 220px;
+}
+
+/* 右侧目录内部样式微调，减少视觉噪音 */
+.VPDocAsideOutline .content {
+  border-left: 1px solid var(--msm-c-border-soft);
+  padding-left: var(--msm-space-3);
+  font-size: var(--msm-font-size-xs);
+}
+
+.VPDocAsideOutline .outline-title {
+  font-size: var(--msm-font-size-sm);
+  margin-bottom: var(--msm-space-2);
 }
 
 .VPDocAsideOutline .outline-link {
@@ -441,12 +643,13 @@ body {
 /* ==================== 滚动条优化 ==================== */
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  /* 缩窄滚动条，避免视觉上过粗 */
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--msm-c-bg-soft);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {

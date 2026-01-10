@@ -93,7 +93,7 @@ export default defineConfig({
 
     footer: {
       message: 'MSM - 统一管理平台',
-      copyright: 'Copyright © 2024-present MSM Project'
+      copyright: 'Copyright © 2026-present MSM Project'
     },
 
     search: {
