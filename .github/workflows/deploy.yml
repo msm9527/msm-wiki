@@ -11,6 +11,13 @@ on:
       - '.github/workflows/deploy.yml'
       - 'package.json'
       - 'package-lock.json'
+  # 注意：由 GitHub Actions 使用 GITHUB_TOKEN 推送的提交不会触发 push 工作流（防递归机制）
+  # 因此需要用 workflow_run 来接住「每日构建 MSM」里自动提交 docs 的场景，保证 Pages 能自动更新。
+  workflow_run:
+    workflows:
+      - 每日构建 MSM
+    types:
+      - completed
   workflow_dispatch:
 
 permissions:
@@ -24,12 +31,14 @@ concurrency:
 
 jobs:
   build:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: main
 
       - name: Setup Node
         uses: actions/setup-node@v4
