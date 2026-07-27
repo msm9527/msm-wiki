@@ -6,20 +6,56 @@
 
 ## 🧪 最新 Beta 版本
 
-> 当前 Beta 版本：`beta-1.2.5`  
-> 发布时间：2026-07-17 15:04:59 CST  
-> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.2.5>  
+> 当前 Beta 版本：`beta-1.2.6`  
+> 发布时间：2026-07-27 15:14:53 CST  
+> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.2.6>  
 > - 下载方式：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 
+### ✨ 新增（Added）
+- License 三层连接兜底（直连/DNS/SOCKS5）
+- Mihomo 连接页改用 WebSocket 实时流
+- 代理管理页支持内联编辑订阅与节点
+- 规则页集成拖拽排序与依赖校验
+- 新增 Mihomo API 错误日志统一处理
+- 日志节流功能，抑制重复信息
+- MosDNS 高级模式状态持久化
+- 前端界面多语言翻译支持
+
+### 🔧 变更（Changed）
+- 应用重启前增加配置验证流程
+- 预期运行态错误降级为 Warn 无堆栈
+- 首页 Dashboard 渲染性能优化
+- react-markdown 模块懒加载
+
 ### 🐛 修复（Fixed）
-- 修复配置引用问题并提升启动恢复稳定性
+- 修复组件更新失败重试风暴问题
+- 修复 nftables fd 越界导致崩溃
+- 修复 Mihomo TUN 配置回放丢失问题
+- 修复 Linux/macOS TUN 自愈与残留清理
+- 修复 fakeip 路由丢失后静默失效
+- 修复 HTTP/HTTPS 切换后地址不同步
+- 修复租约冲突误报日志
+- 修复 MosDNS 记忆池安全一致性问题
+- 修复重启后订阅状态误标禁用
+- 修复桌面托盘与服务进度显示
+- 修复 macOS TUN 默认配置
+- 缩短 FakeIP 缓存陈旧窗口至 10 分钟
+- 彻底清理服务卸载残留文件
+- 未激活状态下停止上报遥测数据
+
+### 📝 备注（Notes）
+- 实测后端日志体积下降约 42%
+- nftables 内核升级至 ce5261f8
+- Fake-IP 默认值统一为 28.0.0.1/8
+- Pro 授权离线降级策略调整
+- 遥测数据仅在激活后启动
 
 ::: details 📋 构建信息
 - **发布通道**: beta（Beta 版）
-- **源提交**: [`4609a59`](https://github.com/msm9527/msm/commit/4609a59356824b5456291c7b976a902353b70ad3)
-- **提交信息**: chore: 更新版本到 1.2.5 / bump version to 1.2.5
+- **源提交**: [`0a73742`](https://github.com/msm9527/msm/commit/0a73742f374f8131c03807fdc0871de397d83a6c)
+- **提交信息**: chore: 更新版本到 1.2.6 / bump version to 1.2.6
 - **提交作者**: msm
-- **提交时间**: 2026-07-17 15:04:59 CST
+- **提交时间**: 2026-07-27 15:14:53 CST
 :::
 
 ---
