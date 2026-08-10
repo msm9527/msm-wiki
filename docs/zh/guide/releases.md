@@ -538,6 +538,6 @@
 ## 💬 获取帮助
 
 - 📘 [常见问题](/zh/faq/)：排查常见使用问题
-- 🔧 [故障排查](/zh/faq/troubleshooting.html)：定位复杂故障
+- 🔧 [故障排查](/zh/faq/troubleshooting)：定位复杂故障
 - 🐛 [GitHub Issues](https://github.com/msm9527/msm-wiki/issues)：报告 Bug 或提交功能需求
 - 💬 [GitHub Discussions](https://github.com/msm9527/msm-wiki/discussions)：交流使用经验与方案

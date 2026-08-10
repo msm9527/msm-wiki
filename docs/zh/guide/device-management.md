@@ -33,5 +33,5 @@ MSM 通过 DNS 服务的 **客户端设置** 管理设备的代理权限，支�
 ## 下一步
 
 - [DNS 服务管理](/zh/guide/mosdns) - DNS 分流管理
-- [代理服务（Clash）](/zh/guide/mihomo) - Clash 代理配置
-- [代理服务（Sing-Box）](/zh/guide/singbox) - Sing-Box 代理配置
+- [统一代理服务](/zh/guide/proxy) - 配置当前活动核心的节点与规则
+- [网络工具](/zh/guide/network-tools) - 从 MSM 主机检查客户端连通性

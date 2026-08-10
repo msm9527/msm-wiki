@@ -7,7 +7,7 @@ MSM 默认以旁路由方式工作。对主路由来说，真正需要完成的�
 
 ## 先确认你的拓扑
 
-MSM 文档默认假设 **MosDNS 与 Clash / Sing-Box 运行在同一台 MSM 主机**。
+MSM 文档默认假设 **MosDNS 与当前活动代理核心（Mihomo 或 Sing-Box）运行在同一台 MSM 主机**。
 
 - **单机部署**：DHCP DNS 和静态路由都指向同一台 MSM 主机
 - **分体部署**：DHCP DNS 指向 MosDNS 所在主机；FakeIP、Telegram、Netflix 等静态路由指向透明代理所在主机
@@ -20,7 +20,7 @@ MSM 文档默认假设 **MosDNS 与 Clash / Sing-Box 运行在同一台 MSM 主�
 - 默认 FakeIP v6 网段：`f2b0::/18`
 
 ::: tip 重要
-`28.0.0.0/8` 与 `f2b0::/18` 必须和 MSM 中 MosDNS / Clash / Sing-Box 实际启用的 FakeIP 网段一致。主路由只负责把这些网段送到 MSM，不负责还原域名。
+`28.0.0.0/8` 与 `f2b0::/18` 必须和 MSM 中 MosDNS / 当前活动代理核心实际启用的 FakeIP 网段一致。主路由只负责把这些网段送到 MSM，不负责还原域名。
 :::
 
 ## 必要配置
@@ -125,7 +125,7 @@ MSM 文档统一按“主路由直接添加静态路由”来写：
 - 主路由没有添加 `f2b0::/18`
 - MSM 主机没有稳定可达的 IPv6 地址
 - 路由器把 `f2b0::/18` 指到了 DNS 主机，而不是真正做透明代理的主机
-- Clash / Sing-Box 的 FakeIP v6 网段与路由器配置不一致
+- 当前活动代理核心的 FakeIP v6 网段与路由器配置不一致
 
 ## 选择你的路由器系统
 

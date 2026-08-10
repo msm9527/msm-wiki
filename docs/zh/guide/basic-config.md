@@ -1,109 +1,108 @@
 # 使用指南总览
 
-这页是 **后台菜单地图**。  
-如果你想知道“要做某件事，应该去后台哪个页面”，这页比 [完整使用流程](/zh/guide/complete-workflow) 更适合你。
+这页是当前 MSM 后台的菜单地图。如果你想知道“某件事应该去哪个页面”，从这里进入对应专题。
 
 ## 访问与登录
 
-- 访问地址：`http://<MSM-IP>:7777`
-- 示例环境：`http://192.168.20.2/`
-- 首次访问会进入 **初始化向导**（账号、端口、组件与服务选择）
+- 默认地址：`http://<MSM-IP>:7777`
+- 首次访问进入初始化向导
+- 菜单会按许可证、功能开关和用户角色显示
+- 管理员、操作员、查看者能看到和执行的操作不同
 
-## 页面导航（与左侧菜单一致）
+## 基础菜单
 
-- **仪表盘**：系统概览、实时监控、设备信息、硬件信息、资源趋势、速率统计
-- **DNS服务**：DNS 分流相关功能
-  - 概述 — DNS 服务关键指标和详细统计
-  - 规则管理 — DNS 分流规则和黑白名单
-  - 客户端设置 — 客户端代理权限，白名单和黑名单
-  - DNS 日志 — 查询和分析 DNS 请求日志
-  - 系统功能 — 系统功能和高级设置
-  - 配置管理 — 配置文件和版本管理
-  - 实时日志 — 实时运行日志和历史记录
-- **代理服务**：代理内核管理（Clash / Sing-Box）
-  - 概览 — 代理服务运行状态
-  - 代理节点 — 节点列表和延迟测试
-  - 规则管理 — 代理分流规则
-  - 配置编辑 — 代理配置在线编辑
-  - 连接管理 — 活跃连接查看和管理
-  - 配置管理 — 配置文件版本管理
-  - 日志查看 — 代理服务日志
-- **配置管理**：在线文件树浏览、编辑配置文件（支持校验与下载）
-- **日志查看**：按服务筛选查看实时日志
-- **用户管理**：账号与权限管理（管理员）
-- **系统诊断**：服务健康状态与诊断建议
-- **系统设置**：端口、时区、下载加速等基础参数
-- **授权管理**：Pro 授权激活与功能管理
+### 仪表盘
 
-## 推荐使用顺序
+查看服务状态、系统资源、网络趋势和关键告警。详见 [仪表盘](/zh/guide/dashboard)。
 
-1. **初始化向导**
-   - 完成账号、端口、组件与服务选择
-2. **路由器集成**
-   - 先在主路由完成 DHCP DNS（通常只填 MSM 的 IPv4 地址）
-   - 再完成 `28.0.0.0/8` 与 `f2b0::/18` 静态路由
-3. **DNS服务 > 规则管理**
-   - 检查 FakeIP 网段、分流规则和上游 DNS
-4. **DNS服务 > 客户端设置**
-   - 配置白/黑名单或扫描设备
-5. **代理服务**
-   - 导入节点、检查策略组、确认连接正常
-6. **日志查看 / 系统诊断**
-   - 用于最终验证和排查
+### DNS服务
+
+| 子菜单 | 用途 |
+|--------|------|
+| **概述** | DNS 服务状态、指标和统计 |
+| **规则管理** | 分流规则、名单和数据源 |
+| **客户端设置** | 客户端发现、白名单、黑名单和访问策略 |
+| **DNS 日志** | 查询记录与分析 |
+| **系统功能** | 缓存、内存池和高级运行功能 |
+| **配置管理** | 版本和配置文件（按 Pro 能力开放） |
+
+详见 [DNS 服务](/zh/guide/mosdns) 和 [设备管理](/zh/guide/device-management)。
+
+### 代理服务
+
+Mihomo 与 Sing-Box 使用同一套菜单：
+
+| 子菜单 | 用途 |
+|--------|------|
+| **概览** | 活动方案、版本、状态和安全切换 |
+| **回家** | 当前核心的 Shadowsocks 回家 |
+| **代理节点** | 订阅、节点、策略组和测速 |
+| **规则管理** | 当前核心的分流规则 |
+| **高级设置** | 可视化策略与核心高级参数（Pro） |
+| **连接管理** | 实时连接、规则命中与流量 |
+| **配置编辑** | 完整 YAML / JSON 编辑和校验（Pro） |
+| **日志查看** | 当前核心运行日志 |
+
+详见 [统一代理服务](/zh/guide/proxy)、[Mihomo](/zh/guide/mihomo)、[Sing-Box](/zh/guide/singbox) 和 [回家](/zh/guide/home)。
+
+### 进程、用户、诊断与设置
+
+- **进程管理**：查看和控制 MSM 托管服务
+- **用户管理**：管理员维护账号、角色和 API Token
+- **系统诊断**：检查服务、配置和网络健康
+- **系统设置**：时区、HTTPS、功能开关、备份与更新
+- **配置管理**：浏览和编辑完整配置树（Pro）
+- **授权管理**：查看许可证、设备指纹和能力
+
+## Pro 扩展功能
+
+功能入口默认可由系统设置中的开关控制；真正使用时仍会检查 Pro 授权和角色。
+
+### 域名服务
+
+完成 DDNS、ACME 证书和反向代理闭环。详见 [域名服务](/zh/guide/domain-services)。
+
+### 穿透与组网
+
+- **网页穿透**：Cloudflare Tunnel 发布 Web 页面
+- **云端私网**：Cloudflare 私网访问 LAN
+- **自建私网**：EasyTier、Tailscale 或 WireGuard
+
+详见 [Cloudflare 穿透与组网](/zh/guide/cloudflare) 和 [自建私网](/zh/guide/networking)。
+
+### Docker 管理
+
+管理本机和最多三个 Agent 子节点的容器、镜像、卷、网络、Stack、事件和系统资源。详见 [Docker 管理](/zh/guide/docker-center)。
+
+### 网络工具
+
+使用 Ping、DNS、MTR、Traceroute、测速、端口扫描、SSL、ARP 等工具排查网络。详见 [网络工具](/zh/guide/network-tools)。
 
 ## 从 0 到可用的最短路径
 
-如果你只想先把整套链路跑通，可以按下面做：
-
 1. 安装 MSM 并完成初始化
 2. 主路由把 DNS 指向 MSM
-3. 主路由添加 `28.0.0.0/8` 和 `f2b0::/18`
-4. 在 MSM 中导入一个可用代理节点
-5. 把自己的手机或电脑加入白名单
-6. 执行 `nslookup google.com` 和 `dig AAAA google.com`
-7. 再去慢慢调优规则、代理组和高级功能
+3. 主路由添加与 MSM 一致的 FakeIP IPv4 / IPv6 路由
+4. 在代理服务导入一个可用订阅并选择节点
+5. 在 DNS 客户端设置中配置自己的设备
+6. 分别验证 A、AAAA 查询与实际访问
+7. 用日志、系统诊断和网络工具检查异常
 
-## 常见入口速查
+## 按目标找页面
 
-- DNS 分流规则：**DNS服务 > 规则管理**
-- 设备名单（白/黑名单）：**DNS服务 > 客户端设置**
-- DNS 查询记录：**DNS服务 > DNS 日志**
-- 代理节点与规则：**代理服务 > 代理节点 / 规则管理**
-- 连接与流量：**代理服务 > 连接管理**
-- 代理配置文件：**代理服务 > 配置管理**
-- 服务日志：**日志查看**
-- 配置文件管理：**配置管理**
-
-## 按任务找页面
-
-- 想让国外域名开始分流：先看 [路由器集成总览](/zh/guide/router-integration)，再看 [DNS 服务管理](/zh/guide/mosdns)
-- 想决定哪些设备走代理：看 [设备管理](/zh/guide/device-management)
-- 想导入或调整代理节点：看 [Clash 代理管理](/zh/guide/mihomo) 或 [Sing-Box 代理管理](/zh/guide/singbox)
-- 想查配置错误或服务异常：看 [系统诊断](/zh/guide/diagnostics) 和 [故障排查](/zh/faq/troubleshooting)
-- 想改平台全局参数：看 [系统设置](/zh/guide/settings)
-
-## 推荐阅读顺序
-
-- [安装总览](/zh/guide/install)
-- [首次使用](/zh/guide/first-use)
-- [路由器集成总览](/zh/guide/router-integration)
-- [DNS 服务管理](/zh/guide/mosdns)
-- [设备管理](/zh/guide/device-management)
-- [Clash 代理管理](/zh/guide/mihomo) 或 [Sing-Box 代理管理](/zh/guide/singbox)
+| 目标 | 页面 |
+|------|------|
+| 让设备使用 DNS 分流和透明代理 | [路由器集成](/zh/guide/router-integration) → [DNS 服务](/zh/guide/mosdns) → [代理服务](/zh/guide/proxy) |
+| 从外网打开家庭网页 | [域名服务](/zh/guide/domain-services) 或 [Cloudflare 网页穿透](/zh/guide/cloudflare) |
+| 从外网访问整个家庭 LAN | [Cloudflare 云端私网](/zh/guide/cloudflare)、[自建私网](/zh/guide/networking) 或 [回家](/zh/guide/home) |
+| 管理家庭服务器容器 | [Docker 管理](/zh/guide/docker-center) |
+| 排查 DNS、路由、端口和证书 | [网络工具](/zh/guide/network-tools) |
+| 修改全局模块开关 | [系统设置](/zh/guide/settings) |
+| 检查授权和角色 | [授权管理](/zh/guide/license)、[用户管理](/zh/guide/user-management) |
 
 ## 下一步
 
-- [仪表盘](/zh/guide/dashboard) - 系统概览与监控
-- [DNS 服务管理](/zh/guide/mosdns) - DNS 分流管理
-- [Clash 代理管理](/zh/guide/mihomo) - Clash 代理配置
-- [Sing-Box 代理管理](/zh/guide/singbox) - Sing-Box 代理配置
-- [设备管理](/zh/guide/device-management) - 设备代理控制
-- [配置管理](/zh/guide/config-editor) - 在线编辑配置
-- [日志查看](/zh/guide/logs) - 日志查看与管理
-- [用户管理](/zh/guide/user-management) - 用户与权限
-- [系统诊断](/zh/guide/diagnostics) - 健康检查与故障排查
-- [系统设置](/zh/guide/settings) - 系统参数配置
-- [授权管理](/zh/guide/license) - Pro 功能管理
-- [回家配置](/zh/guide/home) - 远程访问家庭网络
-- [CLI 命令参考](/zh/guide/cli) - 命令行工具
-- [API 参考](/zh/guide/api) - REST API 文档
+- [首次使用](/zh/guide/first-use)
+- [完整使用流程](/zh/guide/complete-workflow)
+- [系统设置](/zh/guide/settings)
+- [API 参考](/zh/guide/api)

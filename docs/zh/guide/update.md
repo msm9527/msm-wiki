@@ -161,91 +161,33 @@ sudo systemctl start msm
 ~/.msm/mosdns/mosdns version
 ```
 
-## 更新 SingBox
+## 更新 Sing-Box
 
-### 方式一：Web 界面更新
+MSM 使用 reF1nd Sing-Box 核心。推荐从 **系统设置 → 系统更新** 或 **代理服务** 中的版本入口执行：
 
-1. 登录 MSM 管理界面
-2. 进入 **代理服务（Sing-Box）** 页面
-3. 点击 **版本管理**
-4. 选择要安装的版本
-5. 点击 **安装**
-6. 等待下载完成
-7. 点击 **切换版本**
-8. 重启 SingBox 服务
+1. 创建备份
+2. 检查目标版本与当前架构
+3. 启动更新并等待下载、校验和持久化完成
+4. 等待 Sing-Box 配置、控制器和服务就绪检查
+5. 在代理节点、连接和日志中执行真实验证
 
-### 方式二：命令行更新
+不要直接用 SagerNet 官方二进制覆盖 reF1nd 核心；两者的控制与配置能力可能不同。
 
-```bash
-# 查看当前版本
-~/.msm/singbox/sing-box version
+## 更新 Mihomo
 
-# 下载最新版本
-cd /tmp
-wget https://github.com/SagerNet/sing-box/releases/latest/download/sing-box-linux-amd64.tar.gz
-tar -xzf sing-box-linux-amd64.tar.gz
+官方 Mihomo 与 Mihomo Smart 属于不同核心家族。推荐从 **系统设置 → 系统更新** 或 **代理服务 → 概览** 的方案 / 版本入口操作：
 
-# 停止服务
-sudo systemctl stop msm
+1. 确认当前是官方 Mihomo 还是 Mihomo Smart
+2. 创建备份并记录当前版本
+3. 选择与目标方案匹配的 Meta、Alpha 或 Smart 版本
+4. 等待二进制家族、配置、网络和控制器验证完成
+5. 检查订阅、策略组、连接与日志
 
-# 备份旧版本
-cp ~/.msm/singbox/sing-box ~/.msm/singbox/sing-box.backup
-
-# 替换文件
-mv sing-box-*/sing-box ~/.msm/singbox/sing-box
-chmod +x ~/.msm/singbox/sing-box
-
-# 启动服务
-sudo systemctl start msm
-
-# 验证版本
-~/.msm/singbox/sing-box version
-```
-
-## 更新 Clash
-
-::: tip 命名说明
-本节对外名称使用“Clash”；命令、目录和上游下载链接中仍会保留 `mihomo` 标识。
+::: danger 不要手工混用核心
+Smart 配置不能直接交给 Meta / Alpha，官方配置也不应只替换为 Smart 二进制。跨家族变更必须使用 MSM 的代理方案切换流程。
 :::
 
-### 方式一：Web 界面更新
-
-1. 登录 MSM 管理界面
-2. 进入 **代理服务（Clash）** 页面
-3. 点击 **版本管理**
-4. 选择要安装的版本
-5. 点击 **安装**
-6. 等待下载完成
-7. 点击 **切换版本**
-8. 重启 Clash 服务
-
-### 方式二：命令行更新
-
-```bash
-# 查看当前 Clash 版本
-~/.msm/mihomo/mihomo -v
-
-# 下载最新版本
-cd /tmp
-wget https://github.com/MetaCubeX/mihomo/releases/latest/download/mihomo-linux-amd64-v1.18.0.gz
-gunzip mihomo-linux-amd64-v1.18.0.gz
-
-# 停止服务
-sudo systemctl stop msm
-
-# 备份旧版本
-cp ~/.msm/mihomo/mihomo ~/.msm/mihomo/mihomo.backup
-
-# 替换文件
-mv mihomo-linux-amd64-v1.18.0 ~/.msm/mihomo/mihomo
-chmod +x ~/.msm/mihomo/mihomo
-
-# 启动服务
-sudo systemctl start msm
-
-# 验证版本
-~/.msm/mihomo/mihomo -v
-```
+只有在 Web 更新不可用、且你能独立验证二进制来源、架构、签名和核心家族时，才考虑停机手工替换。手工替换前备份整个配置目录和原二进制，完成后运行版本、配置和就绪检查。
 
 ## 更新前注意事项
 
@@ -269,7 +211,7 @@ cp ~/.msm/mihomo/config.yaml ~/.msm/mihomo/config.yaml.backup
 
 - [MSM Releases](https://github.com/msm9527/msm-wiki/releases)
 - [MosDNS Releases](https://github.com/IrineSistiana/mosdns/releases)
-- [SingBox Releases](https://github.com/SagerNet/sing-box/releases)
+- [reF1nd Sing-Box](https://github.com/reF1nd/sing-box)
 - [MetaCubeX 官方 Releases](https://github.com/MetaCubeX/mihomo/releases)
 
 ### 3. 测试环境

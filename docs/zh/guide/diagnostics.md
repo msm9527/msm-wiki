@@ -59,8 +59,8 @@ msm doctor
 |--------|------|
 | MSM 服务 | 检查 MSM 主进程是否正常运行 |
 | MosDNS | 检查 DNS 服务是否正常 |
-| Clash | 检查 Clash 代理内核状态 |
-| Sing-Box | 检查 Sing-Box 代理内核状态 |
+| Mihomo | 当前选择官方或 Smart Mihomo 时检查核心状态 |
+| Sing-Box | 当前选择 Sing-Box 时检查核心状态 |
 
 ### 4. 配置验证
 
@@ -70,7 +70,7 @@ msm doctor
 |--------|------|
 | MSM 配置 | 验证 MSM 系统配置格式 |
 | MosDNS 配置 | 验证 MosDNS YAML 配置语法 |
-| 代理配置 | 验证 Clash / Sing-Box 配置 |
+| 代理配置 | 按当前活动核心验证 Mihomo YAML 或 Sing-Box JSON |
 | 规则文件 | 验证分流规则文件完整性 |
 
 ### 5. 网络连通性
@@ -142,9 +142,12 @@ sudo msm service install
    ```
 3. 将诊断报告附在 GitHub Issue 中提交
 
+分享前删除 Token、私钥、订阅地址、回家密码、公网地址和不必要的内网拓扑。还可以使用 [网络工具](/zh/guide/network-tools) 分别验证 DNS、HTTP、SSL、路由和端口。
+
 ## 下一步
 
 - [FAQ](/zh/faq/) - 常见问题解答
 - [故障排查](/zh/faq/troubleshooting) - 详细故障排查指南
 - [CLI 命令参考](/zh/guide/cli) - 命令行工具
 - [仪表盘](/zh/guide/dashboard) - 服务状态监控
+- [网络工具](/zh/guide/network-tools) - 深入检查网络链路

@@ -74,12 +74,14 @@ DNS 服务（基于 MosDNS）是 MSM 的核心组件，负责智能 DNS 分流�
 
 - FakeIP 模式需确保 **主路由** 同时配置 `28.0.0.0/8` 与 `f2b0::/18`
 - 如果 MosDNS 与代理核心分体部署，DHCP DNS 指向 MosDNS，FakeIP 静态路由指向透明代理主机
-- 代理核心（Clash / Sing-Box）与 DNS 服务的 FakeIP 网段、分流策略应保持一致
+- 当前活动代理核心（Mihomo / Sing-Box）与 DNS 服务的 FakeIP 网段、分流策略应保持一致
+- 切换代理方案时使用统一代理页面，让 MSM 同步重建网络规则；不要只手工启停进程
 
 ## 下一步
 
 - [设备管理](/zh/guide/device-management) - 客户端代理管理
-- [代理服务（Clash）](/zh/guide/mihomo) - Clash 代理配置
-- [代理服务（Sing-Box）](/zh/guide/singbox) - Sing-Box 代理配置
+- [统一代理服务](/zh/guide/proxy) - 核心切换、节点、规则与连接
+- [Mihomo 核心](/zh/guide/mihomo) - 官方与 Smart 核心说明
+- [Sing-Box 核心](/zh/guide/singbox) - Sing-Box 配置说明
 - [配置管理](/zh/guide/config-editor) - 在线编辑配置
 - [日志查看](/zh/guide/logs) - 日志管理
