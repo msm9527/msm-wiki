@@ -54,7 +54,7 @@ MSM 支持官方 Mihomo、Mihomo Smart 和 Sing-Box，但同一时刻只应有�
 - 官方 Mihomo（Meta / Alpha）
 - Mihomo Smart（Pro）
 - reF1nd Sing-Box
-- 统一的节点、规则、连接、配置、日志和回家入口
+- 统一的节点、规则、连接、配置、日志和远程回家入口
 - 跨核心订阅迁移、网络协调和就绪验证
 
 ### 域名服务
@@ -68,7 +68,7 @@ MSM 支持官方 Mihomo、Mihomo Smart 和 Sing-Box，但同一时刻只应有�
 
 - Cloudflare 网页穿透与云端私网
 - EasyTier、Tailscale / Headscale、WireGuard 自建私网
-- 双核心 Shadowsocks 回家
+- 双核心多协议远程回家（Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2、TUIC v5）
 
 ### Docker 管理
 

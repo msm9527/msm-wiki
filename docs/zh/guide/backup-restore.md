@@ -1,440 +1,122 @@
 # 备份恢复
 
-本文档介绍如何备份和恢复 MSM 的配置和数据。
+MSM 的备份中心位于 **系统设置 → 备份恢复**，用于选择性备份、下载、导入和恢复系统数据。备份与恢复当前在界面中标记为实验性功能；生产环境的重要变更仍应额外保留一份离机备份。
 
-## 为什么需要备份
+![备份恢复：创建、配置、管理与导入备份](/images/ui/settings-backup.jpg)
 
-定期备份可以：
+备份页面只对管理员开放。
 
-1. **防止数据丢失**: 硬件故障、误操作等导致的数据丢失
-2. **快速恢复**: 系统故障时快速恢复到正常状态
-3. **迁移部署**: 迁移到新服务器时快速部署
-4. **版本回退**: 更新失败时回退到旧版本
+## 页面结构
 
-## 备份内容
+页面分为两个工作区：
 
-MSM 需要备份的内容包括：
+- **备份模块**：创建备份、配置自动备份、管理服务器端存储位置
+- **恢复模块**：导入备份、查看备份列表、下载、恢复或删除备份
 
-| 内容 | 路径 | 重要性 | 说明 |
-|------|------|--------|------|
-| MSM 二进制文件 | `/usr/local/bin/msm` | 中 | 可重新下载 |
-| MSM 数据库 | `/root/.msm/data/msm.db` | 高 | 用户、配置、历史记录 |
-| MosDNS 配置 | `/root/.msm/mosdns/` | 高 | DNS 分流配置 |
-| SingBox 配置 | `/root/.msm/singbox/` | 高 | 代理配置 |
-| Clash 配置 | `/root/.msm/mihomo/` | 高 | 代理配置 |
-| 日志文件 | `/root/.msm/logs/` | 低 | 可选备份 |
+每份记录会显示来源、备份类型、大小、SHA-256、是否加密、包含模块、MSM / MosDNS / Mihomo / Sing-Box 版本快照，以及最近恢复状态。
 
-## 备份方式
+## 可以备份什么
 
-### 方式一：完整备份（推荐）
+| 模块 | 典型内容 |
+|------|----------|
+| **系统** | 账号、API Token、用户偏好、许可证、更新与备份设置、系统文件 |
+| **DNS** | DNS 系统数据、MosDNS 配置、运行数据、客户端和相关文件 |
+| **代理** | 网络设置、Mihomo、Sing-Box、订阅和 GitHub 下载设置 |
+| **组件** | 组件设置、MosDNS / Mihomo / Sing-Box 二进制及版本记录 |
+| **日志** | 审计、配置历史和运行日志 |
 
-备份整个 MSM 目录，包含所有配置和数据。
+创建对话框默认选择系统、DNS、代理和组件，不默认包含日志。展开 **高级选择** 可以精确选择细分内容，减少备份体积和恢复影响范围。
 
-```bash
-# 停止服务（可选，建议停止以确保数据一致性）
-sudo systemctl stop msm
+## 创建手动备份
 
-# 备份整个目录
-sudo tar -czf /root/msm-backup-$(date +%Y%m%d-%H%M%S).tar.gz \
-  /root/.msm \
-  /usr/local/bin/msm
+1. 点击 **创建备份**
+2. 填写名称和说明
+3. 选择存储位置
+4. 选择需要的模块；必要时展开高级选择
+5. 如需加密，启用加密并设置独立强密码
+6. 创建成功后，在恢复模块的列表中确认大小、模块和版本快照
+7. 点击下载，把重要备份复制到 MSM 主机之外
 
-# 启动服务
-sudo systemctl start msm
+::: danger 备份密码无法替你找回
+加密备份在下载和恢复时都需要密码。请把密码保存在独立的密码管理器中；不要和备份文件放在同一共享目录，也不要出现在截图、工单或 Git 仓库。
+:::
 
-# 查看备份文件
-ls -lh /root/msm-backup-*.tar.gz
-```
+## 自动备份
 
-### 方式二：增量备份
+点击自动备份卡片的 **配置**，可以设置：
 
-只备份配置文件，不备份日志和临时文件。
+- 是否启用
+- 间隔小时数
+- 自动备份保留份数
+- 要备份的模块与细分内容
 
-```bash
-# 备份配置文件
-sudo tar -czf /root/msm-config-backup-$(date +%Y%m%d-%H%M%S).tar.gz \
-  /root/.msm/data/msm.db \
-  /root/.msm/mosdns/config.yaml \
-  /root/.msm/mosdns/client_ip.txt \
-  /root/.msm/singbox/config.json \
-  /root/.msm/mihomo/config.yaml \
-  /usr/local/bin/msm
-```
+自动备份只保留页面配置的数量。它适合提供短期回滚点，但不替代离机备份；磁盘损坏、主机丢失或存储目录误删时，同机自动备份可能一起丢失。
 
-### 方式三：自动备份
+## 存储位置
 
-使用 cron 定时任务自动备份。
+**管理存储**用于添加 MSM 服务端可访问的目录，并选择活动存储。页面会显示目录是否存在、是否可写以及当前备份数量。
 
-#### 1. 创建备份脚本
+- 路径是 MSM 进程或容器内部看到的路径
+- Docker 部署要先把宿主目录挂载进容器，再填写容器内路径
+- 不要把不可写、临时文件系统或容量不足的目录设为活动存储
+- 新建路径前确认父目录权限和磁盘位置
 
-```bash
-# 创建备份脚本
-sudo cat > /usr/local/bin/msm-backup.sh << 'EOF'
-#!/bin/bash
+导入时可以选择备份要进入的存储；导入完成只是把文件登记到备份列表，不会立即覆盖当前系统。
 
-# 配置
-BACKUP_DIR="/root/msm-backups"
-BACKUP_NAME="msm-backup-$(date +%Y%m%d-%H%M%S).tar.gz"
-KEEP_DAYS=7
+## 导入备份
 
-# 创建备份目录
-mkdir -p $BACKUP_DIR
+1. 在 **恢复模块** 选择备份文件
+2. 选择目标存储
+3. 加密备份填写密码
+4. 点击导入
+5. 在列表中核对来源、哈希、模块和版本快照
+6. 确认无误后再决定是否恢复
 
-# 备份
-tar -czf $BACKUP_DIR/$BACKUP_NAME \
-  /root/.msm \
-  /usr/local/bin/msm
+不要导入来源不明的备份。备份可能包含账号、运行配置、组件文件和敏感外部服务设置，应按可执行管理材料对待。
 
-# 删除旧备份
-find $BACKUP_DIR -name "msm-backup-*.tar.gz" -mtime +$KEEP_DAYS -delete
+## 恢复备份
 
-# 输出结果
-echo "Backup completed: $BACKUP_DIR/$BACKUP_NAME"
-ls -lh $BACKUP_DIR/$BACKUP_NAME
-EOF
+恢复会触发 MSM 自动重启：系统先写入待恢复任务，重启后在启动早期应用所选内容。
 
-# 添加执行权限
-sudo chmod +x /usr/local/bin/msm-backup.sh
-```
+1. 在备份列表点击 **恢复**
+2. 对比备份版本与当前运行版本
+3. 选择要恢复的模块；展开高级选择可只恢复细分内容
+4. 加密备份输入密码
+5. 确认恢复并等待 MSM 自动重启
+6. 重新登录，查看页面顶部的最近恢复结果
+7. 检查进程、系统诊断、DNS、代理和外部模块
 
-#### 2. 配置 cron 定时任务
+版本差异当前只作为确认信息展示，并不会自动阻止恢复。跨大版本、跨平台或跨部署方式恢复前，应先在测试实例验证。
 
-```bash
-# 编辑 crontab
-sudo crontab -e
+::: warning 选择性恢复的边界
+只恢复选中的细分内容，未选择项会保持当前状态。但配置之间可能存在引用关系，例如代理订阅、组件版本和网络设置。恢复后必须验证完整业务链路，不能只看“恢复成功”。
+:::
 
-# 添加以下行（每天凌晨 2 点备份）
-0 2 * * * /usr/local/bin/msm-backup.sh >> /var/log/msm-backup.log 2>&1
-```
+## 更新前备份
 
-### 方式四：远程备份
+**系统设置 → 系统更新** 可以分别启用 MSM 本体更新前备份和组件更新前备份。系统生成的记录会标记为对应的更新前类型，便于失败时定位恢复点。
 
-将备份文件上传到远程服务器或云存储。
+建议在以下操作前同时创建一份手动备份并下载到其他设备：
 
-#### 上传到远程服务器（rsync）
-
-```bash
-# 备份并上传
-sudo tar -czf /tmp/msm-backup-$(date +%Y%m%d).tar.gz /root/.msm /usr/local/bin/msm
-rsync -avz /tmp/msm-backup-$(date +%Y%m%d).tar.gz user@remote-server:/backups/
-rm /tmp/msm-backup-$(date +%Y%m%d).tar.gz
-```
-
-#### 上传到云存储（rclone）
-
-```bash
-# 安装 rclone
-curl https://rclone.org/install.sh | sudo bash
-
-# 配置 rclone（按提示配置云存储）
-rclone config
-
-# 备份并上传
-sudo tar -czf /tmp/msm-backup-$(date +%Y%m%d).tar.gz /root/.msm /usr/local/bin/msm
-rclone copy /tmp/msm-backup-$(date +%Y%m%d).tar.gz remote:msm-backups/
-rm /tmp/msm-backup-$(date +%Y%m%d).tar.gz
-```
-
-## 恢复数据
-
-### 方式一：完整恢复
-
-从完整备份恢复所有数据。
-
-```bash
-# 停止服务
-sudo systemctl stop msm
-
-# 备份当前数据（以防恢复失败）
-sudo mv /root/.msm /root/.msm.old
-sudo mv /usr/local/bin/msm /usr/local/bin/msm.old
-
-# 恢复备份
-sudo tar -xzf /root/msm-backup-20260101-120000.tar.gz -C /
-
-# 启动服务
-sudo systemctl start msm
-
-# 验证恢复
-sudo systemctl status msm
-msm -v
-```
-
-### 方式二：部分恢复
-
-只恢复特定的配置文件。
-
-#### 恢复 MosDNS 配置
-
-```bash
-# 停止服务
-sudo systemctl stop msm
-
-# 备份当前配置
-sudo cp /root/.msm/mosdns/config.yaml /root/.msm/mosdns/config.yaml.old
-
-# 从备份中提取配置
-sudo tar -xzf /root/msm-backup-20260101-120000.tar.gz \
-  -C / \
-  root/.msm/mosdns/config.yaml
-
-# 启动服务
-sudo systemctl start msm
-```
-
-#### 恢复 SingBox 配置
-
-```bash
-# 停止服务
-sudo systemctl stop msm
-
-# 备份当前配置
-sudo cp /root/.msm/singbox/config.json /root/.msm/singbox/config.json.old
-
-# 从备份中提取配置
-sudo tar -xzf /root/msm-backup-20260101-120000.tar.gz \
-  -C / \
-  root/.msm/singbox/config.json
-
-# 启动服务
-sudo systemctl start msm
-```
-
-#### 恢复数据库
-
-```bash
-# 停止服务
-sudo systemctl stop msm
-
-# 备份当前数据库
-sudo cp /root/.msm/data/msm.db /root/.msm/data/msm.db.old
-
-# 从备份中提取数据库
-sudo tar -xzf /root/msm-backup-20260101-120000.tar.gz \
-  -C / \
-  root/.msm/data/msm.db
-
-# 启动服务
-sudo systemctl start msm
-```
-
-### 方式三：迁移到新服务器
-
-将 MSM 迁移到新服务器。
-
-#### 1. 在旧服务器上备份
-
-```bash
-# 停止服务
-sudo systemctl stop msm
-
-# 备份
-sudo tar -czf /tmp/msm-migration.tar.gz \
-  /root/.msm \
-  /usr/local/bin/msm
-
-# 传输到新服务器
-scp /tmp/msm-migration.tar.gz user@new-server:/tmp/
-```
-
-#### 2. 在新服务器上恢复
-
-```bash
-# 解压备份
-sudo tar -xzf /tmp/msm-migration.tar.gz -C /
-
-# 安装 systemd 服务
-sudo msm service install
-
-# 启动服务
-sudo systemctl start msm
-sudo systemctl enable msm
-
-# 验证
-sudo systemctl status msm
-```
-
-## 验证备份
-
-定期验证备份文件的完整性。
-
-### 1. 检查备份文件
-
-```bash
-# 查看备份文件大小
-ls -lh /root/msm-backup-*.tar.gz
-
-# 检查备份文件完整性
-tar -tzf /root/msm-backup-20260101-120000.tar.gz > /dev/null
-echo $?  # 应该输出 0
-```
-
-### 2. 测试恢复
-
-在测试环境中测试恢复流程。
-
-```bash
-# 创建测试目录
-mkdir -p /tmp/msm-restore-test
-
-# 解压备份到测试目录
-tar -xzf /root/msm-backup-20240101-120000.tar.gz -C /tmp/msm-restore-test
-
-# 检查文件
-ls -la /tmp/msm-restore-test/root/.msm/
-ls -la /tmp/msm-restore-test/usr/local/bin/
-
-# 清理测试目录
-rm -rf /tmp/msm-restore-test
-```
-
-## 备份策略建议
-
-### 1. 3-2-1 备份策略
-
-- **3 份副本**: 原始数据 + 2 份备份
-- **2 种介质**: 本地硬盘 + 远程服务器/云存储
-- **1 份异地**: 至少 1 份备份存储在异地
-
-### 2. 备份频率
-
-| 数据类型 | 备份频率 | 保留时间 |
-|---------|---------|---------|
-| 完整备份 | 每周 | 4 周 |
-| 增量备份 | 每天 | 7 天 |
-| 配置变更 | 实时 | 30 天 |
-
-### 3. 备份保留策略
-
-```bash
-# 保留最近 7 天的每日备份
-find /root/msm-backups -name "msm-backup-*.tar.gz" -mtime +7 -delete
-
-# 保留最近 4 周的每周备份
-# （需要手动标记周备份）
-
-# 保留最近 12 个月的每月备份
-# （需要手动标记月备份）
-```
-
-## 自动化备份脚本
-
-完整的自动化备份脚本示例：
-
-```bash
-#!/bin/bash
-
-# 配置
-BACKUP_DIR="/root/msm-backups"
-REMOTE_BACKUP="user@remote-server:/backups/msm/"
-KEEP_DAYS=7
-LOG_FILE="/var/log/msm-backup.log"
-
-# 函数：记录日志
-log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a $LOG_FILE
-}
-
-# 函数：发送通知（可选）
-notify() {
-    # 发送邮件或其他通知
-    echo "$1" | mail -s "MSM Backup Notification" admin@example.com
-}
-
-# 开始备份
-log "Starting MSM backup..."
-
-# 创建备份目录
-mkdir -p $BACKUP_DIR
-
-# 生成备份文件名
-BACKUP_NAME="msm-backup-$(date +%Y%m%d-%H%M%S).tar.gz"
-BACKUP_PATH="$BACKUP_DIR/$BACKUP_NAME"
-
-# 停止服务（可选）
-# systemctl stop msm
-
-# 执行备份
-if tar -czf $BACKUP_PATH /root/.msm /usr/local/bin/msm 2>>$LOG_FILE; then
-    log "Backup completed: $BACKUP_PATH"
-    BACKUP_SIZE=$(du -h $BACKUP_PATH | cut -f1)
-    log "Backup size: $BACKUP_SIZE"
-else
-    log "ERROR: Backup failed!"
-    notify "MSM backup failed!"
-    exit 1
-fi
-
-# 启动服务（如果之前停止了）
-# systemctl start msm
-
-# 上传到远程服务器（可选）
-if [ -n "$REMOTE_BACKUP" ]; then
-    log "Uploading backup to remote server..."
-    if rsync -avz $BACKUP_PATH $REMOTE_BACKUP 2>>$LOG_FILE; then
-        log "Remote backup completed"
-    else
-        log "WARNING: Remote backup failed!"
-        notify "MSM remote backup failed!"
-    fi
-fi
-
-# 删除旧备份
-log "Cleaning old backups..."
-DELETED=$(find $BACKUP_DIR -name "msm-backup-*.tar.gz" -mtime +$KEEP_DAYS -delete -print | wc -l)
-log "Deleted $DELETED old backup(s)"
-
-# 完成
-log "Backup process completed successfully"
-```
-
-## 常见问题
-
-### 问题 1: 备份文件太大
-
-**解决方法**:
-1. 排除日志文件：
-   ```bash
-   tar -czf backup.tar.gz --exclude='/root/.msm/logs' /root/.msm
-   ```
-2. 使用增量备份
-3. 压缩级别调整：
-   ```bash
-   tar -czf backup.tar.gz --use-compress-program="gzip -9" /root/.msm
-   ```
-
-### 问题 2: 恢复后服务无法启动
-
-**排查步骤**:
-1. 检查文件权限：
-   ```bash
-   sudo chown -R root:root /root/.msm
-   sudo chmod +x /usr/local/bin/msm
-   ```
-2. 检查配置文件：
-   ```bash
-   sudo msm doctor
-   ```
-3. 查看日志：
-   ```bash
-   sudo journalctl -u msm -n 100
-   ```
-
-### 问题 3: 备份失败
-
-**可能原因**:
-- 磁盘空间不足
-- 权限不足
-- 文件被占用
-
-**解决方法**:
-1. 检查磁盘空间：`df -h`
-2. 使用 root 权限：`sudo`
-3. 停止服务后再备份
+- MSM 大版本更新
+- MosDNS 配置迁移
+- Mihomo / Sing-Box 核心切换或升级
+- 恢复另一台主机的配置
+- 修改 HTTPS、管理端口、网络与账号
+
+## 恢复后的检查清单
+
+- [ ] 能使用预期管理员账号登录
+- [ ] 管理端口、HTTPS 和时区正确
+- [ ] MosDNS 与活动代理核心状态正常
+- [ ] FakeIP、主路由静态路由和透明代理仍一致
+- [ ] 订阅、策略组与 DNS 规则可用
+- [ ] 域名、Cloudflare、私网和 Docker 节点按需重连
+- [ ] 系统诊断没有新增端口、权限或依赖错误
 
 ## 下一步
 
-- [更新升级](/zh/guide/update) - 更新 MSM 和组件
-- [Docker 部署](/zh/guide/docker) - Docker 环境的备份
-- [故障排查](/zh/faq/troubleshooting) - 解决备份问题
-- [常见问题](/zh/faq/) - 更多问题解答
+- [系统更新](/zh/guide/update)
+- [系统诊断](/zh/guide/diagnostics)
+- [进程管理](/zh/guide/process)
+- [统一代理服务](/zh/guide/proxy)

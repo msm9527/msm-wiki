@@ -5,7 +5,6 @@ export default defineConfig({
   title: "MSM Wiki",
   description: "MSM Manager - 统一管理平台文档",
   base: '/msm-wiki/',
-  ignoreDeadLinks: true,
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/msm-wiki/logo/favicon.svg' }],
@@ -38,7 +37,7 @@ export default defineConfig({
         text: '场景与进阶',
         items: [
           { text: 'OpenWrt 进阶', link: '/zh/guide/openwrt-advanced' },
-          { text: '回家配置', link: '/zh/guide/home' }
+          { text: '远程回家', link: '/zh/guide/home' }
         ]
       },
       {
@@ -112,7 +111,7 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'OpenWrt 进阶', link: '/zh/guide/openwrt-advanced' },
-            { text: '回家配置', link: '/zh/guide/home' }
+            { text: '远程回家', link: '/zh/guide/home' }
           ]
         },
         {
@@ -130,6 +129,7 @@ export default defineConfig({
           text: '系统与维护',
           collapsed: true,
           items: [
+            { text: '进程管理', link: '/zh/guide/process' },
             { text: '用户管理', link: '/zh/guide/user-management' },
             { text: '系统诊断', link: '/zh/guide/diagnostics' },
             { text: '系统设置', link: '/zh/guide/settings' },

@@ -1,373 +1,125 @@
 # 更新升级
 
-本文档介绍如何更新 MSM 和各个组件（MosDNS、SingBox、Clash）。
+**系统设置 → 系统更新**统一管理 MSM 本体、MosDNS、Mihomo 和 Sing-Box 更新。页面会显示当前版本、最新版本、检查时间、更新进度与错误，并提供稳定版 / 测试版发布记录。
 
-## 更新 MSM
+![系统更新：更新通道、本体与组件更新、版本历史](/images/ui/settings-update.jpg)
 
-### 方式一：一键更新脚本
+检查和执行更新只对管理员开放。更新会影响 DNS 或代理连接，先选择网络使用较少的时间窗口。
 
-```bash
-# 重新运行安装脚本即可自动更新
-curl -fsSL https://raw.githubusercontent.com/msm9527/msm-wiki/main/install.sh | sudo bash
-```
+## 更新前准备
 
-::: tip 提示
-安装脚本会自动检测已安装的版本，如果有新版本会自动更新。
-:::
+1. 到 [备份恢复](/zh/guide/backup-restore) 创建手动备份并下载到其他设备
+2. 在更新页启用 **MSM 更新前自动备份** 和 **组件更新前自动备份**
+3. 记录当前 MSM、MosDNS、Mihomo / Sing-Box 版本与活动代理方案
+4. 确认磁盘空间、外网下载和系统时间正常
+5. 保留终端或宿主机访问方式，避免 Web 重启期间失去唯一恢复入口
 
-### 方式二：手动更新
+更新前自动备份默认最多保留 5 份，超过后删除最旧记录。它是快速回滚点，不替代离机备份。
 
-#### 1. 备份当前版本
+## 更新 MSM 本体
 
-```bash
-# 停止服务
-sudo systemctl stop msm
+MSM 卡片提供以下流程：
 
-# 备份二进制文件
-sudo cp /usr/local/bin/msm /usr/local/bin/msm.backup
+1. 点击 **检查更新**
+2. 阅读目标版本与更新说明
+3. 有更新时点击下载；下载中可取消
+4. 下载完成后点击 **安装并重启**
+5. 等待服务重新上线并重新登录
+6. 检查当前版本、系统诊断和托管服务
 
-# 备份配置和数据
-sudo tar -czf /root/msm-backup-$(date +%Y%m%d).tar.gz /root/.msm
-```
+更新状态可能依次经历检查、下载、安装、已安装和重启。操作进行中不要重复提交、手工替换二进制或同时重启服务。
 
-#### 2. 下载最新版本
+### 更新设置
 
-访问 [GitHub Releases](https://github.com/msm9527/msm-wiki/releases/latest) 下载最新版本。
+- **更新通道**：稳定版只接收正式版本；测试版接收预发布版本
+- **自动检查**：按设定间隔获取版本信息
+- **检查间隔**：12 小时、24 小时、3 天、7 天，或 1–168 小时自定义值
+- **自动下载**：发现版本后预先下载，不等同于自动安装
+- **更新通知**：有新版本时提示用户
 
-**Linux amd64**:
-```bash
-# 下载最新版本（以 0.7.4 为例）
-wget https://github.com/msm9527/msm-wiki/releases/latest/download/msm-0.7.4-linux-amd64.tar.gz
+从稳定版切到测试版前先阅读 Beta 发布记录；切回稳定版不等于自动降级当前二进制。
 
-# 解压
-tar -xzf msm-0.7.4-linux-amd64.tar.gz
+## 更新组件
 
-# 替换文件
-sudo mv msm /usr/local/bin/msm
-sudo chmod +x /usr/local/bin/msm
-```
+组件区域只显示当前部署可管理的 MosDNS、Mihomo 和 Sing-Box。每张卡片支持：
 
-**Linux arm64**:
-```bash
-wget https://github.com/msm9527/msm-wiki/releases/latest/download/msm-0.7.4-linux-arm64.tar.gz
+- 查看当前与最新版本
+- 检查更新、执行更新或强制重装当前版本
+- 查看阶段进度和失败信息
+- 配置自动检查、检查间隔与自动更新
+- 展开更新说明
 
-tar -xzf msm-0.7.4-linux-arm64.tar.gz
-sudo mv msm /usr/local/bin/msm
-sudo chmod +x /usr/local/bin/msm
-```
+组件更新通常会经历备份、下载、应用、恢复 / 收尾和重启。不要在阶段进度未结束时切换代理方案或手工启停同一组件。
 
-**macOS amd64**:
-```bash
-wget https://github.com/msm9527/msm-wiki/releases/latest/download/msm-0.7.4-darwin-amd64.tar.gz
+## MosDNS 升级方式
 
-tar -xzf msm-0.7.4-darwin-amd64.tar.gz
-sudo mv msm /usr/local/bin/msm
-sudo chmod +x /usr/local/bin/msm
-```
+| 模式 | 行为 | 适用场景 |
+|------|------|----------|
+| **增量升级（默认）** | 更新组件；仅当 MSM 中存在已保存的 MosDNS 关键设置时，升级后才自动回写这些设置 | 日常升级 |
+| **全量升级** | 使用新模板重建 MosDNS 配置，仅保留运行数据库；不会回写 MSM 已保存的自定义设置，并会清理已有存储 | 需要跟随新模板重建 |
+| **重置升级** | 放弃现有改动，完整使用新模板 | 配置已经损坏且明确接受重置 |
 
-**macOS arm64**:
-```bash
-wget https://github.com/msm9527/msm-wiki/releases/latest/download/msm-0.7.4-darwin-arm64.tar.gz
+增量模式并不保证保存所有手工编辑内容。使用原始配置或大量自定义规则时，先下载备份并查看版本说明。
 
-tar -xzf msm-0.7.4-darwin-arm64.tar.gz
-sudo mv msm /usr/local/bin/msm
-sudo chmod +x /usr/local/bin/msm
-```
+## Mihomo 升级方式
 
-#### 3. 启动服务
+| 模式 | 行为 | 适用场景 |
+|------|------|----------|
+| **不升级配置** | 只替换当前方案匹配的 Mihomo 内核，保持 `config.yaml` 不变 | 有大量自定义规则、分组或 DNS 配置 |
+| **全量升级** | 使用最新模板刷新配置，同时保留机场订阅、自定义节点和关键运行端口 | 基本沿用 MSM 默认模板 |
 
-```bash
-# 启动服务
-sudo systemctl start msm
+官方 Mihomo、Alpha 和 Mihomo Smart 属于不同核心选择。组件更新只应使用与当前方案匹配的家族；跨方案变更必须从 **代理服务 → 概览** 执行安全切换，不能靠更新页面或手工替换二进制完成。
 
-# 查看状态
-sudo systemctl status msm
+## Sing-Box 更新
 
-# 查看版本
-msm -v
-```
+MSM 使用 reF1nd Sing-Box 核心。Sing-Box 采用固定哈希校验的完整核心替换，没有模板升级模式选择。不要用 SagerNet 官方二进制覆盖当前核心，否则控制接口和配置能力可能不匹配。
 
-### 方式三：Docker 更新
+## Docker 部署
+
+如果 MSM 由镜像部署，MSM 本体升级应以更新镜像并重建容器为准，避免只改容器可写层、下次重建又回到旧版本。使用原 Compose 文件：
 
 ```bash
-# 停止容器
-docker stop msm
-
-# 删除旧容器
-docker rm msm
-
-# 拉取最新镜像
-docker pull msm9527/msm:latest
-
-# 重新运行容器
-docker run -d \
-  --name msm \
-  --restart unless-stopped \
-  --network host \
-  -v /opt/msm/data:/root/.msm/data \
-  -v /opt/msm/logs:/root/.msm/logs \
-  -v /opt/msm/config:/root/.msm/config \
-  msm9527/msm:latest
+docker compose pull
+docker compose up -d
+docker compose logs --tail=100 msm
 ```
 
-或使用 Docker Compose:
+命令中的服务名以你的 Compose 文件为准。重建前确认 MSM 数据、配置、组件目录和备份目录都挂载在持久化卷中。组件数据已正确持久化时，可以继续在 Web 页面管理 MosDNS、Mihomo 和 Sing-Box 更新。
 
-```bash
-# 拉取最新镜像
-docker-compose pull
+## Web 更新不可用时
 
-# 重启服务
-docker-compose up -d
-```
+- 使用最初安装 MSM 的同一种官方安装方式重新运行升级流程
+- 从项目发布页选择与操作系统、架构和代理核心家族匹配的产物
+- 校验下载来源与校验信息
+- 停止服务前创建完整备份并记录当前二进制位置
+- 不照搬文档中的历史版本文件名；发布资产命名会变化
 
-## 更新 MosDNS
-
-### 方式一：Web 界面更新
-
-1. 登录 MSM 管理界面
-2. 进入 **DNS服务** 页面
-3. 点击 **版本管理**
-4. 选择要安装的版本
-5. 点击 **安装**
-6. 等待下载完成
-7. 点击 **切换版本**
-8. 重启 MosDNS 服务
-
-### 方式二：命令行更新
-
-```bash
-# 查看当前版本
-~/.msm/mosdns/mosdns version
-
-# 下载最新版本
-cd /tmp
-wget https://github.com/IrineSistiana/mosdns/releases/latest/download/mosdns-linux-amd64.zip
-unzip mosdns-linux-amd64.zip
-
-# 停止服务
-sudo systemctl stop msm
-
-# 备份旧版本
-cp ~/.msm/mosdns/mosdns ~/.msm/mosdns/mosdns.backup
-
-# 替换文件
-mv mosdns ~/.msm/mosdns/mosdns
-chmod +x ~/.msm/mosdns/mosdns
-
-# 启动服务
-sudo systemctl start msm
-
-# 验证版本
-~/.msm/mosdns/mosdns version
-```
-
-## 更新 Sing-Box
-
-MSM 使用 reF1nd Sing-Box 核心。推荐从 **系统设置 → 系统更新** 或 **代理服务** 中的版本入口执行：
-
-1. 创建备份
-2. 检查目标版本与当前架构
-3. 启动更新并等待下载、校验和持久化完成
-4. 等待 Sing-Box 配置、控制器和服务就绪检查
-5. 在代理节点、连接和日志中执行真实验证
-
-不要直接用 SagerNet 官方二进制覆盖 reF1nd 核心；两者的控制与配置能力可能不同。
-
-## 更新 Mihomo
-
-官方 Mihomo 与 Mihomo Smart 属于不同核心家族。推荐从 **系统设置 → 系统更新** 或 **代理服务 → 概览** 的方案 / 版本入口操作：
-
-1. 确认当前是官方 Mihomo 还是 Mihomo Smart
-2. 创建备份并记录当前版本
-3. 选择与目标方案匹配的 Meta、Alpha 或 Smart 版本
-4. 等待二进制家族、配置、网络和控制器验证完成
-5. 检查订阅、策略组、连接与日志
-
-::: danger 不要手工混用核心
-Smart 配置不能直接交给 Meta / Alpha，官方配置也不应只替换为 Smart 二进制。跨家族变更必须使用 MSM 的代理方案切换流程。
-:::
-
-只有在 Web 更新不可用、且你能独立验证二进制来源、架构、签名和核心家族时，才考虑停机手工替换。手工替换前备份整个配置目录和原二进制，完成后运行版本、配置和就绪检查。
-
-## 更新前注意事项
-
-### 1. 备份配置
-
-更新前务必备份配置文件：
-
-```bash
-# 备份整个配置目录
-sudo tar -czf /root/msm-backup-$(date +%Y%m%d).tar.gz /root/.msm
-
-# 或只备份配置文件
-cp ~/.msm/mosdns/config.yaml ~/.msm/mosdns/config.yaml.backup
-cp ~/.msm/singbox/config.json ~/.msm/singbox/config.json.backup
-cp ~/.msm/mihomo/config.yaml ~/.msm/mihomo/config.yaml.backup
-```
-
-### 2. 查看更新日志
-
-访问 GitHub Releases 页面查看更新日志，了解新版本的变化：
-
-- [MSM Releases](https://github.com/msm9527/msm-wiki/releases)
-- [MosDNS Releases](https://github.com/IrineSistiana/mosdns/releases)
-- [reF1nd Sing-Box](https://github.com/reF1nd/sing-box)
-- [MetaCubeX 官方 Releases](https://github.com/MetaCubeX/mihomo/releases)
-
-### 3. 测试环境
-
-如果可能，先在测试环境中更新，确认无问题后再在生产环境更新。
-
-### 4. 选择合适的时间
-
-选择网络使用较少的时间段进行更新，避免影响用户使用。
+不要从 MSM Wiki 仓库的 Release 猜测主程序产物，也不要把网上第三方构建直接覆盖到生产实例。
 
 ## 更新后验证
 
-### 1. 检查服务状态
+1. 刷新 **系统更新**，确认 MSM 与组件版本
+2. 打开 [进程管理](/zh/guide/process)，确认 MosDNS 和活动代理核心状态
+3. 运行 [系统诊断](/zh/guide/diagnostics)，检查依赖、端口、磁盘和权限
+4. 在 DNS 日志确认查询进入 MosDNS
+5. 在代理节点、连接和日志中验证真实流量
+6. 测试 A / AAAA、FakeIP 和主路由静态路由
+7. 按需检查域名发布、Cloudflare、私网和 Docker 节点
 
-```bash
-# 检查 MSM 服务
-sudo systemctl status msm
+### 更新失败
 
-# 检查版本
-msm -v
-~/.msm/mosdns/mosdns version
-~/.msm/singbox/sing-box version
-~/.msm/mihomo/mihomo -v
-```
+先记录页面显示的失败阶段和错误，不要连续重复更新：
 
-### 2. 检查配置
-
-在 MSM 管理界面中：
-
-1. 进入 **配置编辑** 页面
-2. 检查配置文件是否正常
-3. 执行配置校验
-4. 查看服务日志
-
-### 3. 测试功能
-
-1. **测试 DNS 解析**:
-   ```bash
-   nslookup google.com
-   ```
-
-2. **测试代理**:
-   - 访问 Google
-   - 访问 YouTube
-   - 访问 Twitter
-
-3. **测试国内网站**:
-   - 访问百度
-   - 访问淘宝
-
-### 4. 查看日志
-
-```bash
-# 查看 MSM 日志
-sudo journalctl -u msm -n 100 --no-pager
-
-# 或在 Web 界面查看日志
-```
-
-## 回滚版本
-
-如果更新后出现问题，可以回滚到旧版本。
-
-### 回滚 MSM
-
-```bash
-# 停止服务
-sudo systemctl stop msm
-
-# 恢复备份
-sudo cp /usr/local/bin/msm.backup /usr/local/bin/msm
-
-# 启动服务
-sudo systemctl start msm
-```
-
-### 回滚组件
-
-```bash
-# 停止服务
-sudo systemctl stop msm
-
-# 恢复 MosDNS
-cp ~/.msm/mosdns/mosdns.backup ~/.msm/mosdns/mosdns
-
-# 恢复 SingBox
-cp ~/.msm/singbox/sing-box.backup ~/.msm/singbox/sing-box
-
-# 恢复 Clash
-cp ~/.msm/mihomo/mihomo.backup ~/.msm/mihomo/mihomo
-
-# 启动服务
-sudo systemctl start msm
-```
-
-### 从备份恢复
-
-```bash
-# 停止服务
-sudo systemctl stop msm
-
-# 恢复整个配置目录
-sudo tar -xzf /root/msm-backup-20260101.tar.gz -C /
-
-# 启动服务
-sudo systemctl start msm
-```
-
-## 自动更新（不推荐）
-
-::: warning 警告
-不建议启用自动更新，因为新版本可能引入不兼容的变化。建议手动更新并测试。
-:::
-
-如果确实需要自动更新，可以使用 cron 定时任务：
-
-```bash
-# 编辑 crontab
-sudo crontab -e
-
-# 添加以下行（每周日凌晨 3 点检查更新）
-0 3 * * 0 curl -fsSL https://raw.githubusercontent.com/msm9527/msm-wiki/main/install.sh | bash
-```
-
-## 常见问题
-
-### 问题 1: 更新后服务无法启动
-
-**解决方法**:
-1. 查看日志：`sudo journalctl -u msm -n 100`
-2. 检查配置文件是否兼容新版本
-3. 回滚到旧版本
-4. 查看 GitHub Issues 寻找解决方案
-
-### 问题 2: 更新后配置丢失
-
-**原因**: 没有备份配置
-
-**解决方法**:
-1. 从备份恢复配置
-2. 如果没有备份，需要重新配置
-
-### 问题 3: 更新后性能下降
-
-**可能原因**:
-- 新版本引入的 bug
-- 配置不兼容
-
-**解决方法**:
-1. 查看更新日志，了解变化
-2. 调整配置
-3. 回滚到旧版本
-4. 向开发者反馈问题
+1. 检查磁盘、网络、架构和目标版本
+2. 查看 MSM 与对应组件日志
+3. 若处于恢复阶段，等待任务结束后再操作
+4. 使用更新前备份做选择性恢复
+5. 仍无法恢复时，按原部署方式重新安装同版本，再导入已验证备份
 
 ## 下一步
 
-- [备份恢复](/zh/guide/backup-restore) - 备份和恢复配置
-- [故障排查](/zh/faq/troubleshooting) - 解决更新问题
-- [常见问题](/zh/faq/) - 更多问题解答
+- [备份恢复](/zh/guide/backup-restore)
+- [系统诊断](/zh/guide/diagnostics)
+- [进程管理](/zh/guide/process)
+- [版本发布](/zh/guide/releases)
+- [Beta 版发布](/zh/guide/releases-beta)

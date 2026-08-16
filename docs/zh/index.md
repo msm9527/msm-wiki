@@ -28,7 +28,7 @@ features:
     details: 在官方 Mihomo、Mihomo Smart 与 Sing-Box 之间安全切换，使用同一套管理入口
   - icon: 🏠
     title: 回家与私有组网
-    details: 提供双核心 Shadowsocks 回家、Cloudflare 私网以及 EasyTier、Tailscale、WireGuard 自建私网
+    details: 提供双核心多协议远程回家、Cloudflare 私网以及 EasyTier、Tailscale、WireGuard 自建私网
   - icon: 🔗
     title: 域名发布闭环
     details: 集中完成 DDNS、HTTPS 证书、反向代理、健康检查与故障诊断
@@ -59,7 +59,7 @@ MSM 从旁路由 DNS 与透明代理管理出发，现在把家庭网络常用�
 
 - 只需访问家庭 Web 服务：使用 [域名服务](/zh/guide/domain-services) 或 [Cloudflare 网页穿透](/zh/guide/cloudflare)
 - 需要访问 SSH、远程桌面、数据库或多个局域网设备：使用 [Cloudflare 云端私网](/zh/guide/cloudflare) 或 [自建私网](/zh/guide/networking)
-- 已有公网 IP / DDNS 并希望使用代理客户端：使用 [Shadowsocks 回家](/zh/guide/home)
+- 已有公网 IP / DDNS 并希望使用代理客户端：使用 [远程回家](/zh/guide/home)
 
 ### 家庭服务器运维
 

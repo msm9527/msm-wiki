@@ -153,7 +153,7 @@ dig AAAA example.com @<MSM-IP>
 | 无公网 IP 发布 Web 页面 | [Cloudflare 网页穿透](/zh/guide/cloudflare) |
 | 无公网 IP 访问整个家庭 LAN | [Cloudflare 云端私网](/zh/guide/cloudflare) |
 | 自建跨站私网 | [EasyTier / Tailscale / WireGuard](/zh/guide/networking) |
-| 有公网入口并使用代理客户端 | [Shadowsocks 回家](/zh/guide/home) |
+| 有公网入口并使用代理客户端 | [多协议远程回家](/zh/guide/home) |
 
 先选一种方式跑通，再决定是否需要并行通道。
 

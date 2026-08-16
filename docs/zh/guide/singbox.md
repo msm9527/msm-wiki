@@ -1,6 +1,6 @@
 # Sing-Box 核心
 
-Sing-Box 已接入统一 **代理服务**，不再是只有配置和日志的独立实验页面。选择 Sing-Box 后，概览、节点、规则、连接、配置和回家入口会继续留在 `/proxy/*`，并自动切换到 Sing-Box 数据源。
+Sing-Box 已接入统一 **代理服务**，不再是只有配置和日志的独立实验页面。选择 Sing-Box 后，概览、节点、规则、连接、配置和远程回家入口会继续留在 `/proxy/*`，并自动切换到 Sing-Box 数据源。
 
 MSM 当前使用 reF1nd Sing-Box 核心。日常操作先看 [统一代理服务](/zh/guide/proxy)，本页说明 Sing-Box 特有的配置方式。
 
@@ -12,7 +12,7 @@ MSM 当前使用 reF1nd Sing-Box 核心。日常操作先看 [统一代理服务
 - 规则、规则集和策略编辑
 - TUN 与通用代理参数
 - 完整 `config.json` 原始编辑、校验和应用
-- Shadowsocks 回家入站
+- Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2、TUIC v5 远程回家入站
 - 与 Mihomo 之间的事务化切换
 
 不同核心的原生模型并不完全相同。界面会标记 Sing-Box 不支持的 Provider 类型、规则集格式或字段；保存时不会伪造这些能力。
@@ -47,11 +47,11 @@ MSM 会把统一编辑器中的 Provider、代理和规则映射到 Sing-Box 的
 - `route.final` 是否仍指向预期出站
 - TUN、DNS 与 FakeIP 参数是否和 MosDNS、主路由一致
 
-## 回家
+## 远程回家
 
-进入 **代理服务 → 回家** 后，MSM 会在当前 `config.json` 中维护 Shadowsocks inbound。保存并应用前会验证完整 JSON；启动失败时会恢复原配置并尝试恢复旧运行状态。
+进入 **代理服务 → 远程回家** 后，MSM 会按所选协议在当前 `config.json` 中维护 inbound，并生成 Mihomo 客户端 YAML。除 Shadowsocks 外的协议需要 TLS 证书与私钥；VLESS 和 TUIC v5 还使用 UUID。保存并应用前会验证完整 JSON；启动失败时会恢复原配置并尝试恢复旧运行状态。
 
-详细步骤见 [Shadowsocks 回家](/zh/guide/home)。
+详细步骤见 [远程回家](/zh/guide/home)。
 
 ## 故障排查
 
@@ -74,5 +74,5 @@ MSM 会把统一编辑器中的 Provider、代理和规则映射到 Sing-Box 的
 
 - [统一代理服务](/zh/guide/proxy)
 - [Mihomo 核心](/zh/guide/mihomo)
-- [Shadowsocks 回家](/zh/guide/home)
+- [远程回家](/zh/guide/home)
 - [配置管理](/zh/guide/config-editor)

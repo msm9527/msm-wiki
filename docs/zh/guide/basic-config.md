@@ -35,7 +35,7 @@ Mihomo 与 Sing-Box 使用同一套菜单：
 | 子菜单 | 用途 |
 |--------|------|
 | **概览** | 活动方案、版本、状态和安全切换 |
-| **回家** | 当前核心的 Shadowsocks 回家 |
+| **远程回家** | 当前核心的公网入站与客户端配置 |
 | **代理节点** | 订阅、节点、策略组和测速 |
 | **规则管理** | 当前核心的分流规则 |
 | **高级设置** | 可视化策略与核心高级参数（Pro） |
@@ -43,16 +43,17 @@ Mihomo 与 Sing-Box 使用同一套菜单：
 | **配置编辑** | 完整 YAML / JSON 编辑和校验（Pro） |
 | **日志查看** | 当前核心运行日志 |
 
-详见 [统一代理服务](/zh/guide/proxy)、[Mihomo](/zh/guide/mihomo)、[Sing-Box](/zh/guide/singbox) 和 [回家](/zh/guide/home)。
+详见 [统一代理服务](/zh/guide/proxy)、[Mihomo](/zh/guide/mihomo)、[Sing-Box](/zh/guide/singbox) 和 [远程回家](/zh/guide/home)。
 
 ### 进程、用户、诊断与设置
 
-- **进程管理**：查看和控制 MSM 托管服务
-- **用户管理**：管理员维护账号、角色和 API Token
-- **系统诊断**：检查服务、配置和网络健康
+- **进程管理**：查看和控制 MSM 托管服务，详见 [进程管理](/zh/guide/process)
+- **用户管理**：管理员维护账号与角色；每个用户在“个人中心”维护资料和密码
+- **系统诊断**：检查配置目录、组件依赖、端口、磁盘和权限
 - **系统设置**：时区、HTTPS、功能开关、备份与更新
+- **API Token 管理**：位于“系统设置 → 系统管理”，需要管理员及相应 Pro 能力
 - **配置管理**：浏览和编辑完整配置树（Pro）
-- **授权管理**：查看许可证、设备指纹和能力
+- **授权管理**：查看版本、许可证状态、能力，以及支持与社群入口
 
 ## Pro 扩展功能
 
@@ -94,7 +95,7 @@ Mihomo 与 Sing-Box 使用同一套菜单：
 |------|------|
 | 让设备使用 DNS 分流和透明代理 | [路由器集成](/zh/guide/router-integration) → [DNS 服务](/zh/guide/mosdns) → [代理服务](/zh/guide/proxy) |
 | 从外网打开家庭网页 | [域名服务](/zh/guide/domain-services) 或 [Cloudflare 网页穿透](/zh/guide/cloudflare) |
-| 从外网访问整个家庭 LAN | [Cloudflare 云端私网](/zh/guide/cloudflare)、[自建私网](/zh/guide/networking) 或 [回家](/zh/guide/home) |
+| 从外网访问整个家庭 LAN | [Cloudflare 云端私网](/zh/guide/cloudflare)、[自建私网](/zh/guide/networking) 或 [远程回家](/zh/guide/home) |
 | 管理家庭服务器容器 | [Docker 管理](/zh/guide/docker-center) |
 | 排查 DNS、路由、端口和证书 | [网络工具](/zh/guide/network-tools) |
 | 修改全局模块开关 | [系统设置](/zh/guide/settings) |

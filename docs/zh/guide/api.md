@@ -35,7 +35,7 @@ curl -H "Authorization: Bearer $TOKEN" \
 
 ### API Token
 
-长期 Token 从 **用户管理 / 系统设置中的 API Token** 功能创建，需要相应 Pro 能力。Token 只在创建时完整显示，应立即存入密码管理器并限制权限。
+长期 Token 从 **系统设置 → 系统管理 → API Token 管理** 创建，需要相应 Pro 能力。Token 只在创建时完整显示，应立即存入密码管理器，并选择满足任务所需的最低角色。
 
 ### Cookie
 
@@ -100,7 +100,7 @@ curl -H "Authorization: Bearer $TOKEN" \
 
 高级策略、规则集和配置写入还会检查 `proxy.manage` 或非 Pro 数量限制。
 
-### 回家
+### 远程回家
 
 Mihomo 与 Sing-Box 路径结构一致：
 

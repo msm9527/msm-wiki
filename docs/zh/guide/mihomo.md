@@ -29,7 +29,7 @@ Smart 配置与官方 Meta / Alpha 配置并不等价。应通过 MSM 的方案�
 - 规则、Rule Provider 与策略管理
 - 实时连接、流量、规则命中和手动断开
 - TUN、通用代理参数和高级设置
-- Shadowsocks 回家监听器
+- Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2、TUIC v5 远程回家监听器
 - 配置历史、差异和回滚（按授权能力开放）
 
 ## 推荐流程
@@ -49,11 +49,11 @@ Smart 配置与官方 Meta / Alpha 配置并不等价。应通过 MSM 的方案�
 - 新版写入会尽量保留注释和顺序，但自动迁移仍可能重排相关结构
 - 不要让 Mihomo 与 Sing-Box 同时接管透明代理网络
 
-## 回家
+## 远程回家
 
-进入 **代理服务 → 回家** 后，MSM 会在当前 Mihomo 配置中维护一个 Shadowsocks listener，并在保存前用当前核心校验完整配置。应用失败时会尝试恢复旧配置和原运行状态。
+进入 **代理服务 → 远程回家** 后，MSM 会按所选协议在当前 Mihomo 配置中维护 listener，并生成对应的客户端 YAML。除 Shadowsocks 外的协议需要 TLS 证书与私钥；VLESS 和 TUIC v5 还使用 UUID。保存前会用当前核心校验完整配置，应用失败时会尝试恢复旧配置和原运行状态。
 
-详细步骤见 [Shadowsocks 回家](/zh/guide/home)。
+详细步骤见 [远程回家](/zh/guide/home)。
 
 ## 故障排查
 
@@ -75,5 +75,5 @@ Smart 配置与官方 Meta / Alpha 配置并不等价。应通过 MSM 的方案�
 
 - [统一代理服务](/zh/guide/proxy)
 - [Sing-Box 核心](/zh/guide/singbox)
-- [Shadowsocks 回家](/zh/guide/home)
+- [远程回家](/zh/guide/home)
 - [日志查看](/zh/guide/logs)

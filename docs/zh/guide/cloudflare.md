@@ -16,7 +16,7 @@ MSM 将 Cloudflare 能力分成两个互不依赖的通道：
 - 只想从外网打开一个网页：选择 **网页穿透**
 - 想像在家一样访问多个 IP、端口或非 HTTP 服务：选择 **云端私网**
 - 希望完全自建控制面或使用 EasyTier / Tailscale / WireGuard：选择 [自建私网](/zh/guide/networking)
-- 已有公网 IP 和端口转发，且使用代理客户端：也可选择 [Shadowsocks 回家](/zh/guide/home)
+- 已有公网 IP 和端口转发，且使用代理客户端：也可选择 [远程回家](/zh/guide/home)
 
 ## 网页穿透（Tunnel）
 
@@ -31,11 +31,23 @@ MSM 支持两类配置路径：
    - 复制 Tunnel Token
    - 填写本地服务地址和公开域名
 2. **API 自动配置**
-   - 填写 Account ID、Zone ID 和最小权限 API Token
-   - 填写 Tunnel 名称、公开域名和本地服务地址
+   - 填写 Account ID 和最小权限 API Token
+   - 填写 Tunnel 名称，以及一组或多组“公开域名 → 本地服务地址”
    - 由 MSM 创建或配置所需资源
 
 页面可以自动安装连接器、保存配置、启动服务，并逐项显示安装、连接、地址和保护状态。完成后应看到公开 HTTPS 地址和在线状态。
+
+### 一个 Tunnel 发布多个服务
+
+API 自动配置模式支持在同一个 Tunnel 中维护最多 32 条路由。每条路由分别填写公开域名和本地服务 URL，例如：
+
+```text
+nas.example.com   → http://nas:5000
+photo.example.com → http://photos:3000
+msm.other.net     → http://127.0.0.1:7777
+```
+
+MSM 会根据每个域名自动匹配当前账户中最长后缀相符的 Zone，因此同一个 Tunnel 可以同时使用不同 Zone 下的域名。修改域名后，页面会清除旧匹配并在保存配置时重新确认 Zone。Token 模式沿用 Cloudflare 控制台中已经建立的公开主机名配置，页面提供单一主入口设置。
 
 ### 本地服务地址
 
@@ -89,7 +101,7 @@ Cloudflare 产品、账户套餐和 API 能力可能变化。配置前先运行�
 
 ## 服务控制
 
-两个通道都有独立的保存、安装、启动、暂停 / 停止和刷新操作。修改配置后应：
+页面顶部的工作区切换会分别显示网页穿透和云端私网的状态；两个通道都有独立的保存、安装、启动、暂停 / 停止和刷新操作。修改配置后应：
 
 1. 保存当前通道
 2. 安装或确认连接器存在
@@ -125,4 +137,4 @@ Cloudflare 产品、账户套餐和 API 能力可能变化。配置前先运行�
 
 - [域名服务](/zh/guide/domain-services) - 使用自己的 DNS、证书和反向代理发布服务
 - [自建私网](/zh/guide/networking) - EasyTier、Tailscale 与 WireGuard
-- [Shadowsocks 回家](/zh/guide/home) - 公网 IP / DDNS 直连回家
+- [远程回家](/zh/guide/home) - 通过公网 IP / DDNS 和多种代理协议直连回家
