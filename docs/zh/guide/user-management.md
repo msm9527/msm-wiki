@@ -4,7 +4,7 @@ MSM 支持多用户管理和基于角色的访问控制（RBAC），让你可以
 
 <Badge type="tip" text="Pro" /> 多用户管理功能需要 Pro 授权。
 
-![用户管理：角色与状态筛选、账号操作及权限说明](/images/ui/user-management.jpg)
+![用户管理：角色与状态筛选、账号操作及权限说明](/images/ui/user-management.png)
 
 ## 角色与权限
 
@@ -72,6 +72,8 @@ MSM 当前提供四种用户角色：
 ## 个人设置
 
 每个用户都可以管理自己的个人信息：
+
+![个人中心：账号信息、显示名称、邮箱和修改密码](/images/ui/user-profile.png)
 
 ### 修改密码
 

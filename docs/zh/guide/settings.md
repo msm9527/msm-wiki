@@ -2,7 +2,7 @@
 
 系统设置集中管理运行参数、HTTPS、Pro 模块开关、外观、备份和更新。管理员可以修改系统级配置；其他角色能看到的标签和操作按权限减少。
 
-![系统管理：运行参数、HTTPS、组件开关与 API Token 入口](/images/ui/settings-system.jpg)
+![系统管理：运行参数、HTTPS 与 Pro 组件开关](/images/ui/settings-system.png)
 
 ## 页面标签
 
@@ -58,7 +58,7 @@ Mihomo Smart 也有独立的系统能力开关；是否可选还会检查 Pro �
 
 ## 外观设置
 
-![外观设置：主题、语言、菜单顺序与 Pro 视觉定制](/images/ui/settings-appearance.jpg)
+![外观设置：主题、语言、菜单顺序与 Pro 视觉定制](/images/ui/settings-appearance.png)
 
 - 简体中文与 English
 - 明亮、暗色和跟随系统主题
@@ -68,7 +68,7 @@ Mihomo Smart 也有独立的系统能力开关；是否可选还会检查 Pro �
 
 ## 备份恢复
 
-![备份恢复：创建、配置、管理与导入备份](/images/ui/settings-backup.jpg)
+![备份恢复：创建、配置、导入以及带版本快照的备份列表](/images/ui/settings-backup.png)
 
 备份可包含 MSM 数据库、MosDNS、Mihomo、Sing-Box 和其他模块配置。建议：
 
@@ -81,7 +81,7 @@ Mihomo Smart 也有独立的系统能力开关；是否可选还会检查 Pro �
 
 ## 系统更新
 
-![系统更新：更新通道、本体与组件更新、版本历史](/images/ui/settings-update.jpg)
+![系统更新：MSM 设置、更新前备份、组件版本和版本历史](/images/ui/settings-update.png)
 
 系统更新页管理：
 
@@ -96,9 +96,13 @@ Mihomo Smart 也有独立的系统能力开关；是否可选还会检查 Pro �
 
 API Token 入口位于 **系统设置 → 系统管理** 页面下方，而不是用户管理或授权管理页面。创建、修改和撤销 Token 需要管理员角色及许可证中的 API Token 管理能力。
 
+![标准版中的 API Token 管理能力提示](/images/ui/settings-api-token.png)
+
 Token 明文只应在创建后立即保存到受保护的密码库或 Secret 管理器；不要放入 Git、截图、日志或聊天记录。撤销 Token 后，使用它的自动化任务会立即失去访问能力。
 
 ## 重置系统
+
+![重置系统页：清除配置和用户数据并重新进入初始化](/images/ui/settings-reset.png)
 
 重置属于破坏性操作。执行前：
 
@@ -106,6 +110,8 @@ Token 明文只应在创建后立即保存到受保护的密码库或 Secret 管
 2. 记录当前端口、HTTPS、管理员和网络配置
 3. 确认外部 Tunnel、DNS、Agent 等资源是否需要单独清理
 4. 确认目标是重置当前 MSM 实例，而不是只修复某个模块
+
+页面当前只有一个 **重置系统** 操作。确认后会清除系统配置和用户数据并重新进入初始化，不能靠浏览器返回撤销；一般模块故障应先用诊断、日志、配置历史或选择性恢复处理。
 
 ## 配置生效边界
 

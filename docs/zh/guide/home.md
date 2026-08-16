@@ -2,7 +2,7 @@
 
 “远程回家”用于在家庭端的当前代理核心中创建公网入站，让外出设备通过公网 IP 或 DDNS 访问家庭局域网。Mihomo 与 Sing-Box 都使用同一个 **代理服务 → 远程回家** 页面。
 
-![远程回家：准备情况、快速网络配置与配置预览](/images/ui/proxy-remote-home.jpg)
+![远程回家：准备情况、快速网络配置与脱敏后的配置预览](/images/ui/proxy-remote-home.png)
 
 > 截图中的公网地址使用文档保留地址脱敏；请以页面对当前网络的实际检测结果为准。
 
@@ -55,6 +55,10 @@
 7. 先校验配置，再保存并应用，最后执行运行检查
 
 高级监听设置中可以修改监听器名称和监听地址；Shadowsocks 还可以选择加密方式和是否启用 UDP。`::` 会监听 IPv6，并在系统支持时接受 IPv4。
+
+![远程回家监听器：协议、监听端口、凭据和使用步骤](/images/ui/proxy-remote-home-listener.jpg)
+
+图中示例使用 Shadowsocks，因此路由器需要按页面提示映射 TCP 和 UDP。切换到 VLESS、Trojan、AnyTLS、Hysteria2 或 TUIC v5 后，表单和转发协议会变化，应重新阅读页面生成的步骤。
 
 ::: warning TLS 文件必须能被代理核心读取
 VLESS、Trojan、AnyTLS、Hysteria2 和 TUIC v5 的证书与私钥字段是服务端文件路径，不是把 PEM 正文粘贴到表单。容器安装时，这些路径必须位于代理核心容器实际可见的位置。客户端的 SNI 应与证书域名匹配；只有明确理解风险时才启用“跳过证书验证”。
