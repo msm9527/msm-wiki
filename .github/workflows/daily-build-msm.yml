@@ -24,6 +24,7 @@ concurrency:
 env:
   TZ: Asia/Shanghai
   GO_VERSION: "1.26.6"
+  REMOTE_VERSION_RETENTION: "3"
 
 jobs:
   prepare:
@@ -991,6 +992,9 @@ jobs:
     if: needs.prepare.outputs.skip != 'true'
     runs-on: ubuntu-24.04
     steps:
+      - name: Checkout 当前仓库（msm-wiki）用于部署脚本
+        uses: actions/checkout@v4
+
       - name: 下载构建产物
         uses: actions/download-artifact@v4
         with:
@@ -1023,7 +1027,7 @@ jobs:
 
           VERSION="${{ needs.prepare.outputs.version }}"
           CHANNEL="${{ needs.prepare.outputs.channel }}"
-          RSYNC_SSH="ssh -o StrictHostKeyChecking=no"
+          RETENTION_COUNT="${{ env.REMOTE_VERSION_RETENTION }}"
 
           # 仅使用 DEPLOY_SERVERS 多行配置：host,user,password,target_path[,port]
           servers=()
@@ -1058,18 +1062,32 @@ jobs:
             if [ "${CHANNEL}" = "beta" ]; then
               TARGET="${TARGET}/beta"
             fi
-            PORT_OPT=""
+            TARGET_VERSION="${TARGET}/${VERSION}"
+            SSH_ARGS=(-o StrictHostKeyChecking=no)
+            RSYNC_SSH="ssh -o StrictHostKeyChecking=no"
             if [ -n "${port}" ]; then
-              PORT_OPT="-p ${port}"
+              SSH_ARGS+=(-p "${port}")
+              printf -v port_quoted '%q' "${port}"
+              RSYNC_SSH+=" -p ${port_quoted}"
             fi
 
-            sshpass -p "${pass}" ssh -o StrictHostKeyChecking=no ${PORT_OPT} "${user}@${host}" "mkdir -p \"${TARGET}\" \"${TARGET}/${VERSION}\""
+            printf -v target_quoted '%q' "${TARGET}"
+            printf -v target_version_quoted '%q' "${TARGET_VERSION}"
+            printf -v channel_quoted '%q' "${CHANNEL}"
+            printf -v retention_quoted '%q' "${RETENTION_COUNT}"
+            printf -v version_quoted '%q' "${VERSION}"
 
-            sshpass -p "${pass}" rsync -avz --no-perms --no-owner --no-group -e "${RSYNC_SSH} ${PORT_OPT}" --rsync-path="mkdir -p \"${TARGET}\" && rsync" upload/.version "${user}@${host}:${TARGET}/"
-            sshpass -p "${pass}" rsync -avz --no-perms --no-owner --no-group -e "${RSYNC_SSH} ${PORT_OPT}" --rsync-path="mkdir -p \"${TARGET}/${VERSION}\" && rsync" upload/${VERSION}/ "${user}@${host}:${TARGET}/${VERSION}/"
+            sshpass -p "${pass}" ssh "${SSH_ARGS[@]}" "${user}@${host}" "mkdir -p -- ${target_quoted} ${target_version_quoted}"
+
+            sshpass -p "${pass}" rsync -avz --no-perms --no-owner --no-group -e "${RSYNC_SSH}" --rsync-path="mkdir -p \"${TARGET}\" && rsync" upload/.version "${user}@${host}:${TARGET}/"
+            sshpass -p "${pass}" rsync -avz --no-perms --no-owner --no-group -e "${RSYNC_SSH}" --rsync-path="mkdir -p \"${TARGET_VERSION}\" && rsync" upload/${VERSION}/ "${user}@${host}:${TARGET_VERSION}/"
+
+            sshpass -p "${pass}" ssh "${SSH_ARGS[@]}" "${user}@${host}" \
+              "bash -s -- ${target_quoted} ${channel_quoted} ${retention_quoted} ${version_quoted}" \
+              < .github/scripts/prune-remote-versions.sh
           done
 
-          echo "✅ 已将 .version 和打包产物上传至所有服务器"
+          echo "✅ 已将 .version 和打包产物上传至所有服务器，每个通道仅保留最近 ${RETENTION_COUNT} 个版本"
           echo "使用方式:"
           echo "  docker pull msmbox/msm:${{ needs.prepare.outputs.docker_channel_tag }}"
           echo "  docker run -d -p 7777:7777 msmbox/msm:${{ needs.prepare.outputs.docker_channel_tag }}"
