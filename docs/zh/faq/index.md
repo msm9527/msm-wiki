@@ -13,8 +13,10 @@
 
 ## 3. 代理服务无法启动
 
-- 只可启用 Sing-box 或 Clash 其中一个
-- 检查配置文件格式与路径
+- 同一时刻只应由 Mihomo 或 Sing-Box 其中一个本地核心接管代理网络
+- 从 **代理服务 → 概览** 使用安全切换，不要手工启停两个核心模拟切换
+- 检查切换进度中的失败阶段、配置校验与目标核心日志
+- Smart 核心还要检查 Pro 的 `proxy.manage` 能力和功能开关
 
 ## 4. 找不到日志
 
@@ -57,9 +59,34 @@
 或DNS服务→规则管理→在线分流中添加国外专属域名规则
 <img width="2501" height="417" alt="image" src="https://github.com/user-attachments/assets/55832bcd-8d51-475a-9b0d-f0512d507046" /><img width="758" height="788" alt="image" src="https://github.com/user-attachments/assets/7b800fb6-73e1-4dc0-ac01-1c4d6088c6fc" />
 
+## 9. 为什么 Pro 模块没有出现在侧边栏？
+
+- 检查授权管理页是否包含所需能力
+- 检查 **系统设置 → 功能开关**
+- 确认当前用户角色至少有查看权限
+- 退出后重新登录，刷新许可证与功能状态
+
+域名服务、穿透与组网、Docker 管理和网络工具都会同时检查模块开关与 Pro。
+
+## 10. 回家页面本机检查通过，为什么外网仍连不上？
+
+本机检查只验证配置、核心服务和所选协议要求的本地 TCP / UDP 监听，无法证明公网可达。还需从家庭网络外检查公网 IP / CGNAT、对应协议的端口转发、主机防火墙和 Docker 端口映射。详见 [远程回家](/zh/guide/home)。
+
+## 11. Cloudflare 网页穿透和云端私网有什么区别？
+
+- 网页穿透用于浏览器访问 HTTP / HTTPS 服务
+- 云端私网用于 SSH、远程桌面、数据库和 LAN 地址
+
+两者是独立通道，可以同时运行。详见 [Cloudflare 穿透与组网](/zh/guide/cloudflare)。
+
+## 12. Docker Agent 节点应该用哪种连接方式？
+
+子节点不方便开放入站端口时优先使用主动回连；已有可信 HTTPS 地址和明确网络边界时可用直连。生产环境不要启用明文 HTTP 兼容开关。详见 [Docker 管理](/zh/guide/docker-center)。
+
 ## 更多帮助
 
 - [系统诊断](/zh/guide/diagnostics) - 运行 `msm doctor` 自动检测常见问题
 - [故障排查](/zh/faq/troubleshooting) - 详细的故障排查步骤
 - [CLI 命令参考](/zh/guide/cli) - 命令行工具使用
+- [使用指南总览](/zh/guide/basic-config) - 查找新版功能入口
 - [Telegram 交流群](https://t.me/msm_home) - 社区互助交流

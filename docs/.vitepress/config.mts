@@ -5,7 +5,6 @@ export default defineConfig({
   title: "MSM Wiki",
   description: "MSM Manager - 统一管理平台文档",
   base: '/msm-wiki/',
-  ignoreDeadLinks: true,
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/msm-wiki/logo/favicon.svg' }],
@@ -25,10 +24,20 @@ export default defineConfig({
       { text: '路由器接入', link: '/zh/guide/router-integration' },
       { text: '界面功能', link: '/zh/guide/basic-config' },
       {
+        text: '扩展功能',
+        items: [
+          { text: '域名服务', link: '/zh/guide/domain-services' },
+          { text: '穿透与组网', link: '/zh/guide/cloudflare' },
+          { text: '自建私网', link: '/zh/guide/networking' },
+          { text: 'Docker 管理', link: '/zh/guide/docker-center' },
+          { text: '网络工具', link: '/zh/guide/network-tools' }
+        ]
+      },
+      {
         text: '场景与进阶',
         items: [
           { text: 'OpenWrt 进阶', link: '/zh/guide/openwrt-advanced' },
-          { text: '回家配置', link: '/zh/guide/home' }
+          { text: '远程回家', link: '/zh/guide/home' }
         ]
       },
       {
@@ -89,8 +98,9 @@ export default defineConfig({
             { text: '使用指南总览', link: '/zh/guide/basic-config' },
             { text: '仪表盘', link: '/zh/guide/dashboard' },
             { text: 'DNS 服务（MosDNS）', link: '/zh/guide/mosdns' },
-            { text: '代理服务（Mihomo）', link: '/zh/guide/mihomo' },
-            { text: '代理服务（Sing-Box）', link: '/zh/guide/singbox' },
+            { text: '代理服务', link: '/zh/guide/proxy' },
+            { text: 'Mihomo 核心', link: '/zh/guide/mihomo' },
+            { text: 'Sing-Box 核心', link: '/zh/guide/singbox' },
             { text: '设备管理', link: '/zh/guide/device-management' },
             { text: '配置管理', link: '/zh/guide/config-editor' },
             { text: '日志查看', link: '/zh/guide/logs' }
@@ -101,13 +111,25 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'OpenWrt 进阶', link: '/zh/guide/openwrt-advanced' },
-            { text: '回家配置', link: '/zh/guide/home' }
+            { text: '远程回家', link: '/zh/guide/home' }
+          ]
+        },
+        {
+          text: 'Pro 扩展功能',
+          collapsed: false,
+          items: [
+            { text: '域名服务', link: '/zh/guide/domain-services' },
+            { text: 'Cloudflare 穿透与组网', link: '/zh/guide/cloudflare' },
+            { text: '自建私网', link: '/zh/guide/networking' },
+            { text: 'Docker 管理', link: '/zh/guide/docker-center' },
+            { text: '网络工具', link: '/zh/guide/network-tools' }
           ]
         },
         {
           text: '系统与维护',
           collapsed: true,
           items: [
+            { text: '进程管理', link: '/zh/guide/process' },
             { text: '用户管理', link: '/zh/guide/user-management' },
             { text: '系统诊断', link: '/zh/guide/diagnostics' },
             { text: '系统设置', link: '/zh/guide/settings' },
