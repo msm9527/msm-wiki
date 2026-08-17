@@ -23,6 +23,7 @@ concurrency:
 
 env:
   TZ: Asia/Shanghai
+  GO_VERSION: "1.26.6"
 
 jobs:
   prepare:
@@ -396,7 +397,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.25"
+          go-version: ${{ env.GO_VERSION }}
           check-latest: true
           cache: true
           cache-dependency-path: backend/go.sum
