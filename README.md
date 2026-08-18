@@ -8,8 +8,8 @@
   <p>Mosdns Singbox Manager - 统一管理平台文档</p>
 
   <p>
-    <a href="https://doc.msmbox.net/zh/">中文文档</a> •
-    <a href="https://doc.msmbox.net/en/">English Docs</a>
+    <a href="https://doc.msmbox.net/zh/">官方文档</a> •
+    <a href="https://doc.msmbox.net/zh/legal/">使用与合规</a>
   </p>
 </div>
 
@@ -21,8 +21,18 @@
 
 ## 🌐 在线访问
 
-- **中文文档**: https://doc.msmbox.net/zh/
-- **English Docs**: https://doc.msmbox.net/en/
+- **官方文档**: https://doc.msmbox.net/zh/
+- **使用与合规**: https://doc.msmbox.net/zh/legal/
+
+## ⚖️ 产品与使用边界
+
+MSM 是用于管理用户自有或已获授权设备的自托管网络与系统管理平台。项目不运营代理节点、不提供违法内容，也不授权将 DNS、代理、隧道、端口扫描或远程管理能力用于未授权访问、侵害他人权益或其他违法活动。
+
+- [使用与合规中心](https://doc.msmbox.net/zh/legal/)
+- [合规使用规范](https://doc.msmbox.net/zh/legal/acceptable-use.html)
+- [隐私与数据安全](https://doc.msmbox.net/zh/legal/privacy-security.html)
+- [免责声明](https://doc.msmbox.net/zh/legal/disclaimer.html)
+- [知识产权说明](https://doc.msmbox.net/zh/legal/intellectual-property.html)
 
 ## 🚀 本地开发
 
@@ -61,16 +71,15 @@ msm-wiki/
 │   │   └── config.mts          # VitePress 配置
 │   ├── public/
 │   │   └── logo/               # Logo 资源
-│   ├── zh/                     # 中文文档
-│   │   ├── index.md            # 首页
-│   │   ├── introduction/       # 介绍
-│   │   ├── guide/              # 用户指南
-│   │   ├── api/                # API 文档
-│   │   ├── deployment/         # 部署指南
-│   │   ├── development/        # 开发指南
-│   │   └── faq/                # 常见问题
-│   └── en/                     # 英文文档
-│       └── ...                 # 同中文结构
+│   └── zh/                     # 中文文档
+│       ├── index.md            # 首页
+│       ├── introduction/       # 介绍
+│       ├── guide/              # 用户指南
+│       ├── api/                # API 文档
+│       ├── deployment/         # 部署指南
+│       ├── development/        # 开发指南
+│       ├── faq/                # 常见问题
+│       └── legal/              # 使用、隐私、免责与知识产权
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml          # GitHub Actions 部署配置
@@ -137,7 +146,6 @@ msm-wiki/
 
 - 使用 Markdown 格式
 - 中文文档放在 `docs/zh/` 目录
-- 英文文档放在 `docs/en/` 目录
 - 图片资源放在 `docs/public/` 目录
 - 遵循现有的目录结构和命名规范
 - 保持文档简洁清晰，易于理解

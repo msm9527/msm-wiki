@@ -787,6 +787,8 @@ show_info() {
     echo "配置目录: ${MSM_CONFIG_DIR}"
     echo ""
     echo "文档地址: https://doc.msmbox.net/zh/"
+    echo "使用与合规: https://doc.msmbox.net/zh/legal/"
+    echo "请仅在自有或已获授权的设备与网络中使用 MSM。"
     echo "=========================================="
 }
 

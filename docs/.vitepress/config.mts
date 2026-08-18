@@ -1,18 +1,42 @@
 import { defineConfig } from 'vitepress'
 
+const SITE_URL = 'https://doc.msmbox.net'
+
+function canonicalUrl(relativePath: string) {
+  const publicPath = relativePath
+    .replace(/(^|\/)index\.md$/, '$1')
+    .replace(/\.md$/, '.html')
+
+  return new URL(publicPath, `${SITE_URL}/`).toString()
+}
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "MSM Wiki",
   description: "MSM Manager - 统一管理平台文档",
   base: '/',
+  sitemap: {
+    hostname: SITE_URL
+  },
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo/favicon.svg' }],
     ['meta', { name: 'theme-color', content: '#2563eb' }],
-    ['meta', { name: 'og:type', content: 'website' }],
-    ['meta', { name: 'og:locale', content: 'zh_CN' }],
-    ['meta', { name: 'og:site_name', content: 'MSM Wiki' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:locale', content: 'zh_CN' }],
+    ['meta', { property: 'og:site_name', content: 'MSM Wiki' }],
+    ['meta', { property: 'og:image', content: `${SITE_URL}/logo/logo-square.svg` }],
+    ['meta', { name: 'twitter:card', content: 'summary' }],
   ],
+
+  transformPageData(pageData) {
+    const pageUrl = canonicalUrl(pageData.relativePath)
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push(
+      ['link', { rel: 'canonical', href: pageUrl }],
+      ['meta', { property: 'og:url', content: pageUrl }]
+    )
+  },
 
   themeConfig: {
     logo: '/logo/logo-square.svg',
@@ -55,6 +79,16 @@ export default defineConfig({
         items: [
           { text: '正式版', link: '/zh/guide/releases' },
           { text: 'Beta 版', link: '/zh/guide/releases-beta' }
+        ]
+      },
+      {
+        text: '合规与权益',
+        items: [
+          { text: '使用与合规中心', link: '/zh/legal/' },
+          { text: '合规使用规范', link: '/zh/legal/acceptable-use' },
+          { text: '隐私与数据安全', link: '/zh/legal/privacy-security' },
+          { text: '免责声明', link: '/zh/legal/disclaimer' },
+          { text: '知识产权', link: '/zh/legal/intellectual-property' }
         ]
       }
     ],
@@ -149,6 +183,17 @@ export default defineConfig({
             { text: 'FAQ', link: '/zh/faq/' },
             { text: '故障排查', link: '/zh/faq/troubleshooting' }
           ]
+        },
+        {
+          text: '法律与合规',
+          collapsed: false,
+          items: [
+            { text: '使用与合规中心', link: '/zh/legal/' },
+            { text: '合规使用规范', link: '/zh/legal/acceptable-use' },
+            { text: '隐私与数据安全', link: '/zh/legal/privacy-security' },
+            { text: '免责声明', link: '/zh/legal/disclaimer' },
+            { text: '知识产权', link: '/zh/legal/intellectual-property' }
+          ]
         }
       ]
     },
@@ -165,8 +210,8 @@ export default defineConfig({
     ],
 
     footer: {
-      message: 'MSM - 统一管理平台 | <a href="https://t.me/msm_home" target="_blank">Telegram 交流群</a> · <a href="https://t.me/msmwiki" target="_blank">Telegram 频道</a>',
-      copyright: 'Copyright © 2026-present MSM Project'
+      message: '<a href="/zh/legal/">使用与合规</a> · <a href="/zh/legal/privacy-security">隐私与安全</a> · <a href="/zh/legal/disclaimer">免责声明</a> · <a href="/zh/legal/intellectual-property">知识产权</a>',
+      copyright: 'Copyright © 2026-present MSM Project. All rights reserved.'
     },
 
     search: {

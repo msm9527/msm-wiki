@@ -250,6 +250,7 @@ GET /api/v1/events/logs/:service
 
 ## 安全建议
 
+- 只将 API 用于自有或已获授权的设备、网络和账户；集成方仍需自行满足适用的授权、隐私与数据保护要求
 - 使用 HTTPS
 - Token 只授予所需角色与能力
 - 不把 Token 放入 URL、日志或仓库
@@ -260,6 +261,8 @@ GET /api/v1/events/logs/:service
 
 ## 下一步
 
+- [合规使用规范](/zh/legal/acceptable-use)
+- [隐私与数据安全](/zh/legal/privacy-security)
 - [授权管理](/zh/guide/license)
 - [统一代理服务](/zh/guide/proxy)
 - [系统诊断](/zh/guide/diagnostics)

@@ -788,6 +788,17 @@ jobs:
 
             ---
 
+            ## ⚖️ 使用与合规
+
+            MSM 是用于管理用户自有或已获授权设备的自托管管理平台，不提供代理节点、订阅或违法内容。请勿用于未授权访问、侵权或其他违法活动。
+
+            - [合规使用规范](https://doc.msmbox.net/zh/legal/acceptable-use.html)
+            - [隐私与数据安全](https://doc.msmbox.net/zh/legal/privacy-security.html)
+            - [免责声明](https://doc.msmbox.net/zh/legal/disclaimer.html)
+            - [知识产权说明](https://doc.msmbox.net/zh/legal/intellectual-property.html)
+
+            ---
+
             ## 📚 文档与支持
 
             - 📖 [完整文档](https://doc.msmbox.net/)

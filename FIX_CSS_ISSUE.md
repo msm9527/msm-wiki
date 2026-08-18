@@ -43,7 +43,7 @@ export default defineConfig({
 等待 GitHub Actions 部署完成（约 2-3 分钟），然后访问：
 
 - https://doc.msmbox.net/zh/
-- https://doc.msmbox.net/en/
+- https://doc.msmbox.net/zh/legal/
 
 现在应该可以看到完整的 UI 和样式了。
 
