@@ -122,8 +122,9 @@ docker run -d \
 ## 📚 文档
 
 - 📖 [完整文档](https://doc.msmbox.net/)
-- 🚀 [快速开始](https://doc.msmbox.net/zh/guide/getting-started.html)
+- 🚀 [快速开始](https://doc.msmbox.net/zh/guide/first-use.html)
 - 💾 [安装部署](https://doc.msmbox.net/zh/guide/install.html)
+- ⚖️ [使用与合规](https://doc.msmbox.net/zh/legal/)
 
 ## 🔗 相关链接
 

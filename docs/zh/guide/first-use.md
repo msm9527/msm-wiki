@@ -2,6 +2,16 @@
 
 这页帮助你完成初始化并跑通基础的 DNS + 代理链路。安装方式见 [安装总览](/zh/guide/install)，主路由配置见 [路由器集成](/zh/guide/router-integration)。
 
+## 0. 确认授权、备份与使用边界
+
+在继续前，请确认：
+
+- 当前 MSM 主机、主路由、域名、Docker 主机和相关数据属于你，或已获得明确管理授权
+- 已备份现有 DNS、DHCP、路由、防火墙和代理配置
+- 保留不经 MSM 的本地管理入口，断网时仍能登录主路由或主机回滚
+- 使用的订阅、节点、规则、软件与外部服务来源合法且可信
+- 已阅读 [合规使用规范](/zh/legal/acceptable-use)、[隐私与数据安全](/zh/legal/privacy-security) 和 [免责声明](/zh/legal/disclaimer)
+
 ## 1. 访问系统
 
 默认访问：

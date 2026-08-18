@@ -104,6 +104,7 @@
 1. Beta 版标签格式：`beta-x.x.x`
 2. Docker 标签格式：`msmbox/msm:beta-x.x.x` 与 `msmbox/msm:beta-latest`
 3. 若需稳定环境，请使用[稳定版发布](/zh/guide/releases)
+4. 请仅在自有或已获授权的环境中测试，并在安装前阅读[使用与合规](/zh/legal/)
 
 ## 一键安装
 

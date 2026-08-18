@@ -537,6 +537,7 @@
 
 ## 💬 获取帮助
 
+- ⚖️ [使用与合规](/zh/legal/)：安装或升级前了解授权使用、数据安全、免责与知识产权边界
 - 📘 [常见问题](/zh/faq/)：排查常见使用问题
 - 🔧 [故障排查](/zh/faq/troubleshooting)：定位复杂故障
 - 🐛 [GitHub Issues](https://github.com/msm9527/msm-wiki/issues)：报告 Bug 或提交功能需求

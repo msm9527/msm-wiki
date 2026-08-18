@@ -90,8 +90,8 @@ git push origin main
 
 部署成功后，可以通过以下地址访问：
 
-- **中文文档**: https://doc.msmbox.net/zh/
-- **English Docs**: https://doc.msmbox.net/en/
+- **官方文档**: https://doc.msmbox.net/zh/
+- **使用与合规**: https://doc.msmbox.net/zh/legal/
 
 ## 本地开发
 
@@ -127,7 +127,7 @@ npm run docs:preview
 
 ### 1. 修改文档内容
 
-编辑 `docs/zh/` 或 `docs/en/` 目录下的 Markdown 文件。
+编辑 `docs/zh/` 目录下的 Markdown 文件。
 
 ### 2. 本地预览
 
@@ -155,8 +155,6 @@ git push origin main
 # 中文页面
 touch docs/zh/guide/new-page.md
 
-# 英文页面
-touch docs/en/guide/new-page.md
 ```
 
 ### 2. 编写内容

@@ -1,6 +1,7 @@
 {
   "name": "msm-wiki",
   "version": "1.0.0",
+  "private": true,
   "description": "MSM Project Wiki - Documentation for MSM Manager",
   "type": "module",
   "scripts": {
@@ -15,11 +16,11 @@
   },
   "keywords": ["msm", "mosdns", "wiki", "documentation"],
   "author": "MSM Team",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/msm9527/msm-wiki/issues"
   },
-  "homepage": "https://github.com/msm9527/msm-wiki#readme",
+  "homepage": "https://doc.msmbox.net/",
   "devDependencies": {
     "vitepress": "^1.6.4",
     "vue": "^3.5.26"

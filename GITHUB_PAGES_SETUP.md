@@ -50,8 +50,8 @@ git push origin main
 ### 第三步：访问 Wiki
 
 部署成功后，访问：
-- https://doc.msmbox.net/zh/ （中文）
-- https://doc.msmbox.net/en/ （英文）
+- https://doc.msmbox.net/zh/ （官方文档）
+- https://doc.msmbox.net/zh/legal/ （使用与合规）
 
 ## 常见问题
 

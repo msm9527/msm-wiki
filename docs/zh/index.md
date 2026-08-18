@@ -18,6 +18,9 @@ hero:
     - theme: alt
       text: 🧭 功能地图
       link: /zh/guide/basic-config
+    - theme: alt
+      text: 使用与合规
+      link: /zh/legal/
 
 features:
   - icon: 🌐
@@ -45,6 +48,10 @@ features:
 MSM 从旁路由 DNS 与透明代理管理出发，现在把家庭网络常用的代理、域名发布、远程接入、Docker 运维和网络诊断放进了同一个 Web 管理平台。
 
 基础旁路由链路仍然只需要三件事：安装 MSM、让主路由把 DNS 指向 MSM、再把实际启用的 FakeIP IPv4 / IPv6 网段路由回 MSM。
+
+::: info 中性管理工具
+MSM 只提供用户自有或已授权环境的网络与系统管理能力，不运营代理节点、不提供违法内容，也不为未授权访问提供背书。使用前请阅读 [使用与合规中心](/zh/legal/)。
+:::
 
 ## 核心使用路径
 
