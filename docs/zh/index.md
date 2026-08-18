@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "MSM"
   text: "家庭网络统一管理平台"
-  tagline: 统一管理 MosDNS、Mihomo、Sing-Box、域名发布、远程组网与 Docker 资源
+  tagline: 统一管理 MosDNS、Clash、Sing-Box、域名发布、远程组网与 Docker 资源
   image:
     src: /logo/logo-square.svg
     alt: MSM Logo
@@ -28,7 +28,7 @@ features:
     details: 管理 DNS 规则、客户端策略、查询日志以及 FakeIP IPv4 / IPv6 链路
   - icon: 🔄
     title: 统一代理服务
-    details: 在官方 Mihomo、Mihomo Smart 与 Sing-Box 之间安全切换，使用同一套管理入口
+    details: 在 Clash Meta、Clash Smart 与 Sing-Box 之间安全切换，使用同一套管理入口
   - icon: 🏠
     title: 回家与私有组网
     details: 提供双核心多协议远程回家、Cloudflare 私网以及 EasyTier、Tailscale、WireGuard 自建私网
@@ -49,8 +49,8 @@ MSM 从旁路由 DNS 与透明代理管理出发，现在把家庭网络常用�
 
 基础旁路由链路仍然只需要三件事：安装 MSM、让主路由把 DNS 指向 MSM、再把实际启用的 FakeIP IPv4 / IPv6 网段路由回 MSM。
 
-::: info 中性管理工具
-MSM 只提供用户自有或已授权环境的网络与系统管理能力，不运营代理节点、不提供违法内容，也不为未授权访问提供背书。使用前请阅读 [使用与合规中心](/zh/legal/)。
+::: info 只提供管理能力
+MSM 是面向用户自有或已授权环境的网络与系统管理平台。Clash 功能只负责管理用户自行提供且有权使用的内核与配置；项目不提供节点、订阅、网络接入、内容分发或其他违法违规服务，也不为未授权访问提供授权或背书。使用前请阅读 [使用与合规中心](/zh/legal/)。
 :::
 
 ## 核心使用路径

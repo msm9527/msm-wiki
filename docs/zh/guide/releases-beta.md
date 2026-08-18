@@ -8,7 +8,7 @@
 
 以下能力已经进入 `dev`，但 GitHub 当前最新 Beta Release 仍是 `beta-1.2.6`。它们不代表已有同名可下载版本；测试时以具体构建提交和页面实际状态为准。
 
-- 统一代理服务强化跨 Mihomo / Sing-Box 安全切换、配置迁移、网络恢复和就绪验证
+- 统一代理服务强化跨 Clash / Sing-Box 安全切换、配置迁移、网络恢复和就绪验证
 - 远程回家扩展为 Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2、TUIC v5 六种协议
 - 新增 EasyTier、Tailscale / Headscale、WireGuard 三引擎自建私网
 - 网络工具与 Docker 管理重构为运维控制台，并强化查看者 / 操作员权限边界
@@ -30,10 +30,10 @@
 
 ### ✨ 新增（Added）
 - License 三层连接兜底（直连/DNS/SOCKS5）
-- Mihomo 连接页改用 WebSocket 实时流
+- Clash 连接页改用 WebSocket 实时流
 - 代理管理页支持内联编辑订阅与节点
 - 规则页集成拖拽排序与依赖校验
-- 新增 Mihomo API 错误日志统一处理
+- 新增 Clash API 错误日志统一处理
 - 日志节流功能，抑制重复信息
 - MosDNS 高级模式状态持久化
 - 前端界面多语言翻译支持
@@ -47,7 +47,7 @@
 ### 🐛 修复（Fixed）
 - 修复组件更新失败重试风暴问题
 - 修复 nftables fd 越界导致崩溃
-- 修复 Mihomo TUN 配置回放丢失问题
+- 修复 Clash TUN 配置回放丢失问题
 - 修复 Linux/macOS TUN 自愈与残留清理
 - 修复 fakeip 路由丢失后静默失效
 - 修复 HTTP/HTTPS 切换后地址不同步

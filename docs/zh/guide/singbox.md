@@ -13,7 +13,7 @@ MSM 当前使用 reF1nd Sing-Box 核心。日常操作先看 [统一代理服务
 - TUN 与通用代理参数
 - 完整 `config.json` 原始编辑、校验和应用
 - Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2、TUIC v5 远程回家入站
-- 与 Mihomo 之间的事务化切换
+- 与 Clash 之间的事务化切换
 
 不同核心的原生模型并不完全相同。界面会标记 Sing-Box 不支持的 Provider 类型、规则集格式或字段；保存时不会伪造这些能力。
 
@@ -49,7 +49,7 @@ MSM 会把统一编辑器中的 Provider、代理和规则映射到 Sing-Box 的
 
 ## 远程回家
 
-进入 **代理服务 → 远程回家** 后，MSM 会按所选协议在当前 `config.json` 中维护 inbound，并生成 Mihomo 客户端 YAML。除 Shadowsocks 外的协议需要 TLS 证书与私钥；VLESS 和 TUIC v5 还使用 UUID。保存并应用前会验证完整 JSON；启动失败时会恢复原配置并尝试恢复旧运行状态。
+进入 **代理服务 → 远程回家** 后，MSM 会按所选协议在当前 `config.json` 中维护 inbound，并生成 Clash 客户端 YAML。除 Shadowsocks 外的协议需要 TLS 证书与私钥；VLESS 和 TUIC v5 还使用 UUID。保存并应用前会验证完整 JSON；启动失败时会恢复原配置并尝试恢复旧运行状态。
 
 详细步骤见 [远程回家](/zh/guide/home)。
 
@@ -73,6 +73,6 @@ MSM 会把统一编辑器中的 Provider、代理和规则映射到 Sing-Box 的
 ## 下一步
 
 - [统一代理服务](/zh/guide/proxy)
-- [Mihomo 核心](/zh/guide/mihomo)
+- [Clash 管理](/zh/guide/clash)
 - [远程回家](/zh/guide/home)
 - [配置管理](/zh/guide/config-editor)

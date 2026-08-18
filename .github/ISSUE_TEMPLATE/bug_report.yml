@@ -75,7 +75,7 @@ body:
         - label: 前端（页面/交互）
         - label: MosDNS
         - label: SingBox
-        - label: Mihomo
+        - label: Clash
         - label: 其他/不确定
   - type: textarea
     id: what-happened
@@ -117,7 +117,7 @@ body:
     id: config
     attributes:
       label: 相关配置（可选，可脱敏）
-      description: 如与 MosDNS/SingBox/Mihomo 配置相关，请粘贴最小必要片段
+      description: 如与 MosDNS/SingBox/Clash 配置相关，请粘贴最小必要片段
       render: yaml
     validations:
       required: false

@@ -48,9 +48,9 @@ docker run -d \
 | 7777 | TCP | Web 管理界面 |
 | 53 | UDP/TCP | DNS 服务 (MosDNS) |
 | 1053 | UDP/TCP | DNS 备用端口 |
-| 7890 | TCP | HTTP 代理 (SingBox/Mihomo) |
-| 7891 | TCP | SOCKS5 代理 (SingBox/Mihomo) |
-| 7892 | TCP | 混合代理端口 (SingBox/Mihomo) |
+| 7890 | TCP | HTTP 代理 (SingBox/Clash) |
+| 7891 | TCP | SOCKS5 代理 (SingBox/Clash) |
+| 7892 | TCP | 混合代理端口 (SingBox/Clash) |
 | 6666 | TCP | 管理端口 |
 
 ## 环境变量

@@ -961,7 +961,7 @@ jobs:
           tags: msmbox/msm:${{ needs.prepare.outputs.version }},msmbox/msm:${{ needs.prepare.outputs.docker_channel_tag }}
           labels: |
             org.opencontainers.image.title=MSM
-            org.opencontainers.image.description=Mosdns Singbox Mihomo Manager
+            org.opencontainers.image.description=MosDNS Sing-Box Clash Manager
             org.opencontainers.image.version=${{ needs.prepare.outputs.version }}
             org.opencontainers.image.source=https://github.com/msm9527/msm
             org.opencontainers.image.url=https://doc.msmbox.net/

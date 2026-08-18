@@ -63,7 +63,7 @@ curl -H "Authorization: Bearer $TOKEN" \
 | `/monitor` | 系统、硬件、资源和网络监控 |
 | `/mosdns` | DNS 统计、规则、客户端、日志、配置和版本 |
 | `/proxy/controller` | 当前活动代理核心的统一控制接口 |
-| `/mihomo` | Mihomo 特有版本、配置和回家接口 |
+| `/mihomo` | Clash 特有版本、配置和回家接口；路径保留内部技术标识 |
 | `/singbox` | Sing-Box 特有版本、配置和回家接口 |
 | `/edge` | 域名服务、DDNS、证书、反向代理和发布工作流 |
 | `/cloudflare/tunnel` | Cloudflare 网页穿透 |
@@ -81,7 +81,7 @@ curl -H "Authorization: Bearer $TOKEN" \
 
 ## 统一代理接口
 
-新客户端应优先使用 `/proxy/controller`，它会根据当前活动核心转发到 Mihomo 或 Sing-Box。
+新客户端应优先使用 `/proxy/controller`，它会根据当前活动核心转发到 Clash 或 Sing-Box。
 
 常用接口：
 
@@ -102,7 +102,7 @@ curl -H "Authorization: Bearer $TOKEN" \
 
 ### 远程回家
 
-Mihomo 与 Sing-Box 路径结构一致：
+Clash 与 Sing-Box 路径结构一致：
 
 ```text
 GET  /api/v1/{mihomo|singbox}/home-access
