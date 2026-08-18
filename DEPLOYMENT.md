@@ -57,6 +57,16 @@ git push origin main
 
 配置会自动保存，无需点击保存按钮。
 
+#### 步骤 5: 绑定自定义域名
+
+1. 在 Pages 设置的 **Custom domain** 中填写 `doc.msmbox.net`
+2. 在 DNS 服务商添加 `CNAME` 记录：`doc` 指向 `msm9527.github.io`
+3. 等待 DNS 检查通过后启用 **Enforce HTTPS**
+
+::: warning DNS 目标
+CNAME 必须直接指向 `msm9527.github.io`，不要填写 `msm9527.github.io/msm-wiki`。
+:::
+
 ### 3. 触发首次部署
 
 ```bash
@@ -80,8 +90,8 @@ git push origin main
 
 部署成功后，可以通过以下地址访问：
 
-- **中文文档**: https://msm9527.github.io/msm-wiki/zh/
-- **English Docs**: https://msm9527.github.io/msm-wiki/en/
+- **中文文档**: https://doc.msmbox.net/zh/
+- **English Docs**: https://doc.msmbox.net/en/
 
 ## 本地开发
 

@@ -1,17 +1,17 @@
-# 问题修复说明
+# 自定义域名资源路径说明
 
 ## 问题描述
 
-访问 https://msm9527.github.io/msm-wiki/zh/ 时，页面可以访问但没有任何 UI 和 CSS 样式。
+访问 https://doc.msmbox.net/zh/ 时，如果继续使用原来的 `/msm-wiki/` 子路径，CSS、JavaScript 和图片会请求错误地址。
 
 ## 问题原因
 
 VitePress 的 `base` 配置不正确。
 
-- **错误配置**: `base: '/'`
-- **正确配置**: `base: '/msm-wiki/'`
+- **错误配置**: `base: '/msm-wiki/'`
+- **正确配置**: `base: '/'`
 
-GitHub Pages 将项目部署在 `https://msm9527.github.io/msm-wiki/` 路径下，所以所有静态资源（CSS、JS、图片）的路径都需要加上 `/msm-wiki/` 前缀。
+GitHub Pages 现在使用独立域名 `https://doc.msmbox.net/`，站点直接部署在域名根路径，静态资源不再使用 `/msm-wiki/` 前缀。
 
 ## 修复内容
 
@@ -21,11 +21,10 @@ GitHub Pages 将项目部署在 `https://msm9527.github.io/msm-wiki/` 路径下�
 export default defineConfig({
   title: "MSM Wiki",
   description: "MSM Manager - 统一管理平台文档",
-  base: '/msm-wiki/',  // 修改这里
-  ignoreDeadLinks: true,
+  base: '/',  // 自定义域名使用根路径
 
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/msm-wiki/logo/favicon.svg' }],  // 修改这里
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo/favicon.svg' }],
     // ...
   ],
   // ...
@@ -43,8 +42,8 @@ export default defineConfig({
 
 等待 GitHub Actions 部署完成（约 2-3 分钟），然后访问：
 
-- https://msm9527.github.io/msm-wiki/zh/
-- https://msm9527.github.io/msm-wiki/en/
+- https://doc.msmbox.net/zh/
+- https://doc.msmbox.net/en/
 
 现在应该可以看到完整的 UI 和样式了。
 
@@ -64,27 +63,27 @@ export default defineConfig({
 
 ### 为什么需要 base 配置？
 
-当 VitePress 站点部署在子路径下时（如 `/msm-wiki/`），所有资源的引用路径都需要加上这个前缀：
+当 VitePress 站点部署在自定义域名根路径时，所有资源都应直接从根路径加载：
 
-- CSS: `/msm-wiki/assets/style.css`
-- JS: `/msm-wiki/assets/app.js`
-- 图片: `/msm-wiki/logo/logo.svg`
+- CSS: `/assets/style.css`
+- JS: `/assets/app.js`
+- 图片: `/logo/logo.svg`
+
+如果 `base` 仍配置为 `/msm-wiki/`，VitePress 会生成：
+- CSS: `/msm-wiki/assets/style.css` ❌ (404)
+- JS: `/msm-wiki/assets/app.js` ❌ (404)
 
 如果 `base` 配置为 `/`，VitePress 会生成：
-- CSS: `/assets/style.css` ❌ (404)
-- JS: `/assets/app.js` ❌ (404)
-
-如果 `base` 配置为 `/msm-wiki/`，VitePress 会生成：
-- CSS: `/msm-wiki/assets/style.css` ✅
-- JS: `/msm-wiki/assets/app.js` ✅
+- CSS: `/assets/style.css` ✅
+- JS: `/assets/app.js` ✅
 
 ### 本地开发
 
-本地开发时，访问 `http://localhost:5173/msm-wiki/` 即可看到正确的效果。
+本地开发时，访问 `http://localhost:5173/` 即可看到正确的效果。
 
 ### 自定义域名
 
-如果将来使用自定义域名（如 `wiki.example.com`），则需要将 `base` 改回 `/`。
+当前自定义域名为 `doc.msmbox.net`，GitHub Pages 中的 Custom domain 必须与此值保持一致。
 
 ## 总结
 

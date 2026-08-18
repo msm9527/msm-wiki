@@ -608,7 +608,7 @@ div[class*='language-'] pre {
 1. 首页: /Users/doumao/code/github/msm-wiki/.playwright-mcp/refactored-homepage.png
 2. 文档页: /Users/doumao/code/github/msm-wiki/.playwright-mcp/refactored-doc-page.png
 
-你可以在浏览器中访问 http://localhost:5173/msm-wiki/zh/ 查看实时效果。
+你可以在浏览器中访问 http://localhost:5173/zh/ 查看实时效果。
 
 🎯 当前效果特点
 
