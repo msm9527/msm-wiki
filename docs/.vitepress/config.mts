@@ -133,7 +133,7 @@ export default defineConfig({
             { text: '仪表盘', link: '/zh/guide/dashboard' },
             { text: 'DNS 服务（MosDNS）', link: '/zh/guide/mosdns' },
             { text: '代理服务', link: '/zh/guide/proxy' },
-            { text: 'Mihomo 核心', link: '/zh/guide/mihomo' },
+            { text: 'Clash 管理', link: '/zh/guide/clash' },
             { text: 'Sing-Box 核心', link: '/zh/guide/singbox' },
             { text: '设备管理', link: '/zh/guide/device-management' },
             { text: '配置管理', link: '/zh/guide/config-editor' },

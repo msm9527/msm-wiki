@@ -22,11 +22,13 @@ MSM 的能力分为基础网络链路、统一代理管理、远程接入、家�
 
 ### 多方案
 
-- 官方 Mihomo：Meta 稳定版或 Alpha 预览版
-- Mihomo Smart：专用核心、模板和策略组（Pro）
+- Clash Meta：Meta 稳定版或 Alpha 预览版
+- Clash Smart：专用核心、模板和策略组（Pro）
 - reF1nd Sing-Box
 
 三个方案使用统一的概览、节点、规则、连接、配置、日志和远程回家菜单。
+
+MSM 只提供上述核心和用户自有配置的管理能力，不提供节点、订阅、网络接入、内容分发或其他违法违规服务。
 
 ### 安全切换
 
@@ -50,7 +52,7 @@ MSM 的能力分为基础网络链路、统一代理管理、远程接入、家�
 
 ### 多协议远程回家
 
-- Mihomo 与 Sing-Box 双核心支持
+- Clash 与 Sing-Box 双核心支持
 - 支持 Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2 和 TUIC v5
 - 自动检测出口地址与家庭网段建议
 - 服务端配置与客户端 YAML 预览

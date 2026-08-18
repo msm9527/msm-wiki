@@ -1,79 +1,15 @@
-# Mihomo 核心
+---
+title: Clash 核心文档已迁移
+description: Clash 管理指南旧链接跳转页
+outline: false
+---
 
-Mihomo 是统一 **代理服务** 中的一类本地核心。日常节点、规则、连接和日志操作请从 [统一代理服务](/zh/guide/proxy) 开始；本页只说明 Mihomo 特有的选择与注意事项。
+<script setup>
+if (typeof window !== 'undefined') {
+  window.location.replace('/zh/guide/clash')
+}
+</script>
 
-::: tip 命名说明
-界面统一使用“代理服务”或“Mihomo”。命令、API、服务名和目录中仍可能出现内部标识 `mihomo`。
-:::
+# Clash 核心文档已迁移
 
-## 核心类型
-
-### 官方 Mihomo
-
-官方方案支持 Meta 稳定版和 Alpha 预览版。稳定版适合日常使用；Alpha 适合需要预览上游功能、且能够自行处理兼容问题的用户。
-
-### Mihomo Smart
-
-Smart 方案使用专用核心、模板和 Smart 策略组，需要：
-
-- 已激活 Pro
-- 当前账号具备 `proxy.manage` 能力
-- **系统设置 → 功能开关** 中启用 Mihomo Smart
-
-Smart 配置与官方 Meta / Alpha 配置并不等价。应通过 MSM 的方案切换完成迁移，不要手动替换核心文件。
-
-## Mihomo 可用能力
-
-- YAML 配置与在线校验
-- 订阅、节点、策略组和延迟测试
-- 规则、Rule Provider 与策略管理
-- 实时连接、流量、规则命中和手动断开
-- TUN、通用代理参数和高级设置
-- Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2、TUIC v5 远程回家监听器
-- 配置历史、差异和回滚（按授权能力开放）
-
-## 推荐流程
-
-1. 在 **代理服务 → 概览** 选择官方 Mihomo 或 Mihomo Smart
-2. 等待准备、迁移、网络、控制器和最终状态五个阶段完成
-3. 在 **代理节点** 更新订阅并测速
-4. 在 **规则管理** 检查规则与策略组
-5. 在 **连接管理** 验证真实流量
-6. 最后查看日志，确认没有持续报错
-
-## 配置注意事项
-
-- FakeIP 网段和 DNS 模式必须与 MosDNS、主路由静态路由保持一致
-- Smart 专用的策略字段不能直接用于 Meta / Alpha
-- 结构化编辑和原始 YAML 编辑混用后，应再次查看保存差异
-- 新版写入会尽量保留注释和顺序，但自动迁移仍可能重排相关结构
-- 不要让 Mihomo 与 Sing-Box 同时接管透明代理网络
-
-## 远程回家
-
-进入 **代理服务 → 远程回家** 后，MSM 会按所选协议在当前 Mihomo 配置中维护 listener，并生成对应的客户端 YAML。除 Shadowsocks 外的协议需要 TLS 证书与私钥；VLESS 和 TUIC v5 还使用 UUID。保存前会用当前核心校验完整配置，应用失败时会尝试恢复旧配置和原运行状态。
-
-详细步骤见 [远程回家](/zh/guide/home)。
-
-## 故障排查
-
-### 切换到 Smart 失败
-
-- 确认 Pro 和 `proxy.manage` 能力有效
-- 确认 Smart 功能开关已开启
-- 查看进度窗口是否提示二进制家族或模板不匹配
-- 检查日志中的配置字段兼容错误
-
-### 保存后无法启动
-
-- 先执行页面内配置校验
-- 查看最近核心日志
-- 使用配置历史回滚到上一个可用版本
-- 确认没有把 Smart 字段留在官方核心配置中
-
-## 下一步
-
-- [统一代理服务](/zh/guide/proxy)
-- [Sing-Box 核心](/zh/guide/singbox)
-- [远程回家](/zh/guide/home)
-- [日志查看](/zh/guide/logs)
+该地址保留用于兼容旧书签和历史链接。如果浏览器没有自动跳转，请访问 [Clash 管理](/zh/guide/clash)。

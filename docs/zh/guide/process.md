@@ -2,19 +2,21 @@
 
 进程管理集中展示 MSM 托管服务的运行状态，并提供启停与重启入口。代理核心切换、更新、回家配置和网络模块也会调用同一套运行时管理能力。
 
-![进程管理：Mihomo、MosDNS 与 Sing-Box 的状态和操作入口](/images/ui/process-management.png)
+![进程管理：Clash、MosDNS 与 Sing-Box 的状态和操作入口](/images/ui/process-management.png)
+
+> 服务卡片会显示实际进程标识 `mihomo`；它对应文档中的 **Clash** 管理方案，不是另一项服务。
 
 当前页面标题为 **托管服务**。每张服务卡片会显示运行状态和进程信息，并提供启动 / 停止、重启、服务设置和查看日志；实际按钮会随当前状态与账号权限变化。
 
-截图中 Mihomo 与 MosDNS 正在运行，Sing-Box 已停止，这是“DNS + 单一活动代理核心”的正常形态。PID 和运行时长只用于判断进程是否发生过重启。
+截图中 Clash 与 MosDNS 正在运行，Sing-Box 已停止，这是“DNS + 单一活动代理核心”的正常形态。PID 和运行时长只用于判断进程是否发生过重启。
 
 ## 主要服务
 
 | 服务 | 作用 | 注意事项 |
 |------|------|----------|
 | **MosDNS** | DNS 分流与缓存 | 停止后，把 DNS 指向 MSM 的客户端会解析失败 |
-| **Mihomo** | 当前选择为官方 / Smart Mihomo 时的代理核心 | 与 Sing-Box 不应同时接管透明代理 |
-| **Sing-Box** | 当前选择为 Sing-Box 时的代理核心 | 与 Mihomo 不应同时接管透明代理 |
+| **Clash** | 当前选择为 Clash Meta / Clash Smart 时的代理核心 | 与 Sing-Box 不应同时接管透明代理 |
+| **Sing-Box** | 当前选择为 Sing-Box 时的代理核心 | 与 Clash 不应同时接管透明代理 |
 
 Cloudflare 连接器、自建私网、域名反向代理和 Docker Agent 等运行时主要从各自专题页管理，是否同时出现在进程列表取决于当前版本和部署方式。
 
@@ -55,7 +57,7 @@ Cloudflare 连接器、自建私网、域名反向代理和 Docker Agent 等运�
 
 ## 代理核心切换不是普通重启
 
-不要通过“停止 Mihomo，再启动 Sing-Box”手工模拟切换。应从 **代理服务 → 概览** 选择目标方案，让 MSM 完成：
+不要通过“停止 Clash，再启动 Sing-Box”手工模拟切换。应从 **代理服务 → 概览** 选择目标方案，让 MSM 完成：
 
 - 目标核心准备
 - 配置与订阅迁移

@@ -50,7 +50,7 @@ Pro 工具模块默认可以在设置中管理：
 
 管理员只有具备对应 Pro 模块管理能力时才能修改开关。关闭模块会隐藏导航并停用 API，但不会自动删除已经创建的凭据、配置或远端资源。
 
-Mihomo Smart 也有独立的系统能力开关；是否可选还会检查 Pro 的 `proxy.manage` 能力。
+Clash Smart 也有独立的系统能力开关；是否可选还会检查 Pro 的 `proxy.manage` 能力。
 
 ::: warning 关闭模块前
 先停止仍在运行的连接器、私网或相关任务，并记录外部资源。功能开关不是资源清理按钮。
@@ -70,7 +70,9 @@ Mihomo Smart 也有独立的系统能力开关；是否可选还会检查 Pro �
 
 ![备份恢复：创建、配置、导入以及带版本快照的备份列表](/images/ui/settings-backup.png)
 
-备份可包含 MSM 数据库、MosDNS、Mihomo、Sing-Box 和其他模块配置。建议：
+> 截图中的 `mihomo` 是备份版本快照保留的内核技术标识，对应文档中的 **Clash**。
+
+备份可包含 MSM 数据库、MosDNS、Clash、Sing-Box 和其他模块配置。建议：
 
 - 重大升级或代理核心切换前创建备份
 - 备份文件离机保存并加密
@@ -83,11 +85,13 @@ Mihomo Smart 也有独立的系统能力开关；是否可选还会检查 Pro �
 
 ![系统更新：MSM 设置、更新前备份、组件版本和版本历史](/images/ui/settings-update.png)
 
+> 组件卡片面向用户显示 **Clash**；部分较旧的说明文字可能仍显示内核技术标识。
+
 系统更新页管理：
 
 - 稳定版或 Beta 通道
 - MSM 本体版本
-- MosDNS、Mihomo 与 Sing-Box 组件
+- MosDNS、Clash 与 Sing-Box 组件
 - 下载源、检查与安装进度
 
 更新会执行下载、校验、持久化和运行时切换。不要在更新进度中手动替换二进制或终止进程。详见 [更新升级](/zh/guide/update)。

@@ -1,6 +1,6 @@
 # 什么是 MSM？
 
-MSM 是面向家庭网络和小型实验环境的统一管理平台。它以 MosDNS 分流与 Mihomo / Sing-Box 透明代理为基础，同时管理域名发布、远程穿透与私网、Docker 资源和网络诊断。
+MSM 是面向家庭网络和小型实验环境的统一管理平台。它以 MosDNS 分流与 Clash / Sing-Box 透明代理为基础，同时管理域名发布、远程穿透与私网、Docker 资源和网络诊断。
 
 ## 产品与使用边界
 
@@ -31,7 +31,7 @@ MSM 是自托管的中性管理软件，不是网络接入服务、代理节点�
 客户端访问 FakeIP → 主路由静态路由 → MSM 活动代理核心 → 代理节点
 ```
 
-主路由负责把客户端 DNS 交给 MSM，并把 FakeIP 网段路由回 MSM；MosDNS 负责判断域名；当前活动的 Mihomo 或 Sing-Box 负责透明代理流量。
+主路由负责把客户端 DNS 交给 MSM，并把 FakeIP 网段路由回 MSM；MosDNS 负责判断域名；当前活动的 Clash 或 Sing-Box 负责透明代理流量。
 
 ## 三个关键概念
 
@@ -47,7 +47,7 @@ FakeIP 是代理核心可识别的虚拟地址。主路由必须把启用的 Fak
 
 ### 单一活动代理核心
 
-MSM 支持官方 Mihomo、Mihomo Smart 和 Sing-Box，但同一时刻只应有一个本地核心接管代理网络。统一切换流程会准备目标核心、迁移配置、应用网络规则并验证控制接口。
+MSM 支持 Clash Meta、Clash Smart 和 Sing-Box，但同一时刻只应有一个本地核心接管代理网络。统一切换流程会准备目标核心、迁移配置、应用网络规则并验证控制接口。
 
 ## 主要组件
 
@@ -61,8 +61,8 @@ MSM 支持官方 Mihomo、Mihomo Smart 和 Sing-Box，但同一时刻只应有�
 
 ### 统一代理服务
 
-- 官方 Mihomo（Meta / Alpha）
-- Mihomo Smart（Pro）
+- Clash Meta（Meta / Alpha）
+- Clash Smart（Pro）
 - reF1nd Sing-Box
 - 统一的节点、规则、连接、配置、日志和远程回家入口
 - 跨核心订阅迁移、网络协调和就绪验证

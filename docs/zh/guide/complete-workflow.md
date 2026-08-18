@@ -60,10 +60,10 @@ Docker 用户还要核对：
 2. 设置时区、管理端口和可选 HTTPS
 3. 选择正确网络接口和 IPv6 策略
 4. 安装 MosDNS
-5. 选择官方 Mihomo、Mihomo Smart 或 Sing-Box
+5. 选择 Clash Meta、Clash Smart 或 Sing-Box
 6. 等待组件、控制器和网络就绪检查完成
 
-首次使用优先选择官方 Mihomo 或 Sing-Box。Smart 需要对应 Pro 能力。
+首次使用优先选择 Clash Meta 或 Sing-Box。Smart 需要对应 Pro 能力。
 
 ## 4. 接入主路由
 
@@ -105,7 +105,7 @@ FakeIP IPv6 → MSM IPv6
 5. 在规则管理核对兜底规则
 6. 在连接管理观察真实流量
 
-需要切换 Mihomo / Smart / Sing-Box 时，从概览使用方案卡片，等待完整五阶段流程，不要手工启停进程。
+需要切换 Clash / Smart / Sing-Box 时，从概览使用方案卡片，等待完整五阶段流程，不要手工启停进程。
 
 ## 7. 验收基础链路
 

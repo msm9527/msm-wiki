@@ -30,7 +30,7 @@
 
 ### 代理服务
 
-Mihomo 与 Sing-Box 使用同一套菜单：
+Clash 与 Sing-Box 使用同一套菜单：
 
 | 子菜单 | 用途 |
 |--------|------|
@@ -43,7 +43,7 @@ Mihomo 与 Sing-Box 使用同一套菜单：
 | **配置编辑** | 完整 YAML / JSON 编辑和校验（Pro） |
 | **日志查看** | 当前核心运行日志 |
 
-详见 [统一代理服务](/zh/guide/proxy)、[Mihomo](/zh/guide/mihomo)、[Sing-Box](/zh/guide/singbox) 和 [远程回家](/zh/guide/home)。
+详见 [统一代理服务](/zh/guide/proxy)、[Clash](/zh/guide/clash)、[Sing-Box](/zh/guide/singbox) 和 [远程回家](/zh/guide/home)。
 
 ### 进程、用户、诊断与设置
 

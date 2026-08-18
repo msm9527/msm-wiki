@@ -51,11 +51,13 @@ http://<MSM-IP>:7777
 
 基础旁路由通常安装 MosDNS，并选择一个本地代理方案：
 
-- **官方 Mihomo**：Meta 稳定版或 Alpha 预览版
-- **Mihomo Smart**：需要对应 Pro 能力
+- **Clash Meta**：Meta 稳定版或 Alpha 预览版
+- **Clash Smart**：需要对应 Pro 能力
 - **Sing-Box**：reF1nd 核心
 
-首次使用建议先选官方 Mihomo 或 Sing-Box，把完整链路跑通后再评估 Smart。运行时只应有一个活动代理核心。
+首次使用建议先选 Clash Meta 或 Sing-Box，把完整链路跑通后再评估 Smart。运行时只应有一个活动代理核心。
+
+MSM 在这一步只安装和管理代理核心，不随附节点、订阅或网络接入服务。后续导入的内容必须由用户自行合法取得并承担使用责任。
 
 ### 完成初始化
 

@@ -7,7 +7,7 @@ MSM 默认以旁路由方式工作。对主路由来说，真正需要完成的�
 
 ## 先确认你的拓扑
 
-MSM 文档默认假设 **MosDNS 与当前活动代理核心（Mihomo 或 Sing-Box）运行在同一台 MSM 主机**。
+MSM 文档默认假设 **MosDNS 与当前活动代理核心（Clash 或 Sing-Box）运行在同一台 MSM 主机**。
 
 - **单机部署**：DHCP DNS 和静态路由都指向同一台 MSM 主机
 - **分体部署**：DHCP DNS 指向 MosDNS 所在主机；FakeIP、Telegram、Netflix 等静态路由指向透明代理所在主机

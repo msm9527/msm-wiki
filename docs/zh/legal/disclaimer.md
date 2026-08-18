@@ -48,7 +48,7 @@ MSM 可执行高权限系统和网络操作。用户应对自己输入、导入�
 
 ## 第三方组件与服务
 
-MSM 可管理、调用、下载或连接 MosDNS、Mihomo、Sing-Box、Docker、Cloudflare、ACME、DNS 服务商、订阅/规则提供者等第三方项目或服务。
+MSM 可管理、调用、下载或连接 MosDNS、Clash、Sing-Box、Docker、Cloudflare、ACME、DNS 服务商、订阅/规则提供者等第三方项目或服务。
 
 - 对第三方的提及、图标、兼容或链接不构成对其质量、安全、合法性、可用性或持续性的保证
 - 除非有明确说明，不应推定 MSM 与第三方存在赞助、认证、代理或联营关系

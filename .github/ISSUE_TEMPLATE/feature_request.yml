@@ -40,7 +40,7 @@ body:
         - label: 前端（页面/交互）
         - label: MosDNS
         - label: SingBox
-        - label: Mihomo
+        - label: Clash
         - label: 文档/教程
         - label: 其他
   - type: textarea

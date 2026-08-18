@@ -2,7 +2,7 @@
 
 适用于 MikroTik RouterOS v7（WinBox / WebFig / CLI）。
 
-本文默认 **MosDNS 与当前活动代理核心（Mihomo 或 Sing-Box）运行在同一台 MSM 主机**。如果你是分体部署，请记住两条原则：
+本文默认 **MosDNS 与当前活动代理核心（Clash 或 Sing-Box）运行在同一台 MSM 主机**。如果你是分体部署，请记住两条原则：
 
 - DHCP DNS 指向 MosDNS 所在主机
 - FakeIP、Telegram、Netflix 等静态路由指向透明代理所在主机
