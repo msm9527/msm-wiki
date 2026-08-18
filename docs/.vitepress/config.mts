@@ -4,10 +4,10 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "MSM Wiki",
   description: "MSM Manager - 统一管理平台文档",
-  base: '/msm-wiki/',
+  base: '/',
 
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/msm-wiki/logo/favicon.svg' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo/favicon.svg' }],
     ['meta', { name: 'theme-color', content: '#2563eb' }],
     ['meta', { name: 'og:type', content: 'website' }],
     ['meta', { name: 'og:locale', content: 'zh_CN' }],

@@ -822,7 +822,7 @@ show_info() {
     echo "安装位置: /usr/local/bin/msm"
     echo "配置目录: ${MSM_CONFIG_DIR}"
     echo ""
-    echo "文档地址: https://msm9527.github.io/msm-wiki/zh/"
+    echo "文档地址: https://doc.msmbox.net/zh/"
     echo "=========================================="
 }
 

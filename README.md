@@ -8,8 +8,8 @@
   <p>Mosdns Singbox Manager - 统一管理平台文档</p>
 
   <p>
-    <a href="https://msm9527.github.io/msm-wiki/zh/">中文文档</a> •
-    <a href="https://msm9527.github.io/msm-wiki/en/">English Docs</a>
+    <a href="https://doc.msmbox.net/zh/">中文文档</a> •
+    <a href="https://doc.msmbox.net/en/">English Docs</a>
   </p>
 </div>
 
@@ -21,8 +21,8 @@
 
 ## 🌐 在线访问
 
-- **中文文档**: https://msm9527.github.io/msm-wiki/zh/
-- **English Docs**: https://msm9527.github.io/msm-wiki/en/
+- **中文文档**: https://doc.msmbox.net/zh/
+- **English Docs**: https://doc.msmbox.net/en/
 
 ## 🚀 本地开发
 

@@ -245,7 +245,7 @@ add name=msm remote-image=msmbox/msm:latest interface=veth-msm envlists=msm_envs
 ## 资源
 
 - [项目主页](https://github.com/msm9527/msm)
-- [完整文档](https://msm9527.github.io/msm-wiki/)
+- [完整文档](https://doc.msmbox.net/)
 - [Docker Hub](https://hub.docker.com/r/msmbox/msm)
 - [问题反馈](https://github.com/msm9527/msm/issues)
 

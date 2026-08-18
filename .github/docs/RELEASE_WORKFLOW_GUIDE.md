@@ -269,7 +269,7 @@ ${commits.map(c => `- ${c.subject} (${c.author}, ${c.date})`).join('\n')}
 
 - [Anthropic API 文档](https://docs.anthropic.com/)
 - [GitHub Actions 文档](https://docs.github.com/en/actions)
-- [MSM 项目文档](https://msm9527.github.io/msm-wiki/)
+- [MSM 项目文档](https://doc.msmbox.net/)
 
 ## 支持
 

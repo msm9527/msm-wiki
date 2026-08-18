@@ -107,7 +107,7 @@ jobs:
           RELEASE_NOTES_PATH="docs/zh/guide/releases-beta.md"
           LATEST_MARKER="## 🧪 最新 Beta 版本"
           HISTORY_MARKER="## 📚 历史 Beta 版本"
-          RELEASE_DOCS_URL="https://msm9527.github.io/msm-wiki/zh/guide/releases-beta.html"
+          RELEASE_DOCS_URL="https://doc.msmbox.net/zh/guide/releases-beta.html"
           INSTALL_SCRIPT_NAME="install_beta.sh"
           INSTALL_SCRIPT_URL="https://raw.githubusercontent.com/msm9527/msm-wiki/main/install_beta.sh"
 
@@ -784,8 +784,8 @@ jobs:
 
             ## 📚 文档与支持
 
-            - 📖 [完整文档](https://msm9527.github.io/msm-wiki/)
-            - 🚀 [快速开始](https://msm9527.github.io/msm-wiki/zh/guide/install.html)
+            - 📖 [完整文档](https://doc.msmbox.net/)
+            - 🚀 [快速开始](https://doc.msmbox.net/zh/guide/install.html)
             - 📝 [版本发布](${{ needs.prepare.outputs.release_docs_url }})
             - 💬 [问题反馈](https://github.com/msm9527/msm/issues)
 
@@ -796,7 +796,7 @@ jobs:
             **🤖 由 GitHub Actions 自动构建**
 
             [![GitHub](https://img.shields.io/badge/GitHub-msm9527%2Fmsm-blue?logo=github)](https://github.com/msm9527/msm)
-            [![Documentation](https://img.shields.io/badge/docs-msm--wiki-green)](https://msm9527.github.io/msm-wiki/)
+            [![Documentation](https://img.shields.io/badge/docs-msm--wiki-green)](https://doc.msmbox.net/)
             [![Docker](https://img.shields.io/badge/docker-msmbox%2Fmsm-blue?logo=docker)](https://hub.docker.com/r/msmbox/msm)
 
             </div>
@@ -953,7 +953,7 @@ jobs:
             org.opencontainers.image.description=Mosdns Singbox Mihomo Manager
             org.opencontainers.image.version=${{ needs.prepare.outputs.version }}
             org.opencontainers.image.source=https://github.com/msm9527/msm
-            org.opencontainers.image.url=https://msm9527.github.io/msm-wiki/
+            org.opencontainers.image.url=https://doc.msmbox.net/
           provenance: false
           sbom: false
           cache-from: type=gha

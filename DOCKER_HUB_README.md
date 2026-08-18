@@ -121,9 +121,9 @@ docker run -d \
 
 ## 📚 文档
 
-- 📖 [完整文档](https://msm9527.github.io/msm-wiki/)
-- 🚀 [快速开始](https://msm9527.github.io/msm-wiki/zh/guide/getting-started.html)
-- 💾 [安装部署](https://msm9527.github.io/msm-wiki/zh/guide/install.html)
+- 📖 [完整文档](https://doc.msmbox.net/)
+- 🚀 [快速开始](https://doc.msmbox.net/zh/guide/getting-started.html)
+- 💾 [安装部署](https://doc.msmbox.net/zh/guide/install.html)
 
 ## 🔗 相关链接
 

@@ -35,7 +35,13 @@ git push origin main
    - **Source** 下拉菜单选择 **GitHub Actions**
    - 配置会自动保存
 
-4. **等待部署**
+4. **配置自定义域名**
+   - 在 **Custom domain** 中填写 `doc.msmbox.net` 并保存
+   - 在 DNS 服务商添加 `CNAME` 记录：`doc` 指向 `msm9527.github.io`
+   - CNAME 目标不要附加 `/msm-wiki` 路径
+   - DNS 检查通过后启用 **Enforce HTTPS**
+
+5. **等待部署**
    - 返回仓库首页
    - 点击 **Actions** 标签
    - 查看 "Deploy Wiki to GitHub Pages" 工作流
@@ -44,8 +50,8 @@ git push origin main
 ### 第三步：访问 Wiki
 
 部署成功后，访问：
-- https://msm9527.github.io/msm-wiki/zh/ （中文）
-- https://msm9527.github.io/msm-wiki/en/ （英文）
+- https://doc.msmbox.net/zh/ （中文）
+- https://doc.msmbox.net/en/ （英文）
 
 ## 常见问题
 
