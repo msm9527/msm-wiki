@@ -46,34 +46,34 @@
   }
 }
 
-/* ==================== 旁路由架构图标 - 分叉路径 ==================== */
+/* ==================== MosDNS 双栈分流 ==================== */
 .VPHome .VPFeatures .item:nth-child(1) .icon::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2v6'/%3E%3Cpath d='M12 8c-2.5 0-4 2-4 4v8'/%3E%3Cpath d='M12 8c2.5 0 4 2 4 4v8'/%3E%3Ccircle cx='12' cy='2' r='1.5' fill='white'/%3E%3Ccircle cx='8' cy='20' r='1.5' fill='white'/%3E%3Ccircle cx='16' cy='20' r='1.5' fill='white'/%3E%3Cpath d='M4 12h4' stroke-dasharray='2,2'/%3E%3Cpath d='M16 12h4' stroke-dasharray='2,2'/%3E%3C/svg%3E");
+  background-image: url('/icons/features/dns.svg');
 }
 
-/* ==================== DNS 智能分流图标 - DNS服务器+分流 ==================== */
+/* ==================== 统一代理服务 ==================== */
 .VPHome .VPFeatures .item:nth-child(2) .icon::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='4' width='16' height='6' rx='1'/%3E%3Cline x1='8' y1='7' x2='8.01' y2='7'/%3E%3Cline x1='12' y1='7' x2='12.01' y2='7'/%3E%3Cpath d='M12 10v4'/%3E%3Cpath d='M12 14l-5 4'/%3E%3Cpath d='M12 14l5 4'/%3E%3Ccircle cx='7' cy='19' r='1.5' fill='white'/%3E%3Ccircle cx='17' cy='19' r='1.5' fill='white'/%3E%3C/svg%3E");
+  background-image: url('/icons/features/proxy.svg');
 }
 
-/* ==================== 透明代理图标 - 盾牌+箭头穿透 ==================== */
+/* ==================== 回家与私有组网 ==================== */
 .VPHome .VPFeatures .item:nth-child(3) .icon::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2l-8 3v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z'/%3E%3Cpath d='M8 12l8 0' stroke-width='2.5'/%3E%3Cpath d='M13 9l3 3-3 3'/%3E%3C/svg%3E");
+  background-image: url('/icons/features/remote-home.svg');
 }
 
-/* ==================== 可视化管理图标 - 仪表盘 ==================== */
+/* ==================== 域名发布闭环 ==================== */
 .VPHome .VPFeatures .item:nth-child(4) .icon::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2v4'/%3E%3Cpath d='M12 18v4'/%3E%3Cpath d='M4.93 4.93l2.83 2.83'/%3E%3Cpath d='M16.24 16.24l2.83 2.83'/%3E%3Cpath d='M2 12h4'/%3E%3Cpath d='M18 12h4'/%3E%3Cpath d='M4.93 19.07l2.83-2.83'/%3E%3Cpath d='M16.24 7.76l2.83-2.83'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3Cpath d='M12 9l2 3-2 3' fill='white'/%3E%3C/svg%3E");
+  background-image: url('/icons/features/domain.svg');
 }
 
-/* ==================== 设备级控制图标 - 多设备网络 ==================== */
+/* ==================== Docker 管理 ==================== */
 .VPHome .VPFeatures .item:nth-child(5) .icon::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='2' width='6' height='10' rx='1'/%3E%3Cline x1='12' y1='9' x2='12.01' y2='9'/%3E%3Crect x='2' y='14' width='8' height='6' rx='1'/%3E%3Crect x='14' y='14' width='8' height='6' rx='1'/%3E%3Cpath d='M12 12v2'/%3E%3Cpath d='M12 14h-6'/%3E%3Cpath d='M12 14h6'/%3E%3C/svg%3E");
+  background-image: url('/icons/features/docker.svg');
 }
 
-/* ==================== 广泛兼容图标 - 多平台图标组合 ==================== */
+/* ==================== 网络诊断工作台 ==================== */
 .VPHome .VPFeatures .item:nth-child(6) .icon::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='7' rx='1'/%3E%3Crect x='14' y='3' width='7' height='7' rx='1'/%3E%3Crect x='3' y='14' width='7' height='7' rx='1'/%3E%3Crect x='14' y='14' width='7' height='7' rx='1'/%3E%3Cpath d='M6.5 6.5l1 1'/%3E%3Cpath d='M17.5 6.5l-1 1'/%3E%3Cpath d='M6.5 17.5l1-1'/%3E%3Cpath d='M17.5 17.5l-1-1'/%3E%3C/svg%3E");
+  background-image: url('/icons/features/diagnostics.svg');
 }
 
 /* ==================== 配置管理图标 - 齿轮+文档 ==================== */

@@ -1,0 +1,381 @@
+/**
+ * MSM Wiki incremental refinements
+ *
+ * Keep the established blue-purple visual identity while correcting layout,
+ * motion and responsive issues introduced by overlapping theme layers.
+ */
+
+/* ==================== Keyboard and browser surfaces ==================== */
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--msm-c-brand) 38%, transparent) !important;
+  outline-offset: 3px !important;
+}
+
+/* ==================== Top-level navigation ==================== */
+
+.VPNavBarMenuLink,
+.VPNavBarMenuGroup .button {
+  border-radius: var(--msm-radius-md);
+  transition:
+    color var(--msm-transition-fast),
+    background-color var(--msm-transition-fast);
+}
+
+.VPNavBarMenuLink:hover,
+.VPNavBarMenuLink.active,
+.VPNavBarMenuGroup .button:hover,
+.VPNavBarMenuGroup.active .button {
+  color: var(--msm-c-brand);
+  background: color-mix(in srgb, var(--msm-c-brand) 7%, transparent);
+}
+
+.VPMenu {
+  border: 1px solid var(--msm-c-border);
+  border-radius: var(--msm-radius-lg);
+  box-shadow: var(--msm-shadow-4);
+}
+
+/* ==================== Documentation layout ==================== */
+
+/* The generic `.VPDoc .content` rule also matches the outline's inner node. */
+.VPDocAsideOutline .content {
+  padding: 0 0 0 var(--msm-space-3) !important;
+  animation: none;
+}
+
+.VPDocAsideOutline .outline-link {
+  margin-left: calc(var(--msm-space-2) * -1);
+  padding: var(--msm-space-1) var(--msm-space-2);
+  border-radius: var(--msm-radius-sm);
+  transition:
+    color var(--msm-transition-fast),
+    background-color var(--msm-transition-fast);
+}
+
+.VPDocAsideOutline .outline-link:hover,
+.VPDocAsideOutline .outline-link.active {
+  background: color-mix(in srgb, var(--msm-c-brand) 7%, transparent);
+}
+
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4 {
+  scroll-margin-top: calc(var(--msm-navbar-height) + var(--msm-space-5));
+}
+
+.VPDocFooter .pager-link {
+  border-color: var(--msm-c-border);
+  border-radius: var(--msm-radius-lg);
+  background: var(--msm-c-bg-soft);
+  transition:
+    border-color var(--msm-transition-fast),
+    background-color var(--msm-transition-fast),
+    transform var(--msm-transition-fast);
+}
+
+.VPDocFooter .pager-link:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--msm-c-brand) 48%, var(--msm-c-border));
+  background: var(--msm-c-bg);
+}
+
+.VPDocFooter .pager-link:hover .title {
+  color: var(--msm-c-brand);
+}
+
+/* Keep long home-page prose readable without narrowing tables or callouts. */
+.VPHome .vp-doc > div > div > p,
+.VPHome .vp-doc > div > div > ul,
+.VPHome .vp-doc > div > div > ol {
+  max-width: 80ch;
+}
+
+/* ==================== Home navigation ==================== */
+
+.msm-home-jump {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 0 var(--msm-space-12);
+  border-top: 1px solid var(--msm-c-border);
+  border-bottom: 1px solid var(--msm-c-border);
+}
+
+.msm-home-jump a {
+  position: relative;
+  min-width: 0;
+  padding: var(--msm-space-5) var(--msm-space-6);
+  border-right: 1px solid var(--msm-c-border);
+  color: var(--msm-c-text-1) !important;
+  text-decoration: none !important;
+  transition:
+    color var(--msm-transition-fast),
+    background-color var(--msm-transition-fast);
+}
+
+.msm-home-jump a:last-child {
+  border-right: 0;
+}
+
+.msm-home-jump a:hover {
+  color: var(--msm-c-brand) !important;
+  background: color-mix(in srgb, var(--msm-c-brand) 6%, transparent);
+}
+
+.msm-home-jump strong,
+.msm-home-jump span {
+  display: block;
+}
+
+.msm-home-jump strong {
+  padding-right: var(--msm-space-6);
+  font-size: var(--msm-font-size-md);
+  font-weight: var(--msm-font-weight-semibold);
+  line-height: var(--msm-line-height-snug);
+}
+
+.msm-home-jump strong::after {
+  content: '→';
+  position: absolute;
+  right: var(--msm-space-5);
+  color: var(--msm-c-text-4);
+  transition: transform var(--msm-transition-fast);
+}
+
+.msm-home-jump a:hover strong::after {
+  transform: translateX(3px);
+}
+
+.msm-home-jump span {
+  margin-top: var(--msm-space-2);
+  color: var(--msm-c-text-3);
+  font-size: var(--msm-font-size-sm);
+  line-height: var(--msm-line-height-normal);
+}
+
+/* ==================== Home cards ==================== */
+
+/* VitePress already pads `.box`; remove the duplicated outer padding. */
+.VPHome .VPFeature {
+  padding: 0;
+}
+
+.VPHome .VPFeature .box {
+  min-height: 100%;
+  padding: var(--msm-space-6);
+}
+
+.VPHome .VPFeature .link-text {
+  margin-top: auto;
+  padding-top: var(--msm-space-4);
+}
+
+.VPHome .VPFeature .link-text-value {
+  color: var(--msm-c-brand);
+  font-weight: var(--msm-font-weight-semibold);
+}
+
+/* ==================== Purposeful motion ==================== */
+
+/* Retain the hero's authored moment, but stop every repeated micro-pulse. */
+.vp-doc .custom-block::after,
+.vp-doc ul > li::before,
+.VPHome .VPFeature .icon::before,
+.VPHome .VPFeature:hover .icon::before,
+.VPHome .VPFeature:hover .icon::after {
+  animation: none;
+}
+
+/* ==================== Mobile navigation drawer ==================== */
+
+body.msm-nav-open {
+  overflow: hidden;
+}
+
+#msm-nav-drawer {
+  gap: 0;
+  padding: 0 var(--msm-space-4) var(--msm-space-5);
+}
+
+#msm-nav-drawer::before {
+  content: none;
+}
+
+#msm-nav-drawer .msm-nav-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--msm-c-border);
+  background: color-mix(in srgb, var(--msm-c-bg) 92%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+#msm-nav-drawer .msm-nav-header strong {
+  color: var(--msm-c-text-1);
+  font-size: var(--msm-font-size-md);
+  font-weight: var(--msm-font-weight-semibold);
+}
+
+#msm-nav-drawer .msm-nav-close {
+  min-height: 36px;
+  padding: 0 var(--msm-space-3);
+  border: 1px solid var(--msm-c-border);
+  border-radius: var(--msm-radius-md);
+  color: var(--msm-c-text-2);
+  background: var(--msm-c-bg-soft);
+  font: inherit;
+  font-size: var(--msm-font-size-sm);
+  cursor: pointer;
+}
+
+#msm-nav-drawer .msm-nav-close:hover {
+  color: var(--msm-c-brand);
+  border-color: color-mix(in srgb, var(--msm-c-brand) 45%, var(--msm-c-border));
+}
+
+#msm-nav-drawer .msm-nav-primary,
+#msm-nav-drawer .msm-nav-group-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--msm-space-1);
+}
+
+#msm-nav-drawer .msm-nav-primary {
+  padding: var(--msm-space-3) 0 var(--msm-space-1);
+}
+
+#msm-nav-drawer .msm-nav-group {
+  margin-top: var(--msm-space-4);
+}
+
+#msm-nav-drawer .msm-nav-group-title {
+  margin: 0 0 var(--msm-space-2);
+  padding: 0 var(--msm-space-2);
+  color: var(--msm-c-text-3);
+  font-size: var(--msm-font-size-xs);
+  font-weight: var(--msm-font-weight-semibold);
+  letter-spacing: 0.06em;
+}
+
+#msm-nav-drawer a.msm-nav-link,
+#msm-nav-drawer a.msm-nav-link.active,
+#msm-nav-drawer a.msm-nav-link:not(.active):hover {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  margin: 0;
+  padding: 9px 10px;
+  border-radius: var(--msm-radius-md);
+  line-height: 1.4;
+}
+
+#msm-nav-drawer.msm-open a.msm-nav-link {
+  animation: none;
+}
+
+/* ==================== Responsive refinements ==================== */
+
+@media (max-width: 1199px) {
+  .VPNavBarMenu,
+  #VPNavScreen {
+    display: none !important;
+  }
+
+  .VPNavBarHamburger {
+    display: flex !important;
+  }
+
+  #msm-nav-drawer {
+    max-width: 420px;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 959px) {
+  .VPHome .VPFeatures .item.grid-6 {
+    width: 50%;
+  }
+}
+
+@media (max-width: 959px) {
+  .msm-home-jump {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: var(--msm-space-10);
+  }
+
+  .msm-home-jump a {
+    min-height: 88px;
+    padding: var(--msm-space-4);
+  }
+
+  .msm-home-jump a:nth-child(2) {
+    border-right: 0;
+  }
+
+  .msm-home-jump a:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--msm-c-border);
+  }
+
+  .msm-home-jump strong::after {
+    right: var(--msm-space-4);
+  }
+}
+
+@media (max-width: 768px) {
+  /* The outer VitePress container already supplies the mobile gutter. */
+  .VPDoc > .container > .content {
+    padding: var(--msm-space-4) 0 !important;
+  }
+
+  .vp-doc table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Preserve the image-first composition while removing empty logo canvas. */
+  .VPHome .VPHero .image {
+    height: 220px;
+    margin: -48px -16px -28px;
+  }
+
+  .VPHome .VPHero .image-container {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+  }
+
+  .VPHome .VPHero .image-src {
+    max-width: 140px;
+    max-height: 140px;
+  }
+
+  .VPHome .VPFeatures {
+    padding: var(--msm-space-10) var(--msm-space-6);
+  }
+
+  .VPHome .VPFeature .box {
+    padding: var(--msm-space-5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

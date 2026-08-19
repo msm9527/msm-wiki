@@ -8,6 +8,7 @@ import './style/custom.css'
 import './style/advanced.css'
 import './style/icons.css'
 import './style/svg-icons.css'
+import './style/refinement.css'
 
 export default {
   extends: DefaultTheme,
@@ -40,6 +41,7 @@ export default {
 
       const overlayId = 'msm-nav-overlay'
       const drawerId = 'msm-nav-drawer'
+      const drawerBreakpoint = 1199
 
       // 规范化路径：去掉 index.html 和多余的末尾 /
       const normalizePath = (path: string) => {
@@ -60,6 +62,7 @@ export default {
         const drawer = document.getElementById(drawerId)
         if (overlay) overlay.remove()
         if (drawer) drawer.remove()
+        document.body.classList.remove('msm-nav-open')
       }
 
       if (!hamburger || !topNav) {
@@ -68,7 +71,33 @@ export default {
       }
 
       // 防止重复绑定
-      ;(hamburger as any)._msmDrawerBound && cleanup()
+      if ((hamburger as any)._msmDrawerBound) {
+        cleanup()
+        return
+      }
+
+      const closeDrawer = () => {
+        const overlay = document.getElementById(overlayId)
+        const drawer = document.getElementById(drawerId)
+        if (overlay) overlay.classList.remove('msm-open')
+        if (drawer) {
+          drawer.classList.remove('msm-open')
+          drawer.setAttribute('aria-hidden', 'true')
+        }
+        document.body.classList.remove('msm-nav-open')
+      }
+
+      const requestClose = (restoreFocus = true) => {
+        if (hamburger.getAttribute('aria-expanded') === 'true') {
+          hamburger.click()
+        } else {
+          closeDrawer()
+        }
+
+        if (restoreFocus) {
+          requestAnimationFrame(() => hamburger.focus())
+        }
+      }
 
       const buildDrawer = () => {
         cleanup()
@@ -77,20 +106,42 @@ export default {
 
         const overlay = document.createElement('div')
         overlay.id = overlayId
+        overlay.setAttribute('aria-hidden', 'true')
 
-        const drawer = document.createElement('div')
+        const drawer = document.createElement('nav')
         drawer.id = drawerId
+        drawer.setAttribute('aria-label', '移动端主导航')
+        drawer.setAttribute('aria-hidden', 'true')
 
-        // 从顶部导航复制所有 a 链接到抽屉里
-        const links = topNav.querySelectorAll<HTMLAnchorElement>('a')
-        const clones: HTMLAnchorElement[] = []
+        const header = document.createElement('div')
+        header.className = 'msm-nav-header'
+
+        const title = document.createElement('strong')
+        title.textContent = '导航'
+
+        const closeButton = document.createElement('button')
+        closeButton.type = 'button'
+        closeButton.className = 'msm-nav-close'
+        closeButton.textContent = '关闭'
+        closeButton.addEventListener('click', () => requestClose())
+
+        header.append(title, closeButton)
+        drawer.appendChild(header)
+
+        const primaryLinks = document.createElement('div')
+        primaryLinks.className = 'msm-nav-primary'
+        drawer.appendChild(primaryLinks)
+
         let hasActive = false
+        let firstLink: HTMLAnchorElement | null = null
 
-        links.forEach((a) => {
+        const createLink = (a: HTMLAnchorElement) => {
           const clone = document.createElement('a')
           clone.href = a.href
-          clone.textContent = a.textContent || ''
+          clone.textContent = a.textContent?.trim() || ''
           clone.className = 'msm-nav-link'
+          if (a.target) clone.target = a.target
+          if (a.rel) clone.rel = a.rel
 
           // 通过当前路径匹配高亮项
           try {
@@ -106,28 +157,64 @@ export default {
 
           clone.addEventListener('click', () => {
             // 点击后关闭抽屉，让路由接管导航
-            closeDrawer()
+            requestClose(false)
           })
-          clones.push(clone)
+          firstLink ??= clone
+          return clone
+        }
+
+        Array.from(topNav.children).forEach((item) => {
+          if (item instanceof HTMLAnchorElement) {
+            primaryLinks.appendChild(createLink(item))
+            return
+          }
+
+          const links = item.querySelectorAll<HTMLAnchorElement>('a')
+          if (!links.length) return
+
+          const label = item
+            .querySelector<HTMLElement>(':scope > button')
+            ?.textContent?.trim()
+          if (!label) return
+
+          const group = document.createElement('section')
+          group.className = 'msm-nav-group'
+
+          const groupTitle = document.createElement('div')
+          groupTitle.className = 'msm-nav-group-title'
+          groupTitle.textContent = label
+
+          const groupLinks = document.createElement('div')
+          groupLinks.className = 'msm-nav-group-links'
+          links.forEach((link) => groupLinks.appendChild(createLink(link)))
+
+          group.append(groupTitle, groupLinks)
+          drawer.appendChild(group)
         })
 
         // 如果没有匹配到任何 active，兜底把第一个链接高亮
-        if (!hasActive && clones.length > 0) {
-          clones[0].classList.add('active')
+        if (!hasActive && firstLink) {
+          firstLink.classList.add('active')
         }
 
-        clones.forEach((clone) => drawer.appendChild(clone))
+        if (!primaryLinks.childElementCount) {
+          primaryLinks.remove()
+        }
 
         document.body.appendChild(overlay)
         document.body.appendChild(drawer)
 
-        overlay.addEventListener('click', () => {
-          closeDrawer()
+        overlay.addEventListener('click', () => requestClose())
+        drawer.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            event.preventDefault()
+            requestClose()
+          }
         })
       }
 
       const openDrawer = () => {
-        const isMobile = window.innerWidth <= 768
+        const isMobile = window.innerWidth <= drawerBreakpoint
         if (!isMobile) return
 
         if (!document.getElementById(drawerId)) {
@@ -140,13 +227,13 @@ export default {
 
         overlay.classList.add('msm-open')
         drawer.classList.add('msm-open')
-      }
-
-      const closeDrawer = () => {
-        const overlay = document.getElementById(overlayId)
-        const drawer = document.getElementById(drawerId)
-        if (overlay) overlay.classList.remove('msm-open')
-        if (drawer) drawer.classList.remove('msm-open')
+        drawer.setAttribute('aria-hidden', 'false')
+        document.body.classList.add('msm-nav-open')
+        requestAnimationFrame(() => {
+          drawer
+            .querySelector<HTMLButtonElement>('.msm-nav-close')
+            ?.focus()
+        })
       }
 
       const toggleFromAria = () => {
@@ -176,9 +263,9 @@ export default {
 
       // 窗口尺寸变化时重建（从桌面切到移动）
       window.addEventListener('resize', () => {
-        const isMobile = window.innerWidth <= 768
+        const isMobile = window.innerWidth <= drawerBreakpoint
         if (!isMobile) {
-          closeDrawer()
+          requestClose(false)
         }
       })
     }

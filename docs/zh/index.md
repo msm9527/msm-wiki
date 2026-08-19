@@ -10,38 +10,63 @@ hero:
     alt: MSM Logo
   actions:
     - theme: brand
-      text: 🚀 快速上手
+      text: 快速上手
       link: /zh/guide/install
     - theme: alt
-      text: 🔌 路由器接入
-      link: /zh/guide/router-integration
-    - theme: alt
-      text: 🧭 功能地图
+      text: 查看功能
       link: /zh/guide/basic-config
-    - theme: alt
-      text: 使用与合规
-      link: /zh/legal/
 
 features:
   - icon: 🌐
     title: MosDNS 双栈分流
     details: 管理 DNS 规则、客户端策略、查询日志以及 FakeIP IPv4 / IPv6 链路
+    link: /zh/guide/mosdns
+    linkText: 查看 DNS 教程
   - icon: 🔄
     title: 统一代理服务
     details: 在 Clash Meta、Clash Smart 与 Sing-Box 之间安全切换，使用同一套管理入口
+    link: /zh/guide/proxy
+    linkText: 查看代理教程
   - icon: 🏠
     title: 回家与私有组网
     details: 提供双核心多协议远程回家、Cloudflare 私网以及 EasyTier、Tailscale、WireGuard 自建私网
+    link: /zh/guide/home
+    linkText: 查看远程接入
   - icon: 🔗
     title: 域名发布闭环
     details: 集中完成 DDNS、HTTPS 证书、反向代理、健康检查与故障诊断
+    link: /zh/guide/domain-services
+    linkText: 查看域名服务
   - icon: 📦
     title: Docker 管理
     details: 管理本机及独立子节点的容器、镜像、网络、存储卷和应用栈
+    link: /zh/guide/docker-center
+    linkText: 查看 Docker 管理
   - icon: 🧰
     title: 网络诊断工作台
     details: 集成 Ping、DNS、MTR、Traceroute、测速、端口扫描和局域网工具
+    link: /zh/guide/network-tools
+    linkText: 查看网络工具
 ---
+
+<nav class="msm-home-jump" aria-label="首页快速导航">
+  <a href="#三步跑通基础链路">
+    <strong>三步跑通</strong>
+    <span>从安装到基础链路验收</span>
+  </a>
+  <a href="#核心使用路径">
+    <strong>按场景选择</strong>
+    <span>旁路由、远程访问与运维</span>
+  </a>
+  <a href="#已提供教程的路由器系统">
+    <strong>接入主路由</strong>
+    <span>查看四类路由器教程</span>
+  </a>
+  <a href="/zh/faq/troubleshooting">
+    <strong>遇到问题</strong>
+    <span>按现象进入故障排查</span>
+  </a>
+</nav>
 
 ## 一句话理解
 
