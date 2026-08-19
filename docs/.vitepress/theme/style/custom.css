@@ -1,651 +1,46 @@
 /**
- * MSM Wiki 自定义样式
- * 实现紧凑、现代、高信息密度的设计
+ * MSM Wiki theme
+ * A calm, high-clarity reading surface inspired by network control rooms.
  */
 
-/* ==================== 全局样式优化 ==================== */
+/* ==================== Foundations ==================== */
 
-/* 基础字体和行高 */
-:root {
-  font-size: 16px;
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--msm-navbar-height) + 20px);
 }
 
 body {
+  min-width: 320px;
+  color: var(--msm-c-text-1);
+  background:
+    radial-gradient(circle at 80% 0%, var(--msm-c-brand-soft), transparent 26rem),
+    var(--msm-c-bg);
   font-family: var(--msm-font-family-base);
   font-size: var(--msm-font-size-base);
   line-height: var(--msm-line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--msm-c-brand) 34%, transparent);
+  outline-offset: 3px;
+}
+
+::selection {
   color: var(--msm-c-text-1);
-  background-color: var(--msm-c-bg);
+  background: color-mix(in srgb, var(--msm-c-brand) 24%, transparent);
 }
-
-/* ==================== 布局优化 ==================== */
-
-/* 增加内容区域宽度（整体容器） */
-.VPDoc.has-sidebar .container {
-  max-width: var(--msm-layout-max-width) !important;
-}
-
-/* 中间正文 + 右侧目录这一块的最大宽度 */
-.VPDoc .content-container {
-  max-width: var(--msm-content-max-width) !important;
-}
-
-/* 让中间正文区域尽量吃满可用宽度，而不是保持默认的窄列布局 */
-.VPDoc .content {
-  flex: 1 1 auto;
-  max-width: 100% !important;
-}
-
-/* 取消默认对文档正文的窄 max-width 限制，改为占满 content 宽度 */
-.VPDoc .main .vp-doc {
-  max-width: 100% !important;
-}
-
-/* 侧边栏优化 */
-.VPSidebar {
-  width: var(--msm-sidebar-width) !important;
-  padding: var(--msm-space-4) !important;
-}
-
-/* 减少内容区域内边距 */
-.VPDoc .content {
-  padding: var(--msm-space-6) var(--msm-space-8) !important;
-}
-
-/* ==================== 标题样式优化 ==================== */
-
-/* 极致紧凑的标题间距 - 优化版 */
-.vp-doc h1 {
-  margin-top: var(--msm-space-6);
-  margin-bottom: var(--msm-space-5);
-  font-size: var(--msm-font-size-4xl);
-  font-weight: var(--msm-font-weight-bold);
-  line-height: var(--msm-line-height-tight);
-  letter-spacing: -0.02em;
-}
-
-.vp-doc h2 {
-  margin-top: var(--msm-space-10);
-  margin-bottom: var(--msm-space-4);
-  padding-top: var(--msm-space-6);
-  font-size: var(--msm-font-size-2xl);
-  font-weight: var(--msm-font-weight-bold);
-  line-height: var(--msm-line-height-tight);
-  border-top: 1px solid var(--msm-c-border);
-}
-
-.vp-doc h2:first-child {
-  border-top: none;
-  padding-top: 0;
-  margin-top: 0;
-}
-
-.vp-doc h3 {
-  margin-top: var(--msm-space-8);
-  margin-bottom: var(--msm-space-3);
-  font-size: var(--msm-font-size-xl);
-  font-weight: var(--msm-font-weight-semibold);
-  line-height: var(--msm-line-height-snug);
-}
-
-.vp-doc h4 {
-  margin-top: var(--msm-space-6);
-  margin-bottom: var(--msm-space-3);
-  font-size: var(--msm-font-size-lg);
-  font-weight: var(--msm-font-weight-semibold);
-}
-
-/* 隐藏标题锚点,只在hover时显示 */
-.vp-doc .header-anchor {
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.vp-doc h1:hover .header-anchor,
-.vp-doc h2:hover .header-anchor,
-.vp-doc h3:hover .header-anchor,
-.vp-doc h4:hover .header-anchor {
-  opacity: 1;
-}
-
-/* ==================== 段落和文本优化 ==================== */
-
-/* 极致紧凑的段落和列表 - 优化版 */
-.vp-doc p {
-  margin: var(--msm-space-3) 0;
-  line-height: var(--msm-line-height-normal);
-}
-
-.vp-doc strong {
-  font-weight: var(--msm-font-weight-semibold);
-  color: var(--msm-c-text-1);
-}
-
-.vp-doc a {
-  color: var(--msm-c-brand);
-  text-decoration: none;
-  transition: color var(--msm-transition-fast);
-}
-
-.vp-doc a:hover {
-  color: var(--msm-c-brand-light);
-  text-decoration: underline;
-}
-
-/* ==================== 列表优化 ==================== */
-
-.vp-doc ul,
-.vp-doc ol {
-  margin: var(--msm-space-3) 0;
-  padding-left: var(--msm-space-6);
-}
-
-.vp-doc li {
-  margin: var(--msm-space-2) 0;
-  line-height: var(--msm-line-height-relaxed);
-}
-
-.vp-doc li > p {
-  margin: var(--msm-space-1) 0;
-}
-
-/* 嵌套列表 */
-.vp-doc li > ul,
-.vp-doc li > ol {
-  margin: var(--msm-space-2) 0;
-}
-
-/* ==================== 代码块优化 ==================== */
-
-/* 行内代码 */
-.vp-doc :not(pre) > code {
-  padding: 0.2em 0.4em;
-  margin: 0 0.1em;
-  font-size: 0.9em;
-  font-family: var(--msm-font-family-mono);
-  background-color: var(--msm-c-bg-mute);
-  border: 1px solid var(--msm-c-border);
-  border-radius: var(--msm-radius-sm);
-  color: var(--msm-c-brand-dark);
-}
-
-.dark .vp-doc :not(pre) > code {
-  background-color: var(--msm-c-bg-soft);
-  color: var(--msm-c-brand-light);
-}
-
-/* 代码块容器 */
-.vp-doc div[class*='language-'] {
-  margin: var(--msm-space-4) 0;
-  border-radius: var(--msm-radius-md);
-  overflow: hidden;
-  box-shadow: var(--msm-shadow-2);
-  border: 1px solid var(--msm-c-border);
-}
-
-/* 代码块内容 */
-.vp-doc div[class*='language-'] pre {
-  padding: var(--msm-space-4);
-  /* 给顶部和右侧多留一点空间，避免被语言标签和复制按钮遮挡 */
-  padding-top: calc(var(--msm-space-4) + 8px);
-  padding-right: calc(var(--msm-space-4) + 40px);
-  margin: 0;
-  line-height: 1.6;
-  font-size: var(--msm-font-size-sm);
-  font-family: var(--msm-font-family-mono);
-}
-
-/* 代码块语言标识与复制按钮（重新简化实现） */
-
-/* 顶部一条干净的工具栏：左侧语言，右侧复制 */
-.vp-doc div[class*='language-'] {
-  position: relative;
-}
-
-.vp-doc div[class*='language-'] .lang {
-  position: absolute;
-  top: 10px;
-  left: 12px;
-  padding: 2px 8px;
-  font-size: var(--msm-font-size-xs);
-  font-weight: var(--msm-font-weight-medium);
-  color: var(--msm-c-text-3);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border-radius: 999px;
-  background-color: rgba(148, 163, 184, 0.12);
-}
-
-.vp-doc div[class*='language-'] button.copy {
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
-  border: 1px solid var(--msm-c-border);
-  background-color: rgba(15, 23, 42, 0.02);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  opacity: 0.9;
-  transition:
-    background-color var(--msm-transition-fast),
-    border-color var(--msm-transition-fast),
-    box-shadow var(--msm-transition-fast),
-    opacity var(--msm-transition-fast),
-    transform var(--msm-transition-fast);
-}
-
-.vp-doc div[class*='language-']:hover button.copy {
-  opacity: 1;
-}
-
-.vp-doc div[class*='language-'] button.copy:hover {
-  background-color: rgba(37, 99, 235, 0.08);
-  border-color: rgba(37, 99, 235, 0.4);
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18);
-}
-
-.vp-doc div[class*='language-'] button.copy:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.3);
-}
-
-/* 复制成功：不改图标，只加强一点边框和背景，对比度略提高 */
-.vp-doc div[class*='language-'] button.copy.copied {
-  background-color: rgba(34, 197, 94, 0.12);
-  border-color: rgba(34, 197, 94, 0.6);
-}
-
-/* ==================== 表格优化 ==================== */
-
-.vp-doc table {
-  width: 100%;
-  margin: var(--msm-space-4) 0;
-  border-collapse: collapse;
-  font-size: var(--msm-font-size-sm);
-  box-shadow: var(--msm-shadow-1);
-  border-radius: var(--msm-radius-md);
-  overflow: hidden;
-}
-
-.vp-doc thead {
-  background-color: var(--msm-c-bg-soft);
-}
-
-.vp-doc th {
-  padding: var(--msm-space-3) var(--msm-space-4);
-  text-align: left;
-  font-weight: var(--msm-font-weight-semibold);
-  color: var(--msm-c-text-1);
-  border-bottom: 2px solid var(--msm-c-border);
-}
-
-.vp-doc td {
-  padding: var(--msm-space-3) var(--msm-space-4);
-  border-bottom: 1px solid var(--msm-c-border-soft);
-}
-
-.vp-doc tr:last-child td {
-  border-bottom: none;
-}
-
-.vp-doc tbody tr:hover {
-  background-color: var(--msm-c-bg-soft);
-}
-
-/* ==================== 提示框优化 ==================== */
-
-.vp-doc .custom-block {
-  margin: var(--msm-space-4) 0;
-  padding: var(--msm-space-4);
-  border-radius: var(--msm-radius-md);
-  border-left: 4px solid;
-  box-shadow: var(--msm-shadow-1);
-}
-
-.vp-doc .custom-block.tip {
-  background-color: rgba(37, 99, 235, 0.05);
-  border-color: var(--msm-c-brand);
-}
-
-/* 取消默认的提示图标气泡（只屏蔽默认 ::before，保留我们在 icons.css 里自定义的 ::after 图标） */
-.vp-doc .custom-block.tip::before {
-  content: none !important;
-}
-
-.vp-doc .custom-block.warning {
-  background-color: rgba(245, 158, 11, 0.05);
-  border-color: var(--msm-c-warning);
-}
-
-.vp-doc .custom-block.danger {
-  background-color: rgba(239, 68, 68, 0.05);
-  border-color: var(--msm-c-danger);
-}
-
-.vp-doc .custom-block-title {
-  font-weight: var(--msm-font-weight-semibold);
-  margin-bottom: var(--msm-space-2);
-}
-
-/* ==================== 首页优化 ==================== */
-
-/* 英雄区 */
-.VPHome .VPHero {
-  padding: var(--msm-space-16) var(--msm-space-8) var(--msm-space-12);
-}
-
-.VPHome .VPHero .name {
-  font-size: var(--msm-font-size-5xl);
-  font-weight: var(--msm-font-weight-bold);
-  line-height: var(--msm-line-height-tight);
-  background: var(--msm-gradient-brand);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.VPHome .VPHero .text {
-  font-size: var(--msm-font-size-2xl);
-  font-weight: var(--msm-font-weight-medium);
-  margin-top: var(--msm-space-4);
-}
-
-.VPHome .VPHero .tagline {
-  font-size: var(--msm-font-size-lg);
-  color: var(--msm-c-text-2);
-  margin-top: var(--msm-space-3);
-  line-height: var(--msm-line-height-relaxed);
-}
-
-/* 特性卡片 */
-.VPHome .VPFeatures {
-  padding: var(--msm-space-12) var(--msm-space-8);
-}
-
-.VPHome .VPFeature {
-  padding: var(--msm-space-5);
-  border-radius: var(--msm-radius-lg);
-  border: 1px solid var(--msm-c-border);
-  background-color: var(--msm-c-bg);
-  box-shadow: var(--msm-shadow-1);
-  transition: all var(--msm-transition-base);
-}
-
-.VPHome .VPFeature:hover {
-  box-shadow: var(--msm-shadow-3);
-  transform: translateY(-2px);
-  border-color: var(--msm-c-brand-light);
-}
-
-.VPHome .VPFeature .icon {
-  font-size: var(--msm-font-size-3xl);
-  margin-bottom: var(--msm-space-3);
-}
-
-.VPHome .VPFeature .title {
-  font-size: var(--msm-font-size-lg);
-  font-weight: var(--msm-font-weight-semibold);
-  margin-bottom: var(--msm-space-2);
-}
-
-.VPHome .VPFeature .details {
-  font-size: var(--msm-font-size-sm);
-  color: var(--msm-c-text-2);
-  line-height: var(--msm-line-height-relaxed);
-}
-
-/* ==================== 导航栏优化 ==================== */
-
-.VPNav {
-  height: var(--msm-navbar-height);
-  border-bottom: 1px solid var(--msm-c-border);
-  backdrop-filter: blur(8px);
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-.dark .VPNav {
-  background-color: rgba(15, 23, 42, 0.8);
-}
-
-/* ==================== 自定义移动端汉堡抽屉导航 ==================== */
-
-/* 关闭 VitePress 自带的 NavScreen，完全使用自定义实现，避免行为冲突 */
-@media (max-width: 768px) {
-  #VPNavScreen {
-    display: none !important;
-  }
-}
-
-/* 抽屉遮罩 */
-#msm-nav-overlay {
-  position: fixed;
-  inset: 0;
-  /* 稍微淡一点的遮罩，避免压得太闷 */
-  background: radial-gradient(circle at top, rgba(59, 130, 246, 0.25), transparent 55%),
-    rgba(15, 23, 42, 0.4);
-  z-index: 1001;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease-out;
-}
-
-#msm-nav-overlay.msm-open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* 抽屉本体：从右侧滑出，悬浮在内容之上 */
-#msm-nav-drawer {
-  position: fixed;
-  top: calc(var(--msm-navbar-height) + 10px);
-  left: 50%;
-  right: auto;
-  bottom: var(--msm-space-3);
-  width: 92%;
-  max-width: 360px;
-  background:
-    linear-gradient(135deg, rgba(59, 130, 246, 0.12), transparent 45%),
-    var(--msm-c-bg);
-  z-index: 1002;
-  box-shadow: -18px 0 42px rgba(15, 23, 42, 0.35);
-  border-radius: var(--msm-radius-xl, 20px);
-  transform: translate(-50%, -12px) scale(0.96);
-  opacity: 0;
-  display: flex;
-  flex-direction: column;
-  padding: var(--msm-space-4) var(--msm-space-4) var(--msm-space-5);
-  gap: var(--msm-space-1);
-  overflow-y: auto;
-  transition:
-    transform 0.26s cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 0.26s ease-out;
-}
-
-#msm-nav-drawer.msm-open {
-  transform: translate(-50%, 0) scale(1);
-  opacity: 1;
-  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.42);
-}
-
-/* 抽屉顶部小标题，增加一点层次感 */
-#msm-nav-drawer::before {
-  content: '导航';
-  display: block;
-  font-size: var(--msm-font-size-xs);
-  font-weight: var(--msm-font-weight-semibold);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--msm-c-text-3);
-  margin-bottom: var(--msm-space-2);
-}
-
-/* 分组标题（目前预留，方便未来在 JS 里插入） */
-#msm-nav-drawer .msm-nav-group-title {
-  margin-top: var(--msm-space-3);
-  margin-bottom: var(--msm-space-1);
-  font-size: var(--msm-font-size-xs);
-  font-weight: var(--msm-font-weight-semibold);
-  color: var(--msm-c-text-3);
-}
-
-#msm-nav-drawer a.msm-nav-link {
-  display: block;
-  margin: 2px 0;
-  padding: 10px var(--msm-space-3);
-  font-size: var(--msm-font-size-sm);
-  color: var(--msm-c-text-1);
-  text-decoration: none;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  transition: color var(--msm-transition-fast),
-    background-color var(--msm-transition-fast),
-    padding-left var(--msm-transition-fast),
-    box-shadow var(--msm-transition-fast),
-    border-color var(--msm-transition-fast);
-}
-
-#msm-nav-drawer a.msm-nav-link.active {
-  color: #ffffff;
-  font-weight: var(--msm-font-weight-medium);
-  padding-left: calc(var(--msm-space-3) + 2px);
-  background-image: linear-gradient(120deg, #2563eb, #4f46e5);
-  border-color: rgba(59, 130, 246, 0.85);
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
-}
-
-#msm-nav-drawer a.msm-nav-link:not(.active):hover {
-  background-color: rgba(148, 163, 184, 0.16);
-  padding-left: calc(var(--msm-space-3) + 2px);
-  border-color: rgba(148, 163, 184, 0.6);
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
-}
-
-/* 抽屉打开时，给菜单项一个轻微的滑入动效 */
-#msm-nav-drawer.msm-open a.msm-nav-link {
-  animation: msmNavItemIn 0.25s ease-out;
-}
-
-@keyframes msmNavItemIn {
-  from {
-    opacity: 0;
-    transform: translateX(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* ==================== 侧边栏优化 ==================== */
-
-.VPSidebar .group {
-  margin-bottom: var(--msm-space-4);
-}
-
-.VPSidebar .group + .group {
-  padding-top: var(--msm-space-4);
-  border-top: 1px solid var(--msm-c-border-soft);
-}
-
-.VPSidebar .title {
-  font-size: var(--msm-font-size-sm);
-  font-weight: var(--msm-font-weight-semibold);
-  color: var(--msm-c-text-1);
-  padding: var(--msm-space-2) 0;
-}
-
-.VPSidebar .link {
-  display: block;
-  padding: var(--msm-space-2) var(--msm-space-3);
-  font-size: var(--msm-font-size-sm);
-  color: var(--msm-c-text-2);
-  border-radius: var(--msm-radius-sm);
-  transition: all var(--msm-transition-fast);
-}
-
-.VPSidebar .link:hover {
-  color: var(--msm-c-brand);
-  background-color: var(--msm-c-bg-soft);
-}
-
-.VPSidebar .link.active {
-  color: var(--msm-c-brand);
-  background-color: rgba(37, 99, 235, 0.1);
-  font-weight: var(--msm-font-weight-medium);
-}
-
-/* ==================== 目录导航优化 ==================== */
-
-.VPDocAsideOutline {
-  padding-left: var(--msm-space-4);
-  /* 控制右侧目录自身宽度，避免占用太多水平空间 */
-  max-width: 200px;
-  margin-left: auto; /* 靠右对齐到容器边缘，看起来更靠右一些 */
-}
-
-/* 右侧整个 aside 宽度收窄一点，避免压缩正文 */
-.VPDocAside {
-  max-width: 220px;
-}
-
-/* 右侧目录内部样式微调，减少视觉噪音 */
-.VPDocAsideOutline .content {
-  border-left: 1px solid var(--msm-c-border-soft);
-  padding-left: var(--msm-space-3);
-  font-size: var(--msm-font-size-xs);
-}
-
-.VPDocAsideOutline .outline-title {
-  font-size: var(--msm-font-size-sm);
-  margin-bottom: var(--msm-space-2);
-}
-
-.VPDocAsideOutline .outline-link {
-  font-size: var(--msm-font-size-sm);
-  padding: var(--msm-space-1) 0;
-  color: var(--msm-c-text-3);
-  transition: color var(--msm-transition-fast);
-}
-
-.VPDocAsideOutline .outline-link:hover {
-  color: var(--msm-c-brand);
-}
-
-.VPDocAsideOutline .outline-link.active {
-  color: var(--msm-c-brand);
-  font-weight: var(--msm-font-weight-medium);
-}
-
-/* ==================== 响应式优化 ==================== */
-
-@media (max-width: 768px) {
-  .VPDoc .content {
-    padding: var(--msm-space-4) var(--msm-space-4) !important;
-  }
-
-  .vp-doc h1 {
-    font-size: var(--msm-font-size-3xl);
-  }
-
-  .vp-doc h2 {
-    font-size: var(--msm-font-size-xl);
-  }
-
-  .vp-doc h3 {
-    font-size: var(--msm-font-size-lg);
-  }
-}
-
-/* ==================== 滚动条优化 ==================== */
 
 ::-webkit-scrollbar {
-  /* 缩窄滚动条，避免视觉上过粗 */
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -653,62 +48,997 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--msm-c-border);
+  border: 3px solid transparent;
   border-radius: var(--msm-radius-full);
+  background: var(--msm-c-border-strong);
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--msm-c-text-4);
+  background: var(--msm-c-text-3);
+  background-clip: padding-box;
 }
 
-/* ==================== 选中文本样式 ==================== */
+/* ==================== Navigation ==================== */
 
-::selection {
-  background-color: rgba(37, 99, 235, 0.3);
+.VPNav {
+  border-bottom: 1px solid color-mix(in srgb, var(--msm-c-border) 82%, transparent);
+  background: var(--vp-nav-bg-color);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.VPNavBarTitle .title {
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 720;
+  letter-spacing: -0.02em;
+}
+
+.VPNavBarTitle .logo {
+  width: 30px;
+  height: 30px;
+}
+
+.VPNavBarMenuLink,
+.VPNavBarMenuGroup .button {
+  border-radius: var(--msm-radius-md);
+  color: var(--msm-c-text-2);
+  font-size: var(--msm-font-size-sm);
+  font-weight: 590;
+  transition:
+    color var(--msm-transition-fast),
+    background-color var(--msm-transition-fast);
+}
+
+.VPNavBarMenuLink:hover,
+.VPNavBarMenuLink.active,
+.VPNavBarMenuGroup .button:hover,
+.VPNavBarMenuGroup.active .button {
   color: var(--msm-c-text-1);
+  background: var(--msm-c-bg-soft);
 }
 
-.dark ::selection {
-  background-color: rgba(59, 130, 246, 0.4);
+.DocSearch-Button {
+  border: 1px solid var(--msm-c-border) !important;
+  border-radius: var(--msm-radius-md) !important;
+  background: var(--msm-c-bg-soft) !important;
+}
+
+.VPMenu {
+  border: 1px solid var(--msm-c-border);
+  border-radius: var(--msm-radius-lg);
+  box-shadow: var(--msm-shadow-md);
+}
+
+/* ==================== Sidebar and outline ==================== */
+
+.VPSidebar {
+  border-right: 1px solid var(--msm-c-border);
+  background: var(--vp-sidebar-bg-color);
+}
+
+.VPSidebarItem.level-0 {
+  padding-bottom: var(--msm-space-3);
+}
+
+.VPSidebarItem.level-0 + .VPSidebarItem.level-0 {
+  margin-top: var(--msm-space-3);
+  padding-top: var(--msm-space-5);
+  border-top: 1px solid var(--msm-c-border);
+}
+
+.VPSidebarItem .text {
+  line-height: 1.5;
+}
+
+.VPSidebarItem.level-0 > .item > .text {
   color: var(--msm-c-text-1);
+  font-size: var(--msm-font-size-sm);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-/* ==================== 动画 ==================== */
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.VPSidebarItem .link {
+  min-height: 34px;
+  margin: 2px 0;
+  padding: 7px 10px;
+  border-radius: var(--msm-radius-md);
+  color: var(--msm-c-text-2);
+  transition:
+    color var(--msm-transition-fast),
+    background-color var(--msm-transition-fast);
 }
 
-.fade-in {
-  animation: fadeIn var(--msm-transition-base) ease-out;
+.VPSidebarItem .link:hover {
+  color: var(--msm-c-text-1);
+  background: var(--msm-c-bg-mute);
 }
 
-/* ==================== 法律与合规长文 ==================== */
-
-.legal-page .vp-doc > p,
-.legal-page .vp-doc > ul,
-.legal-page .vp-doc > ol,
-.legal-page .vp-doc > blockquote {
-  max-width: 78ch;
+.VPSidebarItem .link.active {
+  color: var(--msm-c-brand);
+  background: var(--msm-c-brand-soft);
+  font-weight: 650;
 }
 
-.legal-page .vp-doc > .custom-block {
-  max-width: 88ch;
-  border-width: 1px;
+.VPDocAsideOutline .content {
+  border-left-color: var(--msm-c-border);
+}
+
+.VPDocAsideOutline .outline-title {
+  color: var(--msm-c-text-1);
+  font-size: var(--msm-font-size-sm);
+  font-weight: 700;
+}
+
+.VPDocAsideOutline .outline-link {
+  color: var(--msm-c-text-3);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  transition: color var(--msm-transition-fast);
+}
+
+.VPDocAsideOutline .outline-link:hover,
+.VPDocAsideOutline .outline-link.active {
+  color: var(--msm-c-brand);
+}
+
+/* ==================== Documentation reading surface ==================== */
+
+.VPDoc .container {
+  max-width: var(--msm-layout-max-width) !important;
+}
+
+.VPDoc > .container > .content {
+  padding-bottom: var(--msm-space-24) !important;
+}
+
+.VPDoc .content-container {
+  max-width: 900px !important;
+}
+
+.vp-doc {
+  color: var(--msm-c-text-1);
+  font-size: var(--msm-font-size-base);
+  line-height: var(--msm-line-height-normal);
+}
+
+.vp-doc > p,
+.vp-doc > ul,
+.vp-doc > ol,
+.vp-doc > blockquote,
+.vp-doc > div > p,
+.vp-doc > div > ul,
+.vp-doc > div > ol,
+.vp-doc > div > blockquote {
+  max-width: 74ch;
+}
+
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4 {
+  color: var(--msm-c-text-1);
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.vp-doc h1 {
+  margin: 0 0 var(--msm-space-6);
+  font-size: clamp(2rem, 4vw, 2.55rem);
+  font-weight: 760;
+  line-height: var(--msm-line-height-tight);
+}
+
+.vp-doc h2 {
+  margin: var(--msm-space-16) 0 var(--msm-space-5);
+  padding: 0;
+  border: 0;
+  font-size: var(--msm-font-size-2xl);
+  font-weight: 730;
+  line-height: var(--msm-line-height-tight);
+}
+
+.vp-doc h3 {
+  margin: var(--msm-space-10) 0 var(--msm-space-3);
+  font-size: var(--msm-font-size-xl);
+  font-weight: 700;
+  line-height: var(--msm-line-height-snug);
+}
+
+.vp-doc h4 {
+  margin: var(--msm-space-8) 0 var(--msm-space-3);
+  font-size: var(--msm-font-size-lg);
+  font-weight: 700;
+}
+
+.vp-doc p {
+  margin: var(--msm-space-4) 0;
+}
+
+.vp-doc strong {
+  color: var(--msm-c-text-1);
+  font-weight: 700;
+}
+
+.vp-doc a {
+  color: var(--msm-c-brand);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--msm-c-brand) 36%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition:
+    color var(--msm-transition-fast),
+    text-decoration-color var(--msm-transition-fast);
+}
+
+.vp-doc a:hover {
+  color: var(--msm-c-brand-hover);
+  text-decoration-color: currentColor;
+}
+
+.vp-doc .header-anchor {
+  color: var(--msm-c-brand);
+  opacity: 0;
+  text-decoration: none;
+  transition: opacity var(--msm-transition-fast);
+}
+
+.vp-doc :is(h2, h3, h4):hover .header-anchor,
+.vp-doc .header-anchor:focus-visible {
+  opacity: 1;
+}
+
+.vp-doc ul,
+.vp-doc ol {
+  margin: var(--msm-space-4) 0;
+  padding-left: 1.5rem;
+}
+
+.vp-doc li {
+  margin: 0.4rem 0;
+  padding-left: 0.2rem;
+}
+
+.vp-doc li::marker {
+  color: var(--msm-c-brand);
+  font-weight: 650;
+}
+
+.vp-doc blockquote {
+  margin: var(--msm-space-6) 0;
+  padding: 2px 0 2px var(--msm-space-5);
+  border-left: 1px solid var(--msm-c-border-strong);
+  color: var(--msm-c-text-2);
+}
+
+.vp-doc :not(pre) > code {
+  padding: 0.16em 0.38em;
+  border: 1px solid var(--msm-c-border);
+  border-radius: var(--msm-radius-sm);
+  color: var(--msm-c-brand-strong);
+  background: var(--msm-c-bg-soft);
+  font-family: var(--msm-font-family-mono);
+  font-size: 0.88em;
+}
+
+.dark .vp-doc :not(pre) > code {
+  color: var(--msm-c-brand-strong);
+}
+
+.vp-doc div[class*='language-'] {
+  margin: var(--msm-space-6) 0;
+  overflow: hidden;
+  border: 1px solid var(--msm-c-border);
+  border-radius: var(--msm-radius-lg);
   box-shadow: none;
 }
 
-.legal-page .vp-doc > .custom-block::before {
-  display: none;
+.vp-doc div[class*='language-'] pre {
+  padding: var(--msm-space-5);
+  font-size: var(--msm-font-size-sm);
+  line-height: 1.68;
 }
 
-.legal-page .vp-doc > table {
+.vp-doc div[class*='language-'] .lang {
+  color: var(--msm-c-text-3);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+}
+
+.vp-doc div[class*='language-'] button.copy {
+  border: 1px solid var(--msm-c-border);
+  border-radius: var(--msm-radius-md);
+  background: var(--msm-c-bg-soft);
+}
+
+.vp-doc table {
+  display: table;
+  width: 100%;
+  margin: var(--msm-space-6) 0;
+  overflow-x: auto;
+  border: 1px solid var(--msm-c-border);
+  border-radius: var(--msm-radius-lg);
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--msm-font-size-sm);
   font-variant-numeric: tabular-nums;
+}
+
+.vp-doc th {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--msm-c-border-strong);
+  color: var(--msm-c-text-1);
+  background: var(--msm-c-bg-soft);
+  font-weight: 700;
+  text-align: left;
+}
+
+.vp-doc td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--msm-c-border);
+}
+
+.vp-doc tr:last-child td {
+  border-bottom: 0;
+}
+
+.vp-doc tbody tr:hover {
+  background: color-mix(in srgb, var(--msm-c-brand-soft) 58%, transparent);
+}
+
+.vp-doc img:not(.logo) {
+  border: 1px solid var(--msm-c-border);
+  border-radius: var(--msm-radius-lg);
+  box-shadow: var(--msm-shadow-md);
+}
+
+.vp-doc .custom-block {
+  max-width: 82ch;
+  margin: var(--msm-space-6) 0;
+  padding: var(--msm-space-4) var(--msm-space-5);
+  border: 1px solid var(--msm-c-border);
+  border-radius: var(--msm-radius-lg);
+  box-shadow: none;
+}
+
+.vp-doc .custom-block::before,
+.vp-doc .custom-block::after {
+  content: none;
+}
+
+.vp-doc .custom-block.info,
+.vp-doc .custom-block.tip {
+  border-color: color-mix(in srgb, var(--msm-c-info) 32%, var(--msm-c-border));
+  background: color-mix(in srgb, var(--msm-c-info) 7%, var(--msm-c-bg));
+}
+
+.vp-doc .custom-block.warning {
+  border-color: color-mix(in srgb, var(--msm-c-warning) 34%, var(--msm-c-border));
+  background: color-mix(in srgb, var(--msm-c-warning) 7%, var(--msm-c-bg));
+}
+
+.vp-doc .custom-block.danger {
+  border-color: color-mix(in srgb, var(--msm-c-danger) 34%, var(--msm-c-border));
+  background: color-mix(in srgb, var(--msm-c-danger) 7%, var(--msm-c-bg));
+}
+
+.vp-doc .custom-block-title {
+  margin-bottom: var(--msm-space-2);
+  color: var(--msm-c-text-1);
+  font-weight: 720;
+}
+
+/* ==================== Home hero ==================== */
+
+.VPHome .VPHero {
+  position: relative;
+  padding: 78px 24px 42px;
+  overflow: hidden;
+}
+
+.VPHome .VPHero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 12%, var(--msm-c-brand-soft), transparent 24rem),
+    radial-gradient(circle at 82% 38%, var(--msm-c-accent-soft), transparent 20rem);
+}
+
+.VPHome .VPHero .container {
+  position: relative;
+  max-width: var(--msm-home-max-width);
+}
+
+.VPHome .VPHero .main {
+  max-width: 680px;
+}
+
+.VPHome .VPHero .name {
+  max-width: 680px;
+  color: var(--msm-c-brand);
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: currentColor;
+  background-clip: initial;
+  font-size: clamp(3rem, 6vw, 4.35rem);
+  font-weight: 800;
+  line-height: 1.03;
+  letter-spacing: -0.038em;
+  text-shadow: none;
+}
+
+.VPHome .VPHero .text {
+  max-width: 660px;
+  margin-top: var(--msm-space-4);
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 730;
+  line-height: 1.18;
+  letter-spacing: -0.028em;
+}
+
+.VPHome .VPHero .tagline {
+  max-width: 650px;
+  margin-top: var(--msm-space-5);
+  color: var(--msm-c-text-2);
+  font-size: var(--msm-font-size-lg);
+  line-height: var(--msm-line-height-relaxed);
+}
+
+.VPHome .VPHero .actions {
+  margin-top: var(--msm-space-8);
+  gap: 12px;
+}
+
+.VPHome .VPHero .VPButton {
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: var(--msm-radius-md);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  transition:
+    transform var(--msm-transition-base),
+    background-color var(--msm-transition-fast),
+    border-color var(--msm-transition-fast);
+}
+
+.VPHome .VPHero .VPButton.alt {
+  border-color: var(--msm-c-border);
+}
+
+.VPHome .VPHero .VPButton:hover {
+  transform: translateY(-1px);
+}
+
+.VPHome .VPHero .image-bg {
+  opacity: 0.9;
+}
+
+.VPHome .VPHero .image-src {
+  max-width: 236px;
+  max-height: 290px;
+  filter: drop-shadow(0 24px 24px rgba(37, 70, 112, 0.18));
+}
+
+/* ==================== Home capabilities ==================== */
+
+.VPHome .VPFeatures {
+  padding: 28px 24px 52px;
+}
+
+.VPHome .VPFeatures .container {
+  max-width: var(--msm-home-max-width);
+}
+
+.VPHome .VPFeatures .items {
+  margin: -10px;
+}
+
+.VPHome .VPFeatures .item {
+  padding: 10px;
+}
+
+.VPHome .VPFeature {
+  overflow: hidden;
+  border: 1px solid var(--msm-c-border);
+  border-radius: var(--msm-radius-lg);
+  background: color-mix(in srgb, var(--msm-c-bg) 94%, var(--msm-c-bg-soft));
+  box-shadow: none;
+  transition:
+    transform var(--msm-transition-base),
+    border-color var(--msm-transition-fast),
+    background-color var(--msm-transition-fast);
+}
+
+.VPHome .VPFeature:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--msm-c-brand) 48%, var(--msm-c-border));
+  background: var(--msm-c-bg);
+}
+
+.VPHome .VPFeature .box {
+  padding: 24px;
+}
+
+.VPHome .VPFeature .icon {
+  width: 46px;
+  height: 46px;
+  margin-bottom: var(--msm-space-5);
+  border: 0;
+  border-radius: var(--msm-radius-md);
+  color: var(--msm-c-brand);
+  background: var(--msm-c-brand-soft);
+}
+
+.VPHome .VPFeature .icon img {
+  width: 28px;
+  height: 28px;
+}
+
+.VPHome .VPFeature .title {
+  color: var(--msm-c-text-1);
+  font-size: var(--msm-font-size-lg);
+  font-weight: 720;
+  letter-spacing: -0.015em;
+}
+
+.VPHome .VPFeature .details {
+  padding-top: var(--msm-space-2);
+  color: var(--msm-c-text-2);
+  font-size: var(--msm-font-size-sm);
+  font-weight: 450;
+  line-height: 1.7;
+}
+
+.VPHome .VPFeature .link-text {
+  padding-top: var(--msm-space-4);
+}
+
+.VPHome .VPFeature .link-text-value {
+  color: var(--msm-c-brand);
+  font-weight: 650;
+}
+
+/* ==================== Custom home sections ==================== */
+
+.VPHome .vp-doc.container {
+  max-width: var(--msm-home-max-width);
+  padding: 0 0 var(--msm-space-24);
+}
+
+.msm-home-section {
+  padding: 84px 0;
+  border-top: 1px solid var(--msm-c-border);
+}
+
+.msm-section-heading {
+  max-width: 690px;
+  margin-bottom: var(--msm-space-10);
+}
+
+.msm-section-heading h2 {
+  margin: 0;
+  color: var(--msm-c-text-1);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 760;
+  line-height: 1.16;
+  letter-spacing: -0.032em;
+}
+
+.msm-section-heading p {
+  margin: var(--msm-space-4) 0 0;
+  color: var(--msm-c-text-2);
+  font-size: var(--msm-font-size-lg);
+  line-height: 1.75;
+}
+
+.msm-step-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.msm-step {
+  min-width: 0;
+  padding: 0 var(--msm-space-8);
+  border-left: 1px solid var(--msm-c-border);
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.msm-step:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.msm-step:last-child {
+  padding-right: 0;
+}
+
+.msm-step__number {
+  display: inline-grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: var(--msm-radius-full);
+  color: var(--msm-c-brand);
+  background: var(--msm-c-brand-soft);
+  font-size: var(--msm-font-size-sm);
+  font-weight: 760;
+  font-variant-numeric: tabular-nums;
+}
+
+.msm-step h3 {
+  margin: var(--msm-space-5) 0 var(--msm-space-2);
+  color: var(--msm-c-text-1);
+  font-size: var(--msm-font-size-xl);
+  font-weight: 720;
+}
+
+.msm-step p {
+  margin: 0 0 var(--msm-space-4);
+  color: var(--msm-c-text-2);
+  font-size: var(--msm-font-size-sm);
+  line-height: 1.72;
+}
+
+.msm-home-link {
+  color: var(--msm-c-brand);
+  font-size: var(--msm-font-size-sm);
+  font-weight: 680;
+}
+
+.msm-step:hover .msm-home-link,
+.msm-path:hover .msm-home-link {
+  color: var(--msm-c-brand-hover);
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+
+.msm-path-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: var(--msm-space-4);
+}
+
+.msm-path {
+  display: flex;
+  min-height: 178px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--msm-space-8);
+  border: 1px solid var(--msm-c-border);
+  border-radius: var(--msm-radius-lg);
+  color: inherit !important;
+  background: var(--msm-c-bg-soft);
+  text-decoration: none !important;
+  transition:
+    transform var(--msm-transition-base),
+    border-color var(--msm-transition-fast),
+    background-color var(--msm-transition-fast);
+}
+
+.msm-path--primary {
+  grid-row: 1 / 3;
+  min-height: 372px;
+  background:
+    radial-gradient(circle at 88% 12%, var(--msm-c-accent-soft), transparent 16rem),
+    var(--msm-c-bg-soft);
+}
+
+.msm-path:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--msm-c-brand) 46%, var(--msm-c-border));
+  background-color: var(--msm-c-bg);
+}
+
+.msm-path h3 {
+  margin: 0 0 var(--msm-space-3);
+  color: var(--msm-c-text-1);
+  font-size: 1.4rem;
+  font-weight: 730;
+  letter-spacing: -0.02em;
+}
+
+.msm-path--primary h3 {
+  max-width: 520px;
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+}
+
+.msm-path p {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--msm-c-text-2);
+  line-height: 1.75;
+}
+
+.msm-reading-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--msm-space-6);
+}
+
+.msm-reading-link {
+  min-height: 94px;
+  padding-top: var(--msm-space-4);
+  border-top: 1px solid var(--msm-c-border-strong);
+  color: inherit !important;
+  text-decoration: none !important;
+  transition: border-color var(--msm-transition-fast);
+}
+
+.msm-reading-link:hover {
+  border-color: var(--msm-c-brand);
+}
+
+.msm-reading-link strong {
+  display: block;
+  margin-bottom: var(--msm-space-2);
+  color: var(--msm-c-text-1);
+  font-weight: 700;
+}
+
+.msm-reading-link span {
+  color: var(--msm-c-text-3);
+  font-size: var(--msm-font-size-sm);
+  line-height: 1.55;
+}
+
+.msm-boundary {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.34fr) minmax(0, 1fr);
+  gap: var(--msm-space-8);
+  align-items: start;
+  padding: var(--msm-space-8);
+  border: 1px solid color-mix(in srgb, var(--msm-c-brand) 28%, var(--msm-c-border));
+  border-radius: var(--msm-radius-lg);
+  background: var(--msm-c-brand-soft);
+}
+
+.msm-boundary h2 {
+  margin: 0;
+  color: var(--msm-c-text-1);
+  font-size: var(--msm-font-size-2xl);
+  font-weight: 740;
+  letter-spacing: -0.025em;
+}
+
+.msm-boundary p {
+  margin: 0;
+  color: var(--msm-c-text-2);
+  line-height: 1.78;
+}
+
+.msm-boundary a {
+  color: var(--msm-c-brand);
+  font-weight: 650;
+}
+
+/* ==================== Footer ==================== */
+
+.VPFooter {
+  border-top: 1px solid var(--msm-c-border);
+  background: var(--msm-c-bg-soft) !important;
+}
+
+.VPFooter .message,
+.VPFooter .copyright {
+  color: var(--msm-c-text-3);
+  font-size: 0.8125rem;
+}
+
+.VPFooter a {
+  color: var(--msm-c-text-2);
+  text-decoration: none;
+}
+
+.VPFooter a:hover {
+  color: var(--msm-c-brand);
+}
+
+/* ==================== Responsive ==================== */
+
+@media (max-width: 959px) {
+  .VPHome .VPHero {
+    padding-top: 64px;
+  }
+
+  .VPHome .VPHero .main {
+    max-width: 620px;
+  }
+
+  .VPHome .VPHero .image-src {
+    max-width: 210px;
+  }
+
+  .msm-reading-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .VPHome .vp-doc.container {
+    width: calc(100% - 48px);
+  }
+}
+
+@media (max-width: 767px) {
+  .VPDoc > .container > .content {
+    padding: var(--msm-space-8) 0 var(--msm-space-20) !important;
+  }
+
+  .vp-doc h1 {
+    font-size: 2rem;
+  }
+
+  .vp-doc h2 {
+    margin-top: var(--msm-space-12);
+    font-size: 1.45rem;
+  }
+
+  .vp-doc h3 {
+    margin-top: var(--msm-space-8);
+    font-size: 1.15rem;
+  }
+
+  .vp-doc table {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .VPHome .VPHero {
+    padding: 48px 20px 28px;
+  }
+
+  .VPHome .VPHero .name {
+    font-size: clamp(2.65rem, 13vw, 3.4rem);
+  }
+
+  .VPHome .VPHero .text {
+    font-size: clamp(1.65rem, 8vw, 2rem);
+  }
+
+  .VPHome .VPHero .tagline {
+    font-size: 1rem;
+  }
+
+  .VPHome .VPHero .actions {
+    flex-direction: column;
+  }
+
+  .VPHome .VPHero .main {
+    order: 1;
+  }
+
+  .VPHome .VPHero .VPButton {
+    width: 100%;
+  }
+
+  .VPHome .VPHero .image {
+    order: 2;
+    height: 190px;
+    margin: 28px auto 0;
+  }
+
+  .VPHome .VPHero .image-container {
+    width: 180px;
+    height: 180px;
+    transform: none;
+  }
+
+  .VPHome .VPHero .image-src {
+    max-width: 140px;
+    max-height: 175px;
+  }
+
+  .VPHome .VPFeatures {
+    padding: 22px 20px 38px;
+  }
+
+  .VPHome .VPFeatures .items {
+    margin: -8px;
+  }
+
+  .VPHome .VPFeatures .item {
+    padding: 8px;
+  }
+
+  .VPHome .vp-doc.container {
+    width: calc(100% - 40px);
+    padding: 0 0 var(--msm-space-20);
+  }
+
+  .msm-home-section {
+    padding: 64px 0;
+  }
+
+  .msm-section-heading {
+    margin-bottom: var(--msm-space-8);
+  }
+
+  .msm-section-heading h2 {
+    font-size: 2rem;
+  }
+
+  .msm-section-heading p {
+    font-size: 1rem;
+  }
+
+  .msm-step-list {
+    grid-template-columns: 1fr;
+  }
+
+  .msm-step,
+  .msm-step:first-child,
+  .msm-step:last-child {
+    padding: var(--msm-space-8) 0;
+    border-top: 1px solid var(--msm-c-border);
+    border-left: 0;
+  }
+
+  .msm-step:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .msm-path-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+
+  .msm-path,
+  .msm-path--primary {
+    grid-row: auto;
+    min-height: 210px;
+    padding: var(--msm-space-6);
+  }
+
+  .msm-reading-grid {
+    grid-template-columns: 1fr;
+    gap: var(--msm-space-4);
+  }
+
+  .msm-boundary {
+    grid-template-columns: 1fr;
+    gap: var(--msm-space-4);
+    padding: var(--msm-space-6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+@media print {
+  .VPNav,
+  .VPSidebar,
+  .VPDocAside,
+  .VPFooter {
+    display: none !important;
+  }
+
+  .VPContent,
+  .VPDoc > .container > .content,
+  .VPDoc .content-container {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  body {
+    color: #111827;
+    background: #ffffff;
+  }
 }
