@@ -1,0 +1,373 @@
+/**
+ * MSM Wiki - 2026 图标系统
+ * 渐变图标、动画效果、独特视觉
+ */
+
+/* ==================== 提示框图标系统 ==================== */
+
+.vp-doc .custom-block {
+  position: relative;
+  /* 左侧为图标预留一点空间，尽量收紧，避免压缩正文 */
+  padding-left: var(--msm-space-8);
+}
+
+/* 移除默认图标 */
+.vp-doc .custom-block-title {
+  position: relative;
+}
+
+/* 自定义图标容器 */
+.vp-doc .custom-block::after {
+  content: '';
+  position: absolute;
+  /* 更靠左靠上，避免遮挡标题内容 */
+  left: var(--msm-space-2);
+  top: var(--msm-space-2);
+  /* 略微放大一点，保持不抢视线 */
+  width: 20px;
+  height: 20px;
+  border-radius: var(--msm-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+/* Tip 图标 - 灯泡 */
+.vp-doc .custom-block.tip::after {
+  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  content: '💡';
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Warning 图标 - 警告 */
+.vp-doc .custom-block.warning::after {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  content: '⚠️';
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Danger 图标 - 危险 */
+.vp-doc .custom-block.danger::after {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  content: '🚫';
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Info 图标 - 信息 */
+.vp-doc .custom-block.info::after {
+  background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%);
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+  content: 'ℹ️';
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==================== 列表项图标优化 ==================== */
+
+/* 无序列表 - 渐变圆点 */
+.vp-doc ul > li {
+  position: relative;
+  list-style: none;
+}
+
+.vp-doc ul > li::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--msm-gradient-brand);
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+/* 有序列表 - 渐变数字 */
+.vp-doc ol {
+  counter-reset: list-counter;
+}
+
+.vp-doc ol > li {
+  position: relative;
+  list-style: none;
+  counter-increment: list-counter;
+}
+
+.vp-doc ol > li::before {
+  content: counter(list-counter);
+  position: absolute;
+  left: -28px;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--msm-gradient-brand);
+  color: white;
+  font-size: 11px;
+  font-weight: var(--msm-font-weight-semibold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+}
+
+/* ==================== 特性卡片图标增强 ==================== */
+
+.VPHome .VPFeature .icon {
+  position: relative;
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--msm-radius-xl);
+  background: var(--msm-gradient-brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--msm-font-size-3xl);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+  transition: all 0.4s var(--msm-fluid-ease);
+}
+
+.VPHome .VPFeature:hover .icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.5);
+}
+
+/* 图标光晕效果 */
+.VPHome .VPFeature .icon::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: var(--msm-radius-xl);
+  background: var(--msm-gradient-brand);
+  opacity: 0;
+  filter: blur(12px);
+  transition: opacity 0.4s var(--msm-fluid-ease);
+  z-index: -1;
+}
+
+.VPHome .VPFeature:hover .icon::before {
+  opacity: 0.6;
+}
+
+/* ==================== 链接图标 ==================== */
+
+/* 外部链接图标 */
+.vp-doc a[href^='http']::after {
+  content: '↗';
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 0.85em;
+  opacity: 0.6;
+  transition: all 0.3s var(--msm-fluid-ease);
+}
+
+.vp-doc a[href^='http']:hover::after {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+/* GitHub 链接特殊样式 */
+.vp-doc a[href*='github.com']::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'/%3E%3C/svg%3E") no-repeat center;
+  mask-size: contain;
+  vertical-align: text-bottom;
+}
+
+/* ==================== 标题锚点图标 ==================== */
+
+.vp-doc h2 .header-anchor,
+.vp-doc h3 .header-anchor,
+.vp-doc h4 .header-anchor {
+  display: none; /* 完全隐藏锚点符号 */
+}
+
+/* ==================== 表格图标优化 ==================== */
+
+/* 表格中的 ✅ 和 ❌ 增强 */
+.vp-doc table td:first-child {
+  font-size: var(--msm-font-size-lg);
+}
+
+/* ==================== 徽章系统 ==================== */
+
+/* 创建自定义徽章类 */
+.badge {
+  display: inline-block;
+  padding: var(--msm-space-1) var(--msm-space-3);
+  font-size: var(--msm-font-size-xs);
+  font-weight: var(--msm-font-weight-semibold);
+  color: white;
+  background: var(--msm-gradient-brand);
+  border-radius: var(--msm-radius-full);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+  margin: 0 var(--msm-space-1);
+}
+
+.badge.success {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.badge.warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+.badge.danger {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+/* ==================== 行内代码图标 ==================== */
+
+/* 为特定的行内代码添加图标 */
+.vp-doc :not(pre) > code {
+  position: relative;
+  padding-left: 1.2em;
+}
+
+/* 命令行代码前缀 */
+.vp-doc :not(pre) > code[class*='language-bash']::before,
+.vp-doc :not(pre) > code[class*='language-sh']::before {
+  content: '$';
+  position: absolute;
+  left: 0.4em;
+  color: var(--msm-c-brand);
+  font-weight: var(--msm-font-weight-bold);
+}
+
+/* ==================== 加载动画图标 ==================== */
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--msm-c-border);
+  border-top-color: var(--msm-c-brand);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ==================== 状态图标 ==================== */
+
+.status-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: var(--msm-font-weight-bold);
+  margin-right: var(--msm-space-2);
+}
+
+.status-icon.success {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  color: white;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4);
+}
+
+.status-icon.error {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  color: white;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+}
+
+.status-icon.pending {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  color: white;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.4);
+}
+
+/* ==================== 响应式优化 ==================== */
+
+@media (max-width: 768px) {
+  .vp-doc .custom-block {
+    padding-left: var(--msm-space-10);
+  }
+
+  .vp-doc .custom-block::after {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .VPHome .VPFeature .icon {
+    width: 56px;
+    height: 56px;
+    font-size: var(--msm-font-size-2xl);
+  }
+}
+
+/* ==================== 暗色模式优化 ==================== */
+
+.dark .vp-doc ul > li::before {
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.5);
+}
+
+.dark .vp-doc ol > li::before {
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.6);
+}
+
+.dark .VPHome .VPFeature .icon {
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.5);
+}
+
+.dark .VPHome .VPFeature:hover .icon {
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.7);
+}

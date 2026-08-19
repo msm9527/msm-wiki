@@ -1,0 +1,427 @@
+/**
+ * MSM Wiki - 2026 激进设计风格
+ * 特点: 网格渐变、玻璃态、流体动画、3D效果、动态岛
+ */
+
+/* ==================== 2026 设计系统扩展 ==================== */
+
+:root {
+  /* 网格渐变色 */
+  --msm-mesh-1: #2563eb;
+  --msm-mesh-2: #7c3aed;
+  --msm-mesh-3: #ec4899;
+  --msm-mesh-4: #f59e0b;
+  --msm-mesh-5: #10b981;
+
+  /* 玻璃态效果 */
+  --msm-glass-bg: rgba(255, 255, 255, 0.7);
+  --msm-glass-border: rgba(255, 255, 255, 0.18);
+  --msm-glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+
+  /* 3D 效果 */
+  --msm-3d-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.02),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.028),
+    0 12.5px 10px rgba(0, 0, 0, 0.035),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.042),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.05),
+    0 100px 80px rgba(0, 0, 0, 0.07);
+
+  /* 流体动画 */
+  --msm-fluid-ease: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.dark {
+  --msm-glass-bg: rgba(15, 23, 42, 0.7);
+  --msm-glass-border: rgba(255, 255, 255, 0.1);
+  --msm-glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* ==================== 首页英雄区 - 网格渐变背景 ==================== */
+
+.VPHome .VPHero {
+  position: relative;
+  padding: var(--msm-space-20) var(--msm-space-8) var(--msm-space-16);
+  overflow: hidden;
+}
+
+/* 网格渐变背景 */
+.VPHome .VPHero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(circle at 20% 50%, var(--msm-mesh-1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, var(--msm-mesh-2) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, var(--msm-mesh-3) 0%, transparent 50%),
+    radial-gradient(circle at 90% 30%, var(--msm-mesh-4) 0%, transparent 50%),
+    radial-gradient(circle at 10% 90%, var(--msm-mesh-5) 0%, transparent 50%);
+  opacity: 0.15;
+  animation: meshRotate 20s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes meshRotate {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+}
+
+/* 玻璃态遮罩 */
+.VPHome .VPHero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--msm-glass-bg);
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
+  z-index: 1;
+}
+
+.VPHome .VPHero .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* 标题 - 3D 文字效果 */
+.VPHome .VPHero .name {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: var(--msm-font-weight-bold);
+  line-height: var(--msm-line-height-tight);
+  background: linear-gradient(135deg,
+    var(--msm-mesh-1) 0%,
+    var(--msm-mesh-2) 25%,
+    var(--msm-mesh-3) 50%,
+    var(--msm-mesh-4) 75%,
+    var(--msm-mesh-5) 100%
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 8s ease infinite;
+  text-shadow: var(--msm-3d-shadow);
+  transform-style: preserve-3d;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.VPHome .VPHero .text {
+  font-size: var(--msm-font-size-2xl);
+  font-weight: var(--msm-font-weight-medium);
+  margin-top: var(--msm-space-4);
+  animation: fadeInUp 0.8s var(--msm-fluid-ease) 0.2s both;
+}
+
+.VPHome .VPHero .tagline {
+  font-size: var(--msm-font-size-lg);
+  color: var(--msm-c-text-2);
+  margin-top: var(--msm-space-3);
+  line-height: var(--msm-line-height-relaxed);
+  animation: fadeInUp 0.8s var(--msm-fluid-ease) 0.4s both;
+}
+
+.VPHome .VPHero .actions {
+  margin-top: var(--msm-space-8);
+  animation: fadeInUp 0.8s var(--msm-fluid-ease) 0.6s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================== 特性卡片 - 玻璃态 + 3D ==================== */
+
+.VPHome .VPFeatures {
+  padding: var(--msm-space-16) var(--msm-space-8);
+  position: relative;
+}
+
+.VPHome .VPFeature {
+  padding: var(--msm-space-6);
+  border-radius: var(--msm-radius-xl);
+  background: var(--msm-glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--msm-glass-border);
+  box-shadow: var(--msm-glass-shadow);
+  transition: all 0.4s var(--msm-fluid-ease);
+  transform-style: preserve-3d;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 卡片悬浮效果 */
+.VPHome .VPFeature::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg,
+    rgba(37, 99, 235, 0.1) 0%,
+    rgba(124, 58, 237, 0.1) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s var(--msm-fluid-ease);
+  z-index: 0;
+}
+
+.VPHome .VPFeature:hover::before {
+  opacity: 1;
+}
+
+.VPHome .VPFeature:hover {
+  transform: translateY(-8px) rotateX(2deg);
+  box-shadow: var(--msm-3d-shadow);
+  border-color: var(--msm-c-brand-light);
+}
+
+.VPHome .VPFeature .icon {
+  font-size: var(--msm-font-size-3xl);
+  margin-bottom: var(--msm-space-3);
+  display: inline-block;
+  transition: transform 0.4s var(--msm-fluid-ease);
+  position: relative;
+  z-index: 1;
+}
+
+.VPHome .VPFeature:hover .icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.VPHome .VPFeature .title {
+  font-size: var(--msm-font-size-lg);
+  font-weight: var(--msm-font-weight-semibold);
+  margin-bottom: var(--msm-space-2);
+  position: relative;
+  z-index: 1;
+}
+
+.VPHome .VPFeature .details {
+  font-size: var(--msm-font-size-sm);
+  color: var(--msm-c-text-2);
+  line-height: var(--msm-line-height-relaxed);
+  position: relative;
+  z-index: 1;
+}
+
+/* ==================== 动态岛效果 ==================== */
+
+/* 为按钮添加动态岛效果 */
+.VPButton {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s var(--msm-fluid-ease);
+}
+
+.VPButton::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s var(--msm-fluid-ease), height 0.6s var(--msm-fluid-ease);
+}
+
+.VPButton:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* ==================== 代码块 - 优化样式 ==================== */
+
+.vp-doc div[class*='language-'] {
+  margin: var(--msm-space-4) 0;
+  border-radius: var(--msm-radius-lg);
+  overflow: hidden;
+  /* 移除玻璃态效果,避免与代码高亮冲突 */
+  border: 1px solid var(--msm-c-border);
+  box-shadow: var(--msm-shadow-2);
+  transition: all 0.3s var(--msm-fluid-ease);
+}
+
+.vp-doc div[class*='language-']:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--msm-shadow-3);
+  border-color: var(--msm-c-brand-light);
+}
+
+/* ==================== 提示框 - 优化样式 ==================== */
+
+.vp-doc .custom-block {
+  margin: var(--msm-space-4) 0;
+  padding: var(--msm-space-4);
+  border-radius: var(--msm-radius-lg);
+  /* 移除玻璃态效果,使用半透明背景 */
+  border: 2px solid;
+  box-shadow: var(--msm-shadow-1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 移除流动边框动画,使用简单的顶部装饰条 */
+.vp-doc .custom-block::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+.vp-doc .custom-block.tip {
+  border-color: var(--msm-c-brand);
+}
+
+.vp-doc .custom-block.warning {
+  border-color: var(--msm-c-warning);
+}
+
+.vp-doc .custom-block.danger {
+  border-color: var(--msm-c-danger);
+}
+
+/* ==================== 导航栏 - 优化玻璃态 ==================== */
+
+.VPNav {
+  height: var(--msm-navbar-height);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid var(--msm-c-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.dark .VPNav {
+  background: rgba(15, 23, 42, 0.95);
+}
+
+/* ==================== 侧边栏 - 流体动画 ==================== */
+
+.VPSidebar .link {
+  display: block;
+  padding: var(--msm-space-2) var(--msm-space-3);
+  font-size: var(--msm-font-size-sm);
+  color: var(--msm-c-text-2);
+  border-radius: var(--msm-radius-sm);
+  transition: all 0.3s var(--msm-fluid-ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.VPSidebar .link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  /* 左侧高亮条窄一点，减少视觉压迫感 */
+  width: 2px;
+  background: var(--msm-gradient-brand);
+  transform: scaleY(0);
+  transition: transform 0.3s var(--msm-fluid-ease);
+}
+
+.VPSidebar .link:hover::before,
+.VPSidebar .link.active::before {
+  transform: scaleY(1);
+}
+
+.VPSidebar .link:hover {
+  color: var(--msm-c-brand);
+  /* 使用普通背景色而不是强玻璃态，避免太亮 */
+  background: var(--msm-c-bg-soft);
+  transform: translateX(2px);
+}
+
+.VPSidebar .link.active {
+  color: var(--msm-c-brand);
+  background: var(--msm-c-bg-soft);
+  font-weight: var(--msm-font-weight-medium);
+}
+
+/* ==================== 页面加载动画 ==================== */
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.VPDoc .content {
+  animation: pageEnter 0.6s var(--msm-fluid-ease);
+}
+
+/* ==================== 响应式优化 ==================== */
+
+@media (max-width: 768px) {
+  .VPHome .VPHero {
+    padding: var(--msm-space-12) var(--msm-space-4) var(--msm-space-8);
+  }
+
+  .VPHome .VPHero .name {
+    font-size: var(--msm-font-size-3xl);
+  }
+
+  .VPHome .VPFeature {
+    padding: var(--msm-space-4);
+  }
+}
+
+/* ==================== 暗色模式特殊效果 ==================== */
+
+.dark .VPHome .VPHero::before {
+  opacity: 0.2;
+}
+
+.dark .VPHome .VPFeature {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 暗色模式下移除代码块的玻璃态效果 */
+.dark .vp-doc div[class*='language-'] {
+  background: var(--vp-code-block-bg);
+  border-color: var(--msm-c-border);
+}
+
+/* 暗色模式下移除提示框的玻璃态效果 */
+.dark .vp-doc .custom-block {
+  background: var(--vp-custom-block-tip-bg);
+}
