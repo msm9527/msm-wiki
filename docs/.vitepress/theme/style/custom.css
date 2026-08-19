@@ -689,3 +689,26 @@ body {
 .fade-in {
   animation: fadeIn var(--msm-transition-base) ease-out;
 }
+
+/* ==================== 法律与合规长文 ==================== */
+
+.legal-page .vp-doc > p,
+.legal-page .vp-doc > ul,
+.legal-page .vp-doc > ol,
+.legal-page .vp-doc > blockquote {
+  max-width: 78ch;
+}
+
+.legal-page .vp-doc > .custom-block {
+  max-width: 88ch;
+  border-width: 1px;
+  box-shadow: none;
+}
+
+.legal-page .vp-doc > .custom-block::before {
+  display: none;
+}
+
+.legal-page .vp-doc > table {
+  font-variant-numeric: tabular-nums;
+}

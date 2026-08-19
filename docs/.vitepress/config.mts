@@ -13,7 +13,7 @@ function canonicalUrl(relativePath: string) {
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "MSM Wiki",
-  description: "MSM Manager - 统一管理平台文档",
+  description: "MSM 闭源自托管网络与系统管理软件官方文档",
   base: '/',
   sitemap: {
     hostname: SITE_URL
@@ -85,8 +85,11 @@ export default defineConfig({
         text: '合规与权益',
         items: [
           { text: '使用与合规中心', link: '/zh/legal/' },
+          { text: 'Pro 购买与授权', link: '/zh/legal/pro-and-support' },
+          { text: '购买 MSM Pro（爱发电）', link: 'https://ifdian.net/item/1a36bba4913411f19a295254001e7c00' },
           { text: '合规使用规范', link: '/zh/legal/acceptable-use' },
           { text: '隐私与数据安全', link: '/zh/legal/privacy-security' },
+          { text: '第三方软件与许可证', link: '/zh/legal/third-party-software' },
           { text: '免责声明', link: '/zh/legal/disclaimer' },
           { text: '知识产权', link: '/zh/legal/intellectual-property' }
         ]
@@ -189,8 +192,10 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: '使用与合规中心', link: '/zh/legal/' },
+            { text: 'Pro 购买与授权', link: '/zh/legal/pro-and-support' },
             { text: '合规使用规范', link: '/zh/legal/acceptable-use' },
             { text: '隐私与数据安全', link: '/zh/legal/privacy-security' },
+            { text: '第三方软件与许可证', link: '/zh/legal/third-party-software' },
             { text: '免责声明', link: '/zh/legal/disclaimer' },
             { text: '知识产权', link: '/zh/legal/intellectual-property' }
           ]
@@ -210,7 +215,7 @@ export default defineConfig({
     ],
 
     footer: {
-      message: '<a href="/zh/legal/">使用与合规</a> · <a href="/zh/legal/privacy-security">隐私与安全</a> · <a href="/zh/legal/disclaimer">免责声明</a> · <a href="/zh/legal/intellectual-property">知识产权</a>',
+      message: '<a href="/zh/legal/">使用与合规</a> · <a href="/zh/legal/pro-and-support">Pro 购买</a> · <a href="/zh/legal/privacy-security">隐私与安全</a> · <a href="/zh/legal/third-party-software">第三方软件</a>',
       copyright: 'Copyright © 2026-present MSM Project. All rights reserved.'
     },
 
