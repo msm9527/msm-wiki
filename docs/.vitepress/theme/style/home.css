@@ -110,9 +110,52 @@
   mask-image: linear-gradient(to bottom, #000 0%, transparent 88%);
 }
 
+/*
+ * Hero 背后的环境色光：两团品牌靛蓝 / 琥珀的径向光，缓慢无限漂移。
+ * 这是页面唯一常驻动效，给克制的蓝图注入一点“活着”的感觉。
+ * 位于网格之下（z-index:-2），受 prefers-reduced-motion 收束为静止。
+ */
+.VPHome .VPHero::before {
+  content: '';
+  position: absolute;
+  inset: -12% -6% 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      42% 55% at 20% 26%,
+      var(--msm-glow-brand),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 52% at 84% 44%,
+      var(--msm-glow-accent),
+      transparent 72%
+    );
+  animation: msm-glow-drift 18s var(--msm-ease) infinite;
+}
+
 .VPHome .VPHero {
   position: relative;
   isolation: isolate;
+  overflow: clip;
+}
+
+/* Hero 内容分层入场：品牌名 → 大标题 → 副标题 → 按钮 → 图版 依次淡入上移 */
+.VPHome .VPHero .name {
+  animation: msm-fade-up 0.6s var(--msm-ease) 0.05s both;
+}
+.VPHome .VPHero .text {
+  animation: msm-fade-up 0.6s var(--msm-ease) 0.13s both;
+}
+.VPHome .VPHero .tagline {
+  animation: msm-fade-up 0.6s var(--msm-ease) 0.21s both;
+}
+.VPHome .VPHero .actions {
+  animation: msm-fade-up 0.6s var(--msm-ease) 0.29s both;
+}
+.VPHome .VPHero .image {
+  animation: msm-fade-up 0.7s var(--msm-ease) 0.36s both;
 }
 
 /* ==================== Hero 图版 ==================== */
@@ -131,14 +174,19 @@
   height: 264px;
   padding: var(--msm-space-8);
   transform: none;
-  border: 1px solid var(--msm-line-strong);
+  border: 1px solid var(--msm-glass-border);
   border-radius: var(--msm-radius-lg);
+  box-shadow: var(--msm-glass-shadow);
+  -webkit-backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
+  backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
   background:
     linear-gradient(to right, var(--msm-grid) 1px, transparent 1px) 0 0 /
       var(--msm-grid-size) var(--msm-grid-size),
     linear-gradient(to bottom, var(--msm-grid) 1px, transparent 1px) 0 0 /
       var(--msm-grid-size) var(--msm-grid-size),
-    var(--msm-bg-soft);
+    var(--msm-glass-bg);
 }
 
 /* 图版四角的制图角标 */
@@ -167,14 +215,20 @@
   border-bottom-width: 1px;
 }
 
+/*
+ * logo-square.svg 声明为 120×120 但 viewBox 是 422×547（其实是竖版），
+ * 只给 max-width 不会放大到超过固有尺寸，所以这里给显式宽高把它做大，
+ * 让 M 标记在图版里更醒目；SVG 自身按比例居中，不会拉伸变形。
+ */
 .VPHome .VPHero .image-src {
   position: relative;
   top: auto;
   left: auto;
-  max-width: 168px;
-  max-height: 168px;
+  width: 172px;
+  height: 172px;
+  max-width: 100%;
   transform: none;
-  filter: none;
+  filter: drop-shadow(0 6px 16px rgba(12, 21, 38, 0.14));
 }
 
 /* ==================== 按钮 ==================== */
@@ -185,7 +239,23 @@
   font-weight: var(--msm-weight-semibold);
   letter-spacing: 0;
   transition: background-color var(--msm-fast), border-color var(--msm-fast),
-    color var(--msm-fast);
+    color var(--msm-fast), transform var(--msm-fast),
+    box-shadow var(--msm-fast);
+}
+
+/* 主按钮：品牌渐变 + 悬停上浮微光，是页面里最鲜明的一块色彩 */
+.VPButton.brand {
+  background: var(--msm-gradient-brand);
+  box-shadow: 0 2px 10px var(--msm-glow-brand);
+}
+
+.VPButton.brand:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px var(--msm-glow-brand);
+}
+
+.VPButton.alt:hover {
+  transform: translateY(-1px);
 }
 
 .VPButton.medium {
@@ -225,10 +295,11 @@
   border: 1px solid var(--msm-line);
   border-radius: var(--msm-radius-md);
   background: transparent;
-  transition: border-color var(--msm-base), background-color var(--msm-base);
+  transition: border-color var(--msm-base), background-color var(--msm-base),
+    transform var(--msm-base), box-shadow var(--msm-base);
 }
 
-/* 卡片编号：等宽琥珀两位数 */
+/* 卡片编号：琥珀渐变两位数 */
 .VPHome .VPFeature::before {
   content: counter(msm-feature, decimal-leading-zero);
   display: block;
@@ -237,6 +308,10 @@
   font-size: var(--msm-text-xs);
   font-weight: var(--msm-weight-medium);
   letter-spacing: var(--msm-tracking-label);
+  background: var(--msm-gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   color: var(--msm-accent-ink);
 }
 
@@ -253,9 +328,16 @@
   transition: border-color var(--msm-base);
 }
 
+/* 悬停：上浮 + 磨砂玻璃底 + 柔和投影，卡片“浮”起来 */
 .VPHome .VPFeature:hover {
+  transform: translateY(-4px);
   border-color: var(--msm-brand-line);
-  background: var(--msm-bg-soft);
+  box-shadow: var(--msm-glass-shadow);
+  background: var(--msm-glass-bg);
+  -webkit-backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
+  backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
 }
 
 .VPHome .VPFeature:hover::after {
@@ -406,6 +488,54 @@
 .VPHome .vp-doc table {
   width: auto;
   max-width: 100%;
+}
+
+/* ==================== 滚动入场 ==================== */
+/*
+ * 卡片、快速导航、正文小节进入视口时淡入上移，做出苹果式的滚动揭示。
+ * 只在 JS 就绪（html.msm-js）时先隐藏，脚本失效则内容照常可见；
+ * 揭示由 theme/index.ts 的 IntersectionObserver 加 .msm-reveal 触发。
+ */
+.msm-js .VPHome .VPFeatures .item,
+.msm-js .msm-home-jump a,
+.msm-js .VPHome .vp-doc h2 {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s var(--msm-ease), transform 0.6s var(--msm-ease);
+}
+
+.msm-js .VPHome .VPFeatures .item.msm-reveal,
+.msm-js .msm-home-jump a.msm-reveal,
+.msm-js .VPHome .vp-doc h2.msm-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* 同一行卡片 / 同排导航错峰揭示 */
+.msm-js .VPHome .VPFeatures .item:nth-child(3n + 2) {
+  transition-delay: 0.07s;
+}
+.msm-js .VPHome .VPFeatures .item:nth-child(3n + 3) {
+  transition-delay: 0.14s;
+}
+.msm-js .msm-home-jump a:nth-child(2) {
+  transition-delay: 0.06s;
+}
+.msm-js .msm-home-jump a:nth-child(3) {
+  transition-delay: 0.12s;
+}
+.msm-js .msm-home-jump a:nth-child(4) {
+  transition-delay: 0.18s;
+}
+
+/* 尊重降低动效：直接可见，不做隐藏与位移 */
+@media (prefers-reduced-motion: reduce) {
+  .msm-js .VPHome .VPFeatures .item,
+  .msm-js .msm-home-jump a,
+  .msm-js .VPHome .vp-doc h2 {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* ==================== 响应式 ==================== */

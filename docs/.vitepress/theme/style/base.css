@@ -135,6 +135,65 @@ body {
   border-color: var(--msm-accent);
 }
 
+/* ==================== 原语 4：毛玻璃 ==================== */
+/*
+ * 苹果风磨砂玻璃：半透明底 + 背景模糊 + 提饱和。
+ * 顶栏、下拉菜单、移动抽屉、Hero 图版都套这一套，形成一致的通透层。
+ * 注意 backdrop-filter 需要祖先没有 overflow:hidden 裁掉背景，
+ * 且元素本身背景必须半透明，否则模糊看不出来。
+ */
+.msm-glass {
+  background: var(--msm-glass-bg);
+  -webkit-backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
+  backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
+  border: 1px solid var(--msm-glass-border);
+}
+
+/* ==================== 动效关键帧 ==================== */
+/*
+ * 入场用 fade-up：透明 + 轻微上移到位，配合 stagger 延迟形成层次。
+ * glow-drift 给 Hero 背后的色光做缓慢无限漂移，是页面唯一的常驻动效。
+ * 全部受 prefers-reduced-motion 收束（见文件末尾）。
+ */
+@keyframes msm-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes msm-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes msm-glow-drift {
+  0% {
+    transform: translate3d(-4%, -3%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, 3%, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-4%, -3%, 0) scale(1);
+  }
+}
+
+/* 入场工具类：元素加上即淡入上移，delay 由内联或选择器给 */
+.msm-animate {
+  animation: msm-fade-up 0.6s var(--msm-ease) both;
+}
+
 /* ==================== 选中文本 ==================== */
 
 ::selection {

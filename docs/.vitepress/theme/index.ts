@@ -20,6 +20,10 @@ export default {
   enhanceApp({ router }) {
     if (typeof window === 'undefined') return
 
+    // 标记 JS 已就绪：滚动入场的初始隐藏态只在有此类时生效，
+    // 脚本失效时内容照常可见（渐进增强）。
+    document.documentElement.classList.add('msm-js')
+
     // 去掉代码块复制按钮的浏览器原生 tooltip
     const cleanupCopyTitle = () => {
       const buttons = document.querySelectorAll<HTMLButtonElement>(
@@ -270,9 +274,40 @@ export default {
       })
     }
 
+    // 滚动入场：卡片 / 快速导航 / 正文小节进入视口时加 .msm-reveal 触发过渡。
+    // 观察一次即取消观察，避免重复触发；不支持 IO 的老浏览器直接放行。
+    const setupScrollReveal = () => {
+      const targets = document.querySelectorAll<HTMLElement>(
+        '.VPHome .VPFeatures .item, .msm-home-jump a, .VPHome .vp-doc h2'
+      )
+
+      if (!('IntersectionObserver' in window)) {
+        targets.forEach((el) => el.classList.add('msm-reveal'))
+        return
+      }
+
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('msm-reveal')
+              obs.unobserve(entry.target)
+            }
+          }
+        },
+        { rootMargin: '0px 0px -10% 0px', threshold: 0.12 }
+      )
+
+      targets.forEach((el) => {
+        if (el.classList.contains('msm-reveal')) return
+        observer.observe(el)
+      })
+    }
+
     const initDomTweaks = () => {
       cleanupCopyTitle()
       setupMobileDrawer()
+      setupScrollReveal()
     }
 
     if (document.readyState === 'loading') {

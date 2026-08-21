@@ -17,11 +17,21 @@
   display: none;
 }
 
-.VPNavBar:not(.home) .wrapper,
-.VPNavBar.has-sidebar .wrapper {
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  background: color-mix(in srgb, var(--msm-bg) 84%, transparent);
+/*
+ * 顶栏统一磨砂玻璃：半透明底 + 背景模糊 + 提饱和（苹果风）。
+ * 首页顶栏透明地浮在 Hero 之上，也做玻璃，滚动时透出下面的网格和色光；
+ * 内容页 / 带侧栏页再压一条发丝下边框区分层次。
+ */
+.VPNavBar .wrapper {
+  -webkit-backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
+  backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
+  background: var(--msm-glass-bg);
+}
+
+.VPNavBar.home .wrapper {
+  background: color-mix(in srgb, var(--msm-bg) 55%, transparent);
 }
 
 .VPNavBar:not(.home),
@@ -31,6 +41,17 @@
 
 .VPNavBar .divider {
   display: none;
+}
+
+/* 站点 logo：竖版图形在 24px 里太小，放大到 30 并按内容比例留白；hover 轻微放大 */
+.VPNavBarTitle .logo {
+  height: 30px;
+  width: auto;
+  transition: transform var(--msm-base);
+}
+
+.VPNavBarTitle:hover .logo {
+  transform: scale(1.06);
 }
 
 .VPNavBarTitle .title {
@@ -77,10 +98,14 @@
 }
 
 .VPMenu {
-  border: 1px solid var(--msm-line);
+  border: 1px solid var(--msm-glass-border);
   border-radius: var(--msm-radius-md);
-  box-shadow: var(--msm-shadow-3);
-  background: var(--msm-bg);
+  box-shadow: var(--msm-glass-shadow);
+  background: var(--msm-glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
+  backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
 }
 
 .VPMenu .group + .group {
@@ -116,6 +141,23 @@
   border: 1px solid var(--msm-line-strong);
   box-shadow: none;
   padding-bottom: 0;
+}
+
+/* 本地搜索弹窗：磨砂玻璃外壳 + 蓝图边框 */
+.VPLocalSearchBox .shell {
+  border: 1px solid var(--msm-glass-border);
+  box-shadow: var(--msm-glass-shadow);
+  background: var(--msm-glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
+  backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
+}
+
+.VPLocalSearchBox .backdrop {
+  background: rgba(8, 13, 26, 0.4);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
 }
 
 /* ==================== 侧栏 ==================== */
@@ -406,7 +448,9 @@ body.msm-nav-open {
   position: fixed;
   inset: 0;
   z-index: 60;
-  background: rgba(8, 13, 26, 0.55);
+  background: rgba(8, 13, 26, 0.4);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--msm-base);
@@ -428,8 +472,12 @@ body.msm-nav-open {
   flex-direction: column;
   overflow-y: auto;
   padding: 0 var(--msm-space-5) var(--msm-space-10);
-  border-left: 1px solid var(--msm-line);
-  background: var(--msm-bg);
+  border-left: 1px solid var(--msm-glass-border);
+  background: var(--msm-glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
+  backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
   transform: translateX(100%);
   transition: transform var(--msm-base);
 }

@@ -46,6 +46,26 @@
   --msm-accent-soft: rgba(224, 130, 20, 0.12);
   --msm-accent-line: rgba(224, 130, 20, 0.42);
 
+  /* ==================== 渐变与光晕 ==================== */
+  /*
+   * 蓝图整体克制，靠这几组渐变和光晕注入活力：
+   * 主按钮、卡片编号用品牌/琥珀渐变；Hero 背后铺一层缓慢漂移的色光。
+   */
+  --msm-gradient-brand: linear-gradient(135deg, #2f5ed8 0%, #4a7bf0 100%);
+  --msm-gradient-accent: linear-gradient(135deg, #e08214 0%, #f4a63f 100%);
+  --msm-gradient-ink: linear-gradient(120deg, #0c1526 0%, #2450c8 60%, #e08214 130%);
+  --msm-glow-brand: rgba(47, 94, 216, 0.18);
+  --msm-glow-accent: rgba(224, 130, 20, 0.16);
+
+  /* ==================== 毛玻璃（苹果风） ==================== */
+  /* 半透明表面 + 背景模糊 + 提饱和，用于顶栏、下拉、抽屉、Hero 图版 */
+  --msm-glass-bg: rgba(255, 255, 255, 0.72);
+  --msm-glass-bg-strong: rgba(255, 255, 255, 0.82);
+  --msm-glass-border: rgba(255, 255, 255, 0.55);
+  --msm-glass-blur: 20px;
+  --msm-glass-saturate: 180%;
+  --msm-glass-shadow: 0 8px 32px rgba(12, 21, 38, 0.1);
+
   /* ==================== 语义色 ==================== */
   --msm-success: #10774f;
   --msm-success-soft: rgba(16, 119, 79, 0.1);
@@ -165,6 +185,18 @@
   --msm-accent-ink: #ffb866;
   --msm-accent-soft: rgba(255, 171, 77, 0.14);
   --msm-accent-line: rgba(255, 171, 77, 0.45);
+
+  --msm-gradient-brand: linear-gradient(135deg, #6f9cff 0%, #9cc0ff 100%);
+  --msm-gradient-accent: linear-gradient(135deg, #ffab4d 0%, #ffc98a 100%);
+  --msm-gradient-ink: linear-gradient(120deg, #eaf0fa 0%, #7ea6ff 55%, #ffab4d 125%);
+  --msm-glow-brand: rgba(126, 166, 255, 0.2);
+  --msm-glow-accent: rgba(255, 171, 77, 0.16);
+
+  /* 暗色毛玻璃：深靛半透明，模糊后透出底层网格与色光 */
+  --msm-glass-bg: rgba(12, 20, 40, 0.6);
+  --msm-glass-bg-strong: rgba(12, 20, 40, 0.74);
+  --msm-glass-border: rgba(126, 166, 255, 0.16);
+  --msm-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 
   --msm-success: #45c78d;
   --msm-success-soft: rgba(69, 199, 141, 0.14);
