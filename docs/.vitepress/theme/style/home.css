@@ -1,0 +1,540 @@
+/**
+ * MSM Wiki 首页层 / Home layer
+ *
+ * Hero、功能卡片与快速导航条。
+ *
+ * 卡片编号用 CSS counter 生成，不再像旧样式那样把图标和渐变
+ * 硬编码到 :nth-child(1..6) 上 —— 调整首页顺序时不会错位。
+ */
+
+/* ==================== Hero ==================== */
+
+/*
+ * 首页顶栏是透明的，hero 直接从 y=0 开始铺到顶栏底下（VitePress 的设计）。
+ * 所以上内边距必须自己把顶栏高度让出来，否则窄屏下标题会压在顶栏上。
+ *
+ * 另外注意：下面几条带 .has-image 的选择器是为了压过 VitePress 的
+ * `.VPHero.has-image X[data-v-xxx]` —— scoped 属性会多一级优先级，
+ * 不加 .has-image 的话 max-width / text-align / padding 都改不动。
+ */
+.VPHome .VPHero {
+  padding: calc(var(--msm-navbar-height) + var(--msm-space-5))
+    var(--msm-space-6) var(--msm-space-12);
+  border-bottom: 1px solid var(--msm-line);
+}
+
+.VPHome .VPHero .container {
+  max-width: 1200px;
+  align-items: center;
+}
+
+.VPHome .VPHero.has-image .main {
+  max-width: 720px;
+}
+
+/*
+ * 层级反转：品牌名收成等宽小标签（像图纸上的编号戳），
+ * 真正的大字留给这句话。旧 hero 把 "MSM" 放大成粉紫渐变，
+ * 既和 logo 的靛蓝暖橙不搭，也挤出了一大块空白。
+ */
+.VPHome .VPHero .name {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--msm-space-3);
+  margin-bottom: var(--msm-space-5);
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-xs);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.VPHome .VPHero .name .clip {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: currentColor;
+  color: var(--msm-accent-ink);
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+.VPHome .VPHero .name::before {
+  content: '';
+  width: 28px;
+  height: 2px;
+  background: var(--msm-accent);
+}
+
+.VPHome .VPHero .text {
+  max-width: 100%;
+  margin: 0;
+  font-size: var(--msm-text-5xl);
+  font-weight: var(--msm-weight-bold);
+  line-height: 1.12;
+  letter-spacing: -0.028em;
+  color: var(--msm-ink-1);
+  white-space: normal;
+}
+
+.VPHome .VPHero .tagline {
+  max-width: none;
+  margin-top: var(--msm-space-5);
+  padding: 0;
+  font-size: var(--msm-text-md);
+  line-height: var(--msm-leading-relaxed);
+  color: var(--msm-ink-3);
+}
+
+/* 按钮紧跟文案：VitePress 另有 32px 的 padding-top，和 margin 叠成 64px 空档 */
+.VPHome .VPHero.has-image .actions {
+  margin-top: var(--msm-space-8);
+  padding-top: 0;
+  gap: var(--msm-space-3);
+}
+
+/* Hero 底部发丝网格 */
+.VPHome .VPHero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--msm-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--msm-grid) 1px, transparent 1px);
+  background-size: var(--msm-grid-size) var(--msm-grid-size);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 88%);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 88%);
+}
+
+.VPHome .VPHero {
+  position: relative;
+  isolation: isolate;
+}
+
+/* ==================== Hero 图版 ==================== */
+
+/* 去掉默认的紫色光斑，它和靛蓝/琥珀体系冲突 */
+.VPHome .VPHero .image-bg {
+  display: none;
+}
+
+.VPHome .VPHero .image-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 264px;
+  height: 264px;
+  padding: var(--msm-space-8);
+  transform: none;
+  border: 1px solid var(--msm-line-strong);
+  border-radius: var(--msm-radius-lg);
+  background:
+    linear-gradient(to right, var(--msm-grid) 1px, transparent 1px) 0 0 /
+      var(--msm-grid-size) var(--msm-grid-size),
+    linear-gradient(to bottom, var(--msm-grid) 1px, transparent 1px) 0 0 /
+      var(--msm-grid-size) var(--msm-grid-size),
+    var(--msm-bg-soft);
+}
+
+/* 图版四角的制图角标 */
+.VPHome .VPHero .image-container::before,
+.VPHome .VPHero .image-container::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--msm-accent);
+  border-style: solid;
+  border-width: 0;
+}
+
+.VPHome .VPHero .image-container::before {
+  top: -1px;
+  left: -1px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+
+.VPHome .VPHero .image-container::after {
+  right: -1px;
+  bottom: -1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+}
+
+.VPHome .VPHero .image-src {
+  position: relative;
+  top: auto;
+  left: auto;
+  max-width: 168px;
+  max-height: 168px;
+  transform: none;
+  filter: none;
+}
+
+/* ==================== 按钮 ==================== */
+
+.VPButton {
+  border-radius: var(--msm-radius-md);
+  font-size: var(--msm-text-sm);
+  font-weight: var(--msm-weight-semibold);
+  letter-spacing: 0;
+  transition: background-color var(--msm-fast), border-color var(--msm-fast),
+    color var(--msm-fast);
+}
+
+.VPButton.medium {
+  padding: 0 var(--msm-space-5);
+  line-height: 38px;
+}
+
+.VPButton.alt {
+  border: 1px solid var(--vp-button-alt-border);
+}
+
+/* ==================== 功能卡片 ==================== */
+
+.VPHome .VPFeatures {
+  padding: var(--msm-space-12) var(--msm-space-6) var(--msm-space-4);
+}
+
+.VPHome .VPFeatures .container {
+  max-width: 1200px;
+}
+
+.VPHome .VPFeatures .items {
+  counter-reset: msm-feature;
+}
+
+.VPHome .VPFeatures .item {
+  counter-increment: msm-feature;
+  padding: var(--msm-space-2);
+}
+
+.VPHome .VPFeature {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--msm-space-6);
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-md);
+  background: transparent;
+  transition: border-color var(--msm-base), background-color var(--msm-base);
+}
+
+/* 卡片编号：等宽琥珀两位数 */
+.VPHome .VPFeature::before {
+  content: counter(msm-feature, decimal-leading-zero);
+  display: block;
+  margin-bottom: var(--msm-space-4);
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-xs);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  color: var(--msm-accent-ink);
+}
+
+/* 右下制图角标，hover 时点亮 */
+.VPHome .VPFeature::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 10px;
+  height: 10px;
+  border-right: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--msm-base);
+}
+
+.VPHome .VPFeature:hover {
+  border-color: var(--msm-brand-line);
+  background: var(--msm-bg-soft);
+}
+
+.VPHome .VPFeature:hover::after {
+  border-right-color: var(--msm-accent);
+  border-bottom-color: var(--msm-accent);
+}
+
+/*
+ * 编号是 .VPFeature 的伪元素，和 .box 是兄弟节点，而 VitePress 给
+ * .box 设了 min-height:100%（按卡片整高算）。两者相加正好把 .link-text
+ * 顶到边框外面，所以这里改成 flex 列：box 占剩余高度，链接贴卡片底部。
+ */
+.VPHome .VPFeature .box {
+  flex: 1;
+  padding: 0;
+  min-height: 0;
+}
+
+.VPHome .VPFeature .title {
+  margin: 0 0 var(--msm-space-2);
+  font-size: var(--msm-text-md);
+  font-weight: var(--msm-weight-semibold);
+  line-height: var(--msm-leading-snug);
+  color: var(--msm-ink-1);
+}
+
+.VPHome .VPFeature .details {
+  margin: 0;
+  font-size: var(--msm-text-sm);
+  line-height: var(--msm-leading-normal);
+  color: var(--msm-ink-3);
+}
+
+/* 链接贴卡片底部，让一行卡片的链接横向对齐 */
+.VPHome .VPFeature .link-text {
+  margin-top: auto;
+  padding-top: var(--msm-space-5);
+}
+
+.VPHome .VPFeature .link-text .link-text-value {
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-label);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-brand);
+}
+
+.VPHome .VPFeature .link-text .vpi-arrow-right {
+  color: var(--msm-brand);
+}
+
+/* ==================== 快速导航条 ==================== */
+
+.msm-home-jump {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  counter-reset: msm-jump;
+  margin: var(--msm-space-8) 0 var(--msm-space-12);
+  border-top: 1px solid var(--msm-line);
+  border-bottom: 1px solid var(--msm-line);
+}
+
+.msm-home-jump a {
+  position: relative;
+  min-width: 0;
+  counter-increment: msm-jump;
+  padding: var(--msm-space-5) var(--msm-space-5);
+  border-right: 1px solid var(--msm-line);
+  color: var(--msm-ink-1) !important;
+  text-decoration: none !important;
+  transition: background-color var(--msm-fast);
+}
+
+.msm-home-jump a:last-child {
+  border-right: 0;
+}
+
+.msm-home-jump a:hover {
+  background: var(--msm-bg-soft);
+}
+
+.msm-home-jump strong,
+.msm-home-jump span {
+  display: block;
+}
+
+.msm-home-jump strong {
+  padding-right: var(--msm-space-6);
+  font-size: var(--msm-text-base);
+  font-weight: var(--msm-weight-semibold);
+  line-height: var(--msm-leading-snug);
+}
+
+/* 序号 + 箭头都用等宽体，形成一致的“标注”语汇 */
+.msm-home-jump strong::before {
+  content: counter(msm-jump, decimal-leading-zero) ' / ';
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-2xs);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  color: var(--msm-ink-4);
+}
+
+.msm-home-jump strong::after {
+  content: '→';
+  position: absolute;
+  top: var(--msm-space-5);
+  right: var(--msm-space-5);
+  color: var(--msm-ink-4);
+  transition: transform var(--msm-fast), color var(--msm-fast);
+}
+
+.msm-home-jump a:hover strong::after {
+  color: var(--msm-accent);
+  transform: translateX(3px);
+}
+
+.msm-home-jump span {
+  margin-top: var(--msm-space-1);
+  color: var(--msm-ink-3);
+  font-size: var(--msm-text-sm);
+  line-height: var(--msm-leading-snug);
+}
+
+/* ==================== 首页正文 ==================== */
+
+.VPHome .vp-doc {
+  padding: 0 var(--msm-space-6);
+}
+
+.VPHome .vp-doc > div {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 首页正文行宽收窄，表格与容器仍可用满宽 */
+.VPHome .vp-doc p,
+.VPHome .vp-doc ul,
+.VPHome .vp-doc ol {
+  max-width: 76ch;
+}
+
+/*
+ * 首页只有"按目标选路"这一类两列对照表，撑满 1200px 会在两列之间
+ * 空出一大段，读起来要来回扫。这里让表格按内容收缩。
+ */
+.VPHome .vp-doc table {
+  width: auto;
+  max-width: 100%;
+}
+
+/* ==================== 响应式 ==================== */
+
+@media (max-width: 959px) {
+  .VPHome .VPHero {
+    padding: calc(var(--msm-navbar-height) + var(--msm-space-6))
+      var(--msm-space-6) var(--msm-space-10);
+  }
+
+  /*
+   * VitePress 在窄屏把图片排在文案之前，并用 margin: -76px -24px -48px
+   * 把它拉进文案区（靠 .main 的 z-index:10 压住）。蓝图图版是有边框的实体，
+   * 被压住就变成两块重叠的方框，所以这里改成文案在前、图版在后并归零负边距。
+   *
+   * 同时它还用 margin: 0 auto 把 .name / .text 居中，而 .tagline 和按钮
+   * 仍然左对齐 —— 三者左边缘会错开十几像素；图版又被容器的
+   * align-items: center 拉到正中。蓝图排版靠一条左基准线立住，统一归左。
+   */
+  .VPHome .VPHero.has-image .container {
+    text-align: left;
+  }
+
+  .VPHome .VPHero.has-image .name,
+  .VPHome .VPHero.has-image .text {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .VPHome .VPHero.has-image .main {
+    order: 1;
+    max-width: 100%;
+  }
+
+  .VPHome .VPHero .image {
+    order: 2;
+    align-self: flex-start;
+    margin: var(--msm-space-8) 0 0;
+  }
+
+  .VPHome .VPHero .text {
+    font-size: var(--msm-text-4xl);
+  }
+
+  .VPHome .VPHero .image-container {
+    width: 232px;
+    height: 232px;
+  }
+
+  .VPHome .VPHero .image-src {
+    max-width: 132px;
+    max-height: 132px;
+  }
+
+  .msm-home-jump {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: var(--msm-space-10);
+  }
+
+  .msm-home-jump a:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .msm-home-jump a:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--msm-line);
+  }
+}
+
+@media (max-width: 768px) {
+  .VPHome .VPHero {
+    padding: calc(var(--msm-navbar-height) + var(--msm-space-4))
+      var(--msm-space-5) var(--msm-space-8);
+  }
+
+  .VPHome .VPHero .text {
+    font-size: var(--msm-text-3xl);
+  }
+
+  .VPHome .VPHero .tagline {
+    font-size: var(--msm-text-base);
+  }
+
+  .VPHome .VPHero.has-image .actions {
+    justify-content: flex-start;
+    margin-top: var(--msm-space-6);
+  }
+
+  .VPHome .VPHero .image {
+    margin-top: var(--msm-space-6);
+  }
+
+  .VPHome .VPHero .image-container {
+    width: 180px;
+    height: 180px;
+    padding: var(--msm-space-5);
+  }
+
+  .VPHome .VPHero .image-src {
+    max-width: 104px;
+    max-height: 104px;
+  }
+
+  .VPHome .VPFeatures {
+    padding: var(--msm-space-10) var(--msm-space-5) var(--msm-space-4);
+  }
+
+  .VPHome .VPFeature {
+    padding: var(--msm-space-5);
+  }
+
+  .VPHome .vp-doc {
+    padding: 0 var(--msm-space-5);
+  }
+
+  .msm-home-jump {
+    grid-template-columns: 1fr;
+  }
+
+  .msm-home-jump a {
+    border-right: 0;
+    padding: var(--msm-space-4) var(--msm-space-4);
+  }
+
+  .msm-home-jump a:not(:last-child) {
+    border-bottom: 1px solid var(--msm-line);
+  }
+
+  .msm-home-jump strong::after {
+    top: var(--msm-space-4);
+    right: var(--msm-space-4);
+  }
+}

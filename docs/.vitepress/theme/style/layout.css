@@ -1,0 +1,564 @@
+/**
+ * MSM Wiki 布局层 / Layout layer
+ *
+ * 负责顶栏、侧栏、正文容器、右侧目录、页脚与移动端抽屉。
+ * 正文内容（.vp-doc 内部）由 content.css 负责，首页由 home.css 负责，
+ * 三者不交叉，避免旧主题那种一个组件被四个文件反复覆盖。
+ */
+
+/* ==================== 顶栏 ==================== */
+
+.VPNavBar {
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--msm-base), background-color var(--msm-base);
+}
+
+.VPNavBar.has-sidebar .curtain {
+  display: none;
+}
+
+.VPNavBar:not(.home) .wrapper,
+.VPNavBar.has-sidebar .wrapper {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: color-mix(in srgb, var(--msm-bg) 84%, transparent);
+}
+
+.VPNavBar:not(.home),
+.VPNavBar.has-sidebar {
+  border-bottom-color: var(--msm-line);
+}
+
+.VPNavBar .divider {
+  display: none;
+}
+
+.VPNavBarTitle .title {
+  font-weight: var(--msm-weight-semibold);
+  font-size: var(--msm-text-md);
+  letter-spacing: -0.01em;
+  color: var(--msm-ink-1);
+  border-bottom: none;
+}
+
+/* 顶栏菜单：激活项用琥珀下划线做“标注”，而不是填充胶囊 */
+.VPNavBarMenuLink,
+.VPNavBarMenuGroup .button {
+  position: relative;
+  font-size: var(--msm-text-sm);
+  font-weight: var(--msm-weight-medium);
+  color: var(--msm-ink-2);
+  transition: color var(--msm-fast);
+}
+
+.VPNavBarMenuLink::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 14px;
+  height: 1.5px;
+  background: var(--msm-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--msm-base);
+}
+
+.VPNavBarMenuLink:hover,
+.VPNavBarMenuLink.active,
+.VPNavBarMenuGroup .button:hover,
+.VPNavBarMenuGroup.active .button {
+  color: var(--msm-ink-1);
+}
+
+.VPNavBarMenuLink:hover::after,
+.VPNavBarMenuLink.active::after {
+  transform: scaleX(1);
+}
+
+.VPMenu {
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-md);
+  box-shadow: var(--msm-shadow-3);
+  background: var(--msm-bg);
+}
+
+.VPMenu .group + .group {
+  border-top: 1px solid var(--msm-line);
+}
+
+.VPMenu .VPMenuLink .link {
+  font-size: var(--msm-text-sm);
+  border-radius: var(--msm-radius-sm);
+}
+
+/* 搜索框：等宽提示文字，蓝图边框 */
+.VPNavBarSearch .DocSearch-Button {
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-md);
+  background: var(--msm-bg-soft);
+  transition: border-color var(--msm-fast);
+}
+
+.VPNavBarSearch .DocSearch-Button:hover {
+  border-color: var(--msm-brand-line);
+  box-shadow: none;
+}
+
+.VPNavBarSearch .DocSearch-Button-Placeholder {
+  font-size: var(--msm-text-sm);
+}
+
+.VPNavBarSearch .DocSearch-Button-Key {
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-2xs);
+  background: transparent;
+  border: 1px solid var(--msm-line-strong);
+  box-shadow: none;
+  padding-bottom: 0;
+}
+
+/* ==================== 侧栏 ==================== */
+
+.VPSidebar {
+  border-right: 1px solid var(--msm-line);
+  background: var(--msm-bg-alt);
+  padding: var(--msm-space-6) var(--msm-space-5) var(--msm-space-16);
+}
+
+.VPSidebar .group + .group {
+  margin-top: var(--msm-space-6);
+  padding-top: var(--msm-space-6);
+  border-top: 1px solid var(--msm-line);
+}
+
+/* 分组标题：等宽大写标签 */
+.VPSidebarItem.level-0 > .item > .text {
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-label);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-ink-3);
+  padding: 0;
+}
+
+.VPSidebarItem.level-0 > .item {
+  padding-bottom: var(--msm-space-3);
+}
+
+.VPSidebarItem.level-0.collapsible > .item {
+  cursor: pointer;
+}
+
+.VPSidebarItem.level-0.collapsible > .item:hover > .text {
+  color: var(--msm-accent-ink);
+}
+
+.VPSidebarItem .caret {
+  color: var(--msm-ink-4);
+}
+
+/* 子项排成一条竖导轨，激活项把导轨点亮成琥珀色 */
+.VPSidebarItem.level-0 > .items {
+  border-left: 1px solid var(--msm-line);
+  padding-left: 0;
+  margin-left: 1px;
+}
+
+.VPSidebarItem.level-1 .item,
+.VPSidebarItem.level-2 .item {
+  position: relative;
+}
+
+.VPSidebarItem.level-1 .link,
+.VPSidebarItem.level-2 .link {
+  display: block;
+  padding: 6px 0 6px var(--msm-space-4);
+}
+
+.VPSidebarItem.level-1 .link .text,
+.VPSidebarItem.level-2 .link .text {
+  font-size: var(--msm-text-sm);
+  line-height: var(--msm-leading-snug);
+  color: var(--msm-ink-2);
+  padding: 0;
+  transition: color var(--msm-fast);
+}
+
+.VPSidebarItem.level-1 .link:hover .text,
+.VPSidebarItem.level-2 .link:hover .text {
+  color: var(--msm-brand);
+}
+
+.VPSidebarItem.is-active > .item .link .text {
+  color: var(--msm-ink-1);
+  font-weight: var(--msm-weight-semibold);
+}
+
+/* VitePress 自带的 .indicator 就是激活标记，直接接管它 */
+.VPSidebarItem.level-1 > .item > .indicator,
+.VPSidebarItem.level-2 > .item > .indicator {
+  top: 4px;
+  bottom: 4px;
+  left: -1px;
+  width: 2px;
+  border-radius: 0;
+  background: transparent;
+  transition: background-color var(--msm-fast);
+}
+
+.VPSidebarItem.is-active > .item > .indicator {
+  background: var(--msm-accent);
+}
+
+/* ==================== 正文容器 ==================== */
+
+/*
+ * 正文列宽：带右侧目录的页面沿用 VitePress 的 688px（约 45 个汉字一行，
+ * 中文读起来最稳），这里只补两个缺口：
+ *   1. 没有右侧目录的页面 VitePress 不设上限，正文会一路拉到 1100px 以上；
+ *   2. 这类页面还需要居中，否则整列贴着侧栏。
+ * 注意不要试图用 `.VPDoc .content-container` 改 .has-aside 的宽度 ——
+ * VitePress 的 `.VPDoc.has-aside .content-container[data-v-xxx]` 多一级
+ * 优先级，那条声明是不会生效的。
+ */
+.VPDoc .container {
+  max-width: 1400px;
+}
+
+.VPDoc:not(.has-aside) .content-container {
+  max-width: 688px;
+  margin: 0 auto;
+}
+
+.VPDoc .content {
+  padding-top: var(--msm-space-10);
+  padding-bottom: var(--msm-space-16);
+}
+
+/* ==================== 右侧目录 ==================== */
+
+.VPDocAside {
+  padding-top: var(--msm-space-10);
+}
+
+.VPDocAsideOutline {
+  border-left: 1px solid var(--msm-line);
+  padding-left: var(--msm-space-5);
+}
+
+.VPDocAsideOutline .outline-title {
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-label);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-ink-3);
+  line-height: 1.6;
+}
+
+/* 旧主题把 .VPDoc .content 的内边距误伤到目录内层，这里显式归零 */
+.VPDocAsideOutline .content {
+  padding: 0;
+  border-left: none;
+  position: relative;
+}
+
+/* 目录项允许换行，修掉“常用命令（Linux/macO...”这类截断 */
+.VPDocAsideOutline .outline-link {
+  font-size: var(--msm-text-sm);
+  line-height: var(--msm-leading-snug);
+  color: var(--msm-ink-3);
+  padding: 5px 0;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  transition: color var(--msm-fast);
+}
+
+.VPDocAsideOutline .outline-link:hover,
+.VPDocAsideOutline .outline-link.active {
+  color: var(--msm-ink-1);
+}
+
+.VPDocAsideOutline .outline-link.nested {
+  padding-left: var(--msm-space-4);
+}
+
+.VPDocAsideOutline .outline-marker {
+  width: 2px;
+  border-radius: 0;
+  background: var(--msm-accent);
+  left: calc(var(--msm-space-5) * -1 - 1px);
+}
+
+/* ==================== 上一页 / 下一页 ==================== */
+
+.VPDocFooter {
+  margin-top: var(--msm-space-12);
+  padding-top: var(--msm-space-6);
+  border-top: 1px solid var(--msm-line);
+}
+
+.VPDocFooter .edit-info {
+  font-size: var(--msm-text-sm);
+}
+
+.VPDocFooter .edit-link-button {
+  font-weight: var(--msm-weight-medium);
+  color: var(--msm-brand);
+}
+
+.VPDocFooter .last-updated {
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-xs);
+  color: var(--msm-ink-3);
+}
+
+.VPDocFooter .pager-link {
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-md);
+  background: transparent;
+  padding: var(--msm-space-4) var(--msm-space-5);
+  transition: border-color var(--msm-base), background-color var(--msm-base);
+}
+
+.VPDocFooter .pager-link:hover {
+  border-color: var(--msm-brand-line);
+  background: var(--msm-bg-soft);
+}
+
+.VPDocFooter .pager-link .desc {
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-label);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-ink-3);
+}
+
+.VPDocFooter .pager-link .title {
+  font-size: var(--msm-text-base);
+  font-weight: var(--msm-weight-semibold);
+  color: var(--msm-ink-1);
+}
+
+.VPDocFooter .pager-link:hover .title {
+  color: var(--msm-brand);
+}
+
+/* ==================== 页脚 ==================== */
+
+.VPFooter {
+  border-top: 1px solid var(--msm-line);
+  background: var(--msm-bg-alt);
+  padding: var(--msm-space-8) var(--msm-space-6);
+}
+
+.VPFooter .message {
+  font-size: var(--msm-text-sm);
+  color: var(--msm-ink-3);
+}
+
+.VPFooter .message a {
+  color: var(--msm-ink-2);
+  font-weight: var(--msm-weight-medium);
+  text-decoration: none;
+  border-bottom: 1px solid var(--msm-line-strong);
+  transition: color var(--msm-fast), border-color var(--msm-fast);
+}
+
+.VPFooter .message a:hover {
+  color: var(--msm-brand);
+  border-bottom-color: var(--msm-brand);
+}
+
+.VPFooter .copyright {
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-xs);
+  color: var(--msm-ink-4);
+  margin-top: var(--msm-space-2);
+}
+
+/* ==================== 移动端顶部工具条 ==================== */
+
+.VPLocalNav {
+  border-bottom: 1px solid var(--msm-line);
+  background: color-mix(in srgb, var(--msm-bg) 88%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.VPLocalNav button .menu-text,
+.VPLocalNavOutlineDropdown button {
+  font-size: var(--msm-text-sm);
+  font-weight: var(--msm-weight-medium);
+  color: var(--msm-ink-2);
+}
+
+/* ==================== 移动端抽屉（由 theme/index.ts 注入） ==================== */
+
+body.msm-nav-open {
+  overflow: hidden;
+}
+
+#msm-nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(8, 13, 26, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--msm-base);
+}
+
+#msm-nav-overlay.msm-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#msm-nav-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 61;
+  width: min(88vw, 400px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0 var(--msm-space-5) var(--msm-space-10);
+  border-left: 1px solid var(--msm-line);
+  background: var(--msm-bg);
+  transform: translateX(100%);
+  transition: transform var(--msm-base);
+}
+
+#msm-nav-drawer.msm-open {
+  transform: translateX(0);
+}
+
+#msm-nav-drawer .msm-nav-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--msm-space-2);
+  border-bottom: 1px solid var(--msm-line);
+  background: color-mix(in srgb, var(--msm-bg) 92%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+#msm-nav-drawer .msm-nav-header strong {
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-label);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-ink-3);
+}
+
+#msm-nav-drawer .msm-nav-close {
+  min-height: 34px;
+  padding: 0 var(--msm-space-3);
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-sm);
+  color: var(--msm-ink-2);
+  background: transparent;
+  font: inherit;
+  font-size: var(--msm-text-sm);
+  cursor: pointer;
+  transition: border-color var(--msm-fast), color var(--msm-fast);
+}
+
+#msm-nav-drawer .msm-nav-close:hover {
+  color: var(--msm-accent-ink);
+  border-color: var(--msm-accent-line);
+}
+
+#msm-nav-drawer .msm-nav-group {
+  margin-top: var(--msm-space-5);
+}
+
+#msm-nav-drawer .msm-nav-group-title {
+  margin-bottom: var(--msm-space-2);
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-label);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-ink-4);
+}
+
+#msm-nav-drawer .msm-nav-primary,
+#msm-nav-drawer .msm-nav-group-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--msm-space-1) var(--msm-space-2);
+}
+
+#msm-nav-drawer .msm-nav-primary {
+  padding: var(--msm-space-3) 0 var(--msm-space-1);
+}
+
+#msm-nav-drawer a.msm-nav-link {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  padding: 8px 10px;
+  border-left: 2px solid var(--msm-line);
+  border-radius: 0 var(--msm-radius-sm) var(--msm-radius-sm) 0;
+  font-size: var(--msm-text-sm);
+  line-height: var(--msm-leading-snug);
+  color: var(--msm-ink-2);
+  text-decoration: none;
+  transition: color var(--msm-fast), border-color var(--msm-fast),
+    background-color var(--msm-fast);
+}
+
+#msm-nav-drawer a.msm-nav-link:hover {
+  color: var(--msm-ink-1);
+  background: var(--msm-bg-soft);
+}
+
+#msm-nav-drawer a.msm-nav-link.active {
+  color: var(--msm-ink-1);
+  font-weight: var(--msm-weight-semibold);
+  border-left-color: var(--msm-accent);
+  background: var(--msm-accent-soft);
+}
+
+/* ==================== 响应式 ==================== */
+
+@media (max-width: 1199px) {
+  /* 桌面菜单与 VitePress 自带全屏导航让位给自定义抽屉 */
+  .VPNavBarMenu,
+  #VPNavScreen {
+    display: none !important;
+  }
+
+  .VPNavBarHamburger {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 959px) {
+  .VPSidebar {
+    padding: var(--msm-space-5) var(--msm-space-5) var(--msm-space-12);
+  }
+}
+
+@media (max-width: 768px) {
+  .VPDoc .content {
+    padding-top: var(--msm-space-6);
+    padding-bottom: var(--msm-space-12);
+  }
+
+  .VPFooter {
+    padding: var(--msm-space-6) var(--msm-space-5);
+  }
+}

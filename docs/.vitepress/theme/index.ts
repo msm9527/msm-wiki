@@ -2,13 +2,13 @@ import { h } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 
-// 导入自定义样式
-import './style/vars.css'
-import './style/custom.css'
-import './style/advanced.css'
-import './style/icons.css'
-import './style/svg-icons.css'
-import './style/refinement.css'
+// 自定义样式：按层次单向依赖，令牌 → 基础 → 布局 / 正文 / 首页。
+// 每个组件只由一个文件负责，不再互相覆盖。
+import './style/tokens.css'
+import './style/base.css'
+import './style/layout.css'
+import './style/content.css'
+import './style/home.css'
 
 export default {
   extends: DefaultTheme,

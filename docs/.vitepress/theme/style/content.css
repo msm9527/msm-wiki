@@ -1,0 +1,456 @@
+/**
+ * MSM Wiki 正文层 / Content layer
+ *
+ * 只负责 .vp-doc 内部：标题、正文、列表、表格、代码、自定义容器。
+ * 每个组件在本文件里只出现一次 —— 旧主题里 .custom-block 被四个文件
+ * 各加一层 ::before / ::after，正是重影边框的来源。
+ */
+
+/* ==================== 标题 ==================== */
+
+.vp-doc h1 {
+  font-size: var(--msm-text-4xl);
+  font-weight: var(--msm-weight-bold);
+  line-height: var(--msm-leading-tight);
+  letter-spacing: -0.022em;
+  color: var(--msm-ink-1);
+  margin-bottom: var(--msm-space-5);
+}
+
+/*
+ * 章节标记：用一段 32px 的琥珀短线代替整条通栏上边框。
+ * 旧设计每个 h2 都拉一条满宽横线，整页像格线纸。
+ */
+.vp-doc h2 {
+  position: relative;
+  margin: var(--msm-space-12) 0 var(--msm-space-5);
+  padding-top: var(--msm-space-5);
+  border-top: none;
+  font-size: var(--msm-text-2xl);
+  font-weight: var(--msm-weight-semibold);
+  line-height: var(--msm-leading-snug);
+  letter-spacing: -0.015em;
+  color: var(--msm-ink-1);
+}
+
+.vp-doc h2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 2px;
+  background: var(--msm-accent);
+}
+
+.vp-doc h3 {
+  margin: var(--msm-space-8) 0 var(--msm-space-3);
+  font-size: var(--msm-text-lg);
+  font-weight: var(--msm-weight-semibold);
+  line-height: var(--msm-leading-snug);
+  color: var(--msm-ink-1);
+}
+
+.vp-doc h4 {
+  margin: var(--msm-space-6) 0 var(--msm-space-2);
+  font-size: var(--msm-text-md);
+  font-weight: var(--msm-weight-semibold);
+  color: var(--msm-ink-1);
+}
+
+.vp-doc h2 + h3 {
+  margin-top: var(--msm-space-5);
+}
+
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4 {
+  scroll-margin-top: calc(var(--msm-navbar-height) + var(--msm-space-5));
+}
+
+.vp-doc .header-anchor {
+  font-weight: var(--msm-weight-normal);
+  color: var(--msm-ink-4);
+  transition: color var(--msm-fast);
+}
+
+.vp-doc .header-anchor:hover {
+  color: var(--msm-accent);
+}
+
+/* ==================== 正文与链接 ==================== */
+
+.vp-doc p {
+  margin: var(--msm-space-4) 0;
+  line-height: var(--msm-leading-relaxed);
+  color: var(--msm-ink-2);
+}
+
+.vp-doc a {
+  color: var(--msm-brand);
+  font-weight: var(--msm-weight-medium);
+  text-decoration: underline;
+  text-decoration-color: var(--msm-brand-line);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--msm-fast), text-decoration-color var(--msm-fast);
+}
+
+.vp-doc a:hover {
+  color: var(--msm-brand-hover);
+  text-decoration-color: currentColor;
+}
+
+.vp-doc strong {
+  font-weight: var(--msm-weight-semibold);
+  color: var(--msm-ink-1);
+}
+
+.vp-doc hr {
+  margin: var(--msm-space-10) 0;
+  border-top: 1px solid var(--msm-line);
+}
+
+.vp-doc blockquote {
+  margin: var(--msm-space-5) 0;
+  padding-left: var(--msm-space-5);
+  border-left: 2px solid var(--msm-accent-line);
+  color: var(--msm-ink-3);
+}
+
+.vp-doc blockquote > p {
+  margin: var(--msm-space-2) 0;
+  font-size: var(--msm-text-base);
+}
+
+.vp-doc img {
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-md);
+}
+
+/* ==================== 列表 ==================== */
+
+.vp-doc ul,
+.vp-doc ol {
+  margin: var(--msm-space-4) 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.vp-doc li {
+  position: relative;
+  margin: var(--msm-space-2) 0;
+  padding-left: var(--msm-space-6);
+  line-height: var(--msm-leading-relaxed);
+}
+
+/* 无序列表：小方块，像图纸上的节点，而不是彩色圆点 */
+.vp-doc ul > li::before {
+  content: '';
+  position: absolute;
+  top: 0.72em;
+  left: var(--msm-space-1);
+  width: 4px;
+  height: 4px;
+  background: var(--msm-line-strong);
+}
+
+/* 有序列表：等宽琥珀序号，去掉圆形色块徽标 */
+.vp-doc ol {
+  counter-reset: msm-step;
+}
+
+.vp-doc ol > li {
+  counter-increment: msm-step;
+  padding-left: var(--msm-space-8);
+}
+
+.vp-doc ol > li::before {
+  content: counter(msm-step) '.';
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-width: var(--msm-space-6);
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-sm);
+  font-weight: var(--msm-weight-medium);
+  color: var(--msm-accent-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 嵌套列表收紧，避免多层缩进把行拉得很散 */
+.vp-doc li > ul,
+.vp-doc li > ol {
+  margin: var(--msm-space-2) 0;
+}
+
+.vp-doc li > ul > li::before {
+  background: var(--msm-line);
+}
+
+/* ==================== 行内代码 ==================== */
+
+.vp-doc :not(pre) > code {
+  padding: 2px 5px;
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-xs);
+  background: var(--msm-bg-soft);
+  color: var(--msm-ink-1);
+  font-family: var(--msm-font-mono);
+  font-size: 0.85em;
+  font-weight: var(--msm-weight-normal);
+}
+
+.vp-doc a > code {
+  color: var(--msm-brand);
+  border-color: var(--msm-brand-line);
+}
+
+/* ==================== 代码块 ==================== */
+
+.vp-doc div[class*='language-'] {
+  margin: var(--msm-space-5) 0;
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-md);
+  background: var(--msm-bg-soft);
+}
+
+.vp-doc div[class*='language-'] pre {
+  padding: var(--msm-space-5) 0;
+}
+
+.vp-doc div[class*='language-'] code {
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-sm);
+  line-height: var(--msm-leading-normal);
+}
+
+/* 语言标签：等宽大写，琥珀色 */
+.vp-doc div[class*='language-']> span.lang {
+  top: 10px;
+  right: var(--msm-space-4);
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-2xs);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-ink-4);
+  transition: color var(--msm-fast);
+}
+
+.vp-doc div[class*='language-']:hover > span.lang {
+  color: var(--msm-accent);
+}
+
+.vp-doc div[class*='language-'] > button.copy {
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-sm);
+  background-color: var(--msm-bg);
+}
+
+.vp-doc [class*='language-'] .line-numbers-wrapper {
+  font-family: var(--msm-font-mono);
+  color: var(--msm-ink-4);
+}
+
+/* ==================== 表格 ==================== */
+
+/*
+ * 蓝图表格：去掉外框与竖线，只留横向发丝线；
+ * 表头用等宽大写标签。
+ */
+.vp-doc table {
+  display: table;
+  width: 100%;
+  margin: var(--msm-space-5) 0;
+  border-collapse: collapse;
+  border: none;
+  font-size: var(--msm-text-sm);
+}
+
+.vp-doc tr {
+  border: none;
+  background: transparent;
+}
+
+/*
+ * VitePress 默认给偶数行加底色（.vp-doc tr:nth-child(2n)，优先级高于 .vp-doc tr）。
+ * 每行本来就有一条发丝分隔线，再加斑马纹会变成两套分行手段，
+ * 长 IP 表格里尤其吵，所以显式关掉。
+ */
+.vp-doc tr:nth-child(2n) {
+  background: transparent;
+}
+
+.vp-doc tr + tr {
+  border-top: 1px solid var(--msm-line);
+}
+
+.vp-doc th {
+  padding: var(--msm-space-3) var(--msm-space-4);
+  border: none;
+  border-bottom: 1px solid var(--msm-line-strong);
+  background: transparent;
+  text-align: left;
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-label);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-ink-3);
+  white-space: nowrap;
+}
+
+.vp-doc td {
+  padding: var(--msm-space-3) var(--msm-space-4);
+  border: none;
+  color: var(--msm-ink-2);
+  line-height: var(--msm-leading-snug);
+  vertical-align: top;
+}
+
+.vp-doc th:first-child,
+.vp-doc td:first-child {
+  padding-left: 0;
+}
+
+.vp-doc th:last-child,
+.vp-doc td:last-child {
+  padding-right: 0;
+}
+
+/* ==================== 自定义容器 ==================== */
+
+/*
+ * 统一形态：左侧 2px 语义色导轨 + 极浅底色 + 等宽大写标题。
+ * 不用外框、不用图标伪元素 —— 这是旧主题重影边框的根因。
+ */
+.vp-doc .custom-block {
+  margin: var(--msm-space-5) 0;
+  padding: var(--msm-space-4) var(--msm-space-5);
+  border: none;
+  border-left: 2px solid var(--msm-ink-4);
+  border-radius: 0 var(--msm-radius-sm) var(--msm-radius-sm) 0;
+  background: var(--msm-bg-soft);
+  font-size: var(--msm-text-base);
+  line-height: var(--msm-leading-relaxed);
+  color: var(--msm-ink-2);
+}
+
+.vp-doc .custom-block::before,
+.vp-doc .custom-block::after {
+  content: none;
+}
+
+.vp-doc .custom-block .custom-block-title {
+  margin-bottom: var(--msm-space-2);
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-label);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-ink-1);
+}
+
+.vp-doc .custom-block p {
+  margin: var(--msm-space-2) 0 0;
+  color: inherit;
+}
+
+.vp-doc .custom-block p:first-of-type {
+  margin-top: 0;
+}
+
+.vp-doc .custom-block a {
+  color: inherit;
+  font-weight: var(--msm-weight-semibold);
+  text-decoration-color: currentColor;
+}
+
+.vp-doc .custom-block.info {
+  border-left-color: var(--msm-info);
+  background: var(--msm-info-soft);
+}
+
+.vp-doc .custom-block.tip {
+  border-left-color: var(--msm-success);
+  background: var(--msm-success-soft);
+}
+
+.vp-doc .custom-block.warning {
+  border-left-color: var(--msm-accent);
+  background: var(--msm-warning-soft);
+}
+
+.vp-doc .custom-block.danger {
+  border-left-color: var(--msm-danger);
+  background: var(--msm-danger-soft);
+}
+
+.vp-doc .custom-block.info .custom-block-title {
+  color: var(--msm-info);
+}
+
+.vp-doc .custom-block.tip .custom-block-title {
+  color: var(--msm-success);
+}
+
+.vp-doc .custom-block.warning .custom-block-title {
+  color: var(--msm-warning);
+}
+
+.vp-doc .custom-block.danger .custom-block-title {
+  color: var(--msm-danger);
+}
+
+.vp-doc .custom-block.details {
+  border-left-color: var(--msm-line-strong);
+}
+
+.vp-doc .custom-block.details summary {
+  font-weight: var(--msm-weight-semibold);
+  color: var(--msm-ink-1);
+  cursor: pointer;
+}
+
+/* ==================== 响应式 ==================== */
+
+@media (max-width: 768px) {
+  .vp-doc h1 {
+    font-size: var(--msm-text-3xl);
+  }
+
+  .vp-doc h2 {
+    margin-top: var(--msm-space-10);
+    font-size: var(--msm-text-xl);
+  }
+
+  .vp-doc h3 {
+    font-size: var(--msm-text-md);
+  }
+
+  /*
+   * 窄屏表格：允许横向滚动，但不再用 white-space: nowrap 撑宽单元格
+   * —— 那正是旧样式把第三列挤出屏幕、看起来像被裁掉的原因。
+   */
+  .vp-doc table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .vp-doc th {
+    white-space: normal;
+  }
+
+  .vp-doc th,
+  .vp-doc td {
+    padding: var(--msm-space-2) var(--msm-space-3);
+  }
+
+  .vp-doc .custom-block {
+    padding: var(--msm-space-3) var(--msm-space-4);
+  }
+}

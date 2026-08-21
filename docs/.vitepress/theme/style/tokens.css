@@ -1,0 +1,258 @@
+/**
+ * MSM Wiki 设计令牌 / Design tokens
+ *
+ * 视觉方向：终端蓝图（Terminal Blueprint）
+ * 深靛底 · 琥珀强调 · 等宽标签 · 发丝网格
+ *
+ * 取色自品牌 logo：靛蓝 #3B3E8F / #3666AC，暖橙 #F99739 / #F68A35。
+ *
+ * 本文件是唯一的令牌来源。其他样式文件只消费这里的变量，
+ * 不再各自定义颜色或间距，避免出现互相覆盖的分层。
+ */
+
+:root {
+  color-scheme: light;
+
+  /* ==================== 墨色（文本） ==================== */
+  --msm-ink-1: #0c1526;
+  --msm-ink-2: #3a4761;
+  --msm-ink-3: #64728c;
+  --msm-ink-4: #94a1b8;
+
+  /* ==================== 表面（背景） ==================== */
+  --msm-bg: #ffffff;
+  --msm-bg-soft: #f4f7fc;
+  --msm-bg-mute: #e8eef8;
+  /* 侧栏 / 顶栏 / 页脚：与正文同色系的蓝调灰，而不是中性灰 */
+  --msm-bg-alt: #f4f7fc;
+
+  /* ==================== 线条 ==================== */
+  --msm-line: #e0e7f1;
+  --msm-line-strong: #c9d4e5;
+  /* 发丝网格：蓝图底纹 */
+  --msm-grid: rgba(36, 80, 200, 0.05);
+
+  /* ==================== 品牌靛蓝 ==================== */
+  --msm-brand: #2450c8;
+  --msm-brand-hover: #1c3fa8;
+  --msm-brand-deep: #16307f;
+  --msm-brand-soft: rgba(36, 80, 200, 0.08);
+  --msm-brand-line: rgba(36, 80, 200, 0.28);
+
+  /* ==================== 琥珀强调 ==================== */
+  /* -accent 用于填充与线条，-accent-ink 保证在浅底上的文字对比度 */
+  --msm-accent: #e08214;
+  --msm-accent-ink: #9a5806;
+  --msm-accent-soft: rgba(224, 130, 20, 0.12);
+  --msm-accent-line: rgba(224, 130, 20, 0.42);
+
+  /* ==================== 语义色 ==================== */
+  --msm-success: #10774f;
+  --msm-success-soft: rgba(16, 119, 79, 0.1);
+  --msm-warning: #9a5806;
+  --msm-warning-soft: rgba(224, 130, 20, 0.12);
+  --msm-danger: #b3261e;
+  --msm-danger-soft: rgba(179, 38, 30, 0.1);
+  --msm-info: #1c5bb8;
+  --msm-info-soft: rgba(28, 91, 184, 0.1);
+
+  /* ==================== 字体 ==================== */
+  --msm-font-sans: 'Inter var', Inter, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+    sans-serif;
+  --msm-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular,
+    'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --msm-text-2xs: 0.6875rem;   /* 11px 纯拉丁等宽标签 */
+  --msm-text-xs: 0.75rem;      /* 12px */
+  --msm-text-sm: 0.8125rem;    /* 13px */
+  --msm-text-base: 0.9375rem;  /* 15px 正文 */
+  --msm-text-md: 1rem;         /* 16px */
+  --msm-text-lg: 1.125rem;     /* 18px */
+  --msm-text-xl: 1.375rem;     /* 22px */
+  --msm-text-2xl: 1.625rem;    /* 26px */
+  --msm-text-3xl: 2rem;        /* 32px */
+  --msm-text-4xl: 2.5rem;      /* 40px */
+  --msm-text-5xl: 3.25rem;     /* 52px */
+
+  --msm-weight-normal: 400;
+  --msm-weight-medium: 500;
+  --msm-weight-semibold: 600;
+  --msm-weight-bold: 700;
+
+  --msm-leading-tight: 1.2;
+  --msm-leading-snug: 1.4;
+  --msm-leading-normal: 1.65;
+  --msm-leading-relaxed: 1.8;
+
+  /* 等宽标签统一字距 */
+  --msm-tracking-label: 0.14em;
+
+  /*
+   * 含中文的等宽标签用这个字号。汉字在 11px 上再拉开 0.14em 字距会明显偏小，
+   * 所以侧栏分组名、表头、容器标题等中文标签统一升到 12px；
+   * 纯拉丁标签（语言名、序号、快捷键）继续用 --msm-text-2xs。
+   */
+  --msm-text-label: 0.75rem;   /* 12px */
+
+  /* ==================== 间距 ==================== */
+  --msm-space-1: 0.25rem;
+  --msm-space-2: 0.5rem;
+  --msm-space-3: 0.75rem;
+  --msm-space-4: 1rem;
+  --msm-space-5: 1.25rem;
+  --msm-space-6: 1.5rem;
+  --msm-space-8: 2rem;
+  --msm-space-10: 2.5rem;
+  --msm-space-12: 3rem;
+  --msm-space-16: 4rem;
+  --msm-space-20: 5rem;
+
+  /* ==================== 圆角 ==================== */
+  /* 蓝图风格偏克制的圆角：卡片小圆角，胶囊仅用于标签 */
+  --msm-radius-xs: 2px;
+  --msm-radius-sm: 4px;
+  --msm-radius-md: 6px;
+  --msm-radius-lg: 10px;
+  --msm-radius-full: 9999px;
+
+  /* ==================== 阴影 ==================== */
+  /* 蓝图风格以线条为主，阴影只做极轻的层次提示 */
+  --msm-shadow-1: 0 1px 2px rgba(12, 21, 38, 0.05);
+  --msm-shadow-2: 0 2px 8px rgba(12, 21, 38, 0.07);
+  --msm-shadow-3: 0 8px 24px rgba(12, 21, 38, 0.09);
+  --msm-shadow-4: 0 16px 40px rgba(12, 21, 38, 0.12);
+
+  /* ==================== 布局 ==================== */
+  --msm-layout-max: 1440px;
+  --msm-sidebar-width: 248px;
+  --msm-navbar-height: 60px;
+  --msm-grid-size: 32px;
+
+  /* ==================== 动画 ==================== */
+  --msm-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --msm-fast: 140ms var(--msm-ease);
+  --msm-base: 200ms var(--msm-ease);
+}
+
+/* ==================== 暗色：蓝图夜航 ==================== */
+
+.dark {
+  color-scheme: dark;
+
+  --msm-ink-1: #eaf0fa;
+  --msm-ink-2: #adbcd6;
+  --msm-ink-3: #8493b0;
+  --msm-ink-4: #5d6b87;
+
+  /* 深靛底，而非中性黑 */
+  --msm-bg: #080d1a;
+  --msm-bg-soft: #101830;
+  --msm-bg-mute: #18223d;
+  --msm-bg-alt: #0a1122;
+
+  --msm-line: #1d2842;
+  --msm-line-strong: #2b3a5c;
+  --msm-grid: rgba(126, 166, 255, 0.055);
+
+  --msm-brand: #7ea6ff;
+  --msm-brand-hover: #9cbcff;
+  --msm-brand-deep: #b8d0ff;
+  --msm-brand-soft: rgba(126, 166, 255, 0.12);
+  --msm-brand-line: rgba(126, 166, 255, 0.32);
+
+  --msm-accent: #ffab4d;
+  --msm-accent-ink: #ffb866;
+  --msm-accent-soft: rgba(255, 171, 77, 0.14);
+  --msm-accent-line: rgba(255, 171, 77, 0.45);
+
+  --msm-success: #45c78d;
+  --msm-success-soft: rgba(69, 199, 141, 0.14);
+  --msm-warning: #ffb866;
+  --msm-warning-soft: rgba(255, 171, 77, 0.14);
+  --msm-danger: #ff8b80;
+  --msm-danger-soft: rgba(255, 139, 128, 0.14);
+  --msm-info: #7ea6ff;
+  --msm-info-soft: rgba(126, 166, 255, 0.14);
+
+  --msm-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --msm-shadow-2: 0 2px 8px rgba(0, 0, 0, 0.45);
+  --msm-shadow-3: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --msm-shadow-4: 0 16px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* ==================== 映射到 VitePress 变量 ==================== */
+/*
+ * 关键修复：VitePress 的侧栏 / 顶栏 / 页脚使用 --vp-c-bg-alt，
+ * 旧主题从未映射它，导致侧栏是中性灰而正文是蓝调，暗色下更明显
+ * （侧栏近黑 vs 正文深蓝）。这里补齐全部表面变量。
+ */
+
+:root {
+  --vp-c-brand-1: var(--msm-brand);
+  --vp-c-brand-2: var(--msm-brand-hover);
+  --vp-c-brand-3: var(--msm-brand-deep);
+  --vp-c-brand-soft: var(--msm-brand-soft);
+
+  --vp-c-text-1: var(--msm-ink-1);
+  --vp-c-text-2: var(--msm-ink-2);
+  --vp-c-text-3: var(--msm-ink-3);
+
+  --vp-c-bg: var(--msm-bg);
+  --vp-c-bg-alt: var(--msm-bg-alt);
+  --vp-c-bg-soft: var(--msm-bg-soft);
+  --vp-c-bg-mute: var(--msm-bg-mute);
+  --vp-c-bg-elv: var(--msm-bg);
+
+  --vp-c-border: var(--msm-line);
+  --vp-c-divider: var(--msm-line);
+  --vp-c-gutter: var(--msm-line);
+
+  --vp-c-default-soft: var(--msm-bg-soft);
+  --vp-c-tip-1: var(--msm-info);
+  --vp-c-tip-soft: var(--msm-info-soft);
+  --vp-c-warning-1: var(--msm-warning);
+  --vp-c-warning-soft: var(--msm-warning-soft);
+  --vp-c-danger-1: var(--msm-danger);
+  --vp-c-danger-soft: var(--msm-danger-soft);
+
+  --vp-font-family-base: var(--msm-font-sans);
+  --vp-font-family-mono: var(--msm-font-mono);
+
+  --vp-layout-max-width: var(--msm-layout-max);
+  --vp-nav-height: var(--msm-navbar-height);
+  --vp-sidebar-width: var(--msm-sidebar-width);
+
+  /* 代码块：跟随蓝图表面 */
+  --vp-code-block-bg: var(--msm-bg-soft);
+  --vp-code-block-divider-color: var(--msm-line);
+  --vp-code-copy-code-bg: var(--msm-bg-mute);
+  --vp-code-copy-code-hover-bg: var(--msm-bg);
+  --vp-code-tab-divider: var(--msm-line);
+  --vp-code-tab-active-text-color: var(--msm-ink-1);
+  --vp-code-tab-active-bar-color: var(--msm-accent);
+
+  /* 按钮 */
+  --vp-button-brand-bg: var(--msm-brand);
+  --vp-button-brand-hover-bg: var(--msm-brand-hover);
+  --vp-button-brand-active-bg: var(--msm-brand-deep);
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-hover-border: transparent;
+  --vp-button-brand-text: #ffffff;
+  --vp-button-alt-bg: transparent;
+  --vp-button-alt-hover-bg: var(--msm-brand-soft);
+  --vp-button-alt-border: var(--msm-line-strong);
+  --vp-button-alt-hover-border: var(--msm-brand-line);
+  --vp-button-alt-text: var(--msm-ink-1);
+  --vp-button-alt-hover-text: var(--msm-brand);
+
+  /* 自定义容器统一走蓝图配色 */
+  --vp-custom-block-info-bg: var(--msm-bg-soft);
+  --vp-custom-block-tip-bg: var(--msm-success-soft);
+  --vp-custom-block-warning-bg: var(--msm-warning-soft);
+  --vp-custom-block-danger-bg: var(--msm-danger-soft);
+}
+
+.dark {
+  --vp-button-brand-text: #071022;
+}
