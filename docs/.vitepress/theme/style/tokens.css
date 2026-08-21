@@ -251,6 +251,18 @@
   --vp-custom-block-tip-bg: var(--msm-success-soft);
   --vp-custom-block-warning-bg: var(--msm-warning-soft);
   --vp-custom-block-danger-bg: var(--msm-danger-soft);
+
+  /*
+   * 本地搜索弹窗：默认命中词是整块品牌蓝底 + 白字，在干净的蓝图里太抢眼。
+   * 命中词改成琥珀软底，选中项的边框也用琥珀，和侧栏激活项、Hero 角标同一语汇。
+   */
+  --vp-local-search-bg: var(--msm-bg);
+  --vp-local-search-highlight-bg: var(--msm-accent-soft);
+  --vp-local-search-highlight-text: var(--msm-accent-ink);
+  --vp-local-search-result-bg: var(--msm-bg);
+  --vp-local-search-result-border: var(--msm-line);
+  --vp-local-search-result-selected-bg: var(--msm-bg-soft);
+  --vp-local-search-result-selected-border: var(--msm-accent);
 }
 
 .dark {
