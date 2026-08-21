@@ -184,12 +184,32 @@ MSM 客户端中的“支持项目”按钮当前指向官方爱发电 Pro 商�
 
 ## 社区与资料
 
-- [Telegram 交流群](https://t.me/msm_home)
-- [Telegram 频道](https://t.me/msmwiki)
-- [Tom佬的技术博客](https://blog.847977.xyz/)
-- [以 FakeIP 分流为基石的一套科学方案](https://blog.847977.xyz/2025/10/30/%E4%BB%A5fakeip%E5%88%86%E6%B5%81%E4%B8%BA%E5%9F%BA%E7%9F%B3%E7%9A%84%E4%B8%80%E5%A5%97%E7%A7%91%E5%AD%A6%E6%96%B9%E6%A1%88/)
-- [MosDNS 相关实践（PH 佬）](https://github.com/yyysuo/mosdns)
-- [StoreHouse 脚本合集](https://github.com/herozmy/StoreHouse/tree/latest)
+<div class="msm-links">
+  <a class="msm-link" href="https://t.me/msm_home" target="_blank" rel="noreferrer">
+    <span class="msm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span>
+    <span class="msm-link-body"><strong>Telegram 交流群</strong><span>t.me</span></span>
+  </a>
+  <a class="msm-link" href="https://t.me/msmwiki" target="_blank" rel="noreferrer">
+    <span class="msm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span>
+    <span class="msm-link-body"><strong>Telegram 频道</strong><span>t.me</span></span>
+  </a>
+  <a class="msm-link" href="https://blog.847977.xyz/" target="_blank" rel="noreferrer">
+    <span class="msm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg></span>
+    <span class="msm-link-body"><strong>Tom 佬的技术博客</strong><span>blog.847977.xyz</span></span>
+  </a>
+  <a class="msm-link" href="https://blog.847977.xyz/2025/10/30/%E4%BB%A5fakeip%E5%88%86%E6%B5%81%E4%B8%BA%E5%9F%BA%E7%9F%B3%E7%9A%84%E4%B8%80%E5%A5%97%E7%A7%91%E5%AD%A6%E6%96%B9%E6%A1%88/" target="_blank" rel="noreferrer">
+    <span class="msm-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></span>
+    <span class="msm-link-body"><strong>FakeIP 分流科学方案</strong><span>blog.847977.xyz</span></span>
+  </a>
+  <a class="msm-link" href="https://github.com/yyysuo/mosdns" target="_blank" rel="noreferrer">
+    <span class="msm-link-icon"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg></span>
+    <span class="msm-link-body"><strong>MosDNS 实践 · PH 佬</strong><span>github.com</span></span>
+  </a>
+  <a class="msm-link" href="https://github.com/herozmy/StoreHouse/tree/latest" target="_blank" rel="noreferrer">
+    <span class="msm-link-icon"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg></span>
+    <span class="msm-link-body"><strong>StoreHouse 脚本合集</strong><span>github.com</span></span>
+  </a>
+</div>
 
 ## 下一步
 

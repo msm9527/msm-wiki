@@ -617,6 +617,83 @@
   transform: translateX(3px);
 }
 
+/* ==================== 社区与资料：带图标的链接卡片 ==================== */
+.VPHome .vp-doc .msm-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--msm-space-4);
+  margin: var(--msm-space-6) 0 var(--msm-space-8);
+}
+
+.VPHome .vp-doc .msm-link {
+  display: flex;
+  align-items: center;
+  gap: var(--msm-space-3);
+  padding: var(--msm-space-4) var(--msm-space-5);
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-card);
+  background: linear-gradient(160deg, var(--msm-bg-soft) 0%, transparent 60%);
+  text-decoration: none !important;
+  transition: border-color var(--msm-base), transform var(--msm-base),
+    box-shadow var(--msm-base);
+}
+
+.VPHome .vp-doc .msm-link:hover {
+  transform: translateY(-3px);
+  border-color: var(--msm-brand-line);
+  box-shadow: var(--msm-glass-shadow);
+}
+
+.VPHome .vp-doc .msm-link-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--msm-brand-line);
+  border-radius: var(--msm-radius-md);
+  background: var(--msm-brand-soft);
+  color: var(--msm-brand);
+  transition: color var(--msm-base), border-color var(--msm-base),
+    background-color var(--msm-base);
+}
+
+.VPHome .vp-doc .msm-link-icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.VPHome .vp-doc .msm-link:hover .msm-link-icon {
+  border-color: transparent;
+  background: var(--msm-gradient-brand);
+  color: #fff;
+}
+
+.VPHome .vp-doc .msm-link-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.VPHome .vp-doc .msm-link-body strong {
+  font-size: var(--msm-text-sm);
+  font-weight: var(--msm-weight-semibold);
+  line-height: var(--msm-leading-snug);
+  color: var(--msm-ink-1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.VPHome .vp-doc .msm-link-body span {
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-2xs);
+  letter-spacing: 0.04em;
+  color: var(--msm-ink-4);
+}
+
 /* ==================== 快速导航条 ==================== */
 
 .msm-home-jump {
@@ -851,6 +928,10 @@
   .VPHome .vp-doc .msm-routers {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .VPHome .vp-doc .msm-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 768px) {
@@ -897,7 +978,8 @@
   }
 
   .VPHome .vp-doc .msm-goals,
-  .VPHome .vp-doc .msm-routers {
+  .VPHome .vp-doc .msm-routers,
+  .VPHome .vp-doc .msm-links {
     grid-template-columns: 1fr;
   }
 
