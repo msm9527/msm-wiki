@@ -353,6 +353,31 @@ export default {
       setupMobileDrawer()
       setupScrollReveal()
       setupScrollProgress()
+      setupDocEyebrow()
+    }
+
+    // 文档页在 h1 上方注入一条等宽小眉标，显示当前所属的侧栏分组
+    // （如"快速上手"），把文档页和首页的标注语汇统一起来。
+    // 分组名取自侧栏里高亮的 level-0 分组；取不到就不注入。
+    function setupDocEyebrow() {
+      const h1 = document.querySelector<HTMLElement>('.VPDoc .vp-doc h1')
+      if (!h1) return
+
+      // 路由切换后重建，先移除旧的
+      document.querySelector('.msm-doc-eyebrow')?.remove()
+
+      const groupLabel = document
+        .querySelector<HTMLElement>(
+          '.VPSidebar .VPSidebarItem.level-0.has-active > .item .text'
+        )
+        ?.textContent?.trim()
+
+      if (!groupLabel) return
+
+      const eyebrow = document.createElement('div')
+      eyebrow.className = 'msm-doc-eyebrow'
+      eyebrow.textContent = groupLabel
+      h1.parentElement?.insertBefore(eyebrow, h1)
     }
 
     if (document.readyState === 'loading') {
