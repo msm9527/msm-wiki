@@ -158,77 +158,41 @@
   animation: msm-fade-up 0.8s var(--msm-ease-out) 0.36s both;
 }
 
-/* ==================== Hero 图版 ==================== */
+/* ==================== Hero 图版：网络星座 ==================== */
 
-/* 去掉默认的紫色光斑，它和靛蓝/琥珀体系冲突 */
+/* 去掉默认的紫色光斑 */
 .VPHome .VPHero .image-bg {
   display: none;
 }
 
+/*
+ * 图版容器现在只是网络星座（MsmConstellation.vue）的透明画布：
+ * 去掉旧的灰色玻璃图版、网格底纹和制图角标，让彩色 logo 和辐射连线当主角。
+ * overflow: visible 让节点标签可以贴到容器边缘外一点。
+ */
 .VPHome .VPHero .image-container {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 264px;
-  height: 264px;
-  padding: var(--msm-space-8);
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  margin: 0;
+  padding: 0;
   transform: none;
-  border: 1px solid var(--msm-glass-border);
-  border-radius: var(--msm-radius-plate);
-  box-shadow: var(--msm-glass-shadow);
-  -webkit-backdrop-filter: blur(var(--msm-glass-blur))
-    saturate(var(--msm-glass-saturate));
-  backdrop-filter: blur(var(--msm-glass-blur))
-    saturate(var(--msm-glass-saturate));
-  background:
-    linear-gradient(to right, var(--msm-grid) 1px, transparent 1px) 0 0 /
-      var(--msm-grid-size) var(--msm-grid-size),
-    linear-gradient(to bottom, var(--msm-grid) 1px, transparent 1px) 0 0 /
-      var(--msm-grid-size) var(--msm-grid-size),
-    var(--msm-glass-bg);
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  overflow: visible;
 }
 
-/* 图版四角的制图角标 */
 .VPHome .VPHero .image-container::before,
 .VPHome .VPHero .image-container::after {
-  content: '';
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-color: var(--msm-accent);
-  border-style: solid;
-  border-width: 0;
-}
-
-.VPHome .VPHero .image-container::before {
-  top: -1px;
-  left: -1px;
-  border-top-width: 1px;
-  border-left-width: 1px;
-}
-
-.VPHome .VPHero .image-container::after {
-  right: -1px;
-  bottom: -1px;
-  border-right-width: 1px;
-  border-bottom-width: 1px;
-}
-
-/*
- * logo-square.svg 声明为 120×120 但 viewBox 是 422×547（其实是竖版），
- * 只给 max-width 不会放大到超过固有尺寸，所以这里给显式宽高把它做大，
- * 让 M 标记在图版里更醒目；SVG 自身按比例居中，不会拉伸变形。
- */
-.VPHome .VPHero .image-src {
-  position: relative;
-  top: auto;
-  left: auto;
-  width: 172px;
-  height: 172px;
-  max-width: 100%;
-  transform: none;
-  filter: drop-shadow(0 6px 16px rgba(12, 21, 38, 0.14));
+  content: none;
 }
 
 /* ==================== 按钮 ==================== */
@@ -750,6 +714,7 @@
   .VPHome .VPHero .image {
     order: 2;
     align-self: flex-start;
+    width: 100%;
     margin: var(--msm-space-8) 0 0;
   }
 
@@ -758,13 +723,7 @@
   }
 
   .VPHome .VPHero .image-container {
-    width: 232px;
-    height: 232px;
-  }
-
-  .VPHome .VPHero .image-src {
-    max-width: 132px;
-    max-height: 132px;
+    max-width: 360px;
   }
 
   .msm-home-jump {
@@ -805,14 +764,7 @@
   }
 
   .VPHome .VPHero .image-container {
-    width: 180px;
-    height: 180px;
-    padding: var(--msm-space-5);
-  }
-
-  .VPHome .VPHero .image-src {
-    max-width: 104px;
-    max-height: 104px;
+    max-width: 300px;
   }
 
   .VPHome .VPFeatures {

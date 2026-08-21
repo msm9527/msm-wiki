@@ -5,9 +5,6 @@ hero:
   name: "MSM"
   text: "家庭网络统一管理平台"
   tagline: 统一管理 MosDNS、Clash、Sing-Box、域名发布、远程组网与 Docker 资源
-  image:
-    src: /logo/logo-square.svg
-    alt: MSM Logo
   actions:
     - theme: brand
       text: 快速上手

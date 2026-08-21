@@ -1,6 +1,7 @@
 import { h } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
+import MsmConstellation from './components/MsmConstellation.vue'
 
 // 自定义样式：按层次单向依赖，令牌 → 基础 → 布局 / 正文 / 首页。
 // 每个组件只由一个文件负责，不再互相覆盖。
@@ -14,7 +15,8 @@ export default {
   extends: DefaultTheme,
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
-      // 可以在这里插入自定义组件
+      // 首页 Hero 视觉：用网络星座替换默认的 logo 图版
+      'home-hero-image': () => h(MsmConstellation)
     })
   },
   enhanceApp({ router }) {
