@@ -21,26 +21,32 @@ features:
     details: 管理 DNS 规则、客户端策略、查询日志以及 FakeIP IPv4 / IPv6 链路
     link: /zh/guide/mosdns
     linkText: DNS 教程
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="6" rx="2"/><circle cx="7" cy="6" r=".9" fill="currentColor" stroke="none"/><path d="M11 6h6M12 9v4M12 13l-5 4M12 13l5 4"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/></svg>'
   - title: 统一代理服务
     details: 在 Clash Meta、Clash Smart 与 Sing-Box 之间安全切换，使用同一套管理入口
     link: /zh/guide/proxy
     linkText: 代理教程
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5.4 3.7 10.5 8 12 4.3-1.5 8-6.6 8-12V5l-8-3Z"/><path d="M7.5 12h9M13 8.5l3.5 3.5-3.5 3.5"/></svg>'
   - title: 回家与私有组网
     details: 提供双核心多协议远程回家、Cloudflare 私网以及 EasyTier、Tailscale、WireGuard 自建私网
     link: /zh/guide/home
     linkText: 远程接入
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-7 9 7M5 10v10h14V10"/><path d="M8 15h8M10 12.5 7.5 15 10 17.5M14 12.5l2.5 2.5-2.5 2.5"/></svg>'
   - title: 域名发布闭环
     details: 集中完成 DDNS、HTTPS 证书、反向代理、健康检查与故障诊断
     link: /zh/guide/domain-services
     linkText: 域名服务
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="13" r="8"/><path d="M2 13h16M10 5c2.1 2.2 3.2 4.9 3.2 8S12.1 18.8 10 21c-2.1-2.2-3.2-4.9-3.2-8S7.9 7.2 10 5ZM16 3h5v5M21 3l-6 6"/></svg>'
   - title: Docker 管理
     details: 管理本机及独立子节点的容器、镜像、网络、存储卷和应用栈
     link: /zh/guide/docker-center
     linkText: Docker 管理
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="8" height="6" rx="1"/><rect x="13" y="4" width="8" height="6" rx="1"/><rect x="8" y="14" width="8" height="6" rx="1"/><path d="M7 10v2h10v-2M12 12v2M6 7h2M16 7h2M11 17h2"/></svg>'
   - title: 网络诊断工作台
     details: 集成 Ping、DNS、MTR、Traceroute、测速、端口扫描和局域网工具
     link: /zh/guide/network-tools
     linkText: 网络工具
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2-5 4 10 3-7 2 2h5"/><circle cx="4" cy="18" r="2"/><path d="m5.5 19.5 2 2M16 4h5M18.5 1.5v5"/></svg>'
 ---
 
 <nav class="msm-home-jump" aria-label="首页快速导航">
@@ -76,13 +82,19 @@ MSM 是闭源、面向用户自有或已授权环境的网络与系统管理软�
 
 这三步也是推荐的阅读顺序，照着做完就有一条可用的旁路由链路。
 
-### 1. 安装并进入管理界面
+<div class="msm-steps">
+<div class="msm-step">
+
+### 安装并进入管理界面
 
 - 从 [安装总览](/zh/guide/install) 选择你的平台
 - 按 [首次使用](/zh/guide/first-use) 走完初始化向导
 - 确认可以访问 `http://<MSM-IP>:7777`
 
-### 2. 完成主路由接入
+</div>
+<div class="msm-step">
+
+### 完成主路由接入
 
 - 对照 [路由器集成总览](/zh/guide/router-integration) 配置 DNS 与静态路由
 - DHCP DNS 默认只下发 MSM 的 IPv4 地址
@@ -91,13 +103,19 @@ MSM 是闭源、面向用户自有或已授权环境的网络与系统管理软�
 
 默认模板使用 `28.0.0.0/8` 和 `f2b0::/18`；如果你修改过网段，应以 MSM 页面中的实际配置为准。
 
-### 3. 回到 MSM 完成业务配置
+</div>
+<div class="msm-step">
+
+### 回到 MSM 完成业务配置
 
 - 在 [DNS 服务](/zh/guide/mosdns) 检查分流规则和 FakeIP 网段
 - 在 [设备管理](/zh/guide/device-management) 配置需要代理的客户端
 - 在 [代理服务](/zh/guide/proxy) 导入订阅、选择节点并确认策略组可用
 - 分别验证 `A`、`AAAA` 查询与实际访问
 - 需要更多能力时进入 [Pro 扩展功能](/zh/guide/basic-config#pro-扩展功能)
+
+</div>
+</div>
 
 ## 按目标选择路径
 

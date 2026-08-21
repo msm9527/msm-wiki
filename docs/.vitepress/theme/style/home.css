@@ -270,7 +270,29 @@
 /* ==================== 功能卡片 ==================== */
 
 .VPHome .VPFeatures {
+  position: relative;
+  isolation: isolate;
   padding: var(--msm-space-12) var(--msm-space-6) var(--msm-space-4);
+}
+
+/* 卡片区背后一层极淡的品牌色光，让白底不再是一整块平面 */
+.VPHome .VPFeatures::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      46% 40% at 82% 0%,
+      var(--msm-glow-accent),
+      transparent 60%
+    ),
+    radial-gradient(
+      42% 38% at 4% 60%,
+      var(--msm-glow-brand),
+      transparent 62%
+    );
 }
 
 .VPHome .VPFeatures .container {
@@ -294,16 +316,42 @@
   padding: var(--msm-space-6);
   border: 1px solid var(--msm-line);
   border-radius: var(--msm-radius-md);
-  background: transparent;
+  background: linear-gradient(
+    160deg,
+    var(--msm-bg-soft) 0%,
+    transparent 60%
+  );
   transition: border-color var(--msm-base), background-color var(--msm-base),
     transform var(--msm-base), box-shadow var(--msm-base);
 }
 
-/* 卡片编号：琥珀渐变两位数 */
+/* 图标徽章：品牌色描边图标 + 品牌软底的圆角方块，是卡片的视觉焦点 */
+.VPHome .VPFeature .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: var(--msm-space-5);
+  border: 1px solid var(--msm-brand-line);
+  border-radius: var(--msm-radius-md);
+  background: var(--msm-brand-soft);
+  color: var(--msm-brand);
+  transition: color var(--msm-base), border-color var(--msm-base),
+    background-color var(--msm-base), transform var(--msm-base);
+}
+
+.VPHome .VPFeature .icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* 卡片编号：右上角琥珀渐变水印，让图标当主角、编号退居标注 */
 .VPHome .VPFeature::before {
   content: counter(msm-feature, decimal-leading-zero);
-  display: block;
-  margin-bottom: var(--msm-space-4);
+  position: absolute;
+  top: var(--msm-space-5);
+  right: var(--msm-space-5);
   font-family: var(--msm-font-mono);
   font-size: var(--msm-text-xs);
   font-weight: var(--msm-weight-medium);
@@ -343,6 +391,14 @@
 .VPHome .VPFeature:hover::after {
   border-right-color: var(--msm-accent);
   border-bottom-color: var(--msm-accent);
+}
+
+/* 悬停时图标徽章点亮：品牌填充 + 反白图标 + 轻微放大 */
+.VPHome .VPFeature:hover .icon {
+  transform: scale(1.06);
+  border-color: transparent;
+  background: var(--msm-gradient-brand);
+  color: #fff;
 }
 
 /*
@@ -388,6 +444,84 @@
 
 .VPHome .VPFeature .link-text .vpi-arrow-right {
   color: var(--msm-brand);
+}
+
+/* ==================== 三步流程（时间线） ==================== */
+/*
+ * 首页"三步跑通"从平铺的有序列表改成竖向时间线：左侧一条导轨串起
+ * 三个圆形编号徽章，右侧是每一步的标题与要点。徽章编号用 CSS counter，
+ * 步骤内容仍是 Markdown（div 内留空行即可正常解析链接）。
+ */
+.VPHome .vp-doc .msm-steps {
+  counter-reset: msm-step-flow;
+  position: relative;
+  margin: var(--msm-space-8) 0 var(--msm-space-12);
+}
+
+/* 竖向导轨：从第一个徽章中心贯穿到最后一个 */
+.VPHome .vp-doc .msm-steps::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 18px;
+  bottom: 18px;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--msm-brand-line),
+    var(--msm-line)
+  );
+}
+
+.VPHome .vp-doc .msm-step {
+  counter-increment: msm-step-flow;
+  position: relative;
+  padding: 0 0 var(--msm-space-8) var(--msm-space-12);
+}
+
+.VPHome .vp-doc .msm-step:last-child {
+  padding-bottom: 0;
+}
+
+/* 圆形编号徽章，坐在导轨上（不透明底盖住导轨线） */
+.VPHome .vp-doc .msm-step::before {
+  content: counter(msm-step-flow, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--msm-brand-line);
+  border-radius: var(--msm-radius-full);
+  background: var(--msm-bg);
+  box-shadow: 0 0 0 4px var(--msm-bg);
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-2xs);
+  font-weight: var(--msm-weight-semibold);
+  letter-spacing: 0.04em;
+  color: var(--msm-brand);
+}
+
+/* 步骤标题与徽章对齐，去掉正文 h3 的大上边距 */
+.VPHome .vp-doc .msm-step > :first-child {
+  margin-top: 0;
+}
+
+.VPHome .vp-doc .msm-step h3 {
+  margin: 0 0 var(--msm-space-3);
+  padding-top: 5px;
+  font-size: var(--msm-text-lg);
+}
+
+/* 步骤里的说明段落收窄一点，跟要点区分 */
+.VPHome .vp-doc .msm-step > p {
+  margin: var(--msm-space-3) 0 0;
+  font-size: var(--msm-text-sm);
+  color: var(--msm-ink-3);
 }
 
 /* ==================== 快速导航条 ==================== */
@@ -467,6 +601,21 @@
 
 .VPHome .vp-doc {
   padding: 0 var(--msm-space-6);
+}
+
+/*
+ * 首页小节标题比正文页更大更醒目，形成"大标题 + 说明"的落地页节奏；
+ * 上间距也拉开，让每个小节像独立的一屏。
+ */
+.VPHome .vp-doc h2 {
+  margin-top: var(--msm-space-16);
+  padding-top: var(--msm-space-6);
+  font-size: var(--msm-text-3xl);
+  letter-spacing: -0.02em;
+}
+
+.VPHome .vp-doc h2::before {
+  width: 40px;
 }
 
 .VPHome .vp-doc > div {
