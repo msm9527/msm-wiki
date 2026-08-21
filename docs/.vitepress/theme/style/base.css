@@ -153,18 +153,21 @@ body {
 
 /* ==================== 动效关键帧 ==================== */
 /*
- * 入场用 fade-up：透明 + 轻微上移到位，配合 stagger 延迟形成层次。
+ * 入场用 fade-up：透明 + 轻微上移 + 去模糊到位，配合 stagger 延迟形成层次。
+ * 加一点 blur→0 让入场更有"聚焦"的高级感（参考同类落地页的手法）。
  * glow-drift 给 Hero 背后的色光做缓慢无限漂移，是页面唯一的常驻动效。
  * 全部受 prefers-reduced-motion 收束（见文件末尾）。
  */
 @keyframes msm-fade-up {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(18px);
+    filter: blur(8px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 
@@ -189,9 +192,42 @@ body {
   }
 }
 
+/* 主按钮悬停时扫过的高光条 */
+@keyframes msm-glare {
+  from {
+    left: -60%;
+  }
+  to {
+    left: 160%;
+  }
+}
+
 /* 入场工具类：元素加上即淡入上移，delay 由内联或选择器给 */
 .msm-animate {
-  animation: msm-fade-up 0.6s var(--msm-ease) both;
+  animation: msm-fade-up 0.6s var(--msm-ease-out) both;
+}
+
+/* ==================== 顶部滚动进度条 ==================== */
+/*
+ * 固定在视口顶部的一条 2px 渐变线，宽度随页面滚动进度增长（JS 更新 scaleX）。
+ * 是一个轻量但明显的"动起来"的反馈，明暗两种主题都适用。
+ */
+#msm-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 2px;
+  transform: scaleX(var(--msm-scroll, 0));
+  transform-origin: left;
+  background: linear-gradient(
+    90deg,
+    var(--msm-brand),
+    var(--msm-accent)
+  );
+  pointer-events: none;
+  will-change: transform;
 }
 
 /* ==================== 选中文本 ==================== */

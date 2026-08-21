@@ -143,19 +143,19 @@
 
 /* Hero 内容分层入场：品牌名 → 大标题 → 副标题 → 按钮 → 图版 依次淡入上移 */
 .VPHome .VPHero .name {
-  animation: msm-fade-up 0.6s var(--msm-ease) 0.05s both;
+  animation: msm-fade-up 0.6s var(--msm-ease-out) 0.05s both;
 }
 .VPHome .VPHero .text {
-  animation: msm-fade-up 0.6s var(--msm-ease) 0.13s both;
+  animation: msm-fade-up 0.7s var(--msm-ease-out) 0.13s both;
 }
 .VPHome .VPHero .tagline {
-  animation: msm-fade-up 0.6s var(--msm-ease) 0.21s both;
+  animation: msm-fade-up 0.7s var(--msm-ease-out) 0.21s both;
 }
 .VPHome .VPHero .actions {
-  animation: msm-fade-up 0.6s var(--msm-ease) 0.29s both;
+  animation: msm-fade-up 0.7s var(--msm-ease-out) 0.29s both;
 }
 .VPHome .VPHero .image {
-  animation: msm-fade-up 0.7s var(--msm-ease) 0.36s both;
+  animation: msm-fade-up 0.8s var(--msm-ease-out) 0.36s both;
 }
 
 /* ==================== Hero 图版 ==================== */
@@ -175,7 +175,7 @@
   padding: var(--msm-space-8);
   transform: none;
   border: 1px solid var(--msm-glass-border);
-  border-radius: var(--msm-radius-lg);
+  border-radius: var(--msm-radius-plate);
   box-shadow: var(--msm-glass-shadow);
   -webkit-backdrop-filter: blur(var(--msm-glass-blur))
     saturate(var(--msm-glass-saturate));
@@ -243,19 +243,43 @@
     box-shadow var(--msm-fast);
 }
 
-/* 主按钮：品牌渐变 + 悬停上浮微光，是页面里最鲜明的一块色彩 */
+/* 主按钮：品牌渐变 + 悬停上浮微光 + 扫光高光条，是页面里最鲜明的一块色彩 */
 .VPButton.brand {
+  position: relative;
+  overflow: hidden;
   background: var(--msm-gradient-brand);
-  box-shadow: 0 2px 10px var(--msm-glow-brand);
+  box-shadow: 0 8px 24px var(--msm-glow-brand);
+}
+
+/* 悬停时一条高光从左扫到右（overflow:hidden 裁在按钮内） */
+.VPButton.brand::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  transform: skewX(-18deg);
+  pointer-events: none;
 }
 
 .VPButton.brand:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px var(--msm-glow-brand);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px var(--msm-glow-brand);
+}
+
+.VPButton.brand:hover::after {
+  animation: msm-glare 0.75s var(--msm-ease-out);
 }
 
 .VPButton.alt:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .VPButton.medium {
@@ -315,7 +339,7 @@
   height: 100%;
   padding: var(--msm-space-6);
   border: 1px solid var(--msm-line);
-  border-radius: var(--msm-radius-md);
+  border-radius: var(--msm-radius-card);
   background: linear-gradient(
     160deg,
     var(--msm-bg-soft) 0%,
@@ -608,7 +632,7 @@
  * 上间距也拉开，让每个小节像独立的一屏。
  */
 .VPHome .vp-doc h2 {
-  margin-top: var(--msm-space-16);
+  margin-top: var(--msm-space-20);
   padding-top: var(--msm-space-6);
   font-size: var(--msm-text-3xl);
   letter-spacing: -0.02em;
@@ -649,8 +673,10 @@
 .msm-js .msm-home-jump a,
 .msm-js .VPHome .vp-doc h2 {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.6s var(--msm-ease), transform 0.6s var(--msm-ease);
+  transform: translateY(24px);
+  filter: blur(6px);
+  transition: opacity 0.6s var(--msm-ease-out),
+    transform 0.6s var(--msm-ease-out), filter 0.6s var(--msm-ease-out);
 }
 
 .msm-js .VPHome .VPFeatures .item.msm-reveal,
@@ -658,6 +684,7 @@
 .msm-js .VPHome .vp-doc h2.msm-reveal {
   opacity: 1;
   transform: none;
+  filter: blur(0);
 }
 
 /* 同一行卡片 / 同排导航错峰揭示 */
@@ -684,6 +711,7 @@
   .msm-js .VPHome .vp-doc h2 {
     opacity: 1 !important;
     transform: none !important;
+    filter: none !important;
   }
 }
 

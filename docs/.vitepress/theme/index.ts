@@ -304,10 +304,53 @@ export default {
       })
     }
 
+    const setupScrollProgress = () => {
+      const barId = 'msm-scroll-progress'
+
+      const computeRatio = () => {
+        const doc = document.documentElement
+        const max = doc.scrollHeight - doc.clientHeight
+        return max > 0 ? Math.min(1, doc.scrollTop / max) : 0
+      }
+
+      const existing = document.getElementById(barId)
+      if (existing) {
+        // 路由切换后页面高度变化、且已滚回顶部，重算一次
+        requestAnimationFrame(() => {
+          existing.style.setProperty('--msm-scroll', String(computeRatio()))
+        })
+        return
+      }
+
+      const bar = document.createElement('div')
+      bar.id = barId
+      bar.setAttribute('aria-hidden', 'true')
+      document.body.appendChild(bar)
+
+      let ticking = false
+      const update = () => {
+        bar.style.setProperty('--msm-scroll', String(computeRatio()))
+        ticking = false
+      }
+
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (!ticking) {
+            ticking = true
+            requestAnimationFrame(update)
+          }
+        },
+        { passive: true }
+      )
+      update()
+    }
+
     const initDomTweaks = () => {
       cleanupCopyTitle()
       setupMobileDrawer()
       setupScrollReveal()
+      setupScrollProgress()
     }
 
     if (document.readyState === 'loading') {

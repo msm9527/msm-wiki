@@ -134,6 +134,9 @@
   --msm-radius-sm: 4px;
   --msm-radius-md: 6px;
   --msm-radius-lg: 10px;
+  /* 落地页卡片用更柔的圆角，弱化"生硬"感，但仍比通用落地页克制 */
+  --msm-radius-card: 12px;
+  --msm-radius-plate: 16px;
   --msm-radius-full: 9999px;
 
   /* ==================== 阴影 ==================== */
@@ -151,6 +154,8 @@
 
   /* ==================== 动画 ==================== */
   --msm-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  /* 更"弹"的缓出曲线，用于入场 / 悬停，让动效更有生气 */
+  --msm-ease-out: cubic-bezier(0.2, 0.65, 0.3, 1);
   --msm-fast: 140ms var(--msm-ease);
   --msm-base: 200ms var(--msm-ease);
 }
