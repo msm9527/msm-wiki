@@ -512,6 +512,111 @@
   color: var(--msm-ink-3);
 }
 
+/* ==================== 按目标选路：卡片网格 ==================== */
+/*
+ * "按目标选择路径"原来是一张只占半幅的两列表格，右侧大片留白、和上方
+ * 丰富的卡片/时间线落差明显。改成场景卡片网格：每张卡是"你要做的事 + 推荐方案"，
+ * 铺满整幅。卡片内容仍是 Markdown（div 内留空行解析链接）。
+ */
+.VPHome .vp-doc .msm-goals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--msm-space-4);
+  margin: var(--msm-space-8) 0 var(--msm-space-12);
+}
+
+.VPHome .vp-doc .msm-goal {
+  display: flex;
+  flex-direction: column;
+  padding: var(--msm-space-5);
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-card);
+  background: linear-gradient(160deg, var(--msm-bg-soft) 0%, transparent 60%);
+  transition: border-color var(--msm-base), transform var(--msm-base),
+    box-shadow var(--msm-base);
+}
+
+.VPHome .vp-doc .msm-goal:hover {
+  transform: translateY(-3px);
+  border-color: var(--msm-brand-line);
+  box-shadow: var(--msm-glass-shadow);
+}
+
+/* 第一段：场景（加粗深墨） */
+.VPHome .vp-doc .msm-goal > p:first-child {
+  margin: 0 0 var(--msm-space-3);
+  font-size: var(--msm-text-base);
+  font-weight: var(--msm-weight-semibold);
+  line-height: var(--msm-leading-snug);
+  color: var(--msm-ink-1);
+}
+
+/* 第二段：推荐方案（贴底，等宽小标签感的链接） */
+.VPHome .vp-doc .msm-goal > p:last-child {
+  margin: auto 0 0;
+  padding-top: var(--msm-space-3);
+  font-size: var(--msm-text-sm);
+  line-height: var(--msm-leading-snug);
+  color: var(--msm-ink-3);
+}
+
+/* ==================== 主路由：卡片网格 ==================== */
+.VPHome .vp-doc .msm-routers {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--msm-space-4);
+  margin: var(--msm-space-6) 0 var(--msm-space-8);
+}
+
+.VPHome .vp-doc .msm-router {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--msm-space-1);
+  padding: var(--msm-space-5);
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-card);
+  background: linear-gradient(160deg, var(--msm-bg-soft) 0%, transparent 60%);
+  text-decoration: none !important;
+  transition: border-color var(--msm-base), transform var(--msm-base),
+    box-shadow var(--msm-base);
+}
+
+.VPHome .vp-doc .msm-router:hover {
+  transform: translateY(-3px);
+  border-color: var(--msm-brand-line);
+  box-shadow: var(--msm-glass-shadow);
+}
+
+.VPHome .vp-doc .msm-router strong {
+  font-size: var(--msm-text-md);
+  font-weight: var(--msm-weight-semibold);
+  color: var(--msm-ink-1);
+}
+
+.VPHome .vp-doc .msm-router span {
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-2xs);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-ink-4);
+}
+
+/* 右上角琥珀箭头，hover 右移 */
+.VPHome .vp-doc .msm-router::after {
+  content: '→';
+  position: absolute;
+  top: var(--msm-space-5);
+  right: var(--msm-space-5);
+  color: var(--msm-ink-4);
+  transition: transform var(--msm-fast), color var(--msm-fast);
+}
+
+.VPHome .vp-doc .msm-router:hover::after {
+  color: var(--msm-accent);
+  transform: translateX(3px);
+}
+
 /* ==================== 快速导航条 ==================== */
 
 .msm-home-jump {
@@ -738,6 +843,14 @@
   .msm-home-jump a:nth-child(-n + 2) {
     border-bottom: 1px solid var(--msm-line);
   }
+
+  .VPHome .vp-doc .msm-goals {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .VPHome .vp-doc .msm-routers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 768px) {
@@ -780,6 +893,11 @@
   }
 
   .msm-home-jump {
+    grid-template-columns: 1fr;
+  }
+
+  .VPHome .vp-doc .msm-goals,
+  .VPHome .vp-doc .msm-routers {
     grid-template-columns: 1fr;
   }
 

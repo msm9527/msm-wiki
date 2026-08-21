@@ -118,23 +118,61 @@ MSM 是闭源、面向用户自有或已授权环境的网络与系统管理软�
 
 基础链路跑通之后，按你实际要做的事情选一条继续。
 
-| 你要做的事 | 推荐方案 |
-| --- | --- |
-| 只从外网访问家庭 Web 服务 | [域名服务](/zh/guide/domain-services) 或 [Cloudflare 网页穿透](/zh/guide/cloudflare) |
-| 访问 SSH、远程桌面、数据库或多台内网设备 | [Cloudflare 云端私网](/zh/guide/cloudflare) 或 [自建私网](/zh/guide/networking) |
-| 已有公网 IP / DDNS，想用代理客户端回家 | [远程回家](/zh/guide/home) |
-| 统一管理本机与子节点的容器资源 | [Docker 管理](/zh/guide/docker-center) |
-| 排查 DNS、路由、端口、证书与链路质量 | [网络工具](/zh/guide/network-tools) |
-| 查看 MSM 各组件健康状态 | [系统诊断](/zh/guide/diagnostics) |
+<div class="msm-goals">
+<div class="msm-goal">
+
+只从外网访问家庭 Web 服务
+
+[域名服务](/zh/guide/domain-services) 或 [Cloudflare 网页穿透](/zh/guide/cloudflare)
+
+</div>
+<div class="msm-goal">
+
+访问 SSH、远程桌面、数据库或多台内网设备
+
+[Cloudflare 云端私网](/zh/guide/cloudflare) 或 [自建私网](/zh/guide/networking)
+
+</div>
+<div class="msm-goal">
+
+已有公网 IP / DDNS，想用代理客户端回家
+
+[远程回家](/zh/guide/home)
+
+</div>
+<div class="msm-goal">
+
+统一管理本机与子节点的容器资源
+
+[Docker 管理](/zh/guide/docker-center)
+
+</div>
+<div class="msm-goal">
+
+排查 DNS、路由、端口、证书与链路质量
+
+[网络工具](/zh/guide/network-tools)
+
+</div>
+<div class="msm-goal">
+
+查看 MSM 各组件健康状态
+
+[系统诊断](/zh/guide/diagnostics)
+
+</div>
+</div>
 
 ## 接入你的主路由
 
 已提供专门教程的路由器系统：
 
-- [RouterOS（MikroTik）](/zh/guide/routeros)
-- [爱快（iKuai）](/zh/guide/ikuai)
-- [OpenWrt / LEDE](/zh/guide/openwrt)
-- [UniFi](/zh/guide/unifi)
+<div class="msm-routers">
+  <a class="msm-router" href="/zh/guide/routeros"><strong>RouterOS</strong><span>MikroTik</span></a>
+  <a class="msm-router" href="/zh/guide/ikuai"><strong>爱快</strong><span>iKuai</span></a>
+  <a class="msm-router" href="/zh/guide/openwrt"><strong>OpenWrt</strong><span>LEDE</span></a>
+  <a class="msm-router" href="/zh/guide/unifi"><strong>UniFi</strong><span>Ubiquiti</span></a>
+</div>
 
 其他支持静态路由和自定义 DNS 的系统，也可以参考 [路由器集成总览](/zh/guide/router-integration) 按相同原则配置。
 
