@@ -269,7 +269,16 @@ export default defineConfig({
     sidebarMenuLabel: '菜单',
     darkModeSwitchLabel: '主题',
     lightModeSwitchTitle: '切换到浅色模式',
-    darkModeSwitchTitle: '切换到深色模式'
+    darkModeSwitchTitle: '切换到深色模式',
+
+    notFound: {
+      code: '404',
+      title: '页面走丢了',
+      quote:
+        '这个链接可能已经调整、或者还没写。回首页从导航重新出发，通常几步就能找到要看的内容。',
+      linkLabel: '回到首页',
+      linkText: '回到首页'
+    }
   },
 
   locales: {
