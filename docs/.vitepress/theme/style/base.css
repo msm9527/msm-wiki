@@ -1,0 +1,255 @@
+/**
+ * MSM Wiki 基础层 / Base layer
+ *
+ * 全局排版、焦点样式、滚动条，以及“终端蓝图”的三个可复用原语：
+ *   .msm-grid-bg   发丝网格底纹
+ *   .msm-label     等宽大写标签
+ *   .msm-ticks     制图裁切角标
+ *
+ * 这些原语只在这里定义一次，其他文件直接套用，不重复造装饰。
+ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--msm-font-sans);
+  font-size: var(--msm-text-base);
+  line-height: var(--msm-leading-normal);
+  color: var(--msm-ink-2);
+  background: var(--msm-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==================== 焦点可见性 ==================== */
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--msm-accent);
+  outline-offset: 2px;
+  border-radius: var(--msm-radius-xs);
+}
+
+/* ==================== 滚动条 ==================== */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--msm-line-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--msm-line-strong);
+  border: 3px solid transparent;
+  border-radius: var(--msm-radius-full);
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--msm-ink-4);
+  background-clip: content-box;
+}
+
+/* ==================== 原语 1：发丝网格 ==================== */
+/*
+ * 蓝图底纹。用 background-image 画两组等距细线，
+ * 再用 mask 让它从上往下淡出，避免整块底纹压住文字。
+ */
+
+.msm-grid-bg {
+  position: relative;
+  isolation: isolate;
+}
+
+.msm-grid-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--msm-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--msm-grid) 1px, transparent 1px);
+  background-size: var(--msm-grid-size) var(--msm-grid-size);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 92%);
+}
+
+/* ==================== 原语 2：等宽大写标签 ==================== */
+
+.msm-label {
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-2xs);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-ink-3);
+}
+
+/* ==================== 原语 3：制图裁切角标 ==================== */
+/*
+ * 卡片左上 / 右下各一个 L 形细角标，像图纸上的裁切标记。
+ * 用 border 而不是额外元素，hover 时转为琥珀色。
+ */
+
+.msm-ticks {
+  position: relative;
+}
+
+.msm-ticks::before,
+.msm-ticks::after {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  pointer-events: none;
+  transition: border-color var(--msm-base);
+}
+
+.msm-ticks::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid var(--msm-line-strong);
+  border-left: 1px solid var(--msm-line-strong);
+}
+
+.msm-ticks::after {
+  right: -1px;
+  bottom: -1px;
+  border-right: 1px solid var(--msm-line-strong);
+  border-bottom: 1px solid var(--msm-line-strong);
+}
+
+.msm-ticks:hover::before,
+.msm-ticks:hover::after {
+  border-color: var(--msm-accent);
+}
+
+/* ==================== 原语 4：毛玻璃 ==================== */
+/*
+ * 苹果风磨砂玻璃：半透明底 + 背景模糊 + 提饱和。
+ * 顶栏、下拉菜单、移动抽屉、Hero 图版都套这一套，形成一致的通透层。
+ * 注意 backdrop-filter 需要祖先没有 overflow:hidden 裁掉背景，
+ * 且元素本身背景必须半透明，否则模糊看不出来。
+ */
+.msm-glass {
+  background: var(--msm-glass-bg);
+  -webkit-backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
+  backdrop-filter: blur(var(--msm-glass-blur))
+    saturate(var(--msm-glass-saturate));
+  border: 1px solid var(--msm-glass-border);
+}
+
+/* ==================== 动效关键帧 ==================== */
+/*
+ * 入场用 fade-up：透明 + 轻微上移 + 去模糊到位，配合 stagger 延迟形成层次。
+ * 加一点 blur→0 让入场更有"聚焦"的高级感（参考同类落地页的手法）。
+ * glow-drift 给 Hero 背后的色光做缓慢无限漂移，是页面唯一的常驻动效。
+ * 全部受 prefers-reduced-motion 收束（见文件末尾）。
+ */
+@keyframes msm-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes msm-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes msm-glow-drift {
+  0% {
+    transform: translate3d(-4%, -3%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, 3%, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-4%, -3%, 0) scale(1);
+  }
+}
+
+/* 主按钮悬停时扫过的高光条 */
+@keyframes msm-glare {
+  from {
+    left: -60%;
+  }
+  to {
+    left: 160%;
+  }
+}
+
+/* 入场工具类：元素加上即淡入上移，delay 由内联或选择器给 */
+.msm-animate {
+  animation: msm-fade-up 0.6s var(--msm-ease-out) both;
+}
+
+/* ==================== 顶部滚动进度条 ==================== */
+/*
+ * 固定在视口顶部的一条 2px 渐变线，宽度随页面滚动进度增长（JS 更新 scaleX）。
+ * 是一个轻量但明显的"动起来"的反馈，明暗两种主题都适用。
+ */
+#msm-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 2px;
+  transform: scaleX(var(--msm-scroll, 0));
+  transform-origin: left;
+  background: linear-gradient(
+    90deg,
+    var(--msm-brand),
+    var(--msm-accent)
+  );
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ==================== 选中文本 ==================== */
+
+::selection {
+  background: var(--msm-accent-soft);
+  color: var(--msm-ink-1);
+}
+
+/* ==================== 降低动效偏好 ==================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

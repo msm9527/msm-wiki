@@ -1,24 +1,30 @@
 import { h } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
+import MsmConstellation from './components/MsmConstellation.vue'
 
-// 导入自定义样式
-import './style/vars.css'
-import './style/custom.css'
-import './style/advanced.css'
-import './style/icons.css'
-import './style/svg-icons.css'
-import './style/refinement.css'
+// 自定义样式：按层次单向依赖，令牌 → 基础 → 布局 / 正文 / 首页。
+// 每个组件只由一个文件负责，不再互相覆盖。
+import './style/tokens.css'
+import './style/base.css'
+import './style/layout.css'
+import './style/content.css'
+import './style/home.css'
 
 export default {
   extends: DefaultTheme,
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
-      // 可以在这里插入自定义组件
+      // 首页 Hero 视觉：用网络星座替换默认的 logo 图版
+      'home-hero-image': () => h(MsmConstellation)
     })
   },
   enhanceApp({ router }) {
     if (typeof window === 'undefined') return
+
+    // 标记 JS 已就绪：滚动入场的初始隐藏态只在有此类时生效，
+    // 脚本失效时内容照常可见（渐进增强）。
+    document.documentElement.classList.add('msm-js')
 
     // 去掉代码块复制按钮的浏览器原生 tooltip
     const cleanupCopyTitle = () => {
@@ -270,9 +276,83 @@ export default {
       })
     }
 
+    // 滚动入场：卡片 / 快速导航 / 正文小节进入视口时加 .msm-reveal 触发过渡。
+    // 观察一次即取消观察，避免重复触发；不支持 IO 的老浏览器直接放行。
+    const setupScrollReveal = () => {
+      const targets = document.querySelectorAll<HTMLElement>(
+        '.VPHome .VPFeatures .item, .msm-home-jump a, .VPHome .vp-doc h2'
+      )
+
+      if (!('IntersectionObserver' in window)) {
+        targets.forEach((el) => el.classList.add('msm-reveal'))
+        return
+      }
+
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('msm-reveal')
+              obs.unobserve(entry.target)
+            }
+          }
+        },
+        { rootMargin: '0px 0px -10% 0px', threshold: 0.12 }
+      )
+
+      targets.forEach((el) => {
+        if (el.classList.contains('msm-reveal')) return
+        observer.observe(el)
+      })
+    }
+
+    const setupScrollProgress = () => {
+      const barId = 'msm-scroll-progress'
+
+      const computeRatio = () => {
+        const doc = document.documentElement
+        const max = doc.scrollHeight - doc.clientHeight
+        return max > 0 ? Math.min(1, doc.scrollTop / max) : 0
+      }
+
+      const existing = document.getElementById(barId)
+      if (existing) {
+        // 路由切换后页面高度变化、且已滚回顶部，重算一次
+        requestAnimationFrame(() => {
+          existing.style.setProperty('--msm-scroll', String(computeRatio()))
+        })
+        return
+      }
+
+      const bar = document.createElement('div')
+      bar.id = barId
+      bar.setAttribute('aria-hidden', 'true')
+      document.body.appendChild(bar)
+
+      let ticking = false
+      const update = () => {
+        bar.style.setProperty('--msm-scroll', String(computeRatio()))
+        ticking = false
+      }
+
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (!ticking) {
+            ticking = true
+            requestAnimationFrame(update)
+          }
+        },
+        { passive: true }
+      )
+      update()
+    }
+
     const initDomTweaks = () => {
       cleanupCopyTitle()
       setupMobileDrawer()
+      setupScrollReveal()
+      setupScrollProgress()
     }
 
     if (document.readyState === 'loading') {
