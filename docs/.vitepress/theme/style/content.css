@@ -8,6 +8,30 @@
 
 /* ==================== 标题 ==================== */
 
+/*
+ * 文档页眉标：h1 上方一条等宽小标签（当前侧栏分组名），前缀一段琥珀短线，
+ * 呼应首页 Hero 的品牌名标注。由 theme/index.ts 注入到 h1 之前。
+ */
+.vp-doc .msm-doc-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--msm-space-3);
+  margin-bottom: var(--msm-space-4);
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-label);
+  font-weight: var(--msm-weight-medium);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-ink-3);
+}
+
+.vp-doc .msm-doc-eyebrow::before {
+  content: '';
+  width: 20px;
+  height: 2px;
+  background: var(--msm-accent);
+}
+
 .vp-doc h1 {
   font-size: var(--msm-text-4xl);
   font-weight: var(--msm-weight-bold);
