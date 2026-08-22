@@ -610,3 +610,102 @@ body.msm-nav-open {
     padding: var(--msm-space-6) var(--msm-space-5);
   }
 }
+
+/* ==================== 404 页 ==================== */
+/*
+ * 文案已在 config 里本地化为中文；这里把默认的居中排版套上蓝图语汇：
+ * 巨号等宽渐变 404、琥珀短分隔、发丝网格底纹、按钮跟随主题按钮系统。
+ * 选择器都带元素名（p.code / h1.title …）以压过 VitePress 组件的 scoped 样式。
+ */
+.NotFound {
+  position: relative;
+  isolation: isolate;
+  padding: var(--msm-space-20) var(--msm-space-6) var(--msm-space-20);
+}
+
+.NotFound::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--msm-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--msm-grid) 1px, transparent 1px);
+  background-size: var(--msm-grid-size) var(--msm-grid-size);
+  -webkit-mask-image: radial-gradient(
+    60% 55% at 50% 38%,
+    #000 0%,
+    transparent 72%
+  );
+  mask-image: radial-gradient(
+    60% 55% at 50% 38%,
+    #000 0%,
+    transparent 72%
+  );
+}
+
+.NotFound p.code {
+  margin: 0;
+  font-family: var(--msm-font-mono);
+  font-size: clamp(88px, 16vw, 140px);
+  line-height: 1;
+  font-weight: var(--msm-weight-bold);
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--msm-brand), var(--msm-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.NotFound h1.title {
+  margin: var(--msm-space-4) 0 0;
+  padding: 0;
+  font-family: var(--msm-font-sans);
+  font-size: var(--msm-text-2xl);
+  font-weight: var(--msm-weight-semibold);
+  letter-spacing: -0.01em;
+  line-height: var(--msm-leading-snug);
+  color: var(--msm-ink-1);
+}
+
+.NotFound div.divider {
+  width: 40px;
+  height: 2px;
+  margin: var(--msm-space-6) auto;
+  background: var(--msm-accent);
+}
+
+.NotFound blockquote.quote {
+  margin: 0 auto;
+  max-width: 30em;
+  border: none;
+  padding: 0;
+  font-size: var(--msm-text-base);
+  font-weight: var(--msm-weight-normal);
+  line-height: var(--msm-leading-relaxed);
+  color: var(--msm-ink-3);
+}
+
+.NotFound .action {
+  padding-top: var(--msm-space-8);
+}
+
+.NotFound a.link {
+  display: inline-block;
+  border: 1px solid var(--msm-line-strong);
+  border-radius: var(--msm-radius-md);
+  padding: 0 var(--msm-space-5);
+  line-height: 38px;
+  font-size: var(--msm-text-sm);
+  font-weight: var(--msm-weight-semibold);
+  color: var(--msm-ink-1);
+  transition: border-color var(--msm-fast), color var(--msm-fast),
+    background-color var(--msm-fast);
+}
+
+.NotFound a.link:hover {
+  border-color: var(--msm-brand-line);
+  background: var(--msm-brand-soft);
+  color: var(--msm-brand);
+}
