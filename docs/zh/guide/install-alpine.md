@@ -4,10 +4,10 @@ Alpine 使用 musl 与 OpenRC，安装流程与常规 Linux 略有不同。
 
 ## 依赖准备
 
-确保已安装 `curl` 或 `wget`：
+确保已安装 Bash 以及 `curl` 或 `wget`。Alpine 默认通常没有 Bash：
 
 ```bash
-apk add --no-cache curl
+apk add --no-cache bash curl
 ```
 
 ## 一键安装

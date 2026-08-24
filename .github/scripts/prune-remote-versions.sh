@@ -49,15 +49,20 @@ if [[ ! -d "${TARGET_DIR}/${CURRENT_VERSION}" ]]; then
 fi
 
 version_names=()
-while IFS= read -r name; do
+shopt -s nullglob dotglob
+for path in "${TARGET_DIR}"/*; do
+  [[ -d "${path}" ]] || continue
+  name="${path##*/}"
   if [[ "${name}" =~ ${VERSION_PATTERN} ]]; then
     version_names+=("${name}")
   fi
-done < <(find "${TARGET_DIR}" -mindepth 1 -maxdepth 1 -type d -printf '%f\n')
+done
 
 sorted_versions=()
 if (( ${#version_names[@]} > 0 )); then
-  mapfile -t sorted_versions < <(printf '%s\n' "${version_names[@]}" | sort -Vr)
+  while IFS= read -r version; do
+    sorted_versions+=("${version}")
+  done < <(printf '%s\n' "${version_names[@]}" | sort -Vr)
 fi
 
 # 始终保留本次上传版本，防止强制重传旧版本时 .version 指向已删除目录。

@@ -13,9 +13,10 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # 配置变量
+GITHUB_REPO="msm9527/msm-wiki"
 SERVICE_NAME="msm"
 MSM_VERSION="${MSM_VERSION:-}"
-MSM_DL_BASE="https://msm.19930520.xyz/dl"
+MSM_DL_BASE="${MSM_DL_BASE:-https://msm.19930520.xyz/dl}"
 MSM_CONFIG_DIR="${MSM_CONFIG_DIR:-}"
 FETCH_CONNECT_TIMEOUT="${MSM_FETCH_CONNECT_TIMEOUT:-10}"
 FETCH_MAX_TIME="${MSM_FETCH_MAX_TIME:-30}"
@@ -47,9 +48,9 @@ fetch_text() {
     fi
 
     if [ "$DOWNLOAD_CMD" = "wget" ]; then
-        wget -qO- --timeout="$FETCH_CONNECT_TIMEOUT" --read-timeout="$FETCH_MAX_TIME" "$url"
+        wget -qO- --timeout="$FETCH_CONNECT_TIMEOUT" "$url"
     else
-        curl --connect-timeout "$FETCH_CONNECT_TIMEOUT" --max-time "$FETCH_MAX_TIME" -fsSL "$url"
+        curl --connect-timeout "$FETCH_CONNECT_TIMEOUT" --max-time "$FETCH_MAX_TIME" --retry 3 --retry-delay 1 -fsSL "$url"
     fi
 }
 
@@ -61,9 +62,9 @@ download_file() {
     print_info "URL: $url"
 
     if [ "$DOWNLOAD_CMD" = "wget" ]; then
-        wget --timeout=30 --read-timeout=300 --progress=bar:force:noscroll "$url" -O "$output"
+        wget --timeout=30 -O "$output" "$url"
     else
-        curl --connect-timeout 30 --max-time 300 -fL --progress-bar "$url" -o "$output"
+        curl --connect-timeout 30 --max-time 300 --retry 3 --retry-delay 1 -fL --progress-bar "$url" -o "$output"
     fi
 }
 
@@ -102,12 +103,34 @@ resolve_config_dir() {
 normalize_version() {
     local version="$1"
 
-    if echo "$version" | grep -q '^v'; then
-        echo "$version"
-        return
+    version="${version#v}"
+    if ! is_stable_version "$version"; then
+        print_error "无效的稳定版版本号: $1"
+        print_info "版本号示例: 0.7.7 或 v0.7.7"
+        exit 1
     fi
 
-    echo "v${version}"
+    echo "$version"
+}
+
+is_stable_version() {
+    echo "$1" | grep -Eq '^v?[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$'
+}
+
+systemd_is_running() {
+    command -v systemctl > /dev/null 2>&1 || return 1
+    [ -d /run/systemd/system ] || return 1
+
+    local state
+    state=$(systemctl is-system-running 2>/dev/null || true)
+    case "$state" in
+        running|degraded|starting|initializing)
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
 }
 
 is_truthy() {
@@ -180,16 +203,11 @@ detect_libc() {
 # 安装依赖
 install_dependencies() {
     # 检查 wget 或 curl 是否存在
-    if command -v wget &> /dev/null; then
-        DOWNLOAD_CMD="wget"
-        if command -v curl &> /dev/null; then
-            if echo "${all_proxy:-}" | grep -Eqi '^socks'; then
-                DOWNLOAD_CMD="curl"
-            fi
-        fi
-        return
-    elif command -v curl &> /dev/null; then
+    if command -v curl &> /dev/null; then
         DOWNLOAD_CMD="curl"
+        return
+    elif command -v wget &> /dev/null; then
+        DOWNLOAD_CMD="wget"
         return
     fi
 
@@ -235,7 +253,7 @@ get_latest_version() {
     version=$(fetch_text "$mirror_version_url" "true" || true)
     version=$(echo "$version" | tr -d '\r\n[:space:]')
 
-    if [ -z "$version" ]; then
+    if ! is_stable_version "$version"; then
         print_error "无法从镜像获取最新版本信息"
         print_info "可设置 MSM_VERSION 指定版本号，例如："
         print_info "  MSM_VERSION=0.7.6 bash install_cn.sh"
@@ -262,6 +280,7 @@ download_msm() {
     filename="msm-${version_clean}-${os}-${arch}${libc_suffix}.tar.gz"
 
     local download_url="${MSM_DL_BASE%/}/${version_clean}/${filename}"
+    local checksum_url="${MSM_DL_BASE%/}/${version_clean}/SHA256SUMS"
 
     print_info "下载 MSM ${version} (${os}-${arch}${libc_suffix})..."
     print_info "下载地址: $download_url"
@@ -270,27 +289,95 @@ download_msm() {
     printf '\n' >&2
 
     # 创建临时目录
-    local temp_dir=$(mktemp -d)
-    cd "$temp_dir"
+    local temp_dir
+    if ! temp_dir=$(mktemp -d); then
+        print_error "无法创建临时目录"
+        exit 1
+    fi
 
     # 下载文件（显示进度条）
-    if ! download_file "$download_url" "${filename}"; then
+    if ! download_file "$download_url" "${temp_dir}/${filename}"; then
         print_error "下载失败: $download_url"
         rm -rf "${temp_dir}"
         exit 1
     fi
     printf '\n' >&2
 
+    # 校验发布包完整性
+    local checksum_manifest
+    if ! checksum_manifest=$(fetch_text "$checksum_url" "false"); then
+        print_warning "镜像未提供 SHA256 校验清单，尝试从 GitHub Release 获取"
+        checksum_url="https://github.com/${GITHUB_REPO}/releases/download/${version}/SHA256SUMS"
+        if ! checksum_manifest=$(fetch_text "$checksum_url" "false"); then
+            print_error "无法下载 SHA256 校验清单: $checksum_url"
+            rm -rf "${temp_dir}"
+            exit 1
+        fi
+    fi
+    local expected_checksum
+    expected_checksum=$(printf '%s\n' "$checksum_manifest" | awk -v file="$filename" '$2 == file {print $1; exit}')
+    if ! echo "$expected_checksum" | grep -Eq '^[0-9a-fA-F]{64}$'; then
+        print_error "SHA256 校验清单中没有找到 $filename"
+        rm -rf "${temp_dir}"
+        exit 1
+    fi
+    local actual_checksum
+    if command -v sha256sum > /dev/null 2>&1; then
+        actual_checksum=$(sha256sum "${temp_dir}/${filename}" | awk '{print $1}')
+    elif command -v shasum > /dev/null 2>&1; then
+        actual_checksum=$(shasum -a 256 "${temp_dir}/${filename}" | awk '{print $1}')
+    elif command -v openssl > /dev/null 2>&1; then
+        actual_checksum=$(openssl dgst -sha256 "${temp_dir}/${filename}" | sed 's/^.*= //')
+    else
+        print_error "系统缺少 sha256sum、shasum 或 openssl，无法校验下载包"
+        rm -rf "${temp_dir}"
+        exit 1
+    fi
+    if [ "${actual_checksum}" != "${expected_checksum}" ]; then
+        print_error "SHA256 校验失败: $filename"
+        rm -rf "${temp_dir}"
+        exit 1
+    fi
+    print_success "SHA256 校验通过"
+
+    local archive_entries
+    if ! archive_entries=$(tar -tzf "${temp_dir}/${filename}"); then
+        print_error "无法读取压缩包内容"
+        rm -rf "${temp_dir}"
+        exit 1
+    fi
+    local archive_entry
+    local found_binary="false"
+    while IFS= read -r archive_entry; do
+        case "$archive_entry" in
+            msm)
+                found_binary="true"
+                ;;
+            "")
+                ;;
+            *)
+                print_error "压缩包包含不允许的文件: $archive_entry"
+                rm -rf "${temp_dir}"
+                exit 1
+                ;;
+        esac
+    done <<< "$archive_entries"
+    if [ "$found_binary" != "true" ]; then
+        print_error "压缩包中缺少 msm 二进制文件"
+        rm -rf "${temp_dir}"
+        exit 1
+    fi
+
     # 解压文件
     print_info "解压文件..."
-    if ! tar -xzf "${filename}"; then
+    if ! tar -xzf "${temp_dir}/${filename}" -C "$temp_dir"; then
         print_error "解压失败"
         rm -rf "${temp_dir}"
         exit 1
     fi
 
     # 删除压缩包
-    rm "${filename}"
+    rm "${temp_dir}/${filename}"
 
     printf '%s\n' "$temp_dir"
 }
@@ -298,14 +385,29 @@ download_msm() {
 # 安装 MSM
 install_msm() {
     local temp_dir="$1"
+    local target="/usr/local/bin/msm"
+    local staged="${target}.new.$$"
 
     print_info "安装 MSM..."
 
+    if [ ! -f "${temp_dir}/msm" ]; then
+        print_error "下载包中缺少 msm 二进制文件"
+        rm -rf "$temp_dir"
+        exit 1
+    fi
+
+    if ! cp "${temp_dir}/msm" "$staged" || ! chmod 0755 "$staged"; then
+        print_error "无法准备新的 MSM 二进制文件"
+        rm -f "$staged"
+        rm -rf "$temp_dir"
+        exit 1
+    fi
+
     # 尝试停止正在运行的服务/进程，避免覆盖二进制失败
-    if command -v systemctl &> /dev/null; then
-        if systemctl is-active --quiet ${SERVICE_NAME} 2>/dev/null; then
+    if systemd_is_running; then
+        if systemctl is-active --quiet "$SERVICE_NAME" 2>/dev/null; then
             print_info "停止 ${SERVICE_NAME} 服务..."
-            systemctl stop ${SERVICE_NAME}
+            systemctl stop "$SERVICE_NAME"
         fi
     fi
     if pgrep -f "/usr/local/bin/msm" > /dev/null 2>&1; then
@@ -318,8 +420,12 @@ install_msm() {
     fi
 
     # 复制文件到系统路径
-    cp "${temp_dir}/msm" /usr/local/bin/msm
-    chmod +x /usr/local/bin/msm
+    if ! mv -f "$staged" "$target"; then
+        print_error "无法原子替换 $target"
+        rm -f "$staged"
+        rm -rf "$temp_dir"
+        exit 1
+    fi
 
     # 清理临时文件
     rm -rf "${temp_dir}"
@@ -332,7 +438,7 @@ install_service() {
     print_info "安装系统服务..."
 
     # 检测服务管理器
-    if command -v systemctl &> /dev/null; then
+    if systemd_is_running; then
         # 显式指定配置目录，避免在部分 CT/非交互环境落到临时目录
         /usr/local/bin/msm service install --manager systemd -c "$MSM_CONFIG_DIR"
         print_success "systemd 服务已安装"
@@ -435,7 +541,7 @@ prompt_port_conflict_fix() {
 stop_and_disable_service() {
     local service="$1"
 
-    if ! command -v systemctl &> /dev/null; then
+    if ! systemd_is_running; then
         print_error "检测到 53 端口冲突，但当前系统不支持通过 systemctl 自动处理"
         return 1
     fi
@@ -544,6 +650,10 @@ check_port_conflicts() {
 
     local process_name="${conflict%%|*}"
     local port53_process="${conflict#*|}"
+    if ! systemd_is_running; then
+        print_warning "当前没有运行中的 systemd，无法自动释放 53 端口；请手动处理后再启动 MSM"
+        return
+    fi
     if prompt_port_conflict_fix "$process_name" "$port53_process"; then
         auto_fix_port_conflicts
         return
@@ -605,14 +715,14 @@ start_service() {
     print_info "启动 MSM 服务..."
 
     # 检测服务管理器
-    if command -v systemctl &> /dev/null; then
-        systemctl start ${SERVICE_NAME}
+    if systemd_is_running; then
+        systemctl start "$SERVICE_NAME"
 
         # 等待服务启动
         sleep 2
 
         # 检查服务状态
-        if systemctl is-active --quiet ${SERVICE_NAME}; then
+        if systemctl is-active --quiet "$SERVICE_NAME"; then
             print_success "MSM 服务已启动"
         else
             print_error "MSM 服务启动失败"

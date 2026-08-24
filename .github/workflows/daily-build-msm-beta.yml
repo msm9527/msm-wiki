@@ -1012,6 +1012,12 @@ jobs:
           VERSION="${{ needs.prepare.outputs.version }}"
           mkdir -p upload/"${VERSION}"
           find dist -type f -name "msm-${VERSION}-*.tar.gz" -exec cp {} upload/"${VERSION}"/ \;
+          CHECKSUM_FILE="$(find dist -type f -name SHA256SUMS | head -n 1)"
+          if [ -z "${CHECKSUM_FILE}" ]; then
+            echo "error: 未找到 SHA256SUMS" >&2
+            exit 1
+          fi
+          cp "${CHECKSUM_FILE}" upload/"${VERSION}"/
           printf "%s\n" "${VERSION}" > upload/.version
           echo "待上传文件列表:"
           ls -lh upload
