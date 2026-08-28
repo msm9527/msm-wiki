@@ -608,6 +608,13 @@ jobs:
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
+      - name: 上传 SHA256 清单供后续任务使用
+        uses: actions/upload-artifact@v4
+        with:
+          name: msm-${{ needs.prepare.outputs.version }}-checksums
+          path: dist/SHA256SUMS
+          if-no-files-found: error
+
       - name: 创建/更新版本 tag
         shell: bash
         run: |
