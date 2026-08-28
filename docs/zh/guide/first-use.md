@@ -115,7 +115,7 @@ dig AAAA example.com @<MSM-IP>
 基础链路稳定后，再按需使用：
 
 - [域名服务](/zh/guide/domain-services)
-- [Cloudflare 穿透与组网](/zh/guide/cloudflare)
+- [Cloudflare 内网穿透](/zh/guide/cloudflare)
 - [自建私网](/zh/guide/networking)
 - [Docker 管理](/zh/guide/docker-center)
 - [网络工具](/zh/guide/network-tools)

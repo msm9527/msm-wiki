@@ -55,23 +55,23 @@ MSM 只提供上述核心和用户自有或依法取得使用权配置的管理�
 - Clash 与 Sing-Box 双核心支持
 - 支持 Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2 和 TUIC v5
 - 自动检测出口地址与家庭网段建议
-- 服务端配置与客户端 YAML 预览
+- 多监听器服务端配置，以及 Clash / 官方 Sing-Box / reF1nd 完整客户端配置
 - 按协议提示 TCP / UDP 转发，并检查 Docker 发布端口 / 目标端口
 - 完整配置校验、监听检查和失败回滚
 
-### Cloudflare 双通道
+### Cloudflare 内网穿透
 
-- 网页穿透：使用 HTTPS 域名访问 Web 服务
-- 云端私网：访问 SSH、远程桌面、数据库和 LAN
-- 两个通道独立配置并可同时运行
-- 安装、注册、路由、配对与状态检查
+- Cloudflare Tunnel：使用一个 Tunnel 发布多个本机或局域网 Web 服务
+- API 自动配置：跨 Zone 匹配域名、维护入口和 DNS 记录
+- 源站可选择 MSM 本机或其他局域网设备
+- 连接器安装、加密凭据、日志和逐入口诊断
 
 ### 自建私网
 
 - EasyTier：点对点与中继组网
 - Tailscale / Headscale：控制面注册、路由和出口节点
 - WireGuard：Endpoint、Peer 和一次性客户端密钥
-- 服务安装、自动启动、成员管理与诊断
+- 三个服务可多选并存，独立安装、自动启动、成员管理与诊断
 
 ## 域名服务
 

@@ -82,8 +82,8 @@ MSM 支持 Clash Meta、Clash Smart 和 Sing-Box，但同一时刻只应有一�
 
 ### 穿透与私网
 
-- Cloudflare 网页穿透与云端私网
-- EasyTier、Tailscale / Headscale、WireGuard 自建私网
+- Cloudflare Tunnel 多域名 Web 服务发布
+- EasyTier、Tailscale / Headscale、WireGuard 多服务并存的自建私网
 - 双核心多协议远程回家（Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2、TUIC v5）
 
 ### Docker 管理

@@ -4,20 +4,22 @@
 
 ---
 
-## 🚧 `dev` 分支尚未发布变化（2026-08-01 至 2026-08-15）
+## 🚧 `dev` 分支测试重点（MSM 1.3.0）
 
-以下能力已经进入 `dev`，但 GitHub 当前最新 Beta Release 仍是 `beta-1.2.6`。它们不代表已有同名可下载版本；测试时以具体构建提交和页面实际状态为准。
+以下能力已经进入 `dev`。Beta 下载是否已更新到 `beta-1.3.0`，以本页下方自动生成的最新发布区和 GitHub Release 为准。
 
 - 统一代理服务强化跨 Clash / Sing-Box 安全切换、配置迁移、网络恢复和就绪验证
 - 远程回家扩展为 Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2、TUIC v5 六种协议
-- 新增 EasyTier、Tailscale / Headscale、WireGuard 三引擎自建私网
+- EasyTier、Tailscale / Headscale、WireGuard 三个自建私网服务可多选并存
 - 网络工具与 Docker 管理重构为运维控制台，并强化查看者 / 操作员权限边界
-- Cloudflare Tunnel 支持同一 Tunnel 最多 32 条跨 Zone 路由，网页穿透与云端私网可并行管理
+- Cloudflare Tunnel 支持同一 Tunnel 多条跨 Zone 路由，并可发布本机或局域网中的多个 Web 服务
 - 域名服务内置受管反向代理运行时，完善 DDNS、证书、反向代理、访问日志和运行时修复
 - 配置写入增强注释与字段顺序保留，系统网络增加 DNS / FakeIP 自愈
 - 授权页收敛支持与社群入口，自助撤销要求授权邮箱和授权码，并移除 IP 激活备选路径
+- 仪表盘与进程管理增加 MSM 自身 / 托管合计资源口径、网卡与双栈地址，并优化实时图表性能
+- 强化组件升级、MSM 更新预检、手工停止意图和主机重启后的托管服务自动恢复
 
-本 Wiki 的功能专题按当前 `dev` 界面维护；稳定版或 `beta-1.2.6` 中看不到某个入口时，请先核对版本，而不是按文档强行调用新接口。
+本 Wiki 的功能专题按当前 `dev` 界面维护；稳定版中看不到某个入口时，请先核对版本，而不是按文档强行调用新接口。
 
 ---
 

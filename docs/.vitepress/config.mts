@@ -51,7 +51,7 @@ export default defineConfig({
         text: '扩展功能',
         items: [
           { text: '域名服务', link: '/zh/guide/domain-services' },
-          { text: '穿透与组网', link: '/zh/guide/cloudflare' },
+          { text: 'Cloudflare 内网穿透', link: '/zh/guide/cloudflare' },
           { text: '自建私网', link: '/zh/guide/networking' },
           { text: 'Docker 管理', link: '/zh/guide/docker-center' },
           { text: '网络工具', link: '/zh/guide/network-tools' }
@@ -156,7 +156,7 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: '域名服务', link: '/zh/guide/domain-services' },
-            { text: 'Cloudflare 穿透与组网', link: '/zh/guide/cloudflare' },
+            { text: 'Cloudflare 内网穿透', link: '/zh/guide/cloudflare' },
             { text: '自建私网', link: '/zh/guide/networking' },
             { text: 'Docker 管理', link: '/zh/guide/docker-center' },
             { text: '网络工具', link: '/zh/guide/network-tools' }

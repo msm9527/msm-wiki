@@ -63,13 +63,12 @@ Clash 与 Sing-Box 使用同一套菜单：
 
 完成 DDNS、ACME 证书和反向代理闭环。详见 [域名服务](/zh/guide/domain-services)。
 
-### 穿透与组网
+### 内网穿透与自建私网
 
-- **网页穿透**：Cloudflare Tunnel 发布 Web 页面
-- **云端私网**：Cloudflare 私网访问 LAN
-- **自建私网**：EasyTier、Tailscale 或 WireGuard
+- **Cloudflare 内网穿透**：用一个 Tunnel 发布多个 Web 服务
+- **自建私网**：EasyTier、Tailscale 与 WireGuard 可多选并存
 
-详见 [Cloudflare 穿透与组网](/zh/guide/cloudflare) 和 [自建私网](/zh/guide/networking)。
+详见 [Cloudflare 内网穿透](/zh/guide/cloudflare) 和 [自建私网](/zh/guide/networking)。
 
 ### Docker 管理
 
@@ -95,7 +94,7 @@ Clash 与 Sing-Box 使用同一套菜单：
 |------|------|
 | 让设备使用 DNS 分流和透明代理 | [路由器集成](/zh/guide/router-integration) → [DNS 服务](/zh/guide/mosdns) → [代理服务](/zh/guide/proxy) |
 | 从外网打开家庭网页 | [域名服务](/zh/guide/domain-services) 或 [Cloudflare 网页穿透](/zh/guide/cloudflare) |
-| 从外网访问整个家庭 LAN | [Cloudflare 云端私网](/zh/guide/cloudflare)、[自建私网](/zh/guide/networking) 或 [远程回家](/zh/guide/home) |
+| 从外网访问整个家庭 LAN | [自建私网](/zh/guide/networking) 或 [远程回家](/zh/guide/home) |
 | 管理家庭服务器容器 | [Docker 管理](/zh/guide/docker-center) |
 | 排查 DNS、路由、端口和证书 | [网络工具](/zh/guide/network-tools) |
 | 修改全局模块开关 | [系统设置](/zh/guide/settings) |

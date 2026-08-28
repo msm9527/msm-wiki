@@ -66,18 +66,18 @@
 - 确认当前用户角色至少有查看权限
 - 退出后重新登录，刷新许可证与功能状态
 
-域名服务、穿透与组网、Docker 管理和网络工具都会同时检查模块开关与 Pro。
+域名服务、Cloudflare 内网穿透、自建私网、Docker 管理和网络工具都会同时检查模块开关与 Pro。
 
 ## 10. 回家页面本机检查通过，为什么外网仍连不上？
 
 本机检查只验证配置、核心服务和所选协议要求的本地 TCP / UDP 监听，无法证明公网可达。还需从家庭网络外检查公网 IP / CGNAT、对应协议的端口转发、主机防火墙和 Docker 端口映射。详见 [远程回家](/zh/guide/home)。
 
-## 11. Cloudflare 网页穿透和云端私网有什么区别？
+## 11. Cloudflare Tunnel 和自建私网有什么区别？
 
-- 网页穿透用于浏览器访问 HTTP / HTTPS 服务
-- 云端私网用于 SSH、远程桌面、数据库和 LAN 地址
+- Cloudflare Tunnel 用于通过 HTTPS 域名发布一个或多个 Web 服务，远端浏览器无需安装客户端
+- 自建私网用于 SSH、远程桌面、数据库和整个 LAN，远端设备需要加入 EasyTier、Tailscale 或 WireGuard 网络
 
-两者是独立通道，可以同时运行。详见 [Cloudflare 穿透与组网](/zh/guide/cloudflare)。
+两者可以同时运行。详见 [Cloudflare 内网穿透](/zh/guide/cloudflare)和[自建私网](/zh/guide/networking)。
 
 ## 12. Docker Agent 节点应该用哪种连接方式？
 

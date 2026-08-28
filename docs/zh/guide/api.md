@@ -66,8 +66,7 @@ curl -H "Authorization: Bearer $TOKEN" \
 | `/mihomo` | Clash 特有版本、配置和回家接口；路径保留内部技术标识 |
 | `/singbox` | Sing-Box 特有版本、配置和回家接口 |
 | `/edge` | 域名服务、DDNS、证书、反向代理和发布工作流 |
-| `/cloudflare/tunnel` | Cloudflare 网页穿透 |
-| `/cloudflare/mesh` | Cloudflare 云端私网与配对 |
+| `/cloudflare/tunnel` | Cloudflare Tunnel 多域名 Web 服务发布 |
 | `/networking` | EasyTier、Tailscale、WireGuard 自建私网 |
 | `/docker-center` | Docker 资源与节点控制 |
 | `/nettools` | 网络诊断与实时任务 |
@@ -138,21 +137,13 @@ GET/PUT /api/v1/cloudflare/tunnel
 POST    /api/v1/cloudflare/tunnel/{validate|provision|install|setup|start|stop|restart|test}
 ```
 
-### 云端私网
-
-```text
-GET/PUT /api/v1/cloudflare/mesh
-POST    /api/v1/cloudflare/mesh/{validate|install|setup|start|stop|restart|test}
-POST    /api/v1/cloudflare/mesh/pairing/invites
-POST    /api/v1/cloudflare/mesh/pairing/import
-```
-
 ### EasyTier / Tailscale / WireGuard
 
 ```text
 GET/PUT /api/v1/networking
 GET     /api/v1/networking/endpoints
-POST    /api/v1/networking/{install|start|stop|restart|diagnose}
+POST    /api/v1/networking/install
+POST    /api/v1/networking/services/{wireguard|easytier|tailscale}/{start|stop|restart|diagnose}
 POST    /api/v1/networking/peers
 DELETE  /api/v1/networking/peers/:id
 ```
