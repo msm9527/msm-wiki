@@ -16,7 +16,7 @@ if [ ! -f "${APPCONF}" ]; then
   printf 'status=enable\n' > "${APPCONF}"
 fi
 
-chmod +x "${SCRIPT_DIR}/appctrl" "${SCRIPT_DIR}/bin/msm"
+chmod +x "${SCRIPT_DIR}/appctrl" "${SCRIPT_DIR}/bin/msm" "${SCRIPT_DIR}/bin/msm-edge"
 chmod +x "${SCRIPT_DIR}/web/cgi/"* 2>/dev/null || true
 
 "${SCRIPT_DIR}/appctrl" start

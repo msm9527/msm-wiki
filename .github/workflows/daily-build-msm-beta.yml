@@ -462,11 +462,22 @@ jobs:
           chmod +x scripts/build-release-msm.sh scripts/embed-executable-sha256.sh scripts/verify-executable-sha256.sh
           bash ./scripts/build-release-msm.sh "dist/msm"
           bash ./scripts/verify-executable-sha256.sh "dist/msm"
-          chmod +x dist/msm
+          chmod +x dist/msm dist/msm-edge
 
-          # 统一打包 CLI 二进制为 tar.gz（macOS / Linux 一致，内部为加固发布版）
-          tar -czf "dist/msm-${VERSION}-${{ matrix.target }}.tar.gz" -C dist msm
-          rm -f dist/msm
+          mkdir -p dist/licenses
+          cp THIRD_PARTY_NOTICES.md dist/THIRD_PARTY_NOTICES.md
+          cp docs/OSS_PROVENANCE.md dist/OSS_PROVENANCE.md
+          cp licenses/CADDY-APACHE-2.0.txt dist/licenses/CADDY-APACHE-2.0.txt
+
+          # 发布包必须同时携带控制面、Edge 数据面与开源声明。
+          tar -czf "dist/msm-${VERSION}-${{ matrix.target }}.tar.gz" -C dist \
+            msm \
+            msm-edge \
+            THIRD_PARTY_NOTICES.md \
+            OSS_PROVENANCE.md \
+            licenses/CADDY-APACHE-2.0.txt
+          tar -tzf "dist/msm-${VERSION}-${{ matrix.target }}.tar.gz" | grep -Fx msm-edge >/dev/null
+          rm -f dist/msm dist/msm-edge
 
       - name: 生成派网 APX 安装包
         if: (matrix.target == 'linux-amd64' || matrix.target == 'linux-arm64') && steps.panabit_builder.outputs.available == 'true'
@@ -1185,7 +1196,7 @@ jobs:
           set -euo pipefail
           VERSION="${{ needs.prepare.outputs.version }}"
           mkdir -p dist
-          # 解压出 msm 可执行文件（使用 build Job 上传的 tar.gz 产物）
+          # 解压出成对的 msm / msm-edge 可执行文件。
           tar -xzf "dist/msm-${VERSION}-${{ matrix.target }}.tar.gz" -C dist
           ls -l dist
 
@@ -1195,6 +1206,13 @@ jobs:
             exit 1
           fi
           echo "CLI 架构验证通过: ${CLI_ARCHS}"
+
+          EDGE_ARCHS="$(lipo -archs dist/msm-edge)"
+          if [ "${EDGE_ARCHS}" != "${{ matrix.macho_arch }}" ]; then
+            echo "error: Edge 运行时架构不匹配，期望 ${{ matrix.macho_arch }}，实际 ${EDGE_ARCHS}" >&2
+            exit 1
+          fi
+          echo "Edge 运行时架构验证通过: ${EDGE_ARCHS}"
 
       - name: 构建 Tauri 桌面应用
         shell: bash
@@ -1213,15 +1231,14 @@ jobs:
           SRC_TAURI_DIR="$WORKSPACE/src-tauri"
           DIST_ROOT="$WORKSPACE/../dist"
 
-          # 确保目录存在；如存在开发用的 msm 可执行文件或目录，先移除
+          # 确保目录存在；如存在开发用的内置二进制，先移除。
           mkdir -p "$SRC_TAURI_DIR"
-          if [ -e "$SRC_TAURI_DIR/msm" ] || [ -L "$SRC_TAURI_DIR/msm" ]; then
-            rm -rf "$SRC_TAURI_DIR/msm"
-          fi
+          rm -f "$SRC_TAURI_DIR/msm" "$SRC_TAURI_DIR/msm-edge"
 
-          # 复制已解压好的二进制到 src-tauri/msm
+          # 复制已解压好的成对二进制到 Tauri 资源目录。
           cp "$DIST_ROOT/msm" "$SRC_TAURI_DIR/msm"
-          chmod +x "$SRC_TAURI_DIR/msm"
+          cp "$DIST_ROOT/msm-edge" "$SRC_TAURI_DIR/msm-edge"
+          chmod +x "$SRC_TAURI_DIR/msm" "$SRC_TAURI_DIR/msm-edge"
 
           # 复制必要的资源文件（存在才复制）
           cp about.html dist/ || true
@@ -1287,6 +1304,19 @@ jobs:
           "$BUNDLED_MSM" --version >/dev/null
           echo "内置后端签名和可执行性验证通过: ${BUNDLED_MSM_ARCHS}"
 
+          BUNDLED_EDGE="$APP_PATH/Contents/Resources/msm-edge"
+          if [ ! -x "$BUNDLED_EDGE" ]; then
+            echo "error: Tauri App 缺少可执行 Edge 运行时: $BUNDLED_EDGE" >&2
+            exit 1
+          fi
+          BUNDLED_EDGE_ARCHS="$(lipo -archs "$BUNDLED_EDGE")"
+          if [ "$BUNDLED_EDGE_ARCHS" != "$EXPECTED_ARCH" ]; then
+            echo "error: 内置 Edge 运行时架构不匹配，期望 ${EXPECTED_ARCH}，实际 ${BUNDLED_EDGE_ARCHS}" >&2
+            exit 1
+          fi
+          codesign --verify --strict --verbose=4 "$BUNDLED_EDGE"
+          echo "内置 Edge 运行时签名验证通过: ${BUNDLED_EDGE_ARCHS}"
+
           # 自建无样式 DMG（绕过 tauri 的 Finder 排版步骤）
           # Build a plain DMG ourselves (bypassing tauri's Finder styling step).
           mkdir -p "$DIST_ROOT"
@@ -1349,6 +1379,19 @@ jobs:
           codesign --verify --strict --verbose=4 "$DMG_BUNDLED_MSM"
           "$DMG_BUNDLED_MSM" --version >/dev/null
           echo "DMG 内置后端签名和可执行性验证通过: ${DMG_BUNDLED_MSM_ARCHS}"
+
+          DMG_BUNDLED_EDGE="$APP_IN_DMG/Contents/Resources/msm-edge"
+          if [ ! -x "$DMG_BUNDLED_EDGE" ]; then
+            echo "error: DMG 中缺少可执行 Edge 运行时: $DMG_BUNDLED_EDGE" >&2
+            exit 1
+          fi
+          DMG_BUNDLED_EDGE_ARCHS="$(lipo -archs "$DMG_BUNDLED_EDGE")"
+          if [ "$DMG_BUNDLED_EDGE_ARCHS" != "$EXPECTED_ARCH" ]; then
+            echo "error: DMG 内置 Edge 运行时架构不匹配，期望 ${EXPECTED_ARCH}，实际 ${DMG_BUNDLED_EDGE_ARCHS}" >&2
+            exit 1
+          fi
+          codesign --verify --strict --verbose=4 "$DMG_BUNDLED_EDGE"
+          echo "DMG 内置 Edge 运行时签名验证通过: ${DMG_BUNDLED_EDGE_ARCHS}"
 
           cleanup_dmg_mount
           trap - EXIT

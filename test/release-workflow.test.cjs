@@ -22,3 +22,14 @@ test('release workflows pass SHA256SUMS to the custom upload job', () => {
     assert.match(source, /upload:[\s\S]*?needs: \[prepare, release\][\s\S]*?find dist -type f -name SHA256SUMS/)
   }
 })
+
+test('release workflows publish paired MSM and Edge runtimes', () => {
+  for (const workflow of workflows) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+
+    assert.match(source, /tar -czf "dist\/msm-\$\{VERSION\}-\$\{\{ matrix\.target \}\}\.tar\.gz" -C dist \\\n\s+msm \\\n\s+msm-edge/)
+    assert.match(source, /cp "\$DIST_ROOT\/msm-edge" "\$SRC_TAURI_DIR\/msm-edge"/)
+    assert.match(source, /BUNDLED_EDGE="\$APP_PATH\/Contents\/Resources\/msm-edge"/)
+    assert.match(source, /DMG_BUNDLED_EDGE="\$APP_IN_DMG\/Contents\/Resources\/msm-edge"/)
+  }
+})
