@@ -1450,6 +1450,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run Wiki regression tests
+        run: npm test
+
       - name: Build with VitePress
         run: npm run docs:build
 

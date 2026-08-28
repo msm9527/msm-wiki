@@ -33,3 +33,15 @@ test('release workflows publish paired MSM and Edge runtimes', () => {
     assert.match(source, /DMG_BUNDLED_EDGE="\$APP_IN_DMG\/Contents\/Resources\/msm-edge"/)
   }
 })
+
+test('all Pages workflows run Wiki regression tests before building', () => {
+  for (const workflow of [...workflows, '.github/workflows/deploy.yml']) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+    const regressionTests = source.indexOf('name: Run Wiki regression tests')
+    const docsBuild = source.indexOf('name: Build with VitePress')
+
+    assert.notEqual(regressionTests, -1, `${workflow} must run Wiki regression tests`)
+    assert.notEqual(docsBuild, -1, `${workflow} must build the Wiki`)
+    assert.ok(regressionTests < docsBuild, `${workflow} must test before building`)
+  }
+})

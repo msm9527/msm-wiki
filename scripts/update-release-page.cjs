@@ -72,7 +72,7 @@ function parseSummary(summary) {
 }
 
 function renderSummary(summary) {
-  const sections = parseSummary(summary);
+  const sections = parseSummary(normalizePublicTerminology(summary));
   const rendered = SECTION_DEFS.flatMap(({ key, title }) =>
     sections[key].length > 0 ? [title, ...sections[key], ''] : [],
   );
@@ -82,6 +82,10 @@ function renderSummary(summary) {
   }
 
   return rendered.join('\n').trim();
+}
+
+function normalizePublicTerminology(value) {
+  return String(value ?? '').replace(/\bmihomo\b/giu, 'Clash');
 }
 
 function trimVersion(version, channel) {
@@ -128,7 +132,7 @@ function buildLatestBlock(options) {
     '::: details 📋 构建信息',
     `- **发布通道**: ${options.channel}（${options.channelName}）`,
     `- **源提交**: [\`${options.commitSha}\`](https://github.com/msm9527/msm/commit/${options.commitShaFull})`,
-    `- **提交信息**: ${options.commitMessage}`,
+    `- **提交信息**: ${normalizePublicTerminology(options.commitMessage)}`,
     `- **提交作者**: ${options.commitAuthor}`,
     `- **提交时间**: ${options.commitDate}`,
     ':::',

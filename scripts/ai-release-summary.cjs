@@ -595,7 +595,13 @@ function buildFallbackSummary(commits, previousReleasePublishedAt) {
     ? `本次版本从 ${previousReleasePublishedAt} 之后更新，包含 ${commits.length} 个提交`
     : `本次构建包含 ${commits.length} 个提交`;
 
-  return `${prefix}，主要更新：${firstMeaningfulCommit.subject}${fileHint}`;
+  return normalizePublicTerminology(
+    `${prefix}，主要更新：${firstMeaningfulCommit.subject}${fileHint}`,
+  );
+}
+
+function normalizePublicTerminology(value) {
+  return normalizeText(value).replace(/\bmihomo\b/giu, 'Clash');
 }
 
 async function requestModelScopeSummary({
@@ -653,7 +659,7 @@ async function requestModelScopeSummary({
 
       return {
         modelName,
-        summary: normalizeText(content).replace(/^- - /gm, '- '),
+        summary: normalizePublicTerminology(content).replace(/^- - /gm, '- '),
         usage: data.usage,
       };
     } catch (error) {
@@ -674,6 +680,7 @@ module.exports = {
   extractChangeHighlights,
   parseGitLog,
   parseNameStatus,
+  normalizePublicTerminology,
   requestModelScopeSummary,
   selectDiffFiles,
 };

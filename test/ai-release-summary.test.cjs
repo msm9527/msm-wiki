@@ -2,9 +2,11 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 
 const {
+  buildFallbackSummary,
   buildGitLogArgs,
   extractCommitShas,
   buildSummaryPrompt,
+  requestModelScopeSummary,
   selectDiffFiles,
 } = require('../scripts/ai-release-summary.cjs');
 
@@ -137,4 +139,33 @@ test('buildSummaryPrompt prioritizes highlights related to changed files in long
   assert.match(highlights, /真 3D/);
   assert.doesNotMatch(highlights, /记忆池容量/);
   assert.doesNotMatch(highlights, /WebSocket 实时流/);
+});
+
+test('release summaries normalize the internal Mihomo name for public text', async () => {
+  const fallback = buildFallbackSummary([
+    {
+      subject: '修复 Mihomo 配置校验',
+      files: [],
+    },
+  ]);
+  assert.match(fallback, /Clash 配置校验/);
+  assert.doesNotMatch(fallback, /Mihomo/i);
+
+  const result = await requestModelScopeSummary({
+    apiKey: 'test-token',
+    prompt: 'test prompt',
+    modelCandidates: ['test-model'],
+    logger: { log() {}, error() {} },
+    fetchImpl: async () => ({
+      ok: true,
+      async json() {
+        return {
+          choices: [{ message: { content: '### 🐛 修复（Fixed）\n- 修复 Mihomo 更新' } }],
+        };
+      },
+    }),
+  });
+
+  assert.match(result.summary, /Clash 更新/);
+  assert.doesNotMatch(result.summary, /Mihomo/i);
 });
