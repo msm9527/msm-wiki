@@ -477,12 +477,14 @@ jobs:
 
           # 发布包必须同时携带控制面、Edge 数据面与开源声明。
           tar -czf "dist/msm-${VERSION}-${{ matrix.target }}.tar.gz" -C dist \
-            msm \
             msm-edge \
+            msm \
             THIRD_PARTY_NOTICES.md \
             OSS_PROVENANCE.md \
             licenses/CADDY-APACHE-2.0.txt
           tar -tzf "dist/msm-${VERSION}-${{ matrix.target }}.tar.gz" | grep -Fx msm-edge >/dev/null
+          # 1.2.6 及更早版本会选择最后一个 msm-* 条目作为升级目标。
+          test "$(tar -tzf "dist/msm-${VERSION}-${{ matrix.target }}.tar.gz" | awk 'BEGIN{selected=""} {base=$0; sub(".*/","",base); if (base=="msm" || base ~ /^msm-/) selected=$0} END{print selected}')" = msm
           rm -f dist/msm dist/msm-edge
 
       - name: 生成派网 APX 安装包
