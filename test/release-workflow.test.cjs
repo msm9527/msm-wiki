@@ -27,7 +27,7 @@ test('release workflows publish paired MSM and Edge runtimes', () => {
   for (const workflow of workflows) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
 
-    assert.match(source, /tar -czf "dist\/msm-\$\{VERSION\}-\$\{\{ matrix\.target \}\}\.tar\.gz" -C dist \\\n\s+msm \\\n\s+msm-edge/)
+    assert.match(source, /tar -czf "dist\/msm-\$\{VERSION\}-\$\{\{ matrix\.target \}\}\.tar\.gz" -C dist \\\n\s+msm-edge \\\n\s+msm/)
     assert.match(source, /cp "\$DIST_ROOT\/msm-edge" "\$SRC_TAURI_DIR\/msm-edge"/)
     assert.match(source, /BUNDLED_EDGE="\$APP_PATH\/Contents\/Resources\/msm-edge"/)
     assert.match(source, /DMG_BUNDLED_EDGE="\$APP_IN_DMG\/Contents\/Resources\/msm-edge"/)
