@@ -25,61 +25,24 @@
 
 ## 🧪 最新 Beta 版本
 
-> 当前 Beta 版本：`beta-1.3.0`  
-> 发布时间：2026-08-29 13:37:01 CST  
-> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.0>  
+> 当前 Beta 版本：`beta-1.3.1`  
+> 发布时间：2026-08-29 14:36:17 CST  
+> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.1>  
 > - 下载方式：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 
 ### ✨ 新增（Added）
-- 支持 Sing-Box 代理核心及无损切换
-- 实现双核心回家配置与 Shadowsocks 支持
-- 新增勋章原生 GLB 与高精度 STL 导出
-- 引入独立子节点程序（Docker Agent）
-- 内置边缘反向代理运行时
-- 新增原始股东勋章与 3D 荣誉陈列
-- 运维工作台支持多路由扩展
-- 增加 Pro 工具模块开关与购买入口
-
-### 🔧 变更（Changed）
-- Cloudflare Tunnel 界面重构，支持多记录管理
-- 仪表盘组件布局优化与流星图表动效
-- Docker Center 前端交互重塑与视觉升级
-- 网络工具工作台统一设计体系
-- 更新机制主程序选择逻辑优化
-- 内存占用优化（OUI 数据库、Lazy Regex）
-- 发布构建隔离防止影响开发环境
-- 操作日志独立并优化概览筛选
-
-### 🐛 修复（Fixed）
-- Cloudflare 错误诊断信息完善
-- 证书签发不受缺失核心配置阻塞
-- 代理核心互斥逻辑与运行时检测
-- 请求取消与进程停止处理
-- 无 WebGL 环境勋章安全降级
-- 勋章 STL 导出尖刺与内翻问题
-- macOS 后端构建与网络重置回归
-- Clash 实时数据跟随控制器端口
-- 代理核心切换端口竞争与延迟失败
-- 订阅更新中断代理连接修复
-- 直连与回家测速失败修复
-- 事件流 Cookie 鉴权恢复
-- 依赖漏洞修复与日志脱敏
-
-### ⚠️ 废弃（Deprecated）
-- 移除 Cloudflare Mesh 功能，专注 Tunnel
+- 增加证书签发失败及重试日志
+- 增加证书签发预检阶段日志
 
 ### 📝 备注（Notes）
-- 版本更新至 1.3.0
-- 发布包兼容性校验增强
-- 部分功能需 Pro 授权或特定许可
-- 前端构建隔离避免影响开发环境
+- 版本更新至 1.3.1
 
 ::: details 📋 构建信息
 - **发布通道**: beta（Beta 版）
-- **源提交**: [`bc8ff45`](https://github.com/msm9527/msm/commit/bc8ff4572b189aecf1e9079aa371bdf45af8c970)
-- **提交信息**: 完善 Cloudflare 错误诊断 / Improve Cloudflare error diagnostics
+- **源提交**: [`21cb8ed`](https://github.com/msm9527/msm/commit/21cb8ed9bf47bcbe43e89c2e0c7042b5575c67df)
+- **提交信息**: 增加证书签发日志并发布 1.3.1 / Add certificate issuance logs and release 1.3.1
 - **提交作者**: root
-- **提交时间**: 2026-08-29 13:37:01 CST
+- **提交时间**: 2026-08-29 14:36:17 CST
 :::
 
 ---
