@@ -25,24 +25,20 @@
 
 ## 🧪 最新 Beta 版本
 
-> 当前 Beta 版本：`beta-1.3.1`  
-> 发布时间：2026-08-29 14:36:17 CST  
-> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.1>  
+> 当前 Beta 版本：`beta-1.3.2`  
+> 发布时间：2026-08-30 12:21:20 CST  
+> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.2>  
 > - 下载方式：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 
-### ✨ 新增（Added）
-- 增加证书签发失败及重试日志
-- 增加证书签发预检阶段日志
-
 ### 📝 备注（Notes）
-- 版本更新至 1.3.1
+- 本次版本从 2026-08-29T07:10:27Z 之后更新，包含 2 个提交，主要更新：chore: 升级版本至 1.3.2 / bump version to 1.3.2，涉及 M .version; M backend/internal/version/.version; M docs/USER_GUIDE.md; ...
 
 ::: details 📋 构建信息
 - **发布通道**: beta（Beta 版）
-- **源提交**: [`21cb8ed`](https://github.com/msm9527/msm/commit/21cb8ed9bf47bcbe43e89c2e0c7042b5575c67df)
-- **提交信息**: 增加证书签发日志并发布 1.3.1 / Add certificate issuance logs and release 1.3.1
+- **源提交**: [`dad58d8`](https://github.com/msm9527/msm/commit/dad58d80c660a9c68e0de58466a7a3a444594b52)
+- **提交信息**: chore: 升级版本至 1.3.2 / bump version to 1.3.2
 - **提交作者**: root
-- **提交时间**: 2026-08-29 14:36:17 CST
+- **提交时间**: 2026-08-30 12:21:20 CST
 :::
 
 ---
