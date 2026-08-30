@@ -25,20 +25,20 @@
 
 ## 🧪 最新 Beta 版本
 
-> 当前 Beta 版本：`beta-1.3.2`  
-> 发布时间：2026-08-30 12:21:20 CST  
-> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.2>  
+> 当前 Beta 版本：`beta-1.3.3`  
+> 发布时间：2026-08-30 14:51:57 CST  
+> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.3>  
 > - 下载方式：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 
 ### 📝 备注（Notes）
-- 本次版本从 2026-08-29T07:10:27Z 之后更新，包含 2 个提交，主要更新：chore: 升级版本至 1.3.2 / bump version to 1.3.2，涉及 M .version; M backend/internal/version/.version; M docs/USER_GUIDE.md; ...
+- 本次版本从 2026-08-30T05:18:30Z 之后更新，包含 1 个提交，主要更新：chore: 升级版本至 1.3.3并移除重复流量组件 / bump version to 1.3.3 and remove duplicate traffic widget，涉及 M .version; M backend/internal/version/.version; M docs/USER_GUIDE.md; ...
 
 ::: details 📋 构建信息
 - **发布通道**: beta（Beta 版）
-- **源提交**: [`dad58d8`](https://github.com/msm9527/msm/commit/dad58d80c660a9c68e0de58466a7a3a444594b52)
-- **提交信息**: chore: 升级版本至 1.3.2 / bump version to 1.3.2
+- **源提交**: [`06b56b8`](https://github.com/msm9527/msm/commit/06b56b89672385f7e15d0af397908572f2996bcc)
+- **提交信息**: chore: 升级版本至 1.3.3并移除重复流量组件 / bump version to 1.3.3 and remove duplicate traffic widget
 - **提交作者**: root
-- **提交时间**: 2026-08-30 12:21:20 CST
+- **提交时间**: 2026-08-30 14:51:57 CST
 :::
 
 ---
