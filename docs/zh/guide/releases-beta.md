@@ -25,48 +25,20 @@
 
 ## 🧪 最新 Beta 版本
 
-> 当前 Beta 版本：`beta-1.3.4`  
-> 发布时间：2026-08-31 00:57:44 CST  
-> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.4>  
+> 当前 Beta 版本：`beta-1.3.5`  
+> 发布时间：2026-08-31 18:14:25 CST  
+> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.5>  
 > - 下载方式：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 
-### ✨ 新增（Added）
-- 新增图标库管理界面及分类颜色支持
-- 支持自定义图标来源及远程代理抓取
-- 后端新增 gRPC 接口支持（端口 7778）
-- 新增自动生成 OpenAPI 文档工具
-- 图标预览尺寸可调节及复制功能
-- 内置图标源刷新与编辑功能
-- 独立图标管理页签入口
-
-### 🔧 变更（Changed）
-- Docker Compose gRPC 默认监听地址改为 0.0.0.0
-- 服务检测逻辑增强（systemd/OpenRC/Launchd）
-- 图标卡片布局重构，视觉更紧凑
-- 图标显示设置交互重设计（滑块可视化）
-- 移除冗余资产头部信息，简化头部 UI
-- OpenAPI 公开路由安全注解修正
-
-### 🐛 修复（Fixed）
-- 完善回家监听端口冲突保护与诊断
-- 修正 Docker gRPC 端口提示与文档说明
-- 补充 gRPC reflection 描述符注册
-- 硬件信息克隆保持网卡列表非空
-- 图标大小滑杆可见性修复
-- 内置源启用状态同步逻辑修复
-
 ### 📝 备注（Notes）
-- gRPC 接口默认关闭，需环境变量启用
-- Docker 部署时建议开启 7778 端口映射
-- 图标管理功能需前端配合更新版本
-- 本次发布版本号为 v1.3.4
+- 本次版本从 2026-08-30T22:56:23Z 之后更新，包含 2 个提交，主要更新：chore: 升级版本至 1.3.5 / bump version to 1.3.5，涉及 M .version; M backend/docs/openapi.json; M backend/docs/openapi.yaml; ...
 
 ::: details 📋 构建信息
 - **发布通道**: beta（Beta 版）
-- **源提交**: [`2100c81`](https://github.com/msm9527/msm/commit/2100c8184839f4a1a698f81a34e30da6c258eb7a)
-- **提交信息**: chore: 升级版本至 1.3.4 / bump version to 1.3.4
+- **源提交**: [`4ac813f`](https://github.com/msm9527/msm/commit/4ac813f0d28f3f8efcbb839ca894f81a9ff444c1)
+- **提交信息**: chore: 升级版本至 1.3.5 / bump version to 1.3.5
 - **提交作者**: root
-- **提交时间**: 2026-08-31 00:57:44 CST
+- **提交时间**: 2026-08-31 18:14:25 CST
 :::
 
 ---
