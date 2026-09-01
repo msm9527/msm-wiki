@@ -25,20 +25,32 @@
 
 ## 🧪 最新 Beta 版本
 
-> 当前 Beta 版本：`beta-1.3.5`  
-> 发布时间：2026-08-31 18:14:25 CST  
-> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.5>  
+> 当前 Beta 版本：`beta-1.3.6`  
+> 发布时间：2026-08-31 23:19:33 CST  
+> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.6>  
 > - 下载方式：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 
+### ✨ 新增（Added）
+- 新增 MosDNS 规则备份与 DDNS 域自动同步机制
+- 新增反向代理健康检查跟随重定向配置项
+
+### 🔧 变更（Changed）
+- 调整健康检查默认状态码范围为 100-599
+
+### 🐛 修复（Fixed）
+- 修复 DDNS 权威校验异常导致联动失败问题
+- 修复健康检查单 IP 探测导致的连通性误判
+- 优化 Cloudflare 接口错误提示详细信息
+
 ### 📝 备注（Notes）
-- 本次版本从 2026-08-30T22:56:23Z 之后更新，包含 2 个提交，主要更新：chore: 升级版本至 1.3.5 / bump version to 1.3.5，涉及 M .version; M backend/docs/openapi.json; M backend/docs/openapi.yaml; ...
+- 旧版本配置可能受新默认值影响，建议检查
 
 ::: details 📋 构建信息
 - **发布通道**: beta（Beta 版）
-- **源提交**: [`4ac813f`](https://github.com/msm9527/msm/commit/4ac813f0d28f3f8efcbb839ca894f81a9ff444c1)
-- **提交信息**: chore: 升级版本至 1.3.5 / bump version to 1.3.5
+- **源提交**: [`13dfe8a`](https://github.com/msm9527/msm/commit/13dfe8ac22301566d94d9bd4cee9deaa728e5be0)
+- **提交信息**: fix: 修复 DDNS 权威校验与 MosDNS 联动 / fix DDNS authority checks and MosDNS sync
 - **提交作者**: root
-- **提交时间**: 2026-08-31 18:14:25 CST
+- **提交时间**: 2026-08-31 23:19:33 CST
 :::
 
 ---
