@@ -1306,26 +1306,49 @@ jobs:
           # Build a plain DMG ourselves (bypassing tauri's Finder styling step).
           mkdir -p "$DIST_ROOT"
           OUTPUT_DMG="$DIST_ROOT/msm-desktop-${VERSION}-${{ matrix.target }}.dmg"
-          rm -f "$OUTPUT_DMG"
 
           DMG_STAGE="$(mktemp -d)"
+          DMG_WORK="$(mktemp -d)"
+          DMG_TEMP="$DMG_WORK/msm-desktop.dmg"
+          cleanup_dmg_files() {
+            rm -rf "$DMG_STAGE" "$DMG_WORK"
+          }
+          trap cleanup_dmg_files EXIT
+
           cp -R "$APP_PATH" "$DMG_STAGE/"
           ln -s /Applications "$DMG_STAGE/Applications"
 
           VOL_NAME="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleName' "$APP_PATH/Contents/Info.plist" 2>/dev/null || echo "msm-desktop")"
-          hdiutil create \
-            -volname "$VOL_NAME" \
-            -srcfolder "$DMG_STAGE" \
-            -fs HFS+ \
-            -format UDZO \
-            -ov \
-            "$OUTPUT_DMG"
-          rm -rf "$DMG_STAGE"
+          DMG_CREATED="false"
+          for attempt in 1 2 3; do
+            if hdiutil create \
+              -volname "$VOL_NAME" \
+              -srcfolder "$DMG_STAGE" \
+              -fs HFS+ \
+              -format UDZO \
+              -ov \
+              "$DMG_TEMP"; then
+              DMG_CREATED="true"
+              break
+            fi
+            rm -f "$DMG_TEMP"
+            if [ "$attempt" -lt 3 ]; then
+              echo "hdiutil create 第 ${attempt} 次失败，等待后重试"
+              sleep "$attempt"
+            fi
+          done
+          if [ "$DMG_CREATED" != "true" ]; then
+            echo "error: hdiutil create 重试 3 次仍失败" >&2
+            exit 1
+          fi
+          rm -f "$OUTPUT_DMG"
+          mv "$DMG_TEMP" "$OUTPUT_DMG"
 
           MOUNT_DIR="$(mktemp -d)"
           cleanup_dmg_mount() {
             hdiutil detach "$MOUNT_DIR" >/dev/null 2>&1 || true
             rmdir "$MOUNT_DIR" >/dev/null 2>&1 || true
+            cleanup_dmg_files
           }
           trap cleanup_dmg_mount EXIT
 

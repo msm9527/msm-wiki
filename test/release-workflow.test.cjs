@@ -45,6 +45,16 @@ test('release workflows update tags through the GitHub API', () => {
   }
 })
 
+test('macOS desktop workflows isolate and retry DMG creation', () => {
+  for (const workflow of workflows) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+
+    assert.match(source, /DMG_WORK="\$\(mktemp -d\)"[\s\S]*?DMG_TEMP="\$DMG_WORK\/msm-desktop\.dmg"/)
+    assert.match(source, /for attempt in 1 2 3; do[\s\S]*?hdiutil create[\s\S]*?"\$DMG_TEMP"[\s\S]*?done/)
+    assert.match(source, /rm -f "\$OUTPUT_DMG"\n\s+mv "\$DMG_TEMP" "\$OUTPUT_DMG"/)
+  }
+})
+
 test('Panabit packaging uses the merged single MSM runtime', () => {
   const builder = fs.readFileSync(path.join(root, '.github/panabit/build-apx.sh'), 'utf8')
   const afterInstall = fs.readFileSync(path.join(root, '.github/panabit/template/afterinstall'), 'utf8')
