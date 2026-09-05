@@ -44,6 +44,23 @@ test('Panabit packaging uses the merged single MSM runtime', () => {
   assert.doesNotMatch(afterInstall, /msm-edge/)
 })
 
+test('custom server uploads keep the mirror installer scripts synchronized', () => {
+  const expectedInstallers = new Map([
+    ['.github/workflows/daily-build-msm.yml', 'install_cn.sh'],
+    ['.github/workflows/daily-build-msm-beta.yml', 'install_beta_cn.sh'],
+  ])
+
+  for (const [workflow, installer] of expectedInstallers) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+
+    assert.ok(
+      source.includes(`cp ${installer} upload/install.sh`),
+      `${workflow} must upload ${installer} as the mirror install.sh`,
+    )
+    assert.match(source, /chmod 0755 upload\/install\.sh/)
+  }
+})
+
 test('all Pages workflows run Wiki regression tests before building', () => {
   for (const workflow of [...workflows, '.github/workflows/deploy.yml']) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')

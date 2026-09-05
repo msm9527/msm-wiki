@@ -1047,6 +1047,8 @@ jobs:
             exit 1
           fi
           cp "${CHECKSUM_FILE}" upload/"${VERSION}"/
+          cp install_cn.sh upload/install.sh
+          chmod 0755 upload/install.sh
           printf "%s\n" "${VERSION}" > upload/.version
           echo "待上传文件列表:"
           ls -lh upload
