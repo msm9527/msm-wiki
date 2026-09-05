@@ -25,32 +25,43 @@
 
 ## 🧪 最新 Beta 版本
 
-> 当前 Beta 版本：`beta-1.3.6`  
-> 发布时间：2026-08-31 23:19:33 CST  
-> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.6>  
+> 当前 Beta 版本：`beta-1.3.8`  
+> 发布时间：2026-09-04 21:16:57 CST  
+> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.8>  
 > - 下载方式：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 
 ### ✨ 新增（Added）
-- 新增 MosDNS 规则备份与 DDNS 域自动同步机制
-- 新增反向代理健康检查跟随重定向配置项
+- 新增 Docker/DDNS 操作审计日志
+- 增加代理服务重启及就绪时长日志
+- Sing-Box 配置自动迁移支持
 
 ### 🔧 变更（Changed）
-- 调整健康检查默认状态码范围为 100-599
+- Edge 运行时合并至 MSM 主程序
+- Caddy 内核升级至 v2.11.4
+- 加固 Edge 运行时安全边界
+- Linux Edge 进程信号隔离增强
+- 清理项目内部规则及废弃文档
 
 ### 🐛 修复（Fixed）
-- 修复 DDNS 权威校验异常导致联动失败问题
-- 修复健康检查单 IP 探测导致的连通性误判
-- 优化 Cloudflare 接口错误提示详细信息
+- Edge 运行时启动错误处理优化
+- 代理核心切换等待与恢复逻辑
+- 支持自签名 HTTPS 上游连接
+- 修复 Sing-Box 1.14 配置兼容问题
+
+### ⚠️ 废弃（Deprecated）
+- 废弃独立 `msm-edge` 二进制分发
+- Sing-Box 部分旧版配置项不再支持
 
 ### 📝 备注（Notes）
-- 旧版本配置可能受新默认值影响，建议检查
+- 升级后仅需 `msm` 单二进制，无需 `msm-edge`
+- Sing-Box 配置将自动迁移适配新版规范
 
 ::: details 📋 构建信息
 - **发布通道**: beta（Beta 版）
-- **源提交**: [`13dfe8a`](https://github.com/msm9527/msm/commit/13dfe8ac22301566d94d9bd4cee9deaa728e5be0)
-- **提交信息**: fix: 修复 DDNS 权威校验与 MosDNS 联动 / fix DDNS authority checks and MosDNS sync
+- **源提交**: [`44612ff`](https://github.com/msm9527/msm/commit/44612ff7fd76a3514c1106bb65796235dc13df2b)
+- **提交信息**: chore: 升级版本至 1.3.8 / bump version to 1.3.8
 - **提交作者**: root
-- **提交时间**: 2026-08-31 23:19:33 CST
+- **提交时间**: 2026-09-04 21:16:57 CST
 :::
 
 ---
