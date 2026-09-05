@@ -25,35 +25,40 @@
 
 ## 🧪 最新 Beta 版本
 
-> 当前 Beta 版本：`beta-1.3.8`  
-> 发布时间：2026-09-04 21:16:57 CST  
-> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.8>  
+> 当前 Beta 版本：`beta-1.3.9`  
+> 发布时间：2026-09-06 00:12:19 CST  
+> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.9>  
 > - 下载方式：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 
 ### ✨ 新增（Added）
-- 新增 DDNS 与 Docker 操作审计日志功能
-- 支持自签名 HTTPS 上游连接
+- 增加 GitHub Token 凭据与限流重试机制
+- 完善 EasyTier 配置、TOML 同步及 TUN 诊断
+- 新增 Docker 更新自动化管理与安全队列
+- 支持外部 Compose 容器检查与安全重建更新
 
 ### 🔧 变更（Changed）
-- Edge 运行时合并至主二进制，移除独立 msm-edge
-- 加固 Edge 运行时启动安全校验机制
-- 适配 Sing-Box 1.14 废弃配置项迁移
+- 重构 Docker 管理工作台，统一资源卡片体验
+- 精简 Docker 更新工作区与策略 UI 设计
+- 优化前端镜像页面文件体量与加载性能
 
 ### 🐛 修复（Fixed）
-- 稳定 Edge 运行时进程管理与信号处理
-- 优化代理核心切换等待与错误恢复机制
+- 兼容旧配置时间戳并恢复核心切换逻辑
+- 防御 Docker 更新空响应及修复构建类型错误
+- 修复目标选择器浮层溢出与容器卡片布局
+- 区分 Docker 引擎离线与空环境状态显示
+- 补齐生命周期数据并增强并发执行保护
 
 ### 📝 备注（Notes）
-- 不再分发独立的 `msm-edge` 二进制文件
-- Sing-Box 配置文件已自动迁移废弃参数
-- Docker 操作审计功能正式上线
+- 版本已升级至 1.3.9
+- Docker 更新自动化需满足授权许可要求
+- EasyTier 支持安全的密码查看交互
 
 ::: details 📋 构建信息
 - **发布通道**: beta（Beta 版）
-- **源提交**: [`44612ff`](https://github.com/msm9527/msm/commit/44612ff7fd76a3514c1106bb65796235dc13df2b)
-- **提交信息**: chore: 升级版本至 1.3.8 / bump version to 1.3.8
+- **源提交**: [`8e0e0db`](https://github.com/msm9527/msm/commit/8e0e0db5873a1af3c83de5b3ec786e596e2e6042)
+- **提交信息**: feat: 增加 GitHub Token 凭据与限流重试 / add GitHub credential and rate-limit retry
 - **提交作者**: root
-- **提交时间**: 2026-09-04 21:16:57 CST
+- **提交时间**: 2026-09-06 00:12:19 CST
 :::
 
 ---
