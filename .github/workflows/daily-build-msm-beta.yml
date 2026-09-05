@@ -626,6 +626,8 @@ jobs:
           if-no-files-found: error
 
       - name: 创建/更新版本 tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
           set -euo pipefail
@@ -633,22 +635,19 @@ jobs:
           SHA="${GITHUB_SHA}"
           CHANNEL_NAME="${{ needs.prepare.outputs.channel_name }}"
 
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          REMOTE_TAG_EXISTS="false"
-          if git ls-remote --exit-code --tags origin "refs/tags/${VERSION}" >/dev/null 2>&1; then
-            REMOTE_TAG_EXISTS="true"
-          fi
-
-          # 直接覆盖同名 tag，避免“先删后建”导致 GitHub 将已有 release 短暂转成 draft。
-          git tag -fa "${VERSION}" -m "${CHANNEL_NAME} 每日构建 ${VERSION}" "${SHA}"
-
-          if [ "${REMOTE_TAG_EXISTS}" = "true" ]; then
-            git push --force origin "refs/tags/${VERSION}"
+          # 使用 GitHub Git Database API 更新 tag。GITHUB_TOKEN 具备 contents:write，
+          # 但通过 git push 推送包含 workflow 文件的提交会额外要求 workflows 权限。
+          if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${VERSION}" >/dev/null 2>&1; then
+            gh api --method PATCH "repos/${GITHUB_REPOSITORY}/git/refs/tags/${VERSION}" \
+              -f sha="${SHA}" \
+              -F force=true >/dev/null
           else
-            git push origin "refs/tags/${VERSION}"
+            gh api --method POST "repos/${GITHUB_REPOSITORY}/git/refs" \
+              -f ref="refs/tags/${VERSION}" \
+              -f sha="${SHA}" >/dev/null
           fi
+
+          echo "✅ 已通过 GitHub API 创建/更新 ${VERSION} tag（${CHANNEL_NAME}）"
 
       - name: 创建/更新 GitHub Release
         id: github_release

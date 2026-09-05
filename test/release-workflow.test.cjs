@@ -34,6 +34,17 @@ test('release workflows publish the merged single MSM runtime', () => {
   }
 })
 
+test('release workflows update tags through the GitHub API', () => {
+  for (const workflow of workflows) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+
+    assert.match(source, /name: 创建\/更新版本 tag[\s\S]*?GH_TOKEN: \$\{\{ secrets\.GITHUB_TOKEN \}\}/)
+    assert.match(source, /gh api --method PATCH "repos\/\$\{GITHUB_REPOSITORY\}\/git\/refs\/tags\/\$\{VERSION\}"[\s\S]*?-F force=true/)
+    assert.match(source, /gh api --method POST "repos\/\$\{GITHUB_REPOSITORY\}\/git\/refs"[\s\S]*?-f ref="refs\/tags\/\$\{VERSION\}"/)
+    assert.doesNotMatch(source, /git push (?:--force )?origin "refs\/tags\/\$\{VERSION\}"/)
+  }
+})
+
 test('Panabit packaging uses the merged single MSM runtime', () => {
   const builder = fs.readFileSync(path.join(root, '.github/panabit/build-apx.sh'), 'utf8')
   const afterInstall = fs.readFileSync(path.join(root, '.github/panabit/template/afterinstall'), 'utf8')
