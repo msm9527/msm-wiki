@@ -29,14 +29,13 @@ STAGE_DIR="${WORK_DIR}/stage"
 mkdir -p "${PKG_DIR}" "${STAGE_DIR}"
 tar -xzf "${INPUT_TARBALL}" -C "${PKG_DIR}"
 
-if [[ ! -f "${PKG_DIR}/msm" || ! -f "${PKG_DIR}/msm-edge" ]]; then
-  echo "error: paired msm and msm-edge binaries are required in ${INPUT_TARBALL}" >&2
+if [[ ! -f "${PKG_DIR}/msm" ]]; then
+  echo "error: msm binary is required in ${INPUT_TARBALL}" >&2
   exit 1
 fi
 
 cp -R "${TEMPLATE_DIR}/." "${STAGE_DIR}/"
 install -m 0755 "${PKG_DIR}/msm" "${STAGE_DIR}/bin/msm"
-install -m 0755 "${PKG_DIR}/msm-edge" "${STAGE_DIR}/bin/msm-edge"
 rm -f "${STAGE_DIR}/bin/.gitkeep"
 
 sed \

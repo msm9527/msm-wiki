@@ -68,6 +68,34 @@ download_file() {
     fi
 }
 
+# 校验发布包内容。当前发布包为单一 msm；旧版本包中的 msm-edge 仍允许兼容升级。
+validate_archive_entries() {
+    local archive_entries="${1:-}"
+    local archive_entry
+    local found_binary="false"
+
+    while IFS= read -r archive_entry; do
+        case "$archive_entry" in
+            msm)
+                found_binary="true"
+                ;;
+            msm-edge|THIRD_PARTY_NOTICES.md|OSS_PROVENANCE.md|licenses/CADDY-APACHE-2.0.txt)
+                ;;
+            "")
+                ;;
+            *)
+                print_error "压缩包包含不允许的文件: $archive_entry"
+                return 1
+                ;;
+        esac
+    done <<< "$archive_entries"
+
+    if [ "$found_binary" != "true" ]; then
+        print_error "压缩包中缺少 msm 二进制文件"
+        return 1
+    fi
+}
+
 # 检查是否为 root 用户
 check_root() {
     if [ "$EUID" -ne 0 ]; then
@@ -383,31 +411,14 @@ download_msm() {
     fi
     print_success "SHA256 校验通过"
 
-    # 仅允许发布包包含目标二进制，避免路径穿越或覆盖临时目录外的文件
+    # 仅允许发布包包含已知发布文件，避免路径穿越或覆盖临时目录外的文件
     local archive_entries
     if ! archive_entries=$(tar -tzf "${temp_dir}/${filename}"); then
         print_error "无法读取压缩包内容"
         rm -rf "${temp_dir}"
         exit 1
     fi
-    local archive_entry
-    local found_binary="false"
-    while IFS= read -r archive_entry; do
-        case "$archive_entry" in
-            msm)
-                found_binary="true"
-                ;;
-            "")
-                ;;
-            *)
-                print_error "压缩包包含不允许的文件: $archive_entry"
-                rm -rf "${temp_dir}"
-                exit 1
-                ;;
-        esac
-    done <<< "$archive_entries"
-    if [ "$found_binary" != "true" ]; then
-        print_error "压缩包中缺少 msm 二进制文件"
+    if ! validate_archive_entries "$archive_entries"; then
         rm -rf "${temp_dir}"
         exit 1
     fi

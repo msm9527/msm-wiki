@@ -23,15 +23,25 @@ test('release workflows pass SHA256SUMS to the custom upload job', () => {
   }
 })
 
-test('release workflows publish paired MSM and Edge runtimes', () => {
+test('release workflows publish the merged single MSM runtime', () => {
   for (const workflow of workflows) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
 
-    assert.match(source, /tar -czf "dist\/msm-\$\{VERSION\}-\$\{\{ matrix\.target \}\}\.tar\.gz" -C dist \\\n\s+msm-edge \\\n\s+msm/)
-    assert.match(source, /cp "\$DIST_ROOT\/msm-edge" "\$SRC_TAURI_DIR\/msm-edge"/)
-    assert.match(source, /BUNDLED_EDGE="\$APP_PATH\/Contents\/Resources\/msm-edge"/)
-    assert.match(source, /DMG_BUNDLED_EDGE="\$APP_IN_DMG\/Contents\/Resources\/msm-edge"/)
+    assert.match(source, /tar -czf "dist\/msm-\$\{VERSION\}-\$\{\{ matrix\.target \}\}\.tar\.gz" -C dist \\\n\s+msm \\\n\s+THIRD_PARTY_NOTICES\.md/)
+    assert.match(source, /tar -tzf "dist\/msm-\$\{VERSION\}-\$\{\{ matrix\.target \}\}\.tar\.gz" \| grep -Fx msm/)
+    assert.match(source, /新版发布包不应再包含 msm-edge 可执行文件/)
+    assert.doesNotMatch(source, /dist\/msm-edge|BUNDLED_EDGE|EDGE_ARCHS/)
   }
+})
+
+test('Panabit packaging uses the merged single MSM runtime', () => {
+  const builder = fs.readFileSync(path.join(root, '.github/panabit/build-apx.sh'), 'utf8')
+  const afterInstall = fs.readFileSync(path.join(root, '.github/panabit/template/afterinstall'), 'utf8')
+
+  assert.match(builder, /if \[\[ ! -f "\$\{PKG_DIR\}\/msm" \]\]/)
+  assert.match(builder, /install -m 0755 "\$\{PKG_DIR\}\/msm" "\$\{STAGE_DIR\}\/bin\/msm"/)
+  assert.doesNotMatch(builder, /msm-edge/)
+  assert.doesNotMatch(afterInstall, /msm-edge/)
 })
 
 test('all Pages workflows run Wiki regression tests before building', () => {

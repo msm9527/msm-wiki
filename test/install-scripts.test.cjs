@@ -27,13 +27,13 @@ function withFunctionsOnly(scriptName, callback) {
   }
 }
 
-function callFunction(scriptName, functionCall) {
+function callFunction(scriptName, functionCall, extraEnv = {}) {
   return withFunctionsOnly(scriptName, (scriptPath) => execFileSync(
     'bash',
     ['-c', '. "$SCRIPT_PATH"; ' + functionCall],
     {
       cwd: root,
-      env: { ...process.env, SCRIPT_PATH: scriptPath },
+      env: { ...process.env, ...extraEnv, SCRIPT_PATH: scriptPath },
       encoding: 'utf8',
     },
   ).trim());
@@ -59,5 +59,37 @@ test('beta installers normalize and reject versions safely', () => {
     assert.equal(callFunction(script, 'normalize_version beta-1.2.6'), 'beta-1.2.6');
     assert.equal(callFunction(script, 'normalize_version vbeta-1.2.6'), 'beta-1.2.6');
     assert.throws(() => callFunction(script, 'normalize_version ../1.2.6'));
+  }
+});
+
+test('installers accept the current single-binary archive and legacy Edge companion', () => {
+  const currentEntries = [
+    'msm',
+    'THIRD_PARTY_NOTICES.md',
+    'OSS_PROVENANCE.md',
+    'licenses/CADDY-APACHE-2.0.txt',
+  ].join('\n');
+
+  for (const script of scripts) {
+    assert.doesNotThrow(() => callFunction(
+      script,
+      'validate_archive_entries "$ARCHIVE_ENTRIES"',
+      { ARCHIVE_ENTRIES: currentEntries },
+    ));
+    assert.doesNotThrow(() => callFunction(
+      script,
+      'validate_archive_entries "$ARCHIVE_ENTRIES"',
+      { ARCHIVE_ENTRIES: 'msm-edge\nmsm' },
+    ));
+    assert.doesNotThrow(() => callFunction(
+      script,
+      'validate_archive_entries "$ARCHIVE_ENTRIES"',
+      { ARCHIVE_ENTRIES: 'msm' },
+    ));
+    assert.throws(() => callFunction(
+      script,
+      'validate_archive_entries "$ARCHIVE_ENTRIES"',
+      { ARCHIVE_ENTRIES: 'msm\nunauthorized-file' },
+    ));
   }
 });
