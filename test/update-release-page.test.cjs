@@ -175,7 +175,7 @@ test('the reviewed Beta 1.4.1 fixture retains every detail and upgrade notice', 
   const sections = updateReleasePage.parseSummary(summary)
   assert.equal(sections.highlights.length, 5)
   assert.equal(sections.major.length, 1)
-  assert.equal(sections.changed.length, 6)
+  assert.equal(sections.changed.length, 10)
   assert.equal(sections.fixed.length, 7)
   assert.equal(sections.security.length, 2)
   assert.equal(sections.notes.length, 3)
@@ -183,7 +183,11 @@ test('the reviewed Beta 1.4.1 fixture retains every detail and upgrade notice', 
   assert.deepEqual(updateReleasePage.extractLatestSection(block, 'beta').sections, sections)
   assert.equal(block.match(/class="msm-release-highlight"/gu)?.length, 5)
   assert.match(block, /href="#release-major"/u)
-  assert.match(block, /<strong>16 项<\/strong>/u)
+  assert.match(block, /<strong>20 项<\/strong>/u)
+  assert.match(block, /已加载事件/u)
+  assert.match(block, /最多 50 条/u)
+  assert.match(block, /单侧数据缺失时保留空位/u)
+  assert.doesNotMatch(block, /全部历史|管理员.*下放|负百分比/u)
 })
 
 test('stable 1.2.6 does not re-advertise features already shipped in 1.2.5', () => {

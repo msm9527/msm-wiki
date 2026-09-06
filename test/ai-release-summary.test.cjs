@@ -252,7 +252,7 @@ test('ModelScope defaults use catalog-verified instruction models and an 8000-to
     },
   });
 
-  assert.equal(requestedModel, 'Qwen/Qwen3-235B-A22B-Instruct-2507');
+  assert.equal(requestedModel, 'Qwen/Qwen3.5-397B-A17B');
 });
 
 const silentLogger = { log() {}, error() {}, warn() {} };
@@ -260,6 +260,22 @@ const validSummary = '### 🐛 问题修复（Fixed）\n- **网络配置校验**
 const modelResponse = (content = validSummary, finishReason = 'stop') => ({
   ok: true,
   async json() { return { choices: [{ message: { content }, finish_reason: finishReason }], usage: { completion_tokens: 80 } }; },
+});
+
+test('only Qwen3.5 models receive the top-level non-thinking request option', async () => {
+  for (const model of [...DEFAULT_MODEL_CANDIDATES, 'Other/Qwen3.5-test', 'Qwen/Qwen3-Next-80B-A3B-Instruct']) {
+    let body;
+    await requestModelScopeSummary({
+      apiKey: 'test-token', prompt: 'evidence', modelCandidates: [model], logger: silentLogger,
+      fetchImpl: async (_url, options) => {
+        body = JSON.parse(options.body);
+        return modelResponse();
+      },
+    });
+    assert.equal(Object.hasOwn(body, 'enable_thinking'), /^Qwen\/Qwen3\.5-/u.test(model), model);
+    if (Object.hasOwn(body, 'enable_thinking')) assert.equal(body.enable_thinking, false);
+    assert.equal(body.extra_body, undefined, 'the HTTP API receives the option at the top level');
+  }
 });
 
 test('time-window and fallback log reads are pinned to the requested source ref', () => {
@@ -453,9 +469,10 @@ test('model fallback handles quota, unsupported model, truncated and invalid out
       return modelResponse();
     },
   });
-  assert.equal(result.modelName, 'working-model');
-  assert.equal(observed.model, 'working-model');
+  assert.equal(result.modelName, 'invalid-model', 'a safe invalid output is corrected before changing model');
+  assert.equal(observed.model, 'invalid-model');
   assert.equal(result.attempts.length, 5);
+  assert.deepEqual(result.attempts.map(item => item.modelName), [...names.slice(0, 4), 'invalid-model']);
   assert.match(result.attempts[2].error, /截断/);
   assert.equal(result.validation.detailCount, 1);
 });
@@ -784,12 +801,15 @@ test('review callers can disable claim correction to guarantee one selected-mode
   assert.equal(calls, 1);
 });
 
-test('HTTP, truncated and unrelated validation failures do not trigger same-model correction', async () => {
+test('HTTP, truncated, malformed, incomplete-thinking and credential failures do not trigger same-model correction', async () => {
   for (const fail of [
     () => ({ ok: false, status: 429, async text() { return '{"error":{"message":"insufficient balance"}}'; } }),
     () => ({ ok: false, status: 400, async text() { return '{"error":{"message":"no provider supported"}}'; } }),
     () => modelResponse(overstatedDraft, 'length'),
-    () => modelResponse('### 未知分类\n- 这是一条不能归类的说明'),
+    () => modelResponse(validSummary, 'content_filter'),
+    () => ({ ok: true, async json() { return {}; } }),
+    () => modelResponse('<think>incomplete reasoning'),
+    () => modelResponse(`${validSummary}\n- test-token`),
   ]) {
     const requested = [];
     await requestModelScopeSummary({
@@ -801,6 +821,122 @@ test('HTTP, truncated and unrelated validation failures do not trigger same-mode
       },
     });
     assert.deepEqual(requested, ['strong', 'backup']);
+  }
+});
+
+test('all safe validator failures get one same-model correction with fixed reasons and the complete draft', async () => {
+  const drafts = [
+    ['### 未知分类\n- 私有草稿标记：用户不能看到的调试内容', '未知发布分类'],
+    [validSummary + '\n### 🐛 问题修复\n- 私有草稿标记：重复分类内的说明', '重复发布分类: fixed'],
+    ['私有草稿标记：以下为更新日志\n' + validSummary, '分类之外出现非列表内容'],
+    ['### 🐛 问题修复\n- 待补充', '发布条目为空、占位或缺少具体内容'],
+    ['### 🐛 问题修复\n- **私有草稿标记：未闭合粗体', '发布条目的粗体标记未闭合'],
+    ['', '模型返回空白内容'],
+  ];
+  for (const [draft, reason] of drafts) {
+    const requests = [];
+    const logs = [];
+    const result = await requestModelScopeSummary({
+      apiKey: 'test-token', prompt: 'ORIGINAL_NET_DIFF_EVIDENCE', modelCandidates: ['strong', 'backup'],
+      logger: { log() {}, error(...args) { logs.push(args.join(' ')); } },
+      fetchImpl: async (_url, options) => {
+        const request = JSON.parse(options.body);
+        requests.push(request);
+        return modelResponse(requests.length === 1 ? draft : validSummary);
+      },
+    });
+    assert.deepEqual(requests.map(request => request.model), ['strong', 'strong'], reason);
+    assert.deepEqual(result.attempts.map(attempt => attempt.status), ['failed', 'success']);
+    const correction = requests[1].messages[1].content;
+    assert.ok(correction.includes('ORIGINAL_NET_DIFF_EVIDENCE'));
+    assert.ok(correction.includes(JSON.stringify(draft)));
+    assert.ok(correction.includes(reason));
+    assert.match(correction, /重新输出完整成稿/);
+    assert.doesNotMatch(JSON.stringify(result.attempts) + logs.join('\n'), /私有草稿标记/);
+  }
+});
+
+test('an invalid format correction exhausts its single retry then changes model', async () => {
+  const requested = [];
+  const result = await requestModelScopeSummary({
+    apiKey: 'test-token', prompt: 'evidence', modelCandidates: ['strong', 'backup'], logger: silentLogger,
+    fetchImpl: async (_url, options) => {
+      const model = JSON.parse(options.body).model;
+      requested.push(model);
+      return modelResponse(model === 'strong' ? '### 未知分类\n- 这是未通过校验的输出' : validSummary);
+    },
+  });
+  assert.deepEqual(requested, ['strong', 'strong', 'backup']);
+  assert.equal(result.modelName, 'backup');
+});
+
+test('output-correction option takes precedence while the legacy false option remains compatible', async () => {
+  for (const [options, expectedCalls] of [
+    [{ allowClaimCorrection: false }, 1],
+    [{ allowOutputCorrection: false }, 1],
+    [{ allowClaimCorrection: true, allowOutputCorrection: false }, 1],
+    [{ allowClaimCorrection: false, allowOutputCorrection: true }, 2],
+  ]) {
+    let calls = 0;
+    await assert.rejects(requestModelScopeSummary({
+      apiKey: 'test-token', prompt: 'evidence', modelCandidates: ['selected'], logger: silentLogger, ...options,
+      fetchImpl: async () => { calls++; return modelResponse('### 未知分类\n- 不能归类的详细说明'); },
+    }), error => {
+      assert.equal(error.attempts.length, expectedCalls);
+      return true;
+    });
+    assert.equal(calls, expectedCalls);
+  }
+});
+
+test('quantified performance claims require verification including byte sizes and throughput gains', () => {
+  for (const [claim, verifiedClaim] of [
+    ['每条日志减少2KB+堆栈开销', '2KB+'],
+    ['日志不再输出2KB+', '2KB+'],
+    ['移除每次失败时约 2 KB+ 的额外堆栈输出', '2 KB+'],
+    ['内存占用降低64MB', '64MB'],
+    ['节省1.5GB存储空间', '1.5GB'],
+    ['吞吐提升2000QPS', '2000QPS'],
+    ['吞吐增加500请求/秒', '500请求/秒'],
+    ['每次响应耗时缩短20ms', '20ms'],
+    ['日志输出减少3.5%', '减少3.5%'],
+    ['每条日志输出约2KB+额外信息', '2KB+'],
+  ]) {
+    const draft = `### ⚡ 性能优化\n- **开销优化**：${claim}`;
+    assert.ok(validateSummary(draft).errors.includes('包含未经单独验证的绝对化或量化宣传'), claim);
+    assert.equal(validateSummary(draft, { verifiedClaims: [verifiedClaim] }).valid, true, claim);
+    assert.equal(validateSummary(draft, { verifiedClaims: ['irrelevant claim'] }).valid, false, claim);
+  }
+});
+
+test('display percentages and formatting boundaries are behavior, not quantified gains', () => {
+  for (const section of ['✨ 功能增强', '⚡ 性能优化', '🐛 问题修复']) {
+    for (const behavior of [
+      '容器 CPU 没有采样时显示 —，不再显示 0%',
+      '内存没有采样时不再显示 0%',
+      'CPU 百分比显示格式调整为 0.0%',
+      'CPU 不再限制在 0–100% 区间，按真实多核采样显示',
+      '内存指标显示范围为 0–100%',
+      '初始2分钟，最大1小时',
+    ]) assert.equal(validateSummary(`### ${section}\n- **显示与行为修正**：${behavior}`).valid, true, behavior);
+  }
+  for (const behavior of ['日志不再输出2KB+', '性能面板显示内存占用减少64MB', 'CPU占用显示降低50%']) {
+    assert.ok(validateSummary(`### 🐛 问题修复\n- **行为修正**：${behavior}`).errors.includes('包含未经单独验证的绝对化或量化宣传'), behavior);
+  }
+});
+
+test('operational retry times, ports, versions and real behavior thresholds are not numeric promotion', () => {
+  for (const behavior of [
+    '组件更新失败后首次等待2分钟，指数退避最多1小时后重试',
+    '将请求超时缩短为30秒，超时后返回明确错误',
+    '默认监听端口改为8080，兼容1.4.1版本接口',
+    'fd >= 1024时返回受控错误，避免访问越界',
+    'Stack名称长度上限为63个字符，并校验首尾字符',
+    'CPU告警阈值为80%，超过阈值时显示告警',
+    '内存上限提高到512MB，超过限制时拒绝分配',
+    '支持最大2GB文件，超过上限时提示重新选择',
+  ]) {
+    assert.equal(validateSummary(`### ✨ 功能增强\n- **行为调整**：${behavior}`).valid, true, behavior);
   }
 });
 
