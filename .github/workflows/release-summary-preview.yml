@@ -32,7 +32,7 @@ jobs:
   preview:
     name: 生成公开发布日志预览
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Checkout Wiki 发布脚本
         uses: actions/checkout@v4

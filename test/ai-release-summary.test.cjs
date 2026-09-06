@@ -228,7 +228,7 @@ test('fallback release summaries keep highlights and multiple functional areas',
   assert.ok(items.highlights.length >= 2);
 });
 
-test('ModelScope defaults use catalog-verified instruction models and an 8000-token budget', async () => {
+test('ModelScope defaults use catalog-verified models with room for reasoning and complete output', async () => {
   let requestedModel = '';
   await requestModelScopeSummary({
     apiKey: 'test-token',
@@ -238,7 +238,7 @@ test('ModelScope defaults use catalog-verified instruction models and an 8000-to
     fetchImpl: async (_url, options) => {
       const request = JSON.parse(options.body);
       requestedModel = request.model;
-      assert.equal(request.max_tokens, 8000);
+      assert.equal(request.max_tokens, 16000);
       assert.match(request.messages[0].content, /完整/);
       assert.ok(options.signal instanceof AbortSignal);
       return {
@@ -262,7 +262,7 @@ const modelResponse = (content = validSummary, finishReason = 'stop') => ({
   async json() { return { choices: [{ message: { content }, finish_reason: finishReason }], usage: { completion_tokens: 80 } }; },
 });
 
-test('only Qwen3.5 models receive the top-level non-thinking request option', async () => {
+test('only Qwen3.5 models receive reasoning and a larger total token budget', async () => {
   for (const model of [...DEFAULT_MODEL_CANDIDATES, 'Other/Qwen3.5-test', 'Qwen/Qwen3-Next-80B-A3B-Instruct']) {
     let body;
     await requestModelScopeSummary({
@@ -273,7 +273,8 @@ test('only Qwen3.5 models receive the top-level non-thinking request option', as
       },
     });
     assert.equal(Object.hasOwn(body, 'enable_thinking'), /^Qwen\/Qwen3\.5-/u.test(model), model);
-    if (Object.hasOwn(body, 'enable_thinking')) assert.equal(body.enable_thinking, false);
+    if (Object.hasOwn(body, 'enable_thinking')) assert.equal(body.enable_thinking, true);
+    assert.equal(body.max_tokens, /^Qwen\/Qwen3\.5-/u.test(model) ? 16000 : 8000);
     assert.equal(body.extra_body, undefined, 'the HTTP API receives the option at the top level');
   }
 });

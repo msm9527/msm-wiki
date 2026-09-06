@@ -22,7 +22,7 @@ const DEFAULT_MODEL_CANDIDATES = Object.freeze([
   'Qwen/Qwen3.5-122B-A10B',
 ]);
 const DEFAULT_MAX_TOKENS = 8000;
-const DEFAULT_REQUEST_TIMEOUT_MS = 120000;
+const DEFAULT_REQUEST_TIMEOUT_MS = 180000;
 const DEFAULT_SUMMARY_ITEM_LIMIT = Infinity;
 const DEFAULT_HIGHLIGHT_LIMIT = 6;
 
@@ -1374,9 +1374,10 @@ async function requestModelScopeSummary({
               },
             ],
             temperature: 0.3,
-            max_tokens: maxTokens,
+            // Reasoning models need room for both analysis and the full public text.
+            max_tokens: /^Qwen\/Qwen3\.5-/iu.test(modelName) ? maxTokens * 2 : maxTokens,
             stream: false,
-            ...(/^Qwen\/Qwen3\.5-/iu.test(modelName) ? { enable_thinking: false } : {}),
+            ...(/^Qwen\/Qwen3\.5-/iu.test(modelName) ? { enable_thinking: true } : {}),
           }),
         });
         if (!response.ok) {
