@@ -4,9 +4,9 @@
 
 ---
 
-## 🚧 `dev` 分支测试重点（MSM 1.3.0）
+## 🚧 `dev` 分支测试重点
 
-以下能力已经进入 `dev`。Beta 下载是否已更新到 `beta-1.3.0`，以本页下方自动生成的最新发布区和 GitHub Release 为准。
+以下能力已经进入 `dev`，欢迎测试反馈。当前 Beta 版本与具体发布内容，以本页上方最新发布卡和 [GitHub Release](https://github.com/msm9527/msm-wiki/releases) 为准。
 
 - 统一代理服务强化跨 Clash / Sing-Box 安全切换、配置迁移、网络恢复和就绪验证
 - 远程回家扩展为 Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2、TUIC v5 六种协议
@@ -25,13 +25,30 @@
 
 ## 🧪 最新 Beta 版本
 
-> 当前 Beta 版本：`beta-1.4.1`  
-> 发布时间：2026-09-06 11:00:40 CST  
-> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.1>  
-> - 下载方式：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.4.1" data-release-date="2026-09-06 11:00:40 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.1">
+  <div class="msm-release-hero-copy">
+    <span class="msm-release-kicker">MSM / Beta 版</span>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.4.1</code></h3>
+    <p class="msm-release-lede">同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单</p>
+  </div>
+  <div class="msm-release-actions">
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.1" target="_blank" rel="noreferrer">查看 Release <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
+  </div>
+</div>
+<div class="msm-release-metrics" aria-label="发布概览">
+  <div class="msm-release-metric"><span>版本</span><strong>beta-1.4.1</strong></div>
+  <div class="msm-release-metric"><span>发布时间</span><strong>2026-09-06 11:00:40 CST</strong></div>
+  <div class="msm-release-metric"><span>源提交</span><a href="https://github.com/msm9527/msm/commit/2954c4d1fc10198ae97d26354d3681542a125b7c" target="_blank" rel="noreferrer"><code>2954c4d</code></a></div>
+  <div class="msm-release-metric"><span>发布类型</span><strong>Beta 版</strong></div>
+</div>
+<p class="msm-release-download-note"><span>下载说明</span>同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单</p>
 
-### 📝 备注（Notes）
+### 📋 本次更新
+
+::: info 📝 备注（Notes）
 - 本次版本从 2026-09-05T22:16:22Z 之后更新，包含 10 个提交，主要更新：chore: 升级版本至 1.4.1 / bump version to 1.4.1，涉及 M .version; M backend/docs/openapi.json; M backend/docs/openapi.yaml; ...
+:::
 
 ::: details 📋 构建信息
 - **发布通道**: beta（Beta 版）
@@ -47,10 +64,8 @@
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
 
-### beta-1.0.14（2026-03-31 16:29） <Badge type="tip" text="Beta 版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.0.14>
-
+::: details beta-1.0.14 · 2026-03-31 16:29 · Beta 版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.0.14" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 统一 MosDNS 恢复写操作重试策略
 - 调整组件更新 GitHub 下载优先级
@@ -62,8 +77,7 @@
 
 **注意事项**
 - 0.x 升级 1.x 必须重置或重装 DNS 服务
-
----
+:::
 
 ## ⚠️ 使用说明
 

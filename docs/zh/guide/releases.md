@@ -8,12 +8,28 @@
 
 ## 🚀 最新稳定版本
 
-> 当前稳定版本：`v1.2.6`  
-> 发布时间：2026-07-27 16:07:30 CST  
-> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.2.6>  
-> - 下载方式：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
+<div class="msm-release-hero msm-release-hero--stable" data-version="1.2.6" data-release-date="2026-07-27 16:07:30 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/1.2.6">
+  <div class="msm-release-hero-copy">
+    <span class="msm-release-kicker">MSM / 稳定版</span>
+    <h3 class="msm-release-version"><span>稳定版</span> <code>v1.2.6</code></h3>
+    <p class="msm-release-lede">同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单</p>
+  </div>
+  <div class="msm-release-actions">
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/1.2.6" target="_blank" rel="noreferrer">查看 Release <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action" href="/zh/guide/install-linux.html">安装指南 <span aria-hidden="true">→</span></a>
+  </div>
+</div>
+<div class="msm-release-metrics" aria-label="发布概览">
+  <div class="msm-release-metric"><span>版本</span><strong>v1.2.6</strong></div>
+  <div class="msm-release-metric"><span>发布时间</span><strong>2026-07-27 16:07:30 CST</strong></div>
+  <div class="msm-release-metric"><span>源提交</span><a href="https://github.com/msm9527/msm/commit/dd17a5502c662932df341cfbd58271d38bab77bf" target="_blank" rel="noreferrer"><code>dd17a55</code></a></div>
+  <div class="msm-release-metric"><span>发布类型</span><strong>稳定版</strong></div>
+</div>
+<p class="msm-release-download-note"><span>下载说明</span>同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单</p>
 
-### ✨ 新增（Added）
+### 📋 本次更新
+
+::: tip ✨ 新增（Added）
 - 勋章展示系统（3D、画廊、导航栏、登录页）
 - 连接页改用 WebSocket 实现实时流
 - 代理管理支持内联编辑订阅与节点
@@ -22,8 +38,9 @@
 - MosDNS 增加记忆池容量显示与清空
 - MosDNS 高级模式状态持久化
 - Clash 编辑对话框防意外关闭
+:::
 
-### 🔧 变更（Changed）
+::: info 🔧 变更（Changed）
 - 心跳间隔增至 30 分钟，失败阈值增至 8 次
 - 测速探测 URL 统一为 http gstatic generate_204
 - 策略组标签更名为代理组
@@ -31,8 +48,9 @@
 - 前端资源缓存策略优化（index.html 不缓存）
 - 后端日志噪音降低（移除无信息量堆栈）
 - 前端 react-markdown 改为懒加载
+:::
 
-### 🐛 修复（Fixed）
+::: danger 🐛 修复（Fixed）
 - Clash 订阅节点测速 404 回退健康检查
 - Clash 订阅更新瞬时错误增加有限重试
 - Clash 配置并发写入临时文件竞态修复
@@ -58,12 +76,14 @@
 - 服务卸载残留彻底清理
 - Launchd 服务更新接管旧进程
 - 安全客户端版本来源动态同步
+:::
 
-### 📝 备注（Notes）
+::: info 📝 备注（Notes）
 - 本次发布版本号升级至 1.2.6
 - 日常开发修复请在 dev 分支进行
 - 勋章等部分功能需 Pro 授权
 - 激活/心跳支持源站 IP 直连兜底
+:::
 
 ::: details 📋 构建信息
 - **发布通道**: stable（稳定版）
@@ -79,10 +99,8 @@
 
 > 下面仅列出最近几个版本的主要变更，完整变更记录以 GitHub Release 为准。
 
-### v1.2.5（2026-07-17 15:54） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.2.5>
-
+::: details v1.2.5 · 2026-07-17 15:54 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.2.5" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 勋章系统升级为真 3D（WebGL/React Three Fiber）
 - 代理管理页支持内联编辑订阅与节点
@@ -121,22 +139,16 @@
 - 离线动作授权降级为“除显式拒绝外有效”
 - 源站 IP 直连兜底解决代理/CDN 链路 502
 - 移除 @types/react-grid-layout（v2 自带类型）
+:::
 
----
-
-### v1.2.2（2026-06-17 16:08） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.2.2>
-
+::: details v1.2.2 · 2026-06-17 16:08 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.2.2" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **注意事项**
 - 分析显示该提交为开发标记，关联 #58，详细功能待确认。
+:::
 
----
-
-### v1.2.0（2026-06-10 16:13） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.2.0>
-
+::: details v1.2.0 · 2026-06-10 16:13 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.2.0" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - MosDNS 高级模式状态自动保存到本地
 - 添加记忆池容量显示与一键清空功能
@@ -153,13 +165,10 @@
 
 **注意事项**
 - macOS 用户注意：TUN 局域网转发及默认配置已修复
+:::
 
----
-
-### v1.1.7（2026-05-16 14:37） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.1.7>
-
+::: details v1.1.7 · 2026-05-16 14:37 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.1.7" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 添加默认代理 CIDR 216.239.36.0/24
 - 审计存储展示分解与字段透传支持
@@ -178,13 +187,10 @@
 
 **注意事项**
 - 0.x 升至 1.x 需重装或重置安全并重下 DNS 服务
+:::
 
----
-
-### v1.1.2（2026-05-04 07:20） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.1.2>
-
+::: details v1.1.2 · 2026-05-04 07:20 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.1.2" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 升级页支持恢复、应用及保留 MosDNS 配置
 - 调整 MosDNS 快路径 TTL 范围
@@ -194,13 +200,10 @@
 
 **注意事项**
 - 0.x 升级至 1.x 需重置安全并重下 DNS 服务
+:::
 
----
-
-### v1.1.1（2026-05-03 17:52） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.1.1>
-
+::: details v1.1.1 · 2026-05-03 17:52 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.1.1" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 限制 MosDNS 更新需先升级 MSM
 
@@ -213,13 +216,10 @@
 
 **注意事项**
 - 0.x 升 1.x 必须重装或重置安全并重新下载 DNS 服务
+:::
 
----
-
-### v1.1.0（2026-04-30 01:39） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.1.0>
-
+::: details v1.1.0 · 2026-04-30 01:39 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.1.0" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 支持国内外 ECS 策略分离
 - 增加授权容灾功能
@@ -236,13 +236,10 @@
 
 **注意事项**
 - 0.x 升 1.x 需重装或重置安全并重下 DNS 服务
+:::
 
----
-
-### v1.0.35（2026-04-27 20:14） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.0.35>
-
+::: details v1.0.35 · 2026-04-27 20:14 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.35" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 降低默认运行时内存预算
 
@@ -251,13 +248,10 @@
 
 **注意事项**
 - 0.x 升级至 1.x 需重置安全并重新下载 DNS 服务
+:::
 
----
-
-### v1.0.33（2026-04-26 19:28） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.0.33>
-
+::: details v1.0.33 · 2026-04-26 19:28 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.33" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 新增备份恢复与更新流程安全防护功能。
 - 支持 MosDNS 白名单模式下本机代理。
@@ -275,13 +269,10 @@
 
 **注意事项**
 - 0.x 升级 1.x 必须重置安全并重新下载 DNS 服务。
+:::
 
----
-
-### v1.0.27（2026-04-16 14:28） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.0.27>
-
+::: details v1.0.27 · 2026-04-16 14:28 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.27" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 新增规则集文件编辑功能
 - 新增日志悬浮窗交互优化及 5 项 UX 改进
@@ -306,13 +297,10 @@
 
 **注意事项**
 - 0.x 升级到 1.x 需重装或重置安全，重新下载 DNS 服务
+:::
 
----
-
-### v1.0.26（2026-04-16 12:35） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.0.26>
-
+::: details v1.0.26 · 2026-04-16 12:35 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.26" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 更新配置桌面端右栏常驻，移动端折叠
 - 合并安装和重启为一个操作按钮
@@ -335,13 +323,10 @@
 
 **注意事项**
 - 0.x 升至 1.x 需重装或重置安全并重新下载 DNS
+:::
 
----
-
-### v1.0.25（2026-04-16 11:52） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.0.25>
-
+::: details v1.0.25 · 2026-04-16 11:52 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.25" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 更新配置桌面端常驻，移动端折叠显示
 - 合并安装和重启操作为单一按钮
@@ -361,13 +346,10 @@
 
 **注意事项**
 - 0.x 升级 1.x 需重装或重置 DNS 服务
+:::
 
----
-
-### v1.0.24（2026-04-13 23:41） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.0.24>
-
+::: details v1.0.24 · 2026-04-13 23:41 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.24" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 调整代理网络自愈策略：默认关闭，放宽判定，间隔 3 秒
 - 默认禁用 libpcap 依赖，保留显式构建支持
@@ -380,13 +362,10 @@
 
 **注意事项**
 - 0.x 升级至 1.x 需重置安全或重装 DNS 服务，否则可能失效
+:::
 
----
-
-### v1.0.22（2026-04-11 00:57） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.0.22>
-
+::: details v1.0.22 · 2026-04-11 00:57 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.22" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 支持 Fake-IP 范围在设置页编辑并立即生效
 - 支持 HTTPS 证书上传及自签名生成
@@ -412,25 +391,19 @@
 **注意事项**
 - ⚠️ 0.x 升级到 1.x 需重装或重置安全以重新下载 DNS 服务
 - ⚠️ 加固了 Pro 授权校验与运行时完整性
+:::
 
----
-
-### v1.0.15（2026-04-01 10:37） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.0.15>
-
+::: details v1.0.15 · 2026-04-01 10:37 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.15" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **问题修复**
 - 修复规则集编辑、展示及保存异常行为
 
 **注意事项**
 - 0.x 升级至 1.x 需重置安全并重新下载 DNS 服务
+:::
 
----
-
-### v1.0.14（2026-03-31 10:14） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/1.0.14>
-
+::: details v1.0.14 · 2026-03-31 10:14 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.14" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - 联动 MosDNS 客户端名称并优化日志筛选功能
 - 调整组件更新阶段 GitHub 下载优先级
@@ -445,13 +418,10 @@
 
 **注意事项**
 - 0.x 升级到 1.x 需重装或重置安全，DNS 服务已变更
+:::
 
----
-
-### v0.7.4（2026-01-05 21:16） <Badge type="info" text="稳定版" />
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/0.7.4>
-
+::: details v0.7.4 · 2026-01-05 21:16 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/0.7.4" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - Clash 规则管理增强  
   - 规则页支持按配置文件分组排序，方便快速定位  
@@ -471,13 +441,10 @@
 
 **注意事项**
 - Tauri 桌面链路已基本稳定，但在 macOS 上仍建议重点验证 `launchctl` 工作目录与权限场景
+:::
 
----
-
-### v0.7.3（2026-01-01 13:29）
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/0.7.3>
-
+::: details v0.7.3 · 2026-01-01 13:29 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/0.7.3" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **新增 / 优化**
 - Connections 页面重做  
   - 采用弹窗模式，支持保持展开状态，更紧凑的布局  
@@ -495,13 +462,10 @@
 
 **注意事项**
 - 桌面端与 SSE 改造仍处于快速演进阶段，升级后建议重点观察 SSE 长连接稳定性
+:::
 
----
-
-### v0.7.2（2025-12-31 20:52）
-
-- 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/0.7.2>
-
+::: details v0.7.2 · 2025-12-31 20:52 · 稳定版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/0.7.2" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
 **核心内容**
 - 桌面端服务管理  
   - 桌面端服务管理与托盘初版  
@@ -512,8 +476,7 @@
 - 问题修复  
   - 修复大量 macOS DMG、权限、服务检测相关问题  
   - 修复 Connections 刷新 / 测速 / 展开等问题
-
----
+:::
 
 ## 🔄 升级建议
 

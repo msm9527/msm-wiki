@@ -354,6 +354,19 @@ export default {
       setupScrollReveal()
       setupScrollProgress()
       setupDocEyebrow()
+      setupReleasePage()
+    }
+
+    // 版本页需要一套更紧凑的发布概览 / 历史版本样式；用路由类限定作用域，
+    // 避免影响普通教程里的 details、提示块和标题。
+    function setupReleasePage() {
+      const path = window.location.pathname.replace(/\.html$/u, '')
+      const isReleasePage =
+        path === '/zh/guide/releases' || path === '/zh/guide/releases-beta'
+      document.documentElement.classList.toggle(
+        'msm-release-page',
+        isReleasePage
+      )
     }
 
     // 文档页在 h1 上方注入一条等宽小眉标，显示当前所属的侧栏分组

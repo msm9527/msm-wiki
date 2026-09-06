@@ -3,22 +3,26 @@ const fs = require('fs');
 const SECTION_DEFS = [
   {
     key: 'added',
-    title: '### ✨ 新增（Added）',
+    title: '✨ 新增（Added）',
+    blockType: 'tip',
     patterns: [/^#{2,3}\s*✨\s*新增(?:（Added）)?\s*$/u],
   },
   {
     key: 'changed',
-    title: '### 🔧 变更（Changed）',
+    title: '🔧 变更（Changed）',
+    blockType: 'info',
     patterns: [/^#{2,3}\s*🔧\s*变更(?:（Changed）)?\s*$/u],
   },
   {
     key: 'fixed',
-    title: '### 🐛 修复（Fixed）',
+    title: '🐛 修复（Fixed）',
+    blockType: 'danger',
     patterns: [/^#{2,3}\s*🐛\s*修复(?:（Fixed）)?\s*$/u],
   },
   {
     key: 'deprecated',
-    title: '### ⚠️ 废弃（Deprecated）',
+    title: '⚠️ 废弃（Deprecated）',
+    blockType: 'warning',
     patterns: [
       /^#{2,3}\s*⚠️\s*废弃(?:（Deprecated）)?\s*$/u,
       /^#{2,3}\s*⚠️\s*备注(?:（Notes）)?\s*$/u,
@@ -26,7 +30,8 @@ const SECTION_DEFS = [
   },
   {
     key: 'notes',
-    title: '### 📝 备注（Notes）',
+    title: '📝 备注（Notes）',
+    blockType: 'info',
     patterns: [
       /^#{2,3}\s*📝\s*备注(?:（Notes）)?\s*$/u,
       /^#{2,3}\s*📝\s*备注\s*$/u,
@@ -35,8 +40,19 @@ const SECTION_DEFS = [
 ];
 
 function detectSection(line) {
+  const normalized = line.trim();
+  const directSection = SECTION_DEFS.find(({ patterns }) =>
+    patterns.some((pattern) => pattern.test(normalized)),
+  )?.key;
+  if (directSection) return directSection;
+
+  const customBlockTitle = normalized.match(
+    /^:::\s+(?:tip|info|warning|danger)\s+(.+)$/u,
+  )?.[1];
+  if (!customBlockTitle) return undefined;
+
   return SECTION_DEFS.find(({ patterns }) =>
-    patterns.some((pattern) => pattern.test(line.trim())),
+    patterns.some((pattern) => pattern.test(customBlockTitle.trim())),
   )?.key;
 }
 
@@ -51,9 +67,19 @@ function parseSummary(summary) {
     const line = rawLine.trim();
     if (!line || line === '---') continue;
 
+    if (line === ':::') {
+      activeKey = null;
+      continue;
+    }
+
     const sectionKey = detectSection(line);
     if (sectionKey) {
       activeKey = sectionKey;
+      continue;
+    }
+
+    if (/^:::\s+(?:details|tip|info|warning|danger)\b/u.test(line)) {
+      activeKey = null;
       continue;
     }
 
@@ -73,12 +99,13 @@ function parseSummary(summary) {
 
 function renderSummary(summary) {
   const sections = parseSummary(normalizePublicTerminology(summary));
-  const rendered = SECTION_DEFS.flatMap(({ key, title }) =>
-    sections[key].length > 0 ? [title, ...sections[key], ''] : [],
-  );
+  const rendered = SECTION_DEFS.flatMap(({ key, title, blockType }) => {
+    if (sections[key].length === 0) return [];
+    return [`::: ${blockType} ${title}`, ...sections[key], ':::', ''];
+  });
 
   if (rendered.length === 0) {
-    return ['### 📝 备注（Notes）', '- 暂无更新说明'].join('\n');
+    return ['::: info 📝 备注（Notes）', '- 暂无更新说明', ':::'].join('\n');
   }
 
   return rendered.join('\n').trim();
@@ -86,6 +113,15 @@ function renderSummary(summary) {
 
 function normalizePublicTerminology(value) {
   return String(value ?? '').replace(/\bmihomo\b/giu, 'Clash');
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/gu, '&amp;')
+    .replace(/</gu, '&lt;')
+    .replace(/>/gu, '&gt;')
+    .replace(/"/gu, '&quot;')
+    .replace(/'/gu, '&#39;');
 }
 
 function trimVersion(version, channel) {
@@ -97,12 +133,20 @@ function formatHistoryDate(dateLine) {
 }
 
 function extractLatestSection(section, channel) {
-  const versionMatch = section.match(/>\s*当前(?:稳定|Beta)版本：`([^`]+)`/u);
-  const dateMatch = section.match(/>\s*发布时间：([^\n]+)/u);
-  const releaseMatch = section.match(/>\s*-\s*发布页：<([^>]+)>/u);
-  const summaryMatch = section.match(
-    />\s*-\s*下载方式：[^\n]+\n([\s\S]*?)\n::: details/u,
-  );
+  const versionMatch =
+    section.match(/>\s*当前\s*(?:稳定|Beta)\s*版本：`([^`]+)`/u) ??
+    section.match(/data-version="([^"]+)"/u);
+  const dateMatch =
+    section.match(/>\s*发布时间：([^\n]+)/u) ??
+    section.match(/data-release-date="([^"]+)"/u);
+  const releaseMatch =
+    section.match(/>\s*-\s*发布页：<([^>]+)>/u) ??
+    section.match(/data-release-url="([^"]+)"/u);
+  const summaryMatch =
+    section.match(/\n### 📋 本次更新\n\n([\s\S]*?)\n::: details/u) ??
+    section.match(
+      />\s*-\s*下载方式：[^\n]+\n([\s\S]*?)\n::: details/u,
+    );
 
   return {
     version: versionMatch?.[1] ?? '',
@@ -114,18 +158,39 @@ function extractLatestSection(section, channel) {
 }
 
 function buildLatestBlock(options) {
-  const versionLabel =
-    options.channel === 'beta'
-      ? `当前 Beta 版本：\`${options.version}\``
-      : `当前稳定版本：\`v${options.baseVersion}\``;
-
   const summary = renderSummary(options.aiSummary);
+  const releaseUrl =
+    `https://github.com/msm9527/msm-wiki/releases/tag/${options.version}`;
+  const installUrl =
+    options.channel === 'beta'
+      ? '/zh/guide/releases-beta.html#一键安装'
+      : '/zh/guide/install-linux.html';
+  const displayVersion =
+    options.channel === 'beta'
+      ? options.version
+      : `v${options.baseVersion}`;
 
   return [
-    `> ${versionLabel}  `,
-    `> 发布时间：${options.commitDate}  `,
-    `> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/${options.version}>  `,
-    `> - 下载方式：${options.releaseDownloadNote}`,
+    `<div class="msm-release-hero msm-release-hero--${escapeHtml(options.channel)}" data-version="${escapeHtml(options.version)}" data-release-date="${escapeHtml(options.commitDate)}" data-release-url="${escapeHtml(releaseUrl)}">`,
+    '  <div class="msm-release-hero-copy">',
+    `    <span class="msm-release-kicker">MSM / ${escapeHtml(options.channelName)}</span>`,
+    `    <h3 class="msm-release-version"><span>${escapeHtml(options.channelName)}</span> <code>${escapeHtml(displayVersion)}</code></h3>`,
+    `    <p class="msm-release-lede">${escapeHtml(options.releaseDownloadNote)}</p>`,
+    '  </div>',
+    '  <div class="msm-release-actions">',
+    `    <a class="msm-release-action msm-release-action--primary" href="${escapeHtml(releaseUrl)}" target="_blank" rel="noreferrer">查看 Release <span aria-hidden="true">↗</span></a>`,
+    `    <a class="msm-release-action" href="${escapeHtml(installUrl)}">安装指南 <span aria-hidden="true">→</span></a>`,
+    '  </div>',
+    '</div>',
+    '<div class="msm-release-metrics" aria-label="发布概览">',
+    `  <div class="msm-release-metric"><span>版本</span><strong>${escapeHtml(displayVersion)}</strong></div>`,
+    `  <div class="msm-release-metric"><span>发布时间</span><strong>${escapeHtml(options.commitDate)}</strong></div>`,
+    `  <div class="msm-release-metric"><span>源提交</span><a href="https://github.com/msm9527/msm/commit/${escapeHtml(options.commitShaFull)}" target="_blank" rel="noreferrer"><code>${escapeHtml(options.commitSha)}</code></a></div>`,
+    `  <div class="msm-release-metric"><span>发布类型</span><strong>${escapeHtml(options.channelName)}</strong></div>`,
+    '</div>',
+    `<p class="msm-release-download-note"><span>下载说明</span>${escapeHtml(options.releaseDownloadNote)}</p>`,
+    '',
+    '### 📋 本次更新',
     '',
     summary,
     '',
@@ -146,8 +211,8 @@ function renderHistoryGroup(title, items) {
   return [title, ...items].join('\n');
 }
 
-function buildHistoryEntry(section, channel) {
-  const current = extractLatestSection(section, channel);
+function buildHistoryEntry(section, options) {
+  const current = extractLatestSection(section, options.channel);
   if (!current.version || !current.date || !current.releaseUrl) {
     return '';
   }
@@ -155,15 +220,12 @@ function buildHistoryEntry(section, channel) {
   const sections = parseSummary(current.summary);
   const addedChanged = [...sections.added, ...sections.changed];
   const notes = [...sections.deprecated, ...sections.notes];
-  const badge =
-    channel === 'beta'
-      ? '<Badge type="tip" text="Beta 版" />'
-      : '<Badge type="info" text="稳定版" />';
+  const historyLabel = `${current.normalizedVersion || current.version} · ${formatHistoryDate(current.date)} · ${options.channelName}`;
 
   const blocks = [
-    `### ${current.version}（${formatHistoryDate(current.date)}） ${badge}`,
+    `::: details ${historyLabel}`,
     '',
-    `- 发布页：<${current.releaseUrl}>`,
+    `<div class="msm-release-history-link"><a href="${escapeHtml(current.releaseUrl)}" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>`,
   ];
 
   const grouped = [
@@ -176,7 +238,7 @@ function buildHistoryEntry(section, channel) {
     blocks.push('', grouped.join('\n\n'));
   }
 
-  blocks.push('', '---');
+  blocks.push('', ':::');
   return blocks.join('\n');
 }
 
@@ -186,7 +248,7 @@ function findNextH2(content, startIndex) {
 }
 
 function splitHistoryBody(historyBody) {
-  const firstEntryIndex = historyBody.indexOf('\n### ');
+  const firstEntryIndex = historyBody.search(/\n(?:### |::: details )/u);
   if (firstEntryIndex === -1) {
     return {
       intro: historyBody.trim(),
@@ -218,9 +280,7 @@ function updateReleasePage(options) {
   const currentMeta = extractLatestSection(currentLatest, options.channel);
   const sameVersion =
     currentMeta.normalizedVersion === trimVersion(options.version, options.channel);
-  const historyEntry = sameVersion
-    ? ''
-    : buildHistoryEntry(currentLatest, options.channel);
+  const historyEntry = sameVersion ? '' : buildHistoryEntry(currentLatest, options);
   const historyTitle = historyEntry.split('\n', 1)[0];
   const historyParts = [intro];
 
