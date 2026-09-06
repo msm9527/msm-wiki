@@ -441,46 +441,79 @@
 /* ==================== 版本发布页 ==================== */
 
 /*
- * 发布页是产品的版本入口：先给出可执行的版本概览，再展示分类更新，
- * 历史版本默认折叠，避免长日志把真正重要的下载和升级入口淹没。
+ * 仅作用于发布中心：通道 → 版本 → 亮点 → 分类正文 → 历史。
+ * 表面与文字消费 VitePress 变量，语义色沿用支持暗色的主题令牌。
+ * 发布页响应式规则集中在本节，避免与通用正文断点相互覆盖。
  */
+.msm-release-page .vp-doc .msm-release-channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--msm-space-1);
+  width: fit-content;
+  max-width: 100%;
+  margin: var(--msm-space-6) 0;
+  padding: var(--msm-space-1);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: var(--msm-radius-card);
+  background: var(--vp-c-bg-soft);
+}
+
+.msm-release-page .vp-doc .msm-release-channels a {
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: var(--msm-space-2);
+  min-height: 44px;
+  padding: var(--msm-space-2) var(--msm-space-5);
+  border: 1px solid transparent;
+  border-radius: var(--msm-radius-lg);
+  color: var(--vp-c-text-2);
+  font-size: var(--msm-text-sm);
+  text-align: center;
+  text-decoration: none;
+  transition: color var(--msm-fast), background-color var(--msm-fast), border-color var(--msm-fast);
+}
+
+.msm-release-page .vp-doc .msm-release-channels a:hover {
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+}
+
+.msm-release-page .vp-doc .msm-release-channels a[aria-current='page'] {
+  border-color: var(--msm-brand-line);
+  background: var(--vp-c-bg);
+  color: var(--vp-c-brand-1);
+  font-weight: var(--msm-weight-semibold);
+  box-shadow: var(--msm-shadow-1);
+}
+
 .msm-release-page .vp-doc .msm-release-hero {
+  --msm-release-channel: var(--vp-c-brand-1);
+  --msm-release-channel-soft: var(--msm-brand-soft);
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: var(--msm-space-8);
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--msm-space-6);
   margin: var(--msm-space-6) 0 var(--msm-space-4);
   padding: var(--msm-space-8);
-  overflow: hidden;
-  border: 1px solid var(--msm-line-strong);
+  border: 1px solid var(--vp-c-divider);
+  border-top: 3px solid var(--msm-release-channel);
   border-radius: var(--msm-radius-plate);
   background:
-    radial-gradient(circle at 92% 15%, var(--msm-glow-accent), transparent 32%),
-    linear-gradient(135deg, var(--msm-brand-soft), var(--msm-bg-soft) 68%, var(--msm-accent-soft));
+    radial-gradient(ellipse at top right, var(--msm-release-channel-soft), transparent 70%),
+    var(--vp-c-bg);
   box-shadow: var(--msm-shadow-2);
 }
 
 .msm-release-page .vp-doc .msm-release-hero--beta {
-  border-color: var(--msm-accent-line);
-}
-
-.msm-release-page .vp-doc .msm-release-hero::after {
-  position: absolute;
-  right: -28px;
-  bottom: -52px;
-  width: 180px;
-  height: 180px;
-  border: 1px solid var(--msm-brand-line);
-  border-radius: 50%;
-  content: '';
-  pointer-events: none;
+  --msm-release-channel: var(--msm-accent-ink);
+  --msm-release-channel-soft: var(--msm-accent-soft);
 }
 
 .msm-release-page .vp-doc .msm-release-hero-copy,
 .msm-release-page .vp-doc .msm-release-actions {
-  position: relative;
-  z-index: 1;
+  min-width: 0;
 }
 
 .msm-release-page .vp-doc .msm-release-kicker {
@@ -491,15 +524,18 @@
   font-weight: var(--msm-weight-medium);
   letter-spacing: var(--msm-tracking-label);
   text-transform: uppercase;
-  color: var(--msm-brand);
+  color: var(--msm-release-channel);
 }
 
 .msm-release-page .vp-doc .msm-release-version {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: clamp(var(--msm-text-2xl), 4vw, var(--msm-text-4xl));
+  color: var(--vp-c-text-1);
+  font-size: clamp(var(--msm-text-3xl), 4vw, var(--msm-text-5xl));
+  letter-spacing: -0.04em;
   line-height: var(--msm-leading-tight);
+  overflow-wrap: anywhere;
 }
 
 .msm-release-page .vp-doc .msm-release-version::before {
@@ -513,23 +549,38 @@
   font-size: var(--msm-text-md);
   font-weight: var(--msm-weight-medium);
   letter-spacing: normal;
-  color: var(--msm-ink-3);
+  color: var(--vp-c-text-2);
 }
 
 .msm-release-page .vp-doc .msm-release-version code {
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--msm-ink-1);
+  color: inherit;
   font-family: var(--msm-font-mono);
   font-size: inherit;
   font-weight: var(--msm-weight-bold);
+  letter-spacing: inherit;
 }
 
 .msm-release-page .vp-doc .msm-release-lede {
-  max-width: 48rem;
-  margin: var(--msm-space-4) 0 0;
-  color: var(--msm-ink-2);
+  max-width: 52ch;
+  margin: var(--msm-space-5) 0 0;
+  color: var(--vp-c-text-2);
+  font-size: var(--msm-text-md);
+  line-height: var(--msm-leading-relaxed);
+  overflow-wrap: anywhere;
+}
+
+.msm-release-page .vp-doc .msm-release-lede strong,
+.msm-release-page .vp-doc .msm-release-highlight strong {
+  color: var(--vp-c-text-1);
+  font-weight: var(--msm-weight-semibold);
+}
+
+.msm-release-page .vp-doc :is(.msm-release-lede, .msm-release-highlight p, .msm-release-section :not(pre)) > code {
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .msm-release-page .vp-doc .msm-release-lede-label {
@@ -540,60 +591,64 @@
   font-weight: var(--msm-weight-semibold);
   letter-spacing: var(--msm-tracking-label);
   text-transform: uppercase;
-  color: var(--msm-accent-ink);
+  color: var(--msm-release-channel);
 }
 
 .msm-release-page .vp-doc .msm-release-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--msm-space-2);
-  justify-content: flex-end;
+  gap: var(--msm-space-3);
+  justify-content: flex-start;
 }
 
 .msm-release-page .vp-doc .msm-release-action {
   display: inline-flex;
   align-items: center;
   gap: var(--msm-space-2);
-  min-height: 40px;
-  padding: 0 var(--msm-space-4);
-  border: 1px solid var(--msm-line-strong);
-  border-radius: var(--msm-radius-sm);
-  background: var(--msm-bg);
-  color: var(--msm-ink-1);
+  justify-content: center;
+  min-height: 44px;
+  max-width: 100%;
+  padding: var(--msm-space-2) var(--msm-space-5);
+  border: 1px solid var(--vp-c-border);
+  border-radius: var(--msm-radius-lg);
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
   font-size: var(--msm-text-sm);
   font-weight: var(--msm-weight-semibold);
+  line-height: var(--msm-leading-snug);
+  text-align: center;
   text-decoration: none;
-  transition: transform var(--msm-fast), border-color var(--msm-fast), background var(--msm-fast);
+  overflow-wrap: anywhere;
+  transition: border-color var(--msm-fast), background-color var(--msm-fast), color var(--msm-fast);
 }
 
 .msm-release-page .vp-doc .msm-release-action:hover {
-  border-color: var(--msm-brand);
-  background: var(--msm-brand-soft);
-  color: var(--msm-brand-deep);
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
   text-decoration: none;
-  transform: translateY(-1px);
 }
 
 .msm-release-page .vp-doc .msm-release-action--primary {
-  border-color: var(--msm-brand);
-  background: var(--msm-gradient-brand);
-  color: #fff;
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-1);
+  /* 品牌色暗色模式为浅蓝，文字随页面底色切换，保证按钮对比度。 */
+  color: var(--vp-c-bg);
 }
 
 .msm-release-page .vp-doc .msm-release-action--primary:hover {
-  border-color: var(--msm-brand-deep);
-  background: var(--msm-brand-deep);
-  color: #fff;
+  border-color: var(--vp-c-brand-2);
+  background: var(--vp-c-brand-2);
+  color: var(--vp-c-bg);
 }
 
 .msm-release-page .vp-doc .msm-release-metrics {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 0 0 var(--msm-space-4);
-  border: 1px solid var(--msm-line);
-  border-radius: var(--msm-radius-md);
-  background: var(--msm-bg);
-  box-shadow: var(--msm-shadow-1);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: var(--msm-radius-card);
+  background: var(--vp-c-bg);
 }
 
 .msm-release-page .vp-doc .msm-release-metric {
@@ -601,34 +656,38 @@
   min-width: 0;
   flex-direction: column;
   gap: var(--msm-space-2);
-  padding: var(--msm-space-4) var(--msm-space-5);
+  padding: var(--msm-space-4);
 }
 
 .msm-release-page .vp-doc .msm-release-metric + .msm-release-metric {
-  border-left: 1px solid var(--msm-line);
+  border-left: 1px solid var(--vp-c-divider);
 }
 
 .msm-release-page .vp-doc .msm-release-metric span,
 .msm-release-page .vp-doc .msm-release-download-note span {
-  color: var(--msm-ink-3);
+  color: var(--vp-c-text-2);
   font-size: var(--msm-text-xs);
 }
 
 .msm-release-page .vp-doc .msm-release-metric strong,
-.msm-release-page .vp-doc .msm-release-metric a {
-  overflow: hidden;
-  color: var(--msm-ink-1);
+.msm-release-page .vp-doc .msm-release-metric a,
+.msm-release-page .vp-doc .msm-release-metric time {
+  color: var(--vp-c-text-1);
   font-size: var(--msm-text-sm);
   font-weight: var(--msm-weight-semibold);
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  line-height: var(--msm-leading-normal);
+  /* 日期与长版本号必须完整可读，不以省略号隐藏。 */
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .msm-release-page .vp-doc .msm-release-metric code {
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--msm-brand);
+  color: var(--vp-c-brand-1);
+  overflow-wrap: anywhere;
 }
 
 .msm-release-page .vp-doc .msm-release-download-note {
@@ -637,53 +696,238 @@
   gap: var(--msm-space-2) var(--msm-space-4);
   align-items: baseline;
   margin: var(--msm-space-4) 0 var(--msm-space-8);
-  padding: var(--msm-space-3) var(--msm-space-4);
-  border-left: 2px solid var(--msm-accent);
-  background: var(--msm-accent-soft);
-  color: var(--msm-ink-2);
+  padding: 0 var(--msm-space-1);
+  color: var(--vp-c-text-2);
   font-size: var(--msm-text-sm);
+  overflow-wrap: anywhere;
 }
 
 .msm-release-page .vp-doc .msm-release-download-note span {
   font-family: var(--msm-font-mono);
   font-weight: var(--msm-weight-medium);
-  color: var(--msm-accent-ink);
+  color: var(--vp-c-text-1);
 }
 
-.msm-release-page .vp-doc .msm-release-download-note + h3 {
-  margin-top: var(--msm-space-8);
+.msm-release-page .vp-doc .msm-release-summary-heading {
+  margin: var(--msm-space-10) 0 var(--msm-space-5);
 }
 
-.msm-release-page .vp-doc .msm-release-hero ~ h3 {
-  padding-top: var(--msm-space-3);
+.msm-release-page .vp-doc .msm-release-summary-heading h3 {
+  margin: 0;
+  color: var(--vp-c-text-1);
+  font-size: var(--msm-text-xl);
+  letter-spacing: -0.02em;
 }
 
-.msm-release-page .vp-doc .custom-block:not(.details) {
-  border-radius: var(--msm-radius-md);
-  box-shadow: var(--msm-shadow-1);
+.msm-release-page .vp-doc .msm-release-summary-heading p {
+  margin: var(--msm-space-2) 0 0;
+  color: var(--vp-c-text-2);
+  font-size: var(--msm-text-sm);
+}
+
+.msm-release-page .vp-doc .msm-release-highlights {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--msm-space-4);
+  margin: var(--msm-space-5) 0 var(--msm-space-8);
+}
+
+.msm-release-page .vp-doc .msm-release-highlight {
+  min-width: 0;
+  padding: var(--msm-space-5);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: var(--msm-radius-card);
+  background: linear-gradient(145deg, var(--vp-c-brand-soft), transparent 65%), var(--vp-c-bg);
+}
+
+/* 单数亮点的末张占满末行；手机单列时仍只占一列。 */
+.msm-release-page .vp-doc .msm-release-highlight:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.msm-release-page .vp-doc .msm-release-highlight-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--msm-space-8);
+  min-height: var(--msm-space-8);
+  margin-bottom: var(--msm-space-3);
+  padding: var(--msm-space-1) var(--msm-space-2);
+  border: 1px solid var(--msm-brand-line);
+  border-radius: var(--msm-radius-sm);
+  color: var(--vp-c-brand-1);
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-xs);
+  font-weight: var(--msm-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.msm-release-page .vp-doc .msm-release-highlight p {
+  margin: 0;
+  color: var(--vp-c-text-2);
+  font-size: var(--msm-text-sm);
+  line-height: var(--msm-leading-relaxed);
+  overflow-wrap: anywhere;
+}
+
+.msm-release-page .vp-doc .msm-release-highlight p + p {
+  margin-top: var(--msm-space-2);
+}
+
+.msm-release-page .vp-doc .msm-release-highlight p > strong:first-child {
+  display: block;
+  margin-bottom: var(--msm-space-2);
+  font-size: var(--msm-text-md);
+  line-height: var(--msm-leading-snug);
+}
+
+.msm-release-page .vp-doc .msm-release-summary-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--msm-space-2);
+  margin: var(--msm-space-6) 0;
+  padding: var(--msm-space-4) 0;
+  border-top: 1px solid var(--vp-c-divider);
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.msm-release-page .vp-doc .msm-release-summary-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--msm-space-2);
+  min-height: 40px;
+  max-width: 100%;
+  padding: var(--msm-space-2) var(--msm-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--msm-radius-sm);
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-2);
+  font-size: var(--msm-text-xs);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: color var(--msm-fast), background-color var(--msm-fast), border-color var(--msm-fast);
+}
+
+.msm-release-page .vp-doc .msm-release-summary-nav a:hover {
+  border-color: var(--msm-brand-line);
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+.msm-release-page .vp-doc .msm-release-section {
+  --msm-release-section-color: var(--vp-c-brand-1);
+  margin: var(--msm-space-6) 0;
+  padding: var(--msm-space-5) var(--msm-space-6);
+  border: 1px solid var(--vp-c-divider);
+  border-left: 3px solid var(--msm-release-section-color);
+  border-radius: var(--msm-radius-lg);
+  background: var(--vp-c-bg);
+  scroll-margin-top: calc(var(--msm-navbar-height) + var(--msm-space-5));
+  overflow-wrap: anywhere;
+}
+
+.msm-release-page .vp-doc .msm-release-section--major,
+.msm-release-page .vp-doc .msm-release-section--added,
+.msm-release-page .vp-doc .msm-release-section--performance {
+  --msm-release-section-color: var(--msm-success);
+}
+
+.msm-release-page .vp-doc .msm-release-section--changed,
+.msm-release-page .vp-doc .msm-release-section--security {
+  --msm-release-section-color: var(--msm-info);
+}
+
+.msm-release-page .vp-doc .msm-release-section--fixed {
+  --msm-release-section-color: var(--msm-danger);
+}
+
+.msm-release-page .vp-doc .msm-release-section--deprecated {
+  --msm-release-section-color: var(--msm-warning);
+}
+
+.msm-release-page .vp-doc .msm-release-section--notes {
+  --msm-release-section-color: var(--vp-c-text-3);
+}
+
+.msm-release-page .vp-doc .msm-release-section > h3 {
+  margin: 0 0 var(--msm-space-4);
+  color: var(--vp-c-text-1);
+  font-size: var(--msm-text-lg);
+}
+
+.msm-release-page .vp-doc .msm-release-section > ul {
+  margin: 0;
+}
+
+.msm-release-page .vp-doc .msm-release-section li {
+  margin: var(--msm-space-3) 0;
+  padding-left: var(--msm-space-5);
+  color: var(--vp-c-text-2);
+}
+
+.msm-release-page .vp-doc .msm-release-section ul > li::before {
+  left: 0;
+  border-radius: 50%;
+  background: var(--msm-release-section-color);
+}
+
+.msm-release-page .vp-doc .msm-release-section > ul > li:first-child {
+  margin-top: 0;
+}
+
+.msm-release-page .vp-doc .msm-release-section > :last-child,
+.msm-release-page .vp-doc .msm-release-section > ul > li:last-child {
+  margin-bottom: 0;
 }
 
 .msm-release-page .vp-doc .custom-block.details {
-  margin: var(--msm-space-5) 0;
+  margin: var(--msm-space-3) 0;
   padding: 0;
-  overflow: hidden;
-  border: 1px solid var(--msm-line);
-  border-left: 3px solid var(--msm-brand);
-  border-radius: var(--msm-radius-md);
-  background: var(--msm-bg);
-  box-shadow: var(--msm-shadow-1);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: var(--msm-radius-lg);
+  background: var(--vp-c-bg);
+  overflow-wrap: anywhere;
 }
 
 .msm-release-page .vp-doc .custom-block.details summary {
+  min-height: 52px;
+  margin: 0;
   padding: var(--msm-space-4) var(--msm-space-5);
-  background: var(--msm-bg-soft);
+  border-radius: inherit;
+  background: transparent;
+  color: var(--vp-c-text-1);
   font-family: var(--msm-font-sans);
-  font-size: var(--msm-text-md);
+  font-size: var(--msm-text-sm);
+  line-height: var(--msm-leading-normal);
+  transition: background-color var(--msm-fast), color var(--msm-fast);
+}
+
+.msm-release-page .vp-doc .custom-block.details summary::marker {
+  color: var(--vp-c-text-3);
+}
+
+.msm-release-page .vp-doc .custom-block.details summary:hover {
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-brand-1);
+}
+
+.msm-release-page .vp-doc .custom-block.details[open] > summary {
+  margin-bottom: var(--msm-space-5);
+  border-bottom: 1px solid var(--vp-c-divider);
+  border-radius: var(--msm-radius-lg) var(--msm-radius-lg) 0 0;
+  background: var(--vp-c-bg-soft);
 }
 
 .msm-release-page .vp-doc .custom-block.details > :not(summary) {
   margin-right: var(--msm-space-5);
   margin-left: var(--msm-space-5);
+}
+
+.msm-release-page .vp-doc .custom-block.details > :last-child:not(summary) {
+  margin-bottom: var(--msm-space-5);
 }
 
 .msm-release-page .vp-doc .msm-release-history-link {
@@ -692,7 +936,89 @@
 }
 
 .msm-release-page .vp-doc .msm-release-history-link a {
+  display: inline-block;
+  padding: var(--msm-space-1) 0;
   font-weight: var(--msm-weight-semibold);
+}
+
+.msm-release-page .vp-doc :is(a, summary, button):focus-visible {
+  outline: 3px solid var(--vp-c-brand-1);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .msm-release-page .vp-doc .msm-release-channels {
+    width: 100%;
+  }
+
+  .msm-release-page .vp-doc .msm-release-channels a {
+    padding-right: var(--msm-space-3);
+    padding-left: var(--msm-space-3);
+  }
+
+  .msm-release-page .vp-doc .msm-release-hero {
+    padding: var(--msm-space-5);
+    border-radius: var(--msm-radius-card);
+  }
+
+  .msm-release-page .vp-doc .msm-release-version {
+    font-size: clamp(var(--msm-text-2xl), 7vw, var(--msm-text-4xl));
+  }
+
+  .msm-release-page .vp-doc .msm-release-lede {
+    font-size: var(--msm-text-base);
+  }
+
+  .msm-release-page .vp-doc .msm-release-action {
+    flex: 1 1 10rem;
+  }
+
+  .msm-release-page .vp-doc .msm-release-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .msm-release-page .vp-doc .msm-release-metric:nth-child(3) {
+    border-left: 0;
+  }
+
+  .msm-release-page .vp-doc .msm-release-metric:nth-child(n + 3) {
+    border-top: 1px solid var(--vp-c-divider);
+  }
+
+  .msm-release-page .vp-doc .msm-release-highlights {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--msm-space-3);
+  }
+
+  .msm-release-page .vp-doc .msm-release-summary-heading {
+    margin-top: var(--msm-space-8);
+  }
+
+  .msm-release-page .vp-doc .msm-release-summary-heading h3 {
+    font-size: var(--msm-text-lg);
+  }
+
+  .msm-release-page .vp-doc .msm-release-summary-nav a {
+    min-height: 44px;
+  }
+
+  .msm-release-page .vp-doc .msm-release-section {
+    padding: var(--msm-space-4);
+  }
+
+  .msm-release-page .vp-doc .msm-release-section > h3 {
+    font-size: var(--msm-text-md);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .msm-release-page .vp-doc *,
+  .msm-release-page .vp-doc *::before,
+  .msm-release-page .vp-doc *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ==================== 响应式 ==================== */
@@ -733,42 +1059,5 @@
 
   .vp-doc .custom-block {
     padding: var(--msm-space-3) var(--msm-space-4);
-  }
-
-  .msm-release-page .vp-doc .msm-release-hero {
-    grid-template-columns: 1fr;
-    gap: var(--msm-space-6);
-    padding: var(--msm-space-5);
-  }
-
-  .msm-release-page .vp-doc .msm-release-actions {
-    justify-content: flex-start;
-  }
-
-  .msm-release-page .vp-doc .msm-release-action {
-    flex: 1 1 10rem;
-    justify-content: center;
-  }
-
-  .msm-release-page .vp-doc .msm-release-metrics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .msm-release-page .vp-doc .msm-release-metric:nth-child(3) {
-    border-left: 0;
-    border-top: 1px solid var(--msm-line);
-  }
-
-  .msm-release-page .vp-doc .msm-release-metric:nth-child(4) {
-    border-top: 1px solid var(--msm-line);
-  }
-
-  .msm-release-page .vp-doc .msm-release-download-note {
-    display: block;
-  }
-
-  .msm-release-page .vp-doc .msm-release-download-note span {
-    display: block;
-    margin-bottom: var(--msm-space-1);
   }
 }

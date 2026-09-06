@@ -1,0 +1,100 @@
+name: 发布日志预览（不构建、不发布）
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: 'MSM 分支、tag 或完整 SHA（可固定到已发布版本）'
+        required: true
+        default: dev
+        type: string
+      previous_commit:
+        description: '上一版本完整 40 位源提交 SHA；留空汇总最近提交'
+        required: false
+        default: ''
+        type: string
+      channel:
+        description: '发布通道（只影响预览标识，不发布）'
+        required: true
+        default: beta
+        type: choice
+        options:
+          - beta
+          - stable
+
+permissions:
+  contents: read
+
+env:
+  GIT_TERMINAL_PROMPT: '0'
+
+jobs:
+  preview:
+    name: 生成公开发布日志预览
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Wiki 发布脚本
+        uses: actions/checkout@v4
+        with:
+          path: msm-wiki
+          persist-credentials: false
+
+      - name: 严格校验预览输入
+        id: inputs
+        uses: actions/github-script@v7
+        env:
+          SOURCE_REF: ${{ inputs.source_ref }}
+          PREVIOUS_COMMIT: ${{ inputs.previous_commit }}
+          RELEASE_CHANNEL: ${{ inputs.channel }}
+        with:
+          script: |
+            const { validateReleaseSummaryInputs } = require('./msm-wiki/scripts/generate-release-summary.cjs');
+            const input = validateReleaseSummaryInputs({
+              sourceRef: process.env.SOURCE_REF,
+              previousCommit: process.env.PREVIOUS_COMMIT,
+              channel: process.env.RELEASE_CHANNEL,
+            });
+            core.setOutput('source_ref', input.sourceRef);
+            core.setOutput('previous_commit', input.previousCommit);
+            core.setOutput('channel', input.channel);
+
+      - name: Checkout 指定 MSM 源提交
+        uses: actions/checkout@v4
+        with:
+          repository: msm9527/msm
+          ref: ${{ steps.inputs.outputs.source_ref }}
+          token: ${{ secrets.MSM_REPO_TOKEN }}
+          path: msm-source
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: 生成发布日志预览
+        id: summary
+        uses: actions/github-script@v7
+        env:
+          MODELSCOPE_API_KEY: ${{ secrets.MODELSCOPE_API_KEY }}
+          MODELSCOPE_MODELS: ${{ vars.MODELSCOPE_MODELS || '' }}
+          RELEASE_CURRENT_REF: HEAD
+          RELEASE_PREVIOUS_COMMIT: ${{ steps.inputs.outputs.previous_commit }}
+          RELEASE_CHANNEL: ${{ steps.inputs.outputs.channel }}
+          RELEASE_REQUIRE_EXACT_RANGE: 'true'
+        with:
+          script: |
+            const path = require('node:path');
+            const { generateReleaseSummary } = require('./msm-wiki/scripts/generate-release-summary.cjs');
+            await generateReleaseSummary({
+              core,
+              cwd: path.resolve('msm-source'),
+              artifactDirectory: path.resolve('release-summary-preview'),
+            });
+
+      - name: 上传公开摘要与非敏感计数
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-summary-preview-${{ steps.inputs.outputs.channel }}
+          path: |
+            release-summary-preview/summary.md
+            release-summary-preview/metadata.json
+          if-no-files-found: error
+          retention-days: 7

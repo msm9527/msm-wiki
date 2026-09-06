@@ -1,104 +1,101 @@
-# 📦 版本发布
-
-用于查看 MSM 各版本的更新内容和升级建议。
-
-开发分支（`dev`）的每日构建请查看：[Beta 版发布](/zh/guide/releases-beta)。
-
 ---
+pageClass: msm-release-page
+description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记录。
+---
+
+# 📦 版本更新
+
+每个版本，都有值得了解的新变化。查看亮点、完整更新与升级提醒。
+
+<nav class="msm-release-channels" aria-label="发布通道">
+  <a href="/zh/guide/releases.html" aria-current="page">🚀 稳定版 <span>日常使用</span></a>
+  <a href="/zh/guide/releases-beta.html">🧪 Beta 版 <span>抢先体验</span></a>
+</nav>
 
 ## 🚀 最新稳定版本
 
 <div class="msm-release-hero msm-release-hero--stable" data-version="1.2.6" data-release-date="2026-07-27 16:07:30 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/1.2.6">
   <div class="msm-release-hero-copy">
-    <span class="msm-release-kicker">MSM / 稳定版</span>
+    <span class="msm-release-kicker">MSM / 稳定版 · RELEASE NOTES</span>
     <h3 class="msm-release-version"><span>稳定版</span> <code>v1.2.6</code></h3>
-    <p class="msm-release-lede"><span class="msm-release-lede-label">本次亮点</span>勋章展示升级为 3D 体验，连接页改用 WebSocket，代理与规则管理支持更高效的编辑流程</p>
+    <p class="msm-release-lede"><span class="msm-release-lede-label">本次亮点</span><strong>修复网络规则刷新时的崩溃：</strong>更新 nftables 依赖，修复高文件描述符场景下的越界问题，增强网络规则维护的稳定性。</p>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/1.2.6" target="_blank" rel="noreferrer">查看 Release <span aria-hidden="true">↗</span></a>
-    <a class="msm-release-action" href="/zh/guide/install-linux.html">安装指南 <span aria-hidden="true">→</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/1.2.6" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action" href="/zh/guide/install.html">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>版本</span><strong>v1.2.6</strong></div>
-  <div class="msm-release-metric"><span>发布时间</span><strong>2026-07-27 16:07:30 CST</strong></div>
+  <div class="msm-release-metric"><span>实质更新</span><strong>4 项</strong></div>
+  <div class="msm-release-metric"><span>重点速览</span><strong>3 个亮点</strong></div>
+  <div class="msm-release-metric"><span>源码提交时间</span><strong>2026-07-27 16:07:30 CST</strong></div>
   <div class="msm-release-metric"><span>源提交</span><a href="https://github.com/msm9527/msm/commit/dd17a5502c662932df341cfbd58271d38bab77bf" target="_blank" rel="noreferrer"><code>dd17a55</code></a></div>
-  <div class="msm-release-metric"><span>发布类型</span><strong>稳定版</strong></div>
 </div>
 <p class="msm-release-download-note"><span>下载说明</span>同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单</p>
 
-### 📋 本次更新
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKuS/ruWkjee9kee7nOinhOWImeWIt+aWsOaXtueahOW0qea6gyoq77ya5pu05pawIG5mdGFibGVzIOS+nei1lu+8jOS/ruWkjemrmOaWh+S7tuaPj+i/sOespuWcuuaZr+S4i+eahOi2iueVjOmXrumimO+8jOWinuW8uue9kee7nOinhOWImee7tOaKpOeahOeos+WumuaAp+OAgiIsIi0gKirmm7TmlrDmo4Dmn6XlpLHotKXlkI7mnInoioLlpY/lnLDph43or5UqKu+8muaMiee7hOS7tueLrOeri+mAgOmBv++8jOmBv+WFjee9kee7nOW8guW4uOaXtuavj+WIhumSn+mHjeWkjeivt+axgu+8m+aIkOWKn+WQjuaBouWkjeato+W4uOajgOafpeiKguWlj+OAgiIsIi0gKirml6Xlv5fmm7TlronpnZnvvIzlhbPplK7kv6Hmga/ku43kv53nlZkqKu+8mkNsYXNoIOmihOacn+i/kOihjOaAgemUmeivr+S4jeWGjemZhOW4pumHjeWkjeWghuagiO+8jOaEj+WklumUmeivr+S7jeS/neeVmeaOkumanOS/oeaBr+OAgiJdLCJtYWpvciI6W10sImFkZGVkIjpbXSwiY2hhbmdlZCI6W10sInBlcmZvcm1hbmNlIjpbIi0gKirnsr7nroDorr/pl67ml6Xlv5floIbmoIgqKu+8muiuv+mXruaXpeW/l+S/neeVmeivt+axguWPiumUmeivr+Wtl+aute+8jOenu+mZpOmHjeWkjeeahOS4remXtOS7tuiwg+eUqOagiO+8jOW5tuWkjeeUqOaXpeW/l+WunuS+i++8jOWHj+WwkeaXoOS/oeaBr+mHj+eahOi+k+WHuuOAgiJdLCJmaXhlZCI6WyItICoq5L+u5aSNIG5mdGFibGVzIOaWh+S7tuaPj+i/sOespui2iueVjOW0qea6gyoq77ya5Y2H57qn5L6d6LWW5Lul5L+u5aSN5paH5Lu25o+P6L+w56ym6L6+5YiwIGAxMDI0YCDmiJbmm7Tpq5jml7bvvIznvZHnu5zop4TliJnliLfmlrDot6/lvoTlj6/og73op6blj5HnmoTmlbDnu4TotornlYwgcGFuaWPjgIIiLCItICoq5L+u5aSN57uE5Lu25pu05paw5qOA5p+l55qE6YeN6K+V6aOO5pq0KirvvJrmo4Dmn6XlpLHotKXml7bljZXni6zorrDlvZXpgIDpgb/nirbmgIHvvIzpppbmrKHnrYnlvoUgMiDliIbpkp/vvIzlkI7nu63pgJDmrKHnv7vlgI3jgIHmnIDplb8gMSDlsI/ml7bvvJvlkITnu4Tku7bkupLkuI3lvbHlk43vvIzmiJDlip/lkI7muIXpm7bvvIzpgb/lhY3mjIHnu63lpLHotKXlkI7mr4/kuKrosIPluqblkajmnJ/pg73lj5Hotbfor7fmsYLjgIIiLCItICoqQ2xhc2gg6L+Q6KGM5oCB6ZSZ6K+v5YiG57qn6K6w5b2VKirvvJrmoLjlv4PmnKrlkK/liqjjgIHph43lkK/kuK3jgIHov57mjqXlpLHotKXjgIE0MDQg5oiW6LaF5pe2562J6aKE5pyf5oOF5Ya16YeH55SoIFdhcm4g5LiU5LiN6YeH6ZuG5aCG5qCI77yb5YW25LuW5oSP5aSW6ZSZ6K+v5LuN6YeH55SoIEVycm9yIOW5tuS/neeVmeWghuagiOOAgiJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItICoq5pys54mI6IGa54Sm56iz5a6a5oCn5LiO5pel5b+X5L2T6aqMKirvvJrku6XkuIrlhoXlrrnmjIkgYHYxLjIuNSDihpIgdjEuMi42YCDnmoTlrp7pmYXku6PnoIHlt67lvILmlbTnkIbjgILli4vnq6AgM0TjgIHov57mjqXpobUgV2ViU29ja2V044CB5Luj55CG5YaF6IGU57yW6L6R562J5bey5Zyo5q2k5YmN54mI5pys5Ye6546w77yM6K+35Zyo5LiL5pa55Y6G5Y+y6K6w5b2V5p+l55yL77yM5pyq6YeN5aSN5YiX5Li65pys54mI5paw5aKe44CCIl19fQ== -->
 
-::: warning ⭐ 本次亮点（Highlights）
-- 勋章展示升级为 3D 体验，新增画廊、导航栏和登录页展示
-- 连接页改用 WebSocket 实时流，状态与刷新更及时
-- 代理管理支持内联编辑订阅与节点，规则页支持批量导入和热重载
-- MosDNS 增加记忆池容量显示、清空操作和高级模式持久化
-- 配置写入、TUN 网络和外部重启后的托管服务自愈更可靠
-:::
+### 🎉 本次亮点 {#release-highlights}
 
-::: tip ✨ 新增（Added）
-- 勋章展示系统（3D、画廊、导航栏、登录页）
-- 连接页改用 WebSocket 实现实时流
-- 代理管理支持内联编辑订阅与节点
-- 规则页支持批量导入、热重载与联动
-- 确认/选择弹窗使用 Portal 解决遮挡
-- MosDNS 增加记忆池容量显示与清空
-- MosDNS 高级模式状态持久化
-- Clash 编辑对话框防意外关闭
-:::
+<div class="msm-release-highlights">
 
-::: info 🔧 变更（Changed）
-- 心跳间隔增至 30 分钟，失败阈值增至 8 次
-- 测速探测 URL 统一为 http gstatic generate_204
-- 策略组标签更名为代理组
-- Toast 容器层级提升至 10000
-- 前端资源缓存策略优化（index.html 不缓存）
-- 后端日志噪音降低（移除无信息量堆栈）
-- 前端 react-markdown 改为懒加载
-:::
+<article class="msm-release-highlight">
+  <span class="msm-release-highlight-index" aria-hidden="true">01</span>
+  <p><strong>修复网络规则刷新时的崩溃：</strong>更新 nftables 依赖，修复高文件描述符场景下的越界问题，增强网络规则维护的稳定性。</p>
+</article>
 
-::: danger 🐛 修复（Fixed）
-- Clash 订阅节点测速 404 回退健康检查
-- Clash 订阅更新瞬时错误增加有限重试
-- Clash 配置并发写入临时文件竞态修复
-- Clash v1.19.28 节点显示不全修复
-- Nftables fd 越界崩溃修复（升级 fork）
-- Alpine 系统进程指纹漂移导致重启循环修复
-- 外部重启后托管服务自动恢复机制修复
-- 许可证 5xx 网关错误视为瞬时错误处理
-- 许可证租约有效时日志降级消除误报
-- 已知未安装服务日志返回空而非 404
-- 前端 Chunk 预加载错误自动硬刷新自愈
-- 订阅内节点延迟测速结果同步刷新
-- TUN 网络自愈与残留规则清理修复
-- macOS TUN 局域网转发修复
-- Tauri 可配置 daemon 地址及启动卡住修复
-- 桌面端托盘切换与服务进度修复
-- MosDNS 审计降级与组件就绪等待修复
-- FakeIP 路由丢失后静默失效修复
-- Bing/NVIDIA 域名解析路径一致性修复
-- 策略组表单 TS 编译错误修复
-- 启用中的订阅重启后被误标禁用修复
-- 应用并重启前增加配置验证步骤
-- 服务卸载残留彻底清理
-- Launchd 服务更新接管旧进程
-- 安全客户端版本来源动态同步
-:::
+<article class="msm-release-highlight">
+  <span class="msm-release-highlight-index" aria-hidden="true">02</span>
+  <p><strong>更新检查失败后有节奏地重试：</strong>按组件独立退避，避免网络异常时每分钟重复请求；成功后恢复正常检查节奏。</p>
+</article>
 
-::: info 📝 备注（Notes）
-- 本次发布版本号升级至 1.2.6
-- 日常开发修复请在 dev 分支进行
-- 勋章等部分功能需 Pro 授权
-- 激活/心跳支持源站 IP 直连兜底
-:::
+<article class="msm-release-highlight">
+  <span class="msm-release-highlight-index" aria-hidden="true">03</span>
+  <p><strong>日志更安静，关键信息仍保留：</strong>Clash 预期运行态错误不再附带重复堆栈，意外错误仍保留排障信息。</p>
+</article>
+
+</div>
+
+### 📋 完整更新 {#release-details}
+
+<nav class="msm-release-summary-nav" aria-label="更新分类">
+  <a href="#release-performance">⚡ 性能优化 <span>1</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>3</span></a>
+  <a href="#release-notes">📌 升级提醒 <span>1</span></a>
+</nav>
+
+<section class="msm-release-section msm-release-section--performance">
+
+### ⚡ 性能优化 {#release-performance}
+
+- **精简访问日志堆栈**：访问日志保留请求及错误字段，移除重复的中间件调用栈，并复用日志实例，减少无信息量的输出。
+
+</section>
+
+<section class="msm-release-section msm-release-section--fixed">
+
+### 🐛 问题修复 {#release-fixed}
+
+- **修复 nftables 文件描述符越界崩溃**：升级依赖以修复文件描述符达到 `1024` 或更高时，网络规则刷新路径可能触发的数组越界 panic。
+- **修复组件更新检查的重试风暴**：检查失败时单独记录退避状态，首次等待 2 分钟，后续逐次翻倍、最长 1 小时；各组件互不影响，成功后清零，避免持续失败后每个调度周期都发起请求。
+- **Clash 运行态错误分级记录**：核心未启动、重启中、连接失败、404 或超时等预期情况采用 Warn 且不采集堆栈；其他意外错误仍采用 Error 并保留堆栈。
+
+</section>
+
+<section class="msm-release-section msm-release-section--notes">
+
+### 📌 升级提醒 {#release-notes}
+
+- **本版聚焦稳定性与日志体验**：以上内容按 `v1.2.5 → v1.2.6` 的实际代码差异整理。勋章 3D、连接页 WebSocket、代理内联编辑等已在此前版本出现，请在下方历史记录查看，未重复列为本版新增。
+
+</section>
 
 ::: details 📋 构建信息
-- **发布通道**: stable（稳定版）
-- **源提交**: [`dd17a55`](https://github.com/msm9527/msm/commit/dd17a5502c662932df341cfbd58271d38bab77bf)
-- **提交信息**: Merge pull request #60 from msm9527/dev
-- **提交作者**: msm
-- **提交时间**: 2026-07-27 16:07:30 CST
+- **发布通道**：stable（稳定版）
+- **源提交**： [`dd17a55`](https://github.com/msm9527/msm/commit/dd17a5502c662932df341cfbd58271d38bab77bf)
+- **提交信息**：Merge pull request #60 from msm9527/dev
+- **提交作者**：msm
+- **提交时间**：2026-07-27 16:07:30 CST
 :::
 
 ---
@@ -109,7 +106,9 @@
 
 ::: details v1.2.5 · 2026-07-17 15:54 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.2.5" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 勋章系统升级为真 3D（WebGL/React Three Fiber）
 - 代理管理页支持内联编辑订阅与节点
 - 规则页集成规则集编辑与批量导入功能
@@ -127,6 +126,7 @@
 - react-markdown 组件实现懒加载优化
 
 **问题修复**
+
 - 修复 Clash TUN 配置回放、macOS 默认及 Fake-IP 值
 - 修复 HTTP/HTTPS 切换后运行地址同步问题
 - 修复 Linux TUN 自愈、残留规则清理及转发
@@ -143,6 +143,7 @@
 - 修复策略组表单 TS 编译错误及显示不全
 
 **注意事项**
+
 - 租约有效时 lease mismatch 日志降为 Debug
 - 离线动作授权降级为“除显式拒绝外有效”
 - 源站 IP 直连兜底解决代理/CDN 链路 502
@@ -151,18 +152,23 @@
 
 ::: details v1.2.2 · 2026-06-17 16:08 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.2.2" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **注意事项**
+
 - 分析显示该提交为开发标记，关联 #58，详细功能待确认。
 :::
 
 ::: details v1.2.0 · 2026-06-10 16:13 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.2.0" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - MosDNS 高级模式状态自动保存到本地
 - 添加记忆池容量显示与一键清空功能
 - Clash 编辑对话框增加防误关确认
 
 **问题修复**
+
 - 优化 DNS 解析逻辑，修复 FakeIP 缓存及入池规则
 - 升级 License 安全机制，未激活禁止 Telemetry 上报
 - 修复软失败判定漏洞，改为 Fail-Secure 模式
@@ -172,12 +178,15 @@
 - 修复 MosDNS 记忆池安全及数据一致性问题
 
 **注意事项**
+
 - macOS 用户注意：TUN 局域网转发及默认配置已修复
 :::
 
 ::: details v1.1.7 · 2026-05-16 14:37 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.1.7" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 添加默认代理 CIDR 216.239.36.0/24
 - 审计存储展示分解与字段透传支持
 - 优化自动判定批量操作与页面加载性能
@@ -188,34 +197,43 @@
 - 增强进程管理与升级回滚可靠性
 
 **问题修复**
+
 - 修复 MosDNS 自动判定确认语义
 - 修复配置恢复兼容性与订阅直连问题
 - 修复自动判定与升级缓存逻辑
 - 修复更新轮询构建错误及状态恢复
 
 **注意事项**
+
 - 0.x 升至 1.x 需重装或重置安全并重下 DNS 服务
 :::
 
 ::: details v1.1.2 · 2026-05-04 07:20 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.1.2" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 升级页支持恢复、应用及保留 MosDNS 配置
 - 调整 MosDNS 快路径 TTL 范围
 
 **问题修复**
+
 - 优化 MosDNS FakeIP TTL 处理
 
 **注意事项**
+
 - 0.x 升级至 1.x 需重置安全并重下 DNS 服务
 :::
 
 ::: details v1.1.1 · 2026-05-03 17:52 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.1.1" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 限制 MosDNS 更新需先升级 MSM
 
 **问题修复**
+
 - 修复许可证掉授权与 machine_code 回退
 - 修复增量升级配置恢复与恢复加固
 - 修复战网国内外 DNS 分流规则
@@ -223,12 +241,15 @@
 - 修复本机分流模板保留及缓存同步问题
 
 **注意事项**
+
 - 0.x 升 1.x 必须重装或重置安全并重新下载 DNS 服务
 :::
 
 ::: details v1.1.0 · 2026-04-30 01:39 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.1.0" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 支持国内外 ECS 策略分离
 - 增加授权容灾功能
 - 隐藏废弃及国外 ECS 上游入口
@@ -236,6 +257,7 @@
 - 同步缓存与上游默认值
 
 **问题修复**
+
 - 修复增量升级配置兼容性
 - 修复 ECS 策略状态类型错误
 - 修复激活页面 503 状态提示
@@ -243,24 +265,31 @@
 - 修复 Docker Pro 授权掉线问题
 
 **注意事项**
+
 - 0.x 升 1.x 需重装或重置安全并重下 DNS 服务
 :::
 
 ::: details v1.0.35 · 2026-04-27 20:14 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.35" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 降低默认运行时内存预算
 
 **问题修复**
+
 - 修复强制更新下载后无法安装的问题
 
 **注意事项**
+
 - 0.x 升级至 1.x 需重置安全并重新下载 DNS 服务
 :::
 
 ::: details v1.0.33 · 2026-04-26 19:28 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.33" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 新增备份恢复与更新流程安全防护功能。
 - 支持 MosDNS 白名单模式下本机代理。
 - 增强 MSM CLI 服务管理与重启状态同步。
@@ -269,6 +298,7 @@
 - 收紧 Pro 在线授权并下发安全限制。
 
 **问题修复**
+
 - 修复代理网络自愈误判及双栈健康检查。
 - 优化 MosDNS 缓存容量、策略及规则刷新。
 - 修复前端黑屏、表单校验及版本列表显示。
@@ -276,12 +306,15 @@
 - 修复备份归档安全性及 API Token 状态误判。
 
 **注意事项**
+
 - 0.x 升级 1.x 必须重置安全并重新下载 DNS 服务。
 :::
 
 ::: details v1.0.27 · 2026-04-16 14:28 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.27" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 新增规则集文件编辑功能
 - 新增日志悬浮窗交互优化及 5 项 UX 改进
 - 新增更新配置桌面端右栏常驻，移动端折叠显示
@@ -293,6 +326,7 @@
 - 性能优化：SSE 数据迁移至 Zustand，消除级联重渲染
 
 **问题修复**
+
 - 修复更新重启死循环，清理构建备份
 - 修复更新下载跳过中转服务器，避免误装 Beta 版本
 - 修复强制更新后无法安装重启及 Clash 版本显示异常
@@ -304,12 +338,15 @@
 - 修复本地服务 HTTP 请求绕过系统代理问题
 
 **注意事项**
+
 - 0.x 升级到 1.x 需重装或重置安全，重新下载 DNS 服务
 :::
 
 ::: details v1.0.26 · 2026-04-16 12:35 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.26" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 更新配置桌面端右栏常驻，移动端折叠
 - 合并安装和重启为一个操作按钮
 - 支持规则集文件在线编辑功能
@@ -321,6 +358,7 @@
 - MosDNS 恢复原始 3×500ms 重试策略
 
 **问题修复**
+
 - 修复嵌入式前端黑屏问题
 - 修复更新模块状态、按钮及版本显示异常
 - 修复强制更新安装重启流程及版本显示问题
@@ -330,12 +368,15 @@
 - 更新下载跳过中转服务器避免 Beta 版
 
 **注意事项**
+
 - 0.x 升至 1.x 需重装或重置安全并重新下载 DNS
 :::
 
 ::: details v1.0.25 · 2026-04-16 11:52 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.25" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 更新配置桌面端常驻，移动端折叠显示
 - 合并安装和重启操作为单一按钮
 - 支持规则集文件在线编辑功能
@@ -344,6 +385,7 @@
 - MosDNS 恢复原始重试策略
 
 **问题修复**
+
 - 修复更新模块 UI、版本显示及安装重启流程问题
 - 跳过中转服务器更新，防止误装 Beta 版本
 - 修复本地服务及规则查询的系统代理逻辑
@@ -353,28 +395,35 @@
 - 修复规则集文件序列化导致崩溃问题
 
 **注意事项**
+
 - 0.x 升级 1.x 需重装或重置 DNS 服务
 :::
 
 ::: details v1.0.24 · 2026-04-13 23:41 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.24" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 调整代理网络自愈策略：默认关闭，放宽判定，间隔 3 秒
 - 默认禁用 libpcap 依赖，保留显式构建支持
 
 **问题修复**
+
 - 修复代理网络规则丢失、误判及重启重复恢复问题
 - 修复 MosDNS 日志交互、概览及就绪判定问题
 - 修复 Clash YAML 保存及粘贴错位兼容性问题
 - 修复更新页面状态残留及 Alpha 版显示问题
 
 **注意事项**
+
 - 0.x 升级至 1.x 需重置安全或重装 DNS 服务，否则可能失效
 :::
 
 ::: details v1.0.22 · 2026-04-11 00:57 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.22" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 支持 Fake-IP 范围在设置页编辑并立即生效
 - 支持 HTTPS 证书上传及自签名生成
 - Setup 支持自动下载和手动上传安装方式
@@ -388,6 +437,7 @@
 - 优化前端构建分包，消除 Vite 大 chunk 警告
 
 **问题修复**
+
 - 修复升级残留进程导致的端口冲突问题
 - 修复重启时能力丢失导致 Pro 授权失效问题
 - 修复 MosDNS 上游统计及 DNS 查询曲线停滞
@@ -397,40 +447,50 @@
 - 修复服务关闭时 SSE 长连接导致的超时问题
 
 **注意事项**
+
 - ⚠️ 0.x 升级到 1.x 需重装或重置安全以重新下载 DNS 服务
 - ⚠️ 加固了 Pro 授权校验与运行时完整性
 :::
 
 ::: details v1.0.15 · 2026-04-01 10:37 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.15" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **问题修复**
+
 - 修复规则集编辑、展示及保存异常行为
 
 **注意事项**
+
 - 0.x 升级至 1.x 需重置安全并重新下载 DNS 服务
 :::
 
 ::: details v1.0.14 · 2026-03-31 10:14 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/1.0.14" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - 联动 MosDNS 客户端名称并优化日志筛选功能
 - 调整组件更新阶段 GitHub 下载优先级
 - 优化内存预算、监控负载及长期运行内存占用
 - 统一 MosDNS 恢复写操作的重试策略
 
 **问题修复**
+
 - 修复 MosDNS 恢复阶段回写失败及 API 就绪等待问题
 - 修复许可证重激活时因本地授权材料损坏导致的失败
 - 修复内存回收死锁并降低实时面板分配
 - 修复 Dashboard 布局拖拽混乱、调节受限及刷新失效问题
 
 **注意事项**
+
 - 0.x 升级到 1.x 需重装或重置安全，DNS 服务已变更
 :::
 
 ::: details v0.7.4 · 2026-01-05 21:16 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/0.7.4" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - Clash 规则管理增强  
   - 规则页支持按配置文件分组排序，方便快速定位  
   - 规则 / Provider 支持“可选重启生效”  
@@ -443,17 +503,21 @@
   - CLI / 下载链路默认优先使用内置加速源，界面展示下载进度
 
 **问题修复**
+
 - 修复 Clash 规则编辑器初始化报错、弹窗越界、空 `{}` YAML 导致损坏等问题
 - 修复前端启停代理、日志级别解析、Toast 长文本、导航高亮等多处 UI / 交互问题
 - 修复部分版本号、路径、配置读取错位，尤其是 Setup 与缓存相关逻辑
 
 **注意事项**
+
 - Tauri 桌面链路已基本稳定，但在 macOS 上仍建议重点验证 `launchctl` 工作目录与权限场景
 :::
 
 ::: details v0.7.3 · 2026-01-01 13:29 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/0.7.3" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **新增 / 优化**
+
 - Connections 页面重做  
   - 采用弹窗模式，支持保持展开状态，更紧凑的布局  
   - 测速与展开可并存，便于排查连接质量
@@ -464,17 +528,21 @@
   - 初始化流程与版本号管理进行了多处微调
 
 **问题修复**
+
 - 修复 IPv6 / DNS 开关在保存和读取旧配置时的不一致问题
 - 修复 Clash 页面若干弹窗居中、溢出与 YAML 处理错误
 - 修复白屏、布局跳动等零碎 UI 问题
 
 **注意事项**
+
 - 桌面端与 SSE 改造仍处于快速演进阶段，升级后建议重点观察 SSE 长连接稳定性
 :::
 
 ::: details v0.7.2 · 2025-12-31 20:52 · 稳定版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/0.7.2" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
 **核心内容**
+
 - 桌面端服务管理  
   - 桌面端服务管理与托盘初版  
   - 支持自动安装 / 提权、首次运行门禁、状态面板等

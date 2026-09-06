@@ -1,0 +1,26 @@
+# 发布日志维护
+
+稳定版、Beta 版与“发布日志预览（不构建、不发布）”共用 `generate-release-summary.cjs`。内容提取、模型链、提示词和输出校验由 `ai-release-summary.cjs` 维护；Wiki 排版和历史归档由 `update-release-page.cjs` 维护。
+
+## 模型与密钥
+
+- GitHub Actions Secret `MODELSCOPE_API_KEY`：仅保存密钥，不在代码、日志或预览产物中写入。
+- 可选 Repository Variable `MODELSCOPE_MODELS`：逗号分隔的模型 ID，按顺序尝试；留空采用代码中的默认模型链。
+- 默认优先使用 Qwen3-235B-A22B-Instruct-2507，其次 Qwen3-Next-80B-A3B-Instruct、Qwen3-Coder-30B-A3B-Instruct。模型列在服务目录中不代表当前账户有可用额度。
+- API 超时、余额不足、模型不可用、输出截断或格式不合格会尝试下一个模型；全部失败则生成明确标记为“非 AI”的规则摘要，并在任务摘要中告警。
+
+## 调整后如何验证
+
+1. 运行 `npm test`、`npm run docs:build`，并用 actionlint 检查相关 workflow。
+2. 在 Actions 手动运行“发布日志预览（不构建、不发布）”。`source_ref` 填本次版本的源提交 SHA，`previous_commit` 填上一版源 SHA，选择对应通道。精确范围不合法时会停止，不会悄悄汇总其他版本。
+3. 检查任务摘要中的成功模型、回退状态、提交与采样计数，再阅读 `summary.md`。采样计数不代表模型已经完整覆盖每一项功能，应对照实际发布范围审阅。
+4. 确认亮点不替代完整分类，重大功能有实现依据，兼容变化及必要升级操作没有遗漏。预览不会修改 GitHub Release、Wiki 或安装包。
+
+## 内容与归档约定
+
+- 上一版本 SHA 可用时，以两版净 Diff 为最高优先级证据，提交正文只采用 first-parent 发布线并受净变化约束；避免 squash 后再 merge 时把旧开发历史重新当作新增。任务中的提交数表示实际分析的发布线提交，不等于 Git 图中全部可达提交数。
+- 输出只包含 `###` 分类标题与 Markdown 列表。亮点为 1–6 条，详项不按固定条数截断；空分类省略。
+- 普通新增与“重磅功能”分开。不能从文件名、测试文件或提交中的宣传语推断“已验证”“彻底解决”或性能百分比。
+- 当前页的 HTML 注释 `msm-release-data` 保存用于下一次归档的结构化数据。它不是私有数据，只包含页面已展示的发布内容。更新正文时应通过生成器同步，避免仅修改可见文案而留下旧归档数据。
+- 新版本会归档前一版的全部分类；同版本重新生成只更新当前内容，不重复归档。旧 Markdown 标题与 VitePress 提示块也可读取。
+- 审校样本位于 `test/fixtures/release-beta-1.4.1.md` 与 `release-stable-1.2.6.md`，用于检验复杂发布排版，以及不重复宣传历史功能。

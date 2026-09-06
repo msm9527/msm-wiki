@@ -93,3 +93,52 @@ test('all Pages workflows run Wiki regression tests before building', () => {
     assert.ok(regressionTests < docsBuild, `${workflow} must test before building`)
   }
 })
+
+test('release workflows share the summary runner and defer model defaults to the core', () => {
+  for (const workflow of workflows) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+    const summaryStep = source.slice(source.indexOf('      - name: 使用 AI 生成版本总结'), source.indexOf('\n  build:\n'))
+
+    assert.match(summaryStep, /MODELSCOPE_MODELS: \$\{\{ vars\.MODELSCOPE_MODELS \|\| '' \}\}/)
+    assert.match(summaryStep, /require\('\.\/msm-wiki\/scripts\/generate-release-summary\.cjs'\)/)
+    assert.match(summaryStep, /await generateReleaseSummary\(\{ core \}\)/)
+    assert.match(summaryStep, /RELEASE_CURRENT_REF: \$\{\{ steps\.meta\.outputs\.commit_sha \}\}/)
+    assert.match(summaryStep, /RELEASE_PREVIOUS_COMMIT: \$\{\{ steps\.meta\.outputs\.previous_version_commit \}\}/)
+    assert.doesNotMatch(summaryStep, /Qwen\/|requestModelScopeSummary|buildFallbackSummary|console\.(?:log|error)/)
+    assert.doesNotMatch(summaryStep.slice(summaryStep.indexOf('script: |')), /\$\{\{/)
+  }
+})
+
+test('all MSM build checkouts use the exact source commit selected during prepare', () => {
+  for (const workflow of workflows) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+    const checkouts = [...source.matchAll(/repository: msm9527\/msm\n\s+ref: ([^\n]+)/g)]
+
+    assert.equal(checkouts.length, 3, `${workflow}: prepare, server build and desktop build`)
+    assert.match(checkouts[0][1], /^(?:main|dev)$/)
+    for (const checkout of checkouts.slice(1)) {
+      assert.equal(checkout[1], '${{ needs.prepare.outputs.commit_sha }}')
+    }
+    assert.doesNotMatch(source, /ref: \$\{\{ needs\.prepare\.outputs\.branch \}\}/)
+  }
+})
+
+test('summary preview validates inputs and uses the same runner without publishing', () => {
+  const source = fs.readFileSync(path.join(root, '.github/workflows/release-summary-preview.yml'), 'utf8')
+
+  assert.match(source, /source_ref:[\s\S]*?default: dev/)
+  assert.match(source, /previous_commit:/)
+  assert.match(source, /channel:[\s\S]*?type: choice[\s\S]*?- beta[\s\S]*?- stable/)
+  assert.match(source, /permissions:\n\s+contents: read/)
+  assert.match(source, /validateReleaseSummaryInputs\(\{/)
+  assert.ok(source.indexOf('validateReleaseSummaryInputs') < source.indexOf('repository: msm9527/msm'))
+  assert.match(source, /ref: \$\{\{ steps\.inputs\.outputs\.source_ref \}\}/)
+  assert.match(source, /token: \$\{\{ secrets\.MSM_REPO_TOKEN \}\}/)
+  assert.match(source, /fetch-depth: 0\n\s+persist-credentials: false/)
+  assert.match(source, /MODELSCOPE_MODELS: \$\{\{ vars\.MODELSCOPE_MODELS \|\| '' \}\}/)
+  assert.match(source, /RELEASE_REQUIRE_EXACT_RANGE: 'true'/)
+  assert.match(source, /await generateReleaseSummary\(\{[\s\S]*?cwd: path\.resolve\('msm-source'\)/)
+  assert.match(source, /path: \|\n\s+release-summary-preview\/summary\.md\n\s+release-summary-preview\/metadata\.json\n/)
+  assert.doesNotMatch(source, /contents: write|pages:|id-token:|schedule:|workflow_run:|softprops\/|deploy-pages|gh release|git push|go build|npm run docs:build/)
+  assert.equal((source.match(/uses: actions\/upload-artifact@/g) || []).length, 1)
+})

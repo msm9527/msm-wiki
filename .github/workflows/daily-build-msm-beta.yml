@@ -172,35 +172,35 @@ jobs:
           CHANGELOG="$(git log "${LOG_ARGS[@]}" --pretty=format:'- [%h](https://github.com/msm9527/msm/commit/%H) %s _%an, %ar_' | sed 's/$/\\n/' | tr -d '\n')"
           COMMIT_COUNT="$(git log "${LOG_ARGS[@]}" --pretty=format:'%H' | sed '/^$/d' | wc -l | tr -d ' ')"
 
-          echo "version=${RELEASE_VERSION}" >> "$GITHUB_OUTPUT"
-          echo "base_version=${BASE_VERSION}" >> "$GITHUB_OUTPUT"
-          echo "channel=${CHANNEL}" >> "$GITHUB_OUTPUT"
-          echo "channel_name=${CHANNEL_NAME}" >> "$GITHUB_OUTPUT"
-          echo "is_stable=${IS_STABLE}" >> "$GITHUB_OUTPUT"
-          echo "is_beta=${IS_BETA}" >> "$GITHUB_OUTPUT"
-          echo "release_notes_path=${RELEASE_NOTES_PATH}" >> "$GITHUB_OUTPUT"
-          echo "latest_marker=${LATEST_MARKER}" >> "$GITHUB_OUTPUT"
-          echo "history_marker=${HISTORY_MARKER}" >> "$GITHUB_OUTPUT"
-          echo "docker_channel_tag=${DOCKER_CHANNEL_TAG}" >> "$GITHUB_OUTPUT"
-          echo "release_docs_url=${RELEASE_DOCS_URL}" >> "$GITHUB_OUTPUT"
-          echo "install_script_name=${INSTALL_SCRIPT_NAME}" >> "$GITHUB_OUTPUT"
-          echo "install_script_url=${INSTALL_SCRIPT_URL}" >> "$GITHUB_OUTPUT"
-          echo "commit_sha=${COMMIT_SHA}" >> "$GITHUB_OUTPUT"
-          echo "commit_sha_short=${COMMIT_SHA_SHORT}" >> "$GITHUB_OUTPUT"
-          echo "branch=${BRANCH}" >> "$GITHUB_OUTPUT"
-          echo "commit_message=${COMMIT_MESSAGE}" >> "$GITHUB_OUTPUT"
-          echo "commit_author=${COMMIT_AUTHOR}" >> "$GITHUB_OUTPUT"
-          echo "commit_date=${COMMIT_DATE}" >> "$GITHUB_OUTPUT"
-          echo "build_time=${BUILD_TIME}" >> "$GITHUB_OUTPUT"
-          echo "previous_release_published_at=${PREVIOUS_RELEASE_PUBLISHED_AT}" >> "$GITHUB_OUTPUT"
-          echo "log_since_epoch=${LOG_SINCE_EPOCH}" >> "$GITHUB_OUTPUT"
-          echo "log_until_epoch=${LOG_UNTIL_EPOCH}" >> "$GITHUB_OUTPUT"
-          echo "previous_version=${PREVIOUS_VERSION}" >> "$GITHUB_OUTPUT"
-          echo "previous_version_commit=${PREVIOUS_VERSION_COMMIT}" >> "$GITHUB_OUTPUT"
-          echo "commit_count=${COMMIT_COUNT}" >> "$GITHUB_OUTPUT"
-          echo "force_update=${FORCE_UPDATE}" >> "$GITHUB_OUTPUT"
-
           {
+            echo "version=${RELEASE_VERSION}"
+            echo "base_version=${BASE_VERSION}"
+            echo "channel=${CHANNEL}"
+            echo "channel_name=${CHANNEL_NAME}"
+            echo "is_stable=${IS_STABLE}"
+            echo "is_beta=${IS_BETA}"
+            echo "release_notes_path=${RELEASE_NOTES_PATH}"
+            echo "latest_marker=${LATEST_MARKER}"
+            echo "history_marker=${HISTORY_MARKER}"
+            echo "docker_channel_tag=${DOCKER_CHANNEL_TAG}"
+            echo "release_docs_url=${RELEASE_DOCS_URL}"
+            echo "install_script_name=${INSTALL_SCRIPT_NAME}"
+            echo "install_script_url=${INSTALL_SCRIPT_URL}"
+            echo "commit_sha=${COMMIT_SHA}"
+            echo "commit_sha_short=${COMMIT_SHA_SHORT}"
+            echo "branch=${BRANCH}"
+            echo "commit_message=${COMMIT_MESSAGE}"
+            echo "commit_author=${COMMIT_AUTHOR}"
+            echo "commit_date=${COMMIT_DATE}"
+            echo "build_time=${BUILD_TIME}"
+            echo "previous_release_published_at=${PREVIOUS_RELEASE_PUBLISHED_AT}"
+            echo "log_since_epoch=${LOG_SINCE_EPOCH}"
+            echo "log_until_epoch=${LOG_UNTIL_EPOCH}"
+            echo "previous_version=${PREVIOUS_VERSION}"
+            echo "previous_version_commit=${PREVIOUS_VERSION_COMMIT}"
+            echo "commit_count=${COMMIT_COUNT}"
+            echo "force_update=${FORCE_UPDATE}"
+
             echo "changelog<<EOF"
             echo "${CHANGELOG}"
             echo "EOF"
@@ -231,63 +231,18 @@ jobs:
         uses: actions/github-script@v7
         env:
           MODELSCOPE_API_KEY: ${{ secrets.MODELSCOPE_API_KEY }}
-          # 使用当前 ModelScope API 可识别的模型；余额/配额异常时自动逐级降级。
-          MODELSCOPE_MODELS: Qwen/Qwen3-30B-A3B,Qwen/Qwen3-14B,Qwen/Qwen3-8B
+          # 留空使用核心维护的强模型链；仓库变量可覆盖，无需修改 workflow。
+          MODELSCOPE_MODELS: ${{ vars.MODELSCOPE_MODELS || '' }}
+          RELEASE_CURRENT_REF: ${{ steps.meta.outputs.commit_sha }}
+          RELEASE_PREVIOUS_COMMIT: ${{ steps.meta.outputs.previous_version_commit }}
+          RELEASE_PREVIOUS_PUBLISHED_AT: ${{ steps.meta.outputs.previous_release_published_at }}
+          RELEASE_LOG_SINCE_EPOCH: ${{ steps.meta.outputs.log_since_epoch }}
+          RELEASE_LOG_UNTIL_EPOCH: ${{ steps.meta.outputs.log_until_epoch }}
+          RELEASE_CHANNEL: ${{ steps.meta.outputs.channel }}
         with:
           script: |
-            const {
-              buildFallbackSummary,
-              buildSummaryPrompt,
-              collectReleaseCommits,
-              requestModelScopeSummary,
-            } = require('./msm-wiki/scripts/ai-release-summary.cjs');
-
-            const previousReleasePublishedAt = '${{ steps.meta.outputs.previous_release_published_at }}';
-            const releaseContext = collectReleaseCommits({
-              previousCommit: '${{ steps.meta.outputs.previous_version_commit }}',
-              logSinceEpoch: '${{ steps.meta.outputs.log_since_epoch }}',
-              logUntilEpoch: '${{ steps.meta.outputs.log_until_epoch }}',
-              currentRef: 'HEAD',
-            });
-            const commits = releaseContext.commits;
-
-            console.log(`提交范围来源: ${releaseContext.source}`);
-            console.log(`git log 参数: ${releaseContext.rangeArgs.join(' ')}`);
-            console.log(`实际获取到 ${commits.length} 个提交记录`);
-
-            if (commits.length === 0) {
-              core.setOutput('summary', '本次发布窗口内无新增提交');
-              return;
-            }
-
-            if (!process.env.MODELSCOPE_API_KEY) {
-              console.log('未配置 MODELSCOPE_API_KEY，使用默认总结');
-              core.setOutput('summary', buildFallbackSummary(commits, previousReleasePublishedAt));
-              return;
-            }
-
-            try {
-              const prompt = buildSummaryPrompt(commits);
-              console.log(`AI prompt 字符数: ${prompt.length}`);
-              const result = await requestModelScopeSummary({
-                apiKey: process.env.MODELSCOPE_API_KEY,
-                prompt,
-                fetchImpl: globalThis.fetch,
-                modelCandidates: process.env.MODELSCOPE_MODELS.split(',').map(model => model.trim()).filter(Boolean),
-                logger: console,
-              });
-
-              console.log(`模型 ${result.modelName} 调用成功`);
-              console.log('AI 生成的总结:');
-              console.log(result.summary);
-              if (result.usage) {
-                console.log(`\n使用的 tokens: 输入=${result.usage.prompt_tokens}, 输出=${result.usage.completion_tokens}, 总计=${result.usage.total_tokens}`);
-              }
-              core.setOutput('summary', result.summary);
-            } catch (error) {
-              console.error('AI 总结失败:', error.message);
-              core.setOutput('summary', buildFallbackSummary(commits, previousReleasePublishedAt));
-            }
+            const { generateReleaseSummary } = require('./msm-wiki/scripts/generate-release-summary.cjs');
+            await generateReleaseSummary({ core });
 
   build:
     name: 打包编译
@@ -351,7 +306,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: msm9527/msm
-          ref: ${{ needs.prepare.outputs.branch }}
+          ref: ${{ needs.prepare.outputs.commit_sha }}
           token: ${{ secrets.MSM_REPO_TOKEN }}
 
       - name: Checkout 当前仓库（msm-wiki）用于派网 APX 模板
@@ -1155,7 +1110,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: msm9527/msm
-          ref: ${{ needs.prepare.outputs.branch }}
+          ref: ${{ needs.prepare.outputs.commit_sha }}
           token: ${{ secrets.MSM_REPO_TOKEN }}
 
       - name: Setup Node.js
