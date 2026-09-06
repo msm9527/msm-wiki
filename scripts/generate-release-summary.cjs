@@ -147,7 +147,7 @@ function formatJobSummary(result) {
   const state = { ai: '✅ AI 生成', fallback: '⚠️ 规则回退（非 AI）', 'no-changes': 'ℹ️ 无新增提交' }[result.status];
   const reason = result.fallbackReason ? `\n> ${FAILURE_LABELS[result.fallbackReason]}；已保留规则摘要，请检查模型配置或账户额度。\n` : '';
   const attempts = result.modelAttempts.length
-    ? `\n### 模型尝试结果\n\n| 次序 | 模型 | 状态 | 原因码 |\n| --- | --- | --- | --- |\n${result.modelAttempts.map((attempt, index) => `| ${index + 1} | ${attempt.model} | ${attempt.status} | ${attempt.reasonCode} |`).join('\n')}\n`
+    ? `\n### 模型尝试结果\n\n| 次序 | 模型 | 状态 | 原因码 | 阶段 |\n| --- | --- | --- | --- | --- |\n${result.modelAttempts.map((attempt, index) => `| ${index + 1} | ${attempt.model} | ${attempt.status} | ${attempt.reasonCode} | ${attempt.phase || 'draft'} |`).join('\n')}\n`
     : '';
   const hasBaseline = BASELINE_COVERAGE_FIELDS.some(field => result.coverage[field] != null);
   const baselineRows = hasBaseline
@@ -156,7 +156,8 @@ function formatJobSummary(result) {
   const baselineNote = hasBaseline
     ? '\n> 图记录数不是新增功能数；未单列的记录不等于没有新代码，侧分支变化由版本间净差异统一提供证据。\n'
     : '';
-  return `## 发布日志生成结果\n\n| 项目 | 结果 |\n| --- | --- |\n| 通道 | ${result.channel} |\n| 生成状态 | ${state} |\n| 成功模型 | ${result.modelName || '—'} |\n| 模型尝试次数 | ${result.attemptCount} |\n| 发布线上下文提交数 | ${result.commitCount} |\n${baselineRows}| 日志条目数（含亮点） | ${result.itemCount} |\n| 亮点条目数 | ${result.highlightCount} |\n| 已读取正文与文件列表的上下文提交 | ${result.coverage.detailedCommits ?? '—'} |\n| 已采样 Diff 的上下文提交 | ${result.coverage.commitsWithDiff ?? '—'} |\n| 逐提交累计已采样文件 / 变更文件（非唯一） | ${result.coverage.sampledFiles ?? '—'} / ${result.coverage.totalFiles ?? '—'} |\n| Diff 未完整展开的上下文提交 | ${result.coverage.incompleteDiffs ?? '—'} |\n| 范围来源 | ${result.source} |\n\n> 上述覆盖计数反映输入上下文的采样，不代表模型已逐项覆盖全部功能。\n${baselineNote}${reason}${attempts}\n### 公开发布日志\n\n${result.summary}\n`;
+  const reviewNote = result.review ? `\n> 二次审稿：${result.review.status === 'passed' ? '已生成审校稿，并通过输出检查（仍不等同于人工验证）' : '未完成，保留通过检查的 AI 初稿'}。\n` : '';
+  return `## 发布日志生成结果\n\n| 项目 | 结果 |\n| --- | --- |\n| 通道 | ${result.channel} |\n| 生成状态 | ${state} |\n| 成功模型 | ${result.modelName || '—'} |\n| 模型尝试次数 | ${result.attemptCount} |\n| 发布线上下文提交数 | ${result.commitCount} |\n${baselineRows}| 日志条目数（含亮点） | ${result.itemCount} |\n| 亮点条目数 | ${result.highlightCount} |\n| 已读取正文与文件列表的上下文提交 | ${result.coverage.detailedCommits ?? '—'} |\n| 已采样 Diff 的上下文提交 | ${result.coverage.commitsWithDiff ?? '—'} |\n| 逐提交累计已采样文件 / 变更文件（非唯一） | ${result.coverage.sampledFiles ?? '—'} / ${result.coverage.totalFiles ?? '—'} |\n| Diff 未完整展开的上下文提交 | ${result.coverage.incompleteDiffs ?? '—'} |\n| 范围来源 | ${result.source} |\n\n> 上述覆盖计数反映输入上下文的采样，不代表模型已逐项覆盖全部功能。\n${baselineNote}${reason}${reviewNote}${attempts}\n### 公开发布日志\n\n${result.summary}\n`;
 }
 
 /**
@@ -290,6 +291,44 @@ async function generateReleaseSummary({
       Object.assign(lastAttempt, { status: 'failed', reasonCode: fallbackReason || 'request-failed' });
     }
   }
+  // A separate editing pass checks coverage, repeated items and false "new" claims.
+  // Stay on the successful model; do not fan out into another full fallback chain.
+  let review;
+  if (status === 'ai' && modelName && typeof summaryModule.buildReviewPrompt === 'function') {
+    modelAttempts.forEach(attempt => { attempt.phase = 'draft'; });
+    let reviewAttempts = [];
+    let reviewRequested = false;
+    const captureReviewAttempts = value => {
+      const projected = publicModelAttempts(value, env);
+      if (projected.length) reviewAttempts = projected;
+    };
+    try {
+      const reviewPrompt = summaryModule.buildReviewPrompt(commits, summary);
+      reviewRequested = true;
+      const reviewed = await summaryModule.requestModelScopeSummary({
+        apiKey: env.MODELSCOPE_API_KEY,
+        prompt: reviewPrompt,
+        fetchImpl,
+        modelCandidates: [modelName],
+        logger: { log() {}, error() {}, warn() {} },
+        onResult(value) { captureReviewAttempts(value?.attempts); },
+      });
+      captureReviewAttempts(reviewed?.attempts);
+      const reviewedSummary = redactSecrets(typeof reviewed === 'string' ? reviewed : reviewed?.summary, env);
+      if (!isPublicSummary(reviewedSummary)) throw new Error('Invalid public summary');
+      summary = reviewedSummary;
+      review = { status: 'passed', modelName };
+      if (!reviewAttempts.length) reviewAttempts.push({ model: modelName, status: 'success', reasonCode: 'ok' });
+    } catch (error) {
+      captureReviewAttempts(error?.attempts);
+      const reasonCode = reviewAttempts.findLast(attempt => attempt.status === 'failed')?.reasonCode || failureCode(error);
+      review = { status: 'failed', modelName, reasonCode };
+      if (!reviewAttempts.length && reviewRequested) reviewAttempts.push({ model: modelName, status: 'failed', reasonCode });
+      else if (reviewAttempts.at(-1)?.status === 'success') Object.assign(reviewAttempts.at(-1), { status: 'failed', reasonCode });
+      // Keep the validated draft, never replace it with a failed or empty review.
+    }
+    modelAttempts.push(...reviewAttempts.map(attempt => ({ ...attempt, phase: 'review' })));
+  }
   const result = {
     summary,
     status,
@@ -299,6 +338,7 @@ async function generateReleaseSummary({
     ...countSummaryItems(summary),
     attemptCount: Math.max(loggedAttempts.length, modelAttempts.length, reportedAttempts, status === 'ai' ? 1 : 0),
     modelAttempts,
+    ...(review ? { review } : {}),
     fallbackReason,
     source: SOURCES.has(context.source) ? context.source : 'unknown',
     coverage: publicCoverage(context),
@@ -311,8 +351,9 @@ async function generateReleaseSummary({
     core.setOutput('item_count', result.itemCount);
     core.info(`发布日志：${result.status}；模型=${result.modelName || '无'}；发布线上下文提交=${result.commitCount}；条目=${result.itemCount}；亮点=${result.highlightCount}`);
     result.modelAttempts.forEach((attempt, index) => {
-      core.info(`模型尝试 ${index + 1}：${attempt.model}；status=${attempt.status}；reasonCode=${attempt.reasonCode}${attempt.checks?.length ? '；checks=' + attempt.checks.join(',') : ''}`);
+      core.info(`模型尝试 ${index + 1}：${attempt.model}；status=${attempt.status}；reasonCode=${attempt.reasonCode}${attempt.phase ? '；phase=' + attempt.phase : ''}${attempt.checks?.length ? '；checks=' + attempt.checks.join(',') : ''}`);
     });
+    if (review?.status === 'failed') core.warning(`二次审稿未完成（${review.reasonCode}）；保留已通过检查的 AI 初稿，请人工核对覆盖度。`);
     if (fallbackReason) {
       core.warning(`${FAILURE_LABELS[fallbackReason]}；已使用规则回退（非 AI）。上下文提交 ${result.commitCount} 个，日志 ${result.itemCount} 条。`);
     }

@@ -449,3 +449,89 @@ test('output diagnostics expose fixed check codes, not rejected model text', asy
   assert.ok(core.logs.some(line => line.includes('checks=unknown-heading,non-list-content,unverified-claims')));
   assert.doesNotMatch(JSON.stringify({ result, core }), new RegExp(`${privateContext}|secret-key|未知发布分类`));
 });
+
+test('the editorial pass uses the successful strong model and publishes only the reviewed text', async () => {
+  let calls = 0;
+  const revised = publicSummary + '\n- **镜像时间修正**：按明确时区解析创建时间。';
+  const core = makeCore();
+  const result = await generateReleaseSummary({
+    core, env: { MODELSCOPE_API_KEY: 'secret-key', MODELSCOPE_MODELS: 'Strong/Selected,Strong/Backup' },
+    summaryModule: makeModule({
+      buildReviewPrompt(commits, draft) {
+        assert.equal(commits.length, 1);
+        assert.equal(draft, publicSummary);
+        return privateContext + ' review';
+      },
+      async requestModelScopeSummary({ prompt, modelCandidates }) {
+        calls++;
+        if (calls === 2) {
+          assert.equal(prompt, privateContext + ' review');
+          assert.deepEqual(modelCandidates, ['Strong/Selected']);
+        }
+        return { summary: calls === 1 ? publicSummary : revised, modelName: 'Strong/Selected', attempts: [{ modelName: 'Strong/Selected', status: 'success' }] };
+      },
+    }),
+  });
+  assert.equal(calls, 2);
+  assert.equal(result.summary, revised);
+  assert.deepEqual(result.review, {status: 'passed', modelName: 'Strong/Selected'});
+  assert.equal(result.attemptCount, 2);
+  assert.deepEqual(result.modelAttempts.map(a => a.phase), ['draft', 'review']);
+  assert.match(core.jobSummary, /二次审稿：已生成审校稿/u);
+  assert.doesNotMatch(JSON.stringify({ result, core }), new RegExp(`${privateContext}|secret-key`));
+});
+
+test('a failed editorial pass preserves the validated draft and records a warning', async () => {
+  let calls = 0;
+  const core = makeCore();
+  const result = await generateReleaseSummary({
+    core, env: { MODELSCOPE_API_KEY: 'secret-key' },
+    summaryModule: makeModule({
+      buildReviewPrompt() { return privateContext; },
+      async requestModelScopeSummary() {
+        if (++calls === 1) return {summary: publicSummary, modelName:'Strong/Selected'};
+        const error = new Error(`insufficient balance ${privateContext} secret-key`);
+        error.attempts = [{ modelName: 'Strong/Selected', status: 'failed', error: error.message }];
+        throw error;
+      },
+    }),
+  });
+  assert.equal(result.status, 'ai');
+  assert.equal(result.summary, publicSummary);
+  assert.equal(result.review.status, 'failed');
+  assert.equal(result.review.reasonCode, 'quota-exhausted');
+  assert.equal(result.modelAttempts.at(-1).phase, 'review');
+  assert.equal(result.modelAttempts.at(-1).status, 'failed');
+  assert.equal(core.warnings.length, 1);
+  assert.match(core.warnings[0], /保留已通过检查的 AI 初稿/u);
+  assert.doesNotMatch(JSON.stringify({ result, core }), new RegExp(`${privateContext}|secret-key|insufficient balance`));
+});
+
+test('a rejected review cannot replace a safe draft with raw source', async () => {
+  let calls = 0;
+  const result = await generateReleaseSummary({
+    env: { MODELSCOPE_API_KEY: 'secret-key' },
+    summaryModule: makeModule({
+      buildReviewPrompt() { return privateContext; },
+      async requestModelScopeSummary() { return { summary: ++calls === 1 ? publicSummary : 'diff --git a/private b/private', modelName: 'Strong/Selected' }; },
+    }),
+  });
+  assert.equal(result.summary, publicSummary);
+  assert.equal(result.review.status, 'failed');
+  assert.equal(result.review.reasonCode, 'invalid-output');
+});
+
+test('an over-budget review prompt is not reported as another inference call', async () => {
+  let calls = 0;
+  const result = await generateReleaseSummary({
+    env: { MODELSCOPE_API_KEY: 'secret-key' },
+    summaryModule: makeModule({
+      buildReviewPrompt() { throw new Error('Review prompt exceeds budget'); },
+      async requestModelScopeSummary() { calls++; return { summary: publicSummary, modelName: 'Strong/Selected' }; },
+    }),
+  });
+  assert.equal(calls, 1);
+  assert.equal(result.attemptCount, 1);
+  assert.equal(result.summary, publicSummary);
+  assert.equal(result.review.status, 'failed');
+});

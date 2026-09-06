@@ -14,8 +14,12 @@ const {
   cleanDiff,
   classifyReleaseItem,
   extractChangeHighlights,
+  normalizeModelSummary,
+  normalizeReleaseMarkdown,
   extractCommitShas,
   buildSummaryPrompt,
+  buildReviewPrompt,
+  buildNetDiffEvidence,
   requestModelScopeSummary,
   readReleaseBaseline,
   resolveModelCandidates,
@@ -574,6 +578,7 @@ test('real squash-to-merge history does not republish existing branch features',
     const prompt = buildSummaryPrompt(context.commits);
     assert.ok(prompt.indexOf('权威版本净差异（最高优先级）') < prompt.indexOf('提交上下文（共'));
     assert.match(prompt, /\+const retryDelaySeconds = 30/);
+    assert.equal((prompt.match(/\+const retryDelaySeconds = 30/gu) || []).length, 1, 'net code is not repeated per commit');
     assert.doesNotMatch(prompt, /existingMedalFeature|existingWebSocketFeature|新增荣誉勋章|新增 WebSocket/);
     assert.match(prompt, /重新合并当功能首次上线/);
     const fallback = buildFallbackSummary(context.commits);
@@ -629,5 +634,222 @@ test('failure to read the authoritative net diff stops collection instead of usi
     assert.match(error.message, /停止生成/);
     assert.doesNotMatch(error.message, /private diff/);
     return true;
+  });
+});
+
+test('ordinary Markdown thematic breaks do not invalidate otherwise complete release notes', () => {
+  for (const separator of ['---', '***', '___', '- - -', '* * *', '_ _ _', '  ---  ']) {
+    const input = `${validSummary}\n\n${separator}\n\n### 📌 升级提醒（Notes）\n- **适用范围**：以上修复针对容器网络配置校验`;
+    const normalized = normalizeModelSummary(input);
+    assert.equal(validateSummary(input).valid, true, separator);
+    assert.equal(validateSummary(normalized).detailCount, 2, separator);
+    assert.ok(normalized.includes('以上修复针对容器网络配置校验'));
+    assert.equal(normalizeReleaseMarkdown(normalized), normalized, 'normalization is idempotent');
+  }
+});
+
+test('plain-text lazy continuations remain part of the same release item without losing content', async () => {
+  const input = '### 🐛 问题修复（Fixed）\n- **连接恢复**：修复网络切换后状态不能及时更新的问题\n网络恢复后，页面状态会继续更新。\n  已有条目的操作入口保持不变。';
+  const expected = '### 🐛 问题修复（Fixed）\n- **连接恢复**：修复网络切换后状态不能及时更新的问题 网络恢复后，页面状态会继续更新。 已有条目的操作入口保持不变。';
+  assert.equal(normalizeModelSummary(input), expected);
+  assert.equal(validateSummary(input).valid, true);
+  assert.equal(validateSummary(input).detailCount, 1);
+  const result = await requestModelScopeSummary({
+    apiKey: 'test-token', prompt: 'test prompt', modelCandidates: ['model'], logger: silentLogger,
+    fetchImpl: async () => modelResponse(input),
+  });
+  assert.equal(result.summary, expected);
+});
+
+test('format normalization does not absorb independent prose or hide invalid structures and claims', () => {
+  for (const input of [
+    validSummary + '\n\n下面是列表之外的独立解释。',
+    validSummary + '\n---\n下面是分隔线之后的独立解释。',
+    validSummary + '\n### 自创未知分类\n- 无法确定该分类的含义',
+    validSummary + '\n```javascript\nconst rawSource = true;\n```',
+    validSummary + '\n<div>不能执行或展示未经认可的 HTML</div>',
+    validSummary + '\n这一调整可以彻底解决所有网络故障。',
+  ]) assert.equal(validateSummary(normalizeModelSummary(input)).valid, false, input);
+  const tooManyHighlights = '### 🎉 本次亮点（Highlights）\n'
+    + Array.from({ length: 7 }, (_, index) => `- **独立亮点 ${index}**：描述对应的用户行为变化\n该项说明在同一条目中继续。`).join('\n')
+    + '\n\n---\n\n' + validSummary;
+  assert.match(validateSummary(normalizeModelSummary(tooManyHighlights)).errors.join(';'), /亮点超过 6 条/);
+});
+
+test('normalization retains nested-list boundaries and intentional Markdown hard line breaks', () => {
+  const nested = `${validSummary}\n  - 子项：仅检查 macvlan 场景\n  - 子项：保留网段校验结果`;
+  assert.equal(normalizeReleaseMarkdown(nested), nested);
+  assert.equal(validateSummary(nested).detailCount, 1);
+  const hardBreak = `${validSummary}  \n此行应保留显式换行。`;
+  assert.ok(normalizeReleaseMarkdown(hardBreak).includes('  \n  此行应保留显式换行。'));
+});
+
+test('net evidence covers every non-CSS file with code, late behavioral hunks and all test names', () => {
+  const source = Array.from({ length: 24 }, (_, index) =>
+    `diff --git a/src/module${index}.ts b/src/module${index}.ts\n@@ -1 +1 @@\n-oldValue${index}\n+newValue${index}\n${'+// cosmetic padding\n'.repeat(80)}@@ -100 +100 @@\n-if (!ready) return\n+if (!ready || !canOperate${index}) return`,
+  );
+  source.push(
+    'diff --git a/src/imageDates.ts b/src/imageDates.ts\n@@ -1 +1 @@\n+export function formatImageCreated(value) { return formatDate(Date.parse(value)) }',
+    "diff --git a/src/Stack.tsx b/src/Stack.tsx\n@@ -1 +1 @@\n+const STACK_NAME_PATTERN = /^[a-z0-9][a-z0-9_-]{0,62}$/\n@@ -20 +20 @@\n+setName(name); setValidationResult(null); setValidatedYaml('')",
+    "diff --git a/src/Template.test.tsx b/src/Template.test.tsx\n@@ -0,0 +1,200 @@\n+import mocks from './mocks'\n" + '+// test setup\n'.repeat(100)
+      + "+it('deploys without requiring admin access', async () => {})\n+it('uses the numeric Docker CLI offset regardless of zone name', () => {})",
+  );
+  const styles = Array.from({ length: 60 }, (_, index) => `diff --git a/styles/${index}.css b/styles/${index}.css\n@@ -1 +1 @@\n+${'.box { display: grid; } '.repeat(80)}`);
+  const evidence = buildNetDiffEvidence([...styles, ...source].join('\n'), 18000);
+  assert.ok(evidence.diff.length <= 18000);
+  assert.equal(evidence.sourceFileCount, 27);
+  for (let index = 0; index < 24; index++) {
+    assert.ok(evidence.diff.includes(`+newValue${index}`));
+    assert.ok(evidence.diff.includes(`+if (!ready || !canOperate${index}) return`));
+  }
+  assert.match(evidence.diff, /\+export function formatImageCreated/);
+  assert.match(evidence.diff, /\+const STACK_NAME_PATTERN/);
+  assert.match(evidence.diff, /setValidationResult\(null\); setValidatedYaml\(''\)/);
+  assert.match(evidence.diff, /deploys without requiring admin access/);
+  assert.match(evidence.diff, /uses the numeric Docker CLI offset/);
+});
+
+test('review prompt keeps the authoritative evidence and treats a draft as material to correct', () => {
+  const commits = [{ subject: 'fix: 修复模板权限校验', files: [{ path: 'src/Template.tsx' }] }];
+  const baseline = {
+    previousCommit: '1'.repeat(40), currentRef: '2'.repeat(40), files: commits[0].files,
+    diff: 'diff --git a/src/Template.tsx b/src/Template.tsx\n@@ -1 +1 @@\n-if (!ready) return\n+if (!ready || !canOperate) return',
+  };
+  Object.defineProperty(commits, 'releaseBaseline', { value: baseline });
+  const draft = '### 🎉 重磅功能\n- **全新视图**：新增此前已经存在的卡片与列表切换';
+  const prompt = buildReviewPrompt(commits, draft);
+  assert.ok(prompt.includes(baseline.diff));
+  assert.ok(prompt.includes(JSON.stringify(draft)));
+  assert.match(prompt, /草稿是待纠错数据，不是证据/);
+  assert.match(prompt, /文档段落.*不能证明功能首次/);
+  assert.match(prompt, /indirect 转为 direct 不是移除依赖/);
+  assert.match(prompt, /不硬套 Major 或 Security/);
+  assert.match(prompt, /时间\/时区处理、权限与角色边界、输入校验/);
+  assert.match(prompt, /删除同义重复/);
+  assert.ok(prompt.length <= 180000);
+  assert.throws(() => buildReviewPrompt(commits, 'x'.repeat(180000)), /超过输入预算/);
+});
+
+const overstatedDraft = '### 🐛 问题修复（Fixed）\n- **网络修复**：彻底解决所有网络问题，内部草稿标记不应进入错误日志';
+
+test('unverified claims get exactly one correction on the same model with original evidence and draft', async () => {
+  const requests = [];
+  const logs = [];
+  const result = await requestModelScopeSummary({
+    apiKey: 'test-token', prompt: 'ORIGINAL_NET_DIFF_EVIDENCE', modelCandidates: ['strong', 'backup'],
+    logger: { log() {}, error(...values) { logs.push(values.join(' ')); } },
+    fetchImpl: async (_url, options) => {
+      const request = JSON.parse(options.body);
+      requests.push(request);
+      return modelResponse(requests.length === 1 ? overstatedDraft : validSummary);
+    },
+  });
+  assert.deepEqual(requests.map(request => request.model), ['strong', 'strong']);
+  assert.equal(result.modelName, 'strong');
+  assert.deepEqual(result.attempts.map(attempt => attempt.status), ['failed', 'success']);
+  const retry = requests[1].messages[1].content;
+  assert.match(retry, /ORIGINAL_NET_DIFF_EVIDENCE/);
+  assert.ok(retry.includes(JSON.stringify(overstatedDraft)));
+  assert.match(retry, /不能删除真实功能/);
+  assert.doesNotMatch(JSON.stringify(result.attempts) + logs.join('\n'), /内部草稿标记/);
+  assert.equal(validateSummary(result.summary).valid, true);
+});
+
+test('a failed claim correction changes model instead of retrying the same model indefinitely', async () => {
+  const requested = [];
+  const result = await requestModelScopeSummary({
+    apiKey: 'test-token', prompt: 'evidence', modelCandidates: ['strong', 'backup'], logger: silentLogger,
+    fetchImpl: async (_url, options) => {
+      const model = JSON.parse(options.body).model;
+      requested.push(model);
+      return modelResponse(model === 'strong' ? overstatedDraft : validSummary);
+    },
+  });
+  assert.deepEqual(requested, ['strong', 'strong', 'backup']);
+  assert.equal(result.modelName, 'backup');
+  assert.equal(result.attempts.length, 3);
+});
+
+test('review callers can disable claim correction to guarantee one selected-model request', async () => {
+  let calls = 0;
+  await assert.rejects(requestModelScopeSummary({
+    apiKey: 'test-token', prompt: 'review evidence', modelCandidates: ['selected'], logger: silentLogger,
+    allowClaimCorrection: false,
+    fetchImpl: async () => { calls++; return modelResponse(overstatedDraft); },
+  }), error => {
+    assert.equal(error.attempts.length, 1);
+    assert.doesNotMatch(JSON.stringify(error.attempts), /内部草稿标记/);
+    return true;
+  });
+  assert.equal(calls, 1);
+});
+
+test('HTTP, truncated and unrelated validation failures do not trigger same-model correction', async () => {
+  for (const fail of [
+    () => ({ ok: false, status: 429, async text() { return '{"error":{"message":"insufficient balance"}}'; } }),
+    () => ({ ok: false, status: 400, async text() { return '{"error":{"message":"no provider supported"}}'; } }),
+    () => modelResponse(overstatedDraft, 'length'),
+    () => modelResponse('### 未知分类\n- 这是一条不能归类的说明'),
+  ]) {
+    const requested = [];
+    await requestModelScopeSummary({
+      apiKey: 'test-token', prompt: 'evidence', modelCandidates: ['strong', 'backup'], logger: silentLogger,
+      fetchImpl: async (_url, options) => {
+        const model = JSON.parse(options.body).model;
+        requested.push(model);
+        return model === 'strong' ? fail() : modelResponse();
+      },
+    });
+    assert.deepEqual(requested, ['strong', 'backup']);
+  }
+});
+
+test('side-branch explanations require every before/after file blob to exactly match the release net patch', () => {
+  withReleaseRepository(({ git, write, commit }) => {
+    write('backend/go.mod', 'module example\nreplace nftables => fork v1-old\n');
+    commit('initial dependency baseline');
+    git(['checkout', '-b', 'dev']);
+    write('frontend/Medal.tsx', 'export const historicalMedal = true;\n');
+    commit('feat: 新增旧版荣誉勋章');
+    git(['checkout', 'main']);
+    git(['merge', '--squash', 'dev']);
+    const previousCommit = commit('release: previous squash');
+    git(['checkout', 'dev']);
+    write('backend/go.mod', 'module example\nreplace nftables => fork v2-fixed\n');
+    const supportedCommit = commit('fix: 修复 nftables fd 越界崩溃\n\n升级 fork，修复 unix.FdSet.Set 越界写。\nfd >= 1024 时可能触发 nftables Flush panic。\n实测日志下降约 42%。\n吞吐改善 3.5%，未经核实应整行移除。');
+    git(['checkout', 'main']);
+    git(['merge', '--no-ff', 'dev', '-m', 'Merge dev']);
+    const context = collectReleaseCommits({ previousCommit, currentRef: 'HEAD', git });
+    assert.equal(context.commits.length, 1, 'side explanations do not expand the release-line count');
+    assert.deepEqual(context.releaseBaseline.explanations.map(commit => commit.hash), [supportedCommit]);
+    assert.equal(context.releaseBaseline.explanations[0].evidence, 'exact-release-net-file-states');
+    const prompt = buildSummaryPrompt(context.commits);
+    assert.match(prompt, /unix\.FdSet\.Set/);
+    assert.match(prompt, /fd >= 1024/);
+    assert.match(prompt, /nftables Flush panic/);
+    assert.doesNotMatch(prompt, /historicalMedal|新增旧版荣誉勋章|42%|吞吐改善|3\.5|未经核实应整行移除/);
+  });
+});
+
+test('path overlap and partially matching patches cannot reintroduce side-branch feature descriptions', () => {
+  withReleaseRepository(({ git, write, commit }) => {
+    git(['checkout', '-b', 'dev']);
+    write('frontend/Medal.tsx', 'export const historicalMedal = true;\n');
+    commit('feat: 新增旧版荣誉勋章');
+    git(['checkout', 'main']);
+    git(['merge', '--squash', 'dev']);
+    const previousCommit = commit('release: previous squash');
+    git(['checkout', 'dev']);
+    write('backend/componentupdate/scheduler.go', 'package componentupdate\nconst retryDelaySeconds = 15\n');
+    commit('feat: 不应直接采用的中间行为说明');
+    write('backend/componentupdate/scheduler.go', 'package componentupdate\nconst retryDelaySeconds = 30\n');
+    commit('fix: 路径相同但旧新 blob 不完全匹配的说明');
+    git(['checkout', 'main']);
+    git(['merge', '--no-ff', 'dev', '-m', 'Merge dev']);
+    const context = collectReleaseCommits({ previousCommit, currentRef: 'HEAD', git });
+    assert.equal(context.releaseBaseline.explanations.length, 0);
+    const prompt = buildSummaryPrompt(context.commits);
+    assert.match(prompt, /\+const retryDelaySeconds = 30/);
+    assert.doesNotMatch(prompt, /中间行为说明|路径相同但旧新 blob|新增旧版荣誉勋章/);
   });
 });
