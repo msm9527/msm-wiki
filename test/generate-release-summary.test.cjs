@@ -377,3 +377,58 @@ test('real core multi-model errors become safe diagnostic metadata through the s
   ]);
   assert.doesNotMatch(JSON.stringify({ result, core }), new RegExp(`secret-key|${privateContext}|insufficient balance|has no provider supported`));
 });
+
+test('squash-to-merge graph counts stay separate from the release context and do not suppress fallback warnings', async () => {
+  const core = makeCore();
+  const coverage = {
+    totalCommits: 1, detailedCommits: 1, totalFiles: 20, sampledFiles: 17, commitsWithDiff: 1, incompleteDiffs: 0,
+    rawCommitCount: 112, releaseLineCommits: 1, excludedHistoricalCommits: 111, netChangedFiles: 20, netSampledFiles: 17,
+  };
+  const result = await generateReleaseSummary({
+    core, env: { RELEASE_CHANNEL: 'stable' },
+    summaryModule: makeModule({
+      collectReleaseCommits() {
+        return {
+          commits: [{ subject: privateContext }], rawCommitCount: 112, source: 'previous-source-commit',
+          coverage: { ...coverage, rawDiff: privateContext }, releaseBaseline: { diff: privateContext },
+        };
+      },
+      buildFallbackSummary() { return '### 📌 升级提醒\n- 代码存在版本间净变化，具体功能需要审校。'; },
+    }),
+  });
+  assert.equal(result.status, 'fallback');
+  assert.equal(result.commitCount, 1);
+  assert.equal(core.outputs.commit_count, 1);
+  assert.equal(core.warnings.length, 1);
+  assert.match(core.warnings[0], /上下文提交 1 个/);
+  assert.deepEqual(result.coverage, coverage);
+  assert.match(core.jobSummary, /发布线上下文提交数 \| 1 \|/);
+  assert.match(core.jobSummary, /完整提交图记录数 \| 112 \|/);
+  assert.match(core.jobSummary, /未单列到上下文的图记录数 \| 111 \|/);
+  assert.match(core.jobSummary, /净差异已采样文件 \/ 变更文件 \| 17 \/ 20 \|/);
+  assert.match(core.jobSummary, /图记录数不是新增功能数/);
+  assert.match(core.jobSummary, /未单列的记录不等于没有新代码/);
+  assert.match(core.jobSummary, /逐提交累计.*非唯一/);
+  assert.doesNotMatch(JSON.stringify({ result, core }), new RegExp(`${privateContext}|no-changes|无新增提交`));
+});
+
+test('optional baseline coverage accepts only non-negative safe integers and never substitutes raw counts', async () => {
+  const result = await generateReleaseSummary({
+    env: {},
+    summaryModule: makeModule({
+      collectReleaseCommits() {
+        return {
+          commits: [{}], rawCommitCount: 112,
+          coverage: { rawCommitCount: privateContext, releaseLineCommits: 3, excludedHistoricalCommits: -1, netChangedFiles: Number.MAX_SAFE_INTEGER + 1, netSampledFiles: 1.5 },
+        };
+      },
+    }),
+  });
+  assert.equal(result.commitCount, 1);
+  assert.equal(result.coverage.rawCommitCount, null);
+  assert.equal(result.coverage.releaseLineCommits, 3);
+  assert.equal(result.coverage.excludedHistoricalCommits, null);
+  assert.equal(result.coverage.netChangedFiles, null);
+  assert.equal(result.coverage.netSampledFiles, null);
+  assert.doesNotMatch(JSON.stringify(result), new RegExp(privateContext));
+});

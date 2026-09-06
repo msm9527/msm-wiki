@@ -18,6 +18,7 @@ const FAILURE_LABELS = {
 const ATTEMPT_STATUSES = new Set(['success', 'failed', 'unknown']);
 const ATTEMPT_REASONS = new Set(['ok', 'unknown', ...Object.keys(FAILURE_LABELS)]);
 const COVERAGE_FIELDS = ['totalCommits', 'detailedCommits', 'totalFiles', 'sampledFiles', 'commitsWithDiff', 'incompleteDiffs'];
+const BASELINE_COVERAGE_FIELDS = ['rawCommitCount', 'releaseLineCommits', 'excludedHistoricalCommits', 'netChangedFiles', 'netSampledFiles'];
 
 function validateReleaseSummaryInputs({ sourceRef = 'dev', previousCommit = '', channel = 'beta' } = {}) {
   const ref = String(sourceRef).trim();
@@ -65,9 +66,11 @@ function safeModelName(value) {
 }
 
 function publicCoverage(context) {
-  return Object.fromEntries(COVERAGE_FIELDS.map(field => {
+  const fields = [...COVERAGE_FIELDS, ...BASELINE_COVERAGE_FIELDS.filter(field => Object.hasOwn(context.coverage || {}, field))];
+  return Object.fromEntries(fields.map(field => {
     const value = context.coverage?.[field];
-    const maxValue = ['totalFiles', 'sampledFiles'].includes(field) ? Number.MAX_SAFE_INTEGER : context.commits.length;
+    const maxValue = ['totalCommits', 'detailedCommits', 'commitsWithDiff', 'incompleteDiffs'].includes(field)
+      ? context.commits.length : Number.MAX_SAFE_INTEGER;
     return [field, Number.isSafeInteger(value) && value >= 0 && value <= maxValue ? value : null];
   }));
 }
@@ -125,7 +128,14 @@ function formatJobSummary(result) {
   const attempts = result.modelAttempts.length
     ? `\n### 模型尝试结果\n\n| 次序 | 模型 | 状态 | 原因码 |\n| --- | --- | --- | --- |\n${result.modelAttempts.map((attempt, index) => `| ${index + 1} | ${attempt.model} | ${attempt.status} | ${attempt.reasonCode} |`).join('\n')}\n`
     : '';
-  return `## 发布日志生成结果\n\n| 项目 | 结果 |\n| --- | --- |\n| 通道 | ${result.channel} |\n| 生成状态 | ${state} |\n| 成功模型 | ${result.modelName || '—'} |\n| 模型尝试次数 | ${result.attemptCount} |\n| 提交数 | ${result.commitCount} |\n| 日志条目数（含亮点） | ${result.itemCount} |\n| 亮点条目数 | ${result.highlightCount} |\n| 已读取正文与文件列表的提交 | ${result.coverage.detailedCommits ?? '—'} |\n| 已采样 Diff 的提交 | ${result.coverage.commitsWithDiff ?? '—'} |\n| 已采样文件 / 变更文件 | ${result.coverage.sampledFiles ?? '—'} / ${result.coverage.totalFiles ?? '—'} |\n| Diff 未完整展开的提交 | ${result.coverage.incompleteDiffs ?? '—'} |\n| 范围来源 | ${result.source} |\n\n> 上述覆盖计数反映输入上下文的采样，不代表模型已逐项覆盖全部功能。\n${reason}${attempts}\n### 公开发布日志\n\n${result.summary}\n`;
+  const hasBaseline = BASELINE_COVERAGE_FIELDS.some(field => result.coverage[field] != null);
+  const baselineRows = hasBaseline
+    ? `| 完整提交图记录数 | ${result.coverage.rawCommitCount ?? '—'} |\n| 第一父链发布线记录数（筛选前） | ${result.coverage.releaseLineCommits ?? '—'} |\n| 未单列到上下文的图记录数 | ${result.coverage.excludedHistoricalCommits ?? '—'} |\n| 净差异已采样文件 / 变更文件 | ${result.coverage.netSampledFiles ?? '—'} / ${result.coverage.netChangedFiles ?? '—'} |\n`
+    : '';
+  const baselineNote = hasBaseline
+    ? '\n> 图记录数不是新增功能数；未单列的记录不等于没有新代码，侧分支变化由版本间净差异统一提供证据。\n'
+    : '';
+  return `## 发布日志生成结果\n\n| 项目 | 结果 |\n| --- | --- |\n| 通道 | ${result.channel} |\n| 生成状态 | ${state} |\n| 成功模型 | ${result.modelName || '—'} |\n| 模型尝试次数 | ${result.attemptCount} |\n| 发布线上下文提交数 | ${result.commitCount} |\n${baselineRows}| 日志条目数（含亮点） | ${result.itemCount} |\n| 亮点条目数 | ${result.highlightCount} |\n| 已读取正文与文件列表的上下文提交 | ${result.coverage.detailedCommits ?? '—'} |\n| 已采样 Diff 的上下文提交 | ${result.coverage.commitsWithDiff ?? '—'} |\n| 逐提交累计已采样文件 / 变更文件（非唯一） | ${result.coverage.sampledFiles ?? '—'} / ${result.coverage.totalFiles ?? '—'} |\n| Diff 未完整展开的上下文提交 | ${result.coverage.incompleteDiffs ?? '—'} |\n| 范围来源 | ${result.source} |\n\n> 上述覆盖计数反映输入上下文的采样，不代表模型已逐项覆盖全部功能。\n${baselineNote}${reason}${attempts}\n### 公开发布日志\n\n${result.summary}\n`;
 }
 
 /**
@@ -278,12 +288,12 @@ async function generateReleaseSummary({
     core.setOutput('model', result.modelName);
     core.setOutput('commit_count', result.commitCount);
     core.setOutput('item_count', result.itemCount);
-    core.info(`发布日志：${result.status}；模型=${result.modelName || '无'}；提交=${result.commitCount}；条目=${result.itemCount}；亮点=${result.highlightCount}`);
+    core.info(`发布日志：${result.status}；模型=${result.modelName || '无'}；发布线上下文提交=${result.commitCount}；条目=${result.itemCount}；亮点=${result.highlightCount}`);
     result.modelAttempts.forEach((attempt, index) => {
       core.info(`模型尝试 ${index + 1}：${attempt.model}；status=${attempt.status}；reasonCode=${attempt.reasonCode}`);
     });
     if (fallbackReason) {
-      core.warning(`${FAILURE_LABELS[fallbackReason]}；已使用规则回退（非 AI）。提交 ${result.commitCount} 个，日志 ${result.itemCount} 条。`);
+      core.warning(`${FAILURE_LABELS[fallbackReason]}；已使用规则回退（非 AI）。上下文提交 ${result.commitCount} 个，日志 ${result.itemCount} 条。`);
     }
     await core.summary.addRaw(formatJobSummary(result)).write();
   }
