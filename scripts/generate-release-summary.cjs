@@ -19,6 +19,26 @@ const ATTEMPT_STATUSES = new Set(['success', 'failed', 'unknown']);
 const ATTEMPT_REASONS = new Set(['ok', 'unknown', ...Object.keys(FAILURE_LABELS)]);
 const COVERAGE_FIELDS = ['totalCommits', 'detailedCommits', 'totalFiles', 'sampledFiles', 'commitsWithDiff', 'incompleteDiffs'];
 const BASELINE_COVERAGE_FIELDS = ['rawCommitCount', 'releaseLineCommits', 'excludedHistoricalCommits', 'netChangedFiles', 'netSampledFiles'];
+// Publish only fixed diagnostic codes, never the model output or provider message.
+const OUTPUT_CHECKS = [
+  ['truncated', /达到输出上限|已截断/u],
+  ['unexpected-finish', /模型输出未正常结束/u],
+  ['empty-output', /模型返回空白内容/u],
+  ['missing-text', /API 响应缺少文本内容/u],
+  ['unclosed-thinking', /模型思考内容未完整结束/u],
+  ['html-or-fence', /输出包含代码围栏或 HTML/u],
+  ['refusal-or-explanation', /模型返回拒绝或解释性内容/u],
+  ['unknown-heading', /未知发布分类/u],
+  ['duplicate-heading', /重复发布分类/u],
+  ['placeholder-item', /发布条目为空、占位或缺少具体内容/u],
+  ['unclosed-bold', /粗体标记未闭合/u],
+  ['non-list-content', /分类之外出现非列表内容/u],
+  ['empty-category', /分类 .* 没有实际条目/u],
+  ['missing-details', /缺少详细变更分类/u],
+  ['too-many-highlights', /亮点超过 6 条/u],
+  ['unverified-claims', /未经单独验证的绝对化或量化宣传/u],
+  ['credential-echo', /模型输出包含敏感凭据/u],
+];
 
 function validateReleaseSummaryInputs({ sourceRef = 'dev', previousCommit = '', channel = 'beta' } = {}) {
   const ref = String(sourceRef).trim();
@@ -95,7 +115,8 @@ function publicModelAttempts(attempts, env) {
         ? attempt.reasonCode
         : failureCode(attempt.error);
     // Explicit projection: never retain provider messages, headers, prompts or other fields.
-    return { model, status, reasonCode };
+    const checks = status === 'failed' ? OUTPUT_CHECKS.filter(([, pattern]) => pattern.test(String(attempt.error || ''))).map(([code]) => code) : [];
+    return { model, status, reasonCode, ...(checks.length ? { checks } : {}) };
   });
 }
 
@@ -290,7 +311,7 @@ async function generateReleaseSummary({
     core.setOutput('item_count', result.itemCount);
     core.info(`发布日志：${result.status}；模型=${result.modelName || '无'}；发布线上下文提交=${result.commitCount}；条目=${result.itemCount}；亮点=${result.highlightCount}`);
     result.modelAttempts.forEach((attempt, index) => {
-      core.info(`模型尝试 ${index + 1}：${attempt.model}；status=${attempt.status}；reasonCode=${attempt.reasonCode}`);
+      core.info(`模型尝试 ${index + 1}：${attempt.model}；status=${attempt.status}；reasonCode=${attempt.reasonCode}${attempt.checks?.length ? '；checks=' + attempt.checks.join(',') : ''}`);
     });
     if (fallbackReason) {
       core.warning(`${FAILURE_LABELS[fallbackReason]}；已使用规则回退（非 AI）。上下文提交 ${result.commitCount} 个，日志 ${result.itemCount} 条。`);

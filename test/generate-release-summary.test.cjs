@@ -432,3 +432,20 @@ test('optional baseline coverage accepts only non-negative safe integers and nev
   assert.equal(result.coverage.netSampledFiles, null);
   assert.doesNotMatch(JSON.stringify(result), new RegExp(privateContext));
 });
+
+test('output diagnostics expose fixed check codes, not rejected model text', async () => {
+  const core = makeCore();
+  const result = await generateReleaseSummary({
+    core, env: { MODELSCOPE_API_KEY: 'secret-key' },
+    summaryModule: makeModule({
+      async requestModelScopeSummary() {
+        const error = new Error('validation failed');
+        error.attempts = [{modelName: 'Strong/Checked', status: 'failed', error: `模型输出校验失败: 未知发布分类: ${privateContext} secret-key；包含未经单独验证的绝对化或量化宣传；分类之外出现非列表内容`}];
+        throw error;
+      },
+    }),
+  });
+  assert.deepEqual(result.modelAttempts[0].checks, ['unknown-heading', 'non-list-content', 'unverified-claims']);
+  assert.ok(core.logs.some(line => line.includes('checks=unknown-heading,non-list-content,unverified-claims')));
+  assert.doesNotMatch(JSON.stringify({ result, core }), new RegExp(`${privateContext}|secret-key|未知发布分类`));
+});
