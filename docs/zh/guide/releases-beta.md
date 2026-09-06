@@ -25,40 +25,20 @@
 
 ## 🧪 最新 Beta 版本
 
-> 当前 Beta 版本：`beta-1.3.9`  
-> 发布时间：2026-09-06 00:12:19 CST  
-> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.9>  
+> 当前 Beta 版本：`beta-1.4.1`  
+> 发布时间：2026-09-06 11:00:40 CST  
+> - 发布页：<https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.1>  
 > - 下载方式：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 
-### ✨ 新增（Added）
-- 增加 GitHub Token 凭据与限流重试机制
-- 完善 EasyTier 配置、TOML 同步及 TUN 诊断
-- 新增 Docker 更新自动化管理与安全队列
-- 支持外部 Compose 容器检查与安全重建更新
-
-### 🔧 变更（Changed）
-- 重构 Docker 管理工作台，统一资源卡片体验
-- 精简 Docker 更新工作区与策略 UI 设计
-- 优化前端镜像页面文件体量与加载性能
-
-### 🐛 修复（Fixed）
-- 兼容旧配置时间戳并恢复核心切换逻辑
-- 防御 Docker 更新空响应及修复构建类型错误
-- 修复目标选择器浮层溢出与容器卡片布局
-- 区分 Docker 引擎离线与空环境状态显示
-- 补齐生命周期数据并增强并发执行保护
-
 ### 📝 备注（Notes）
-- 版本已升级至 1.3.9
-- Docker 更新自动化需满足授权许可要求
-- EasyTier 支持安全的密码查看交互
+- 本次版本从 2026-09-05T22:16:22Z 之后更新，包含 10 个提交，主要更新：chore: 升级版本至 1.4.1 / bump version to 1.4.1，涉及 M .version; M backend/docs/openapi.json; M backend/docs/openapi.yaml; ...
 
 ::: details 📋 构建信息
 - **发布通道**: beta（Beta 版）
-- **源提交**: [`8e0e0db`](https://github.com/msm9527/msm/commit/8e0e0db5873a1af3c83de5b3ec786e596e2e6042)
-- **提交信息**: feat: 增加 GitHub Token 凭据与限流重试 / add GitHub credential and rate-limit retry
+- **源提交**: [`2954c4d`](https://github.com/msm9527/msm/commit/2954c4d1fc10198ae97d26354d3681542a125b7c)
+- **提交信息**: chore: 升级版本至 1.4.1 / bump version to 1.4.1
 - **提交作者**: root
-- **提交时间**: 2026-09-06 00:12:19 CST
+- **提交时间**: 2026-09-06 11:00:40 CST
 :::
 
 ---
