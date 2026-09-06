@@ -5,8 +5,6 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 # 🧪 Beta 更新
 
-抢先体验新功能，了解每一次变化。Beta 版可能包含未完全验证的功能，请先在测试环境验证。
-
 <nav class="msm-release-channels" aria-label="发布通道">
   <a href="/zh/guide/releases.html">🚀 稳定版 <span>日常使用</span></a>
   <a href="/zh/guide/releases-beta.html" aria-current="page">🧪 Beta 版 <span>抢先体验</span></a>
@@ -16,9 +14,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 <div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.4.1" data-release-date="2026-09-06 11:00:40 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.1">
   <div class="msm-release-hero-copy">
-    <span class="msm-release-kicker">MSM / Beta 版 · RELEASE NOTES</span>
     <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.4.1</code></h3>
-    <p class="msm-release-lede"><span class="msm-release-lede-label">本次亮点</span><strong>Docker 管理焕新，Compose 入口合一：</strong>部署、模板、YAML 校验、详情和日志集中到同一个工作区，管理容器与应用栈更连贯。</p>
   </div>
   <div class="msm-release-actions">
     <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.1" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
@@ -26,45 +22,37 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>实质更新</span><strong>20 项</strong></div>
-  <div class="msm-release-metric"><span>重点速览</span><strong>5 个亮点</strong></div>
-  <div class="msm-release-metric"><span>源码提交时间</span><strong>2026-09-06 11:00:40 CST</strong></div>
-  <div class="msm-release-metric"><span>源提交</span><a href="https://github.com/msm9527/msm/commit/2954c4d1fc10198ae97d26354d3681542a125b7c" target="_blank" rel="noreferrer"><code>2954c4d</code></a></div>
+  <div class="msm-release-metric"><span>更新</span><strong>20 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>5 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-06 11:00:40 CST</strong></div>
 </div>
-<p class="msm-release-download-note"><span>下载说明</span>同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单</p>
 
 <!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKkRvY2tlciDnrqHnkIbnhJXmlrDvvIxDb21wb3NlIOWFpeWPo+WQiOS4gCoq77ya6YOo572y44CB5qih5p2/44CBWUFNTCDmoKHpqozjgIHor6bmg4Xlkozml6Xlv5fpm4bkuK3liLDlkIzkuIDkuKrlt6XkvZzljLrvvIznrqHnkIblrrnlmajkuI7lupTnlKjmoIjmm7Tov57otK/jgIIiLCItICoq6LWE5rqQ54q25oCB77yM5LiA55y86K+75oeCKirvvJrlrrnlmajljaHniYfjgIHnq6/lj6PmmKDlsITjgIFDUFUgLyBSQU0g5oyH5qCH5LiO6ZWc5YOP5pu05paw54q25oCB57uf5LiA5qKz55CG77yM5YWz6ZSu5pWw5o2u5pu05a655piT5om+5Yiw44CCIiwiLSAqKm1hY3ZsYW4g5Yib5bu65YmN5YWI5L2T5qOAKirvvJrmgaLlpI3ni6znq4vlj4LmlbDmoKHpqozvvIzlj6/lhYjmo4Dmn6XnvZHljaHjgIHlrZDnvZHjgIHnvZHlhbPlkowgSVAg6IyD5Zu077yM5YaN5Yaz5a6a5piv5ZCm5Yib5bu6572R57uc44CCIiwiLSAqKuS7pOeJjOacieW9kuWxnu+8jOS8muivneS4jeepuui9rCoq77yaQVBJIFRva2VuIOWFs+iBlOWunumZheeUqOaIt++8jOWkseaViOeZu+W9leWPiuaXtua4heeQhu+8jOihpem9kOi6q+S7veagoemqjOS4juWJjeerr+eKtuaAgeiBlOWKqOOAgiIsIi0gKirljYfnuqfpk77ot6/ooaXpvZDpmLLmiqQqKu+8muaLkue7neS4i+i9veWQjOeJiOaIluaXp+eJiOabtOaWsO+8jOa4heeQhiBDbGFzaCDml6DmlYjorqLpmIXmrovnlZnvvIzpmY3kvY7ljYfnuqfov4fnqIvkuK3nmoTphY3nva7lubLmibDjgIIiXSwibWFqb3IiOlsiLSAqKkRvY2tlciDnrqHnkIbph43mnoTvvIxDb21wb3NlIOW3peS9nOa1gee7n+S4gCoq77ya5L+d55WZIERvY2tlciDkuoznuqflr7zoiKrvvIzpu5jorqTov5vlhaXlrrnlmajpobXvvJtDb21wb3NlIOmDqOe9suOAgeaooeadv+OAgVlBTUwg5qCh6aqM44CB6K+m5oOF5ZKM5pel5b+X57uf5LiA5Yiw4oCc5bqU55So5qCI4oCd5bel5L2c5Yy677yM5YeP5bCR6YeN5aSN5YWl5Y+j5LiO5p2l5Zue5YiH5o2i44CCIl0sImFkZGVkIjpbXSwiY2hhbmdlZCI6WyItICoq5a655Zmo5Y2h54mH5LiO5YiX6KGo5pu05aW955SoKirvvJrkv53nlZnop4blm77liIfmjaLvvJvljaHniYflpI3pgInmoYblnKjmgqzlgZzjgIHplK7nm5jogZrnhKbmiJbpgInkuK3ml7bmmL7npLrvvIzop6blsY/orr7lpIfnm7TmjqXmmL7npLrvvIzlhbzpob7ntKflh5HluIPlsYDkuI7lpJrpgInmk43kvZzjgIIiLCItICoq56uv5Y+j5pig5bCE5oyJ6ZyA5bGV5byAKirvvJrngrnlh7vmipjlj6DljLrln5/ljbPlj6/mn6XnnIvlhajpg6jmmKDlsITvvIzmmKDlsITovoPlpJrml7bku43og73kv53mjIHljaHniYfmuIXmmbDjgIIiLCItICoq6LWE5rqQ5oyH5qCH5Y+j5b6E5pu05piO56GuKirvvJpDUFUg5peg6YeH5qC35pe25pi+56S64oCc4oCU4oCd77yMUkFNIOWQjOaXtuWxleekuueUqOmHj+S4juS4iumZkO+8m+e9kee7nOOAgeejgeebmOWMuuWIhuWPjOWQkee0r+iuoemHj++8jOWNleS+p+aVsOaNrue8uuWkseaXtuS/neeVmeepuuS9je+8jOmBv+WFjeaUtuWPkeaIluivu+WGmeaVsOaNruS4suS9je+8jOS7peWPiuS4juWunuaXtumAn+eOh+a3t+a3huOAgiIsIi0gKirplZzlg4/mm7TmlrDnirbmgIHmm7TmuIXmpZoqKu+8muaYjuehruWMuuWIhuKAnOWPr+abtOaWsOOAgeacgOaWsOOAgeS4jeaUr+aMgeOAgeacquajgOafpeKAne+8jOajgOafpeS4juWIt+aWsOaMiemSruWinuWKoOaJp+ihjOS4reeKtuaAge+8jOaTjeS9nOWPjemmiOabtOebtOinguOAgiIsIi0gKirmm7TmlrDnrZbnlaXliIblsYLlsZXnpLoqKu+8muKAnOS/neeVmeaXp+WuueWZqOKAneetiemFjee9ruaUtue6s+WIsOmrmOe6p+iuvue9ru+8jOW4uOeUqOaTjeS9nOS4jui/m+mYtumFjee9ruWQhOacieS9jee9ruOAgiIsIi0gKirotYTmupDlt6XkvZzljLrop4bop4nnu5/kuIAqKu+8muiKgueCueOAgeWuueWZqOOAgemVnOWDj+OAgee9kee7nOOAgeWtmOWCqOOAgeW6lOeUqOagiOOAgeS6i+S7tuWSjOezu+e7n+S/oeaBr+mHh+eUqOS4gOiHtOeahOmhteWktOOAgei1hOa6kOW4g+WxgOS4juWTjeW6lOW8j+agt+W8j+OAgiIsIi0gKirkuovku7bmkJzntKLopobnm5bmm7TlpJrnur/ntKIqKu+8muWPr+WvueW3suWKoOi9veS6i+S7tueahOWKqOS9nOOAgeaTjeS9nOiAheOAgeexu+Wei+WPiuWxnuaAp+mUruWSjOWAvOi/m+ihjOWFs+mUruivjeaQnOe0ou+8jOafpeaJvumhueebruWQjeOAgeWuueWZqOWQjeetiee6v+e0ouabtOaWueS+v+OAgiIsIi0gKirmm7TmlrDorrDlvZXkuI3lho3lj6rmmL7npLrliY0gOCDmnaEqKu+8muWPlua2iOWJjeerr+mineWkluaIquaWre+8jOWxleekuuaOpeWPo+i/lOWbnueahOabtOaWsOiusOW9le+8iOW9k+WJjeacgOWkmiA1MCDmnaHvvInvvJvku7vliqHov5vluqbkuLogMCUg5pe277yM6L+b5bqm5p2h5Lmf5LuO6Zu25byA5aeL5pi+56S644CCIiwiLSAqKui1hOa6kOihqOagvOabtOaYk+mYheivu+WSjOivhuWIqyoq77ya6ZWc5YOP44CB572R57uc44CB5a2Y5YKo562J6LWE5rqQ6KGo5qC86KGl5YWF5YiX5qCH6aKY6K+t5LmJ77yM5bm255u05o6l5pi+56S64oCc5pON5L2c4oCd5YiX5qCH6aKY77yM5YW86aG+6KeG6KeJ5rWP6KeI5LiO5bGP5bmV6ZiF6K+75Zmo5L2/55So44CCIiwiLSAqKuiKgueCuee8lui+keS/oeaBr+abtOi0tOWQiOi/nuaOpeaWueW8jyoq77ya5pys5Zyw6IqC54K555qE57yW6L6R5oq95bGJ5LiN5YaN5pi+56S66L+c56iL6L+e5o6l5Zyw5Z2A6aG577yb6L+c56iL6IqC54K55L+d55WZ6K+l5L+h5oGv77yM57y65bCR5Zyw5Z2A5pe25piO56Gu5pi+56S64oCc4oCU4oCd44CCIl0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSAqKuaBouWkjSBtYWN2bGFuIOeLrOeri+agoemqjCoq77ya572R57uc5Yib5bu65by556qX5Y+v5bGV5byA5qOA5p+l54i2572R5Y2h44CB5a2Q572R44CB572R5YWz5Y+KIElQIOiMg+WbtO+8jOS7heagoemqjOOAgeS4jeWIm+W7uu+8m+WPguaVsOaIlueuoeeQhuebruagh+WPmOWMluWQjua4hemZpOaXp+e7k+aenO+8jOmBv+WFjeaKiuWFiOWJjeeahOagoemqjOe7k+iuuueUqOS6juaWsOmFjee9ruOAgiIsIi0gKirkv67mraPplZzlg4/liJvlu7rml7bpl7QqKu+8muS8mOWFiOaMiSBEb2NrZXIg5pe26Ze05oiz55qE5pWw5a2X5pe25Yy65YGP56e76Kej5p6Q77yM6YG/5YWNIGBDU1RgIOetiee8qeWGmeS6p+eUn+atp+S5ie+8m+ebuOWvueaXtumXtOWSjOacquefpeagvOW8j+S/neeVmeWOn+WAvOOAgiIsIi0gKirlpLHmlYjnmbvlvZXkuI3lho3lj43lpI3op6blj5HnirbmgIHlj5jmm7QqKu+8muWIt+aWsOS7pOeJjOWksei0peWQjui/m+WFpee7n+S4gOacquaOiOadg+WkhOeQhu+8jOa4heeQhuacrOWcsOS8muivne+8m+mHjeWkjea4heeQhuS4jeWGjeWPjeWkjeW5v+aSreeZu+W9leWPmOWMlu+8jOWBnOatouaXoOaViOaOiOadg+i9ruivouOAgiIsIi0gKirkuIvovb3liY3lho3mrKHmoKHpqozniYjmnKwqKu+8muayoeacieabtOaWsOOAgeebruagh+eJiOacrOS4uuepuuOAgeebruagh+eJiOacrOetieS6juaIluS9juS6juW9k+WJjeeJiOacrOaXtuaLkue7neS4i+i9ve+8jOmBv+WFjee8k+WtmOeKtuaAgeaIluaJi+WKqOivt+axguinpuWPkeaXp+eJiOS4i+i9veOAgiIsIi0gKirkv67lpI0gR2l0SHViIOWbvuagh+ivt+axguS4juWGhee9keS7o+eQhuWGsueqgSoq77ya5a6Y5pa5IEdpdEh1YiBBUEkg5L2/55So5YW85a65546v5aKD5Luj55CG55qE5Lyg6L6T6Lev5b6E77yb5YW25LuW6L+c56iL5Zyw5Z2A5L+d55WZ5a6J5YWo5ouo5Y+35qOA5p+l44CCIiwiLSAqKua4heeQhiBDbGFzaCDml6DmlYjorqLpmIXmrovnlZkqKu+8muWNh+e6p+aXtuaMieW3suS/neWtmOeahOiuoumYhemFjee9rumHjeaWsOaVtOeQhuaPkOS+m+WZqO+8jOenu+mZpOaXoOaViOWNoOS9jeS4juS4jeaUr+aMgeeahCBVUkzvvIzlkIzml7bkv53nlZnmnInmlYjnmoToh6rlrprkuYnmj5DkvpvlmajvvJvphY3nva7mnKrlj5jljJbml7bkuI3ph43lpI3lhpnlhaXjgIIiLCItICoq5bqU55So5qCI5pS55ZCN5ZCO6YeN5paw5qCh6aqMKirvvJrlkI3np7Dop4TojIPljJbkuLrlsI/lhpnlubbmo4Dmn6XmoLzlvI/vvJvkv67mlLnlkI3np7DlkI7muIXpmaTml6cgWUFNTCDmoKHpqoznu5PmnpzvvIzpgb/lhY3msr/nlKjlhYjliY3moKHpqoznirbmgIHnm7TmjqXpg6jnvbLjgIIiXSwic2VjdXJpdHkiOlsiLSAqKkFQSSBUb2tlbiDnu5Hlrprlrp7pmYXnlKjmiLcqKu+8muiupOivgeS4iuS4i+aWh+iusOW9leaJgOWxnueUqOaIt+i6q+S7ve+8jOaJgOWxnueUqOaIt+aXoOaViOaIluWBnOeUqOaXtuaLkue7neiupOivge+8m+WFvOWuueWPr+aYjuehruivhuWIq+W9kuWxnueahOWOhuWPsuS7pOeJjOOAgiIsIi0gKirmqKHmnb/pg6jnvbLooaXpvZDmnYPpmZDkuI7ph43lpI3ngrnlh7vkv53miqQqKu+8muWPquivu+eUqOaIt+S4jeiDveWPkei1t+mDqOe9su+8jOW3suaciemDqOe9suaJp+ihjOaXtuemgeeUqOWFtuS7lumDqOe9suWFpeWPo++8jOmZjeS9juivr+aTjeS9nOmjjumZqeOAgiJdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSAqKkNvbXBvc2Ug5YWl5Y+j6LCD5pW0KirvvJrml6cgYC9kb2NrZXIvY29tcG9zZWAg5Zyw5Z2A6Ieq5Yqo6Lez6L2s5YiwIGAvZG9ja2VyL3N0YWNrc2DvvJvlpJbpg6jpobnnm67mlbTmoIjmk43kvZzku43lj5fml6LmnInmnYPpmZDkuI7og73lipvpmZDliLbjgIIiLCItICoq5Y6G5Y+y5Luk54mM5qOA5p+lKirvvJroi6Xml6cgQVBJIFRva2VuIOeahOaJgOWxnueUqOaIt+W3suWBnOeUqOaIluaXoOazleivhuWIq++8jOWNh+e6p+WQjuS8muiiq+aLkue7ne+8m+ivt+ajgOafpeS7pOeJjOW9kuWxnuWPiueUqOaIt+eKtuaAgeOAgiIsIi0g5pys5qyh6K6w5b2V6KaG55uWIGBiZXRhLTEuMy45IOKGkiBiZXRhLTEuNC4xYCDnmoQgMTAg5Liq5o+Q5Lqk44CCQmV0YSDniYjor7flhYjlnKjmtYvor5Xnjq/looPpqozor4HvvIzljYfnuqfliY3lpIfku73phY3nva7kuI7lupTnlKjmoIjlrprkuYnjgIIiXX19 -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
-<div class="msm-release-highlights">
-
-<article class="msm-release-highlight">
-  <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-  <p><strong>Docker 管理焕新，Compose 入口合一：</strong>部署、模板、YAML 校验、详情和日志集中到同一个工作区，管理容器与应用栈更连贯。</p>
-</article>
-
-<article class="msm-release-highlight">
-  <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-  <p><strong>资源状态，一眼读懂：</strong>容器卡片、端口映射、CPU / RAM 指标与镜像更新状态统一梳理，关键数据更容易找到。</p>
-</article>
-
-<article class="msm-release-highlight">
-  <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-  <p><strong>macvlan 创建前先体检：</strong>恢复独立参数校验，可先检查网卡、子网、网关和 IP 范围，再决定是否创建网络。</p>
-</article>
-
-<article class="msm-release-highlight">
-  <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-  <p><strong>令牌有归属，会话不空转：</strong>API Token 关联实际用户，失效登录及时清理，补齐身份校验与前端状态联动。</p>
-</article>
-
-<article class="msm-release-highlight">
-  <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-  <p><strong>升级链路补齐防护：</strong>拒绝下载同版或旧版更新，清理 Clash 无效订阅残留，降低升级过程中的配置干扰。</p>
-</article>
-
-</div>
+<ol class="msm-release-highlights">
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">01</span>
+    <p><strong>Docker 管理焕新，Compose 入口合一：</strong>部署、模板、YAML 校验、详情和日志集中到同一个工作区，管理容器与应用栈更连贯。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">02</span>
+    <p><strong>资源状态，一眼读懂：</strong>容器卡片、端口映射、CPU / RAM 指标与镜像更新状态统一梳理，关键数据更容易找到。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">03</span>
+    <p><strong>macvlan 创建前先体检：</strong>恢复独立参数校验，可先检查网卡、子网、网关和 IP 范围，再决定是否创建网络。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">04</span>
+    <p><strong>令牌有归属，会话不空转：</strong>API Token 关联实际用户，失效登录及时清理，补齐身份校验与前端状态联动。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">05</span>
+    <p><strong>升级链路补齐防护：</strong>拒绝下载同版或旧版更新，清理 Clash 无效订阅残留，降低升级过程中的配置干扰。</p>
+  </li>
+</ol>
 
 ### 📋 完整更新 {#release-details}
 
@@ -140,6 +128,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 - **提交信息**：chore: 升级版本至 1.4.1 / bump version to 1.4.1
 - **提交作者**：root
 - **提交时间**：2026-09-06 11:00:40 CST
+- **下载说明**：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 :::
 
 ---

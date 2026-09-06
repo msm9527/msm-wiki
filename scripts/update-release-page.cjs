@@ -86,13 +86,13 @@ function inlineHtml(value) {
 function renderSummary(sections) {
   const blocks = [];
   if (sections.highlights.length) {
-    blocks.push('### 🎉 本次亮点 {#release-highlights}', '', '<div class="msm-release-highlights">', '');
+    blocks.push('### 🎉 本次亮点 {#release-highlights}', '', '<ol class="msm-release-highlights">');
     for (const [index, item] of sections.highlights.entries()) {
-      blocks.push('<article class="msm-release-highlight">',
-        '  <span class="msm-release-highlight-index" aria-hidden="true">' + String(index + 1).padStart(2, '0') + '</span>',
-        '  <p>' + inlineHtml(item.replace(/^-\s+/u, '')) + '</p>', '</article>', '');
+      blocks.push('  <li class="msm-release-highlight">',
+        '    <span class="msm-release-highlight-index" aria-hidden="true">' + String(index + 1).padStart(2, '0') + '</span>',
+        '    <p>' + inlineHtml(item.replace(/^-\s+/u, '')) + '</p>', '  </li>');
     }
-    blocks.push('</div>', '');
+    blocks.push('</ol>', '');
   }
   const details = SECTION_DEFS.filter(({ key }) => key !== 'highlights' && sections[key].length);
   if (details.length) {
@@ -140,7 +140,6 @@ function extractLatestSection(section, channel) {
 function buildLatestBlock(options) {
   const sections = parseSummary(normalizePublicTerminology(options.aiSummary));
   if (!Object.values(sections).some((items) => items.length)) sections.notes.push('- 暂无更新说明');
-  const highlightLead = sections.highlights[0]?.replace(/^-\s+/u, '') || options.releaseDownloadNote;
   const releaseUrl = 'https://github.com/msm9527/msm-wiki/releases/tag/' + encodeURIComponent(options.version);
   const installUrl = options.channel === 'beta' ? '/zh/guide/releases-beta.html#一键安装' : '/zh/guide/install.html';
   const displayVersion = options.channel === 'beta' ? options.version : 'v' + options.baseVersion;
@@ -150,28 +149,25 @@ function buildLatestBlock(options) {
   return [
     '<div class="msm-release-hero msm-release-hero--' + escapeHtml(options.channel) + '" data-version="' + escapeHtml(options.version) + '" data-release-date="' + escapeHtml(options.commitDate) + '" data-release-url="' + escapeHtml(releaseUrl) + '">',
     '  <div class="msm-release-hero-copy">',
-    '    <span class="msm-release-kicker">MSM / ' + escapeHtml(options.channelName) + ' · RELEASE NOTES</span>',
     '    <h3 class="msm-release-version"><span>' + escapeHtml(options.channelName) + '</span> <code>' + escapeHtml(displayVersion) + '</code></h3>',
-    '    <p class="msm-release-lede"><span class="msm-release-lede-label">本次亮点</span>' + inlineHtml(highlightLead) + '</p>',
     '  </div>',
     '  <div class="msm-release-actions">',
     '    <a class="msm-release-action msm-release-action--primary" href="' + escapeHtml(releaseUrl) + '" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>',
     '    <a class="msm-release-action" href="' + installUrl + '">安装指南 <span aria-hidden="true">→</span></a>',
     '  </div>', '</div>',
     '<div class="msm-release-metrics" aria-label="发布概览">',
-    '  <div class="msm-release-metric"><span>实质更新</span><strong>' + count + ' 项</strong></div>',
-    '  <div class="msm-release-metric"><span>重点速览</span><strong>' + sections.highlights.length + ' 个亮点</strong></div>',
-    '  <div class="msm-release-metric"><span>源码提交时间</span><strong>' + escapeHtml(options.commitDate) + '</strong></div>',
-    '  <div class="msm-release-metric"><span>源提交</span><a href="https://github.com/msm9527/msm/commit/' + escapeHtml(options.commitShaFull) + '" target="_blank" rel="noreferrer"><code>' + escapeHtml(options.commitSha) + '</code></a></div>',
-    '</div>',
-    '<p class="msm-release-download-note"><span>下载说明</span>' + escapeHtml(options.releaseDownloadNote) + '</p>', '',
+    '  <div class="msm-release-metric"><span>更新</span><strong>' + count + ' 项</strong></div>',
+    '  <div class="msm-release-metric"><span>亮点</span><strong>' + sections.highlights.length + ' 条</strong></div>',
+    '  <div class="msm-release-metric"><span>源码提交日期</span><strong>' + escapeHtml(options.commitDate) + '</strong></div>',
+    '</div>', '',
     '<!-- msm-release-data:' + data + ' -->', '', renderSummary(sections), '',
     '::: details 📋 构建信息',
     '- **发布通道**：' + escapeHtml(options.channel) + '（' + escapeHtml(options.channelName) + '）',
     '- **源提交**： [\x60' + escapeHtml(options.commitSha) + '\x60](https://github.com/msm9527/msm/commit/' + escapeHtml(options.commitShaFull) + ')',
     '- **提交信息**：' + safeMarkdown(normalizePublicTerminology(options.commitMessage)),
     '- **提交作者**：' + safeMarkdown(options.commitAuthor),
-    '- **提交时间**：' + escapeHtml(options.commitDate), ':::', '', '---',
+    '- **提交时间**：' + escapeHtml(options.commitDate),
+    '- **下载说明**：' + safeMarkdown(options.releaseDownloadNote), ':::', '', '---',
   ].join('\n');
 }
 

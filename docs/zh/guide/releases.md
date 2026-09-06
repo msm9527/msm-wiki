@@ -5,8 +5,6 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 
 # 📦 版本更新
 
-每个版本，都有值得了解的新变化。查看亮点、完整更新与升级提醒。
-
 <nav class="msm-release-channels" aria-label="发布通道">
   <a href="/zh/guide/releases.html" aria-current="page">🚀 稳定版 <span>日常使用</span></a>
   <a href="/zh/guide/releases-beta.html">🧪 Beta 版 <span>抢先体验</span></a>
@@ -16,9 +14,7 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 
 <div class="msm-release-hero msm-release-hero--stable" data-version="1.2.6" data-release-date="2026-07-27 16:07:30 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/1.2.6">
   <div class="msm-release-hero-copy">
-    <span class="msm-release-kicker">MSM / 稳定版 · RELEASE NOTES</span>
     <h3 class="msm-release-version"><span>稳定版</span> <code>v1.2.6</code></h3>
-    <p class="msm-release-lede"><span class="msm-release-lede-label">本次亮点</span><strong>修复网络规则刷新时的崩溃：</strong>更新 nftables 依赖，修复高文件描述符场景下的越界问题，增强网络规则维护的稳定性。</p>
   </div>
   <div class="msm-release-actions">
     <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/1.2.6" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
@@ -26,35 +22,29 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>实质更新</span><strong>4 项</strong></div>
-  <div class="msm-release-metric"><span>重点速览</span><strong>3 个亮点</strong></div>
-  <div class="msm-release-metric"><span>源码提交时间</span><strong>2026-07-27 16:07:30 CST</strong></div>
-  <div class="msm-release-metric"><span>源提交</span><a href="https://github.com/msm9527/msm/commit/dd17a5502c662932df341cfbd58271d38bab77bf" target="_blank" rel="noreferrer"><code>dd17a55</code></a></div>
+  <div class="msm-release-metric"><span>更新</span><strong>4 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>3 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-07-27 16:07:30 CST</strong></div>
 </div>
-<p class="msm-release-download-note"><span>下载说明</span>同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单</p>
 
 <!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKuS/ruWkjee9kee7nOinhOWImeWIt+aWsOaXtueahOW0qea6gyoq77ya5pu05pawIG5mdGFibGVzIOS+nei1lu+8jOS/ruWkjemrmOaWh+S7tuaPj+i/sOespuWcuuaZr+S4i+eahOi2iueVjOmXrumimO+8jOWinuW8uue9kee7nOinhOWImee7tOaKpOeahOeos+WumuaAp+OAgiIsIi0gKirmm7TmlrDmo4Dmn6XlpLHotKXlkI7mnInoioLlpY/lnLDph43or5UqKu+8muaMiee7hOS7tueLrOeri+mAgOmBv++8jOmBv+WFjee9kee7nOW8guW4uOaXtuavj+WIhumSn+mHjeWkjeivt+axgu+8m+aIkOWKn+WQjuaBouWkjeato+W4uOajgOafpeiKguWlj+OAgiIsIi0gKirml6Xlv5fmm7TlronpnZnvvIzlhbPplK7kv6Hmga/ku43kv53nlZkqKu+8mkNsYXNoIOmihOacn+i/kOihjOaAgemUmeivr+S4jeWGjemZhOW4pumHjeWkjeWghuagiO+8jOaEj+WklumUmeivr+S7jeS/neeVmeaOkumanOS/oeaBr+OAgiJdLCJtYWpvciI6W10sImFkZGVkIjpbXSwiY2hhbmdlZCI6W10sInBlcmZvcm1hbmNlIjpbIi0gKirnsr7nroDorr/pl67ml6Xlv5floIbmoIgqKu+8muiuv+mXruaXpeW/l+S/neeVmeivt+axguWPiumUmeivr+Wtl+aute+8jOenu+mZpOmHjeWkjeeahOS4remXtOS7tuiwg+eUqOagiO+8jOW5tuWkjeeUqOaXpeW/l+WunuS+i++8jOWHj+WwkeaXoOS/oeaBr+mHj+eahOi+k+WHuuOAgiJdLCJmaXhlZCI6WyItICoq5L+u5aSNIG5mdGFibGVzIOaWh+S7tuaPj+i/sOespui2iueVjOW0qea6gyoq77ya5Y2H57qn5L6d6LWW5Lul5L+u5aSN5paH5Lu25o+P6L+w56ym6L6+5YiwIGAxMDI0YCDmiJbmm7Tpq5jml7bvvIznvZHnu5zop4TliJnliLfmlrDot6/lvoTlj6/og73op6blj5HnmoTmlbDnu4TotornlYwgcGFuaWPjgIIiLCItICoq5L+u5aSN57uE5Lu25pu05paw5qOA5p+l55qE6YeN6K+V6aOO5pq0KirvvJrmo4Dmn6XlpLHotKXml7bljZXni6zorrDlvZXpgIDpgb/nirbmgIHvvIzpppbmrKHnrYnlvoUgMiDliIbpkp/vvIzlkI7nu63pgJDmrKHnv7vlgI3jgIHmnIDplb8gMSDlsI/ml7bvvJvlkITnu4Tku7bkupLkuI3lvbHlk43vvIzmiJDlip/lkI7muIXpm7bvvIzpgb/lhY3mjIHnu63lpLHotKXlkI7mr4/kuKrosIPluqblkajmnJ/pg73lj5Hotbfor7fmsYLjgIIiLCItICoqQ2xhc2gg6L+Q6KGM5oCB6ZSZ6K+v5YiG57qn6K6w5b2VKirvvJrmoLjlv4PmnKrlkK/liqjjgIHph43lkK/kuK3jgIHov57mjqXlpLHotKXjgIE0MDQg5oiW6LaF5pe2562J6aKE5pyf5oOF5Ya16YeH55SoIFdhcm4g5LiU5LiN6YeH6ZuG5aCG5qCI77yb5YW25LuW5oSP5aSW6ZSZ6K+v5LuN6YeH55SoIEVycm9yIOW5tuS/neeVmeWghuagiOOAgiJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItICoq5pys54mI6IGa54Sm56iz5a6a5oCn5LiO5pel5b+X5L2T6aqMKirvvJrku6XkuIrlhoXlrrnmjIkgYHYxLjIuNSDihpIgdjEuMi42YCDnmoTlrp7pmYXku6PnoIHlt67lvILmlbTnkIbjgILli4vnq6AgM0TjgIHov57mjqXpobUgV2ViU29ja2V044CB5Luj55CG5YaF6IGU57yW6L6R562J5bey5Zyo5q2k5YmN54mI5pys5Ye6546w77yM6K+35Zyo5LiL5pa55Y6G5Y+y6K6w5b2V5p+l55yL77yM5pyq6YeN5aSN5YiX5Li65pys54mI5paw5aKe44CCIl19fQ== -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
-<div class="msm-release-highlights">
-
-<article class="msm-release-highlight">
-  <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-  <p><strong>修复网络规则刷新时的崩溃：</strong>更新 nftables 依赖，修复高文件描述符场景下的越界问题，增强网络规则维护的稳定性。</p>
-</article>
-
-<article class="msm-release-highlight">
-  <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-  <p><strong>更新检查失败后有节奏地重试：</strong>按组件独立退避，避免网络异常时每分钟重复请求；成功后恢复正常检查节奏。</p>
-</article>
-
-<article class="msm-release-highlight">
-  <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-  <p><strong>日志更安静，关键信息仍保留：</strong>Clash 预期运行态错误不再附带重复堆栈，意外错误仍保留排障信息。</p>
-</article>
-
-</div>
+<ol class="msm-release-highlights">
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">01</span>
+    <p><strong>修复网络规则刷新时的崩溃：</strong>更新 nftables 依赖，修复高文件描述符场景下的越界问题，增强网络规则维护的稳定性。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">02</span>
+    <p><strong>更新检查失败后有节奏地重试：</strong>按组件独立退避，避免网络异常时每分钟重复请求；成功后恢复正常检查节奏。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">03</span>
+    <p><strong>日志更安静，关键信息仍保留：</strong>Clash 预期运行态错误不再附带重复堆栈，意外错误仍保留排障信息。</p>
+  </li>
+</ol>
 
 ### 📋 完整更新 {#release-details}
 
@@ -96,6 +86,7 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 - **提交信息**：Merge pull request #60 from msm9527/dev
 - **提交作者**：msm
 - **提交时间**：2026-07-27 16:07:30 CST
+- **下载说明**：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 :::
 
 ---

@@ -279,6 +279,39 @@
   padding-bottom: var(--msm-space-16);
 }
 
+/* 发布日志是查阅清单：使用更宽的正文，避免顶部叠加两层留白。 */
+.msm-release-page .VPDoc {
+  padding-top: 16px;
+}
+
+.msm-release-page .VPDoc .content {
+  min-width: 0;
+  padding-top: 0;
+  padding-bottom: 32px;
+}
+
+.msm-release-page .VPDoc .content-container,
+.msm-release-page .VPDoc.has-aside .content-container {
+  max-width: 1040px;
+}
+
+@media (min-width: 1280px) {
+  .msm-release-page .VPDoc .content {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+
+  .msm-release-page .VPDoc .aside {
+    width: 192px;
+    padding-left: 12px;
+  }
+
+  .msm-release-page .VPDocAside {
+    width: 180px;
+    padding-top: 8px;
+  }
+}
+
 /* ==================== 右侧目录 ==================== */
 
 .VPDocAside {
