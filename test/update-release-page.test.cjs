@@ -5,6 +5,7 @@ const path = require('node:path')
 const test = require('node:test')
 
 const updateReleasePage = require('../scripts/update-release-page.cjs')
+const { renderReleasePage } = updateReleasePage
 
 function makeOptions(releasesPath, version, summary) {
   return {
@@ -75,6 +76,65 @@ function assertCompactBlock(block, options, updateCount, highlightCount) {
     assert.ok(block.includes(`### ${title} {#release-${key}}\n\n${sections[key].join('\n')}`), `${key} retains its full title and body`)
   }
 }
+
+test('renderReleasePage is deterministic without filesystem access or options mutation', (t) => {
+  const options = makeOptions('', '1.2.6', '### 🐛 问题修复\n- 修复发布日志')
+  delete options.releasesPath
+  const before = { ...options }
+  Object.freeze(options)
+  const source = `# 发布\n\n${options.latestVersionMarker}\n\n${options.historyVersionMarker}\n`
+  const read = t.mock.method(fs, 'readFileSync', () => { throw new Error('unexpected filesystem read') })
+  const write = t.mock.method(fs, 'writeFileSync', () => { throw new Error('unexpected filesystem write') })
+
+  const rendered = renderReleasePage(source, options)
+  assert.equal(typeof rendered, 'string')
+  assert.match(rendered, /data-version="1\.2\.6"/u)
+  assert.match(rendered, /修复发布日志/u)
+  assert.equal(renderReleasePage(source, options), rendered)
+  assert.equal(source, `# 发布\n\n${options.latestVersionMarker}\n\n${options.historyVersionMarker}\n`)
+  assert.deepEqual(options, before)
+  assert.equal(read.mock.callCount(), 0)
+  assert.equal(write.mock.callCount(), 0)
+})
+
+test('the default file API writes the pure renderer output and preserves its return value', (t) => {
+  const options = makeOptions('releases.md', '1.2.6', '### ✨ 功能增强\n- 保留原有文件调用')
+  const source = `# 发布\n\n${options.latestVersionMarker}\n\n${options.historyVersionMarker}\n`
+  const expected = renderReleasePage(source, options)
+  const read = t.mock.method(fs, 'readFileSync', () => source)
+  const write = t.mock.method(fs, 'writeFileSync', () => {})
+
+  assert.equal(updateReleasePage(options), undefined)
+  assert.equal(read.mock.callCount(), 1)
+  assert.deepEqual(read.mock.calls[0].arguments, [options.releasesPath, 'utf8'])
+  assert.equal(write.mock.callCount(), 1)
+  assert.deepEqual(write.mock.calls[0].arguments, [options.releasesPath, expected])
+})
+
+test('rendering a freshly fetched Beta page preserves concurrent compact intro and manual history edits', () => {
+  const options = makeBetaOptions('', 'beta-1.4.1', '### 🎉 本次亮点\n- 新版本亮点\n\n### 🐛 问题修复\n- 新版本修复')
+  const previous = makeBetaOptions('', 'beta-1.4.0', '### 🐛 问题修复\n- 前一版修复')
+  const oldIntro = `# Beta 发布\n\n旧版无信息量引导语\n\n${options.latestVersionMarker}\n\n`
+  const oldHistory = `${options.historyVersionMarker}\n\n> 历史记录\n\n::: details beta-1.3.9 · 手工归档\n\n- 手工历史正文\n  - 嵌套历史正文\n:::\n`
+  const staleContent = oldIntro + updateReleasePage.buildLatestBlock(previous) + '\n\n' + oldHistory
+  const staleRendered = renderReleasePage(staleContent, options)
+  const compactIntro = `---\npageClass: msm-release-page\n---\n\n# 🧪 Beta 版发布\n\n<nav class="msm-release-channels" aria-label="发布通道">\n  <a href="/zh/guide/releases.html">稳定版</a>\n  <a href="/zh/guide/releases-beta.html" aria-current="page">Beta 版</a>\n</nav>\n\n${options.latestVersionMarker}\n\n`
+  const manualHistory = oldHistory.replace('手工历史正文', '并发修订的手工历史正文') + '\n### beta-1.3.8 手工补录\n\n- 新补录历史\n'
+  const install = '\n## 一键安装\n\n并发更新的安装说明与[链接](/zh/guide/install.html)\n'
+  const latestContent = compactIntro + updateReleasePage.buildLatestBlock({
+    ...previous, aiSummary: '### 🐛 问题修复\n- 前一版修复（已人工校正）',
+  }) + '\n\n' + manualHistory + install
+
+  const rendered = renderReleasePage(latestContent, options)
+  assert.notEqual(rendered, staleRendered)
+  assert.ok(rendered.startsWith(compactIntro))
+  assert.ok(rendered.endsWith(manualHistory.replace(`${options.historyVersionMarker}\n\n> 历史记录\n\n`, '') + install))
+  assert.match(rendered, /前一版修复（已人工校正）/u)
+  assert.doesNotMatch(rendered, /旧版无信息量引导语/u)
+  assert.equal(rendered.match(/::: details beta-1\.4\.0 ·/gu)?.length, 1)
+  assert.doesNotMatch(rendered, /::: details beta-1\.4\.1 ·/u)
+  assert.equal(renderReleasePage(rendered, options), rendered)
+})
 
 test('release pages render a compact overview and collapsible history', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'msm-release-page-'))
@@ -287,6 +347,7 @@ for (const { channel, version, previousVersion } of [
     const intro = `# 发布\n\n<nav aria-label="发布通道">通道导航</nav>\n\n${options.latestVersionMarker}\n\n`
     const tail = `${options.historyVersionMarker}\n\n> 旧版本记录\n\n::: details 历史版本\n\n**旧分类**\n\n- 历史正文\n  - 历史子项\n:::\n\n## 一键安装\n\n安装说明与原有链接\n`
     fs.writeFileSync(releasesPath, intro + oldCards + '\n\n' + tail)
+    assert.equal(renderReleasePage(intro + oldCards + '\n\n' + tail, options), intro + compact + '\n\n' + tail)
 
     updateReleasePage(options)
     const first = fs.readFileSync(releasesPath, 'utf8')
@@ -302,6 +363,7 @@ for (const { channel, version, previousVersion } of [
 
     updateReleasePage(options)
     assert.equal(fs.readFileSync(releasesPath, 'utf8'), first, 'same-version regeneration is byte-for-byte idempotent')
+    assert.equal(renderReleasePage(first, options), first, 'pure same-version rendering is byte-for-byte idempotent')
   })
 }
 

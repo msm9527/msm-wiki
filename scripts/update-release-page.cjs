@@ -190,8 +190,7 @@ function splitHistoryBody(historyBody) {
     { intro: historyBody.slice(0, firstEntryIndex).trim(), entries: historyBody.slice(firstEntryIndex + 1).trim() };
 }
 
-function updateReleasePage(options) {
-  const content = fs.readFileSync(options.releasesPath, 'utf8');
+function renderReleasePage(content, options) {
   const latestIndex = content.indexOf(options.latestVersionMarker);
   const historyIndex = content.indexOf(options.historyVersionMarker);
   if (latestIndex === -1 || historyIndex === -1 || latestIndex >= historyIndex) throw new Error('未找到有效标记: ' + options.releasesPath);
@@ -209,8 +208,13 @@ function updateReleasePage(options) {
   if (entries) historyParts.push(entries);
   const nextContent = [content.slice(0, latestBodyStart).trimEnd(), '', buildLatestBlock(options), '',
     options.historyVersionMarker, '', historyParts.filter(Boolean).join('\n\n').trim(), content.slice(historySectionEnd)].join('\n');
-  fs.writeFileSync(options.releasesPath, nextContent.replace(/\n{3,}/gu, '\n\n'));
+  return nextContent.replace(/\n{3,}/gu, '\n\n');
+}
+
+function updateReleasePage(options) {
+  const content = fs.readFileSync(options.releasesPath, 'utf8');
+  fs.writeFileSync(options.releasesPath, renderReleasePage(content, options));
 }
 
 module.exports = updateReleasePage;
-Object.assign(module.exports, { SECTION_DEFS, parseSummary, buildLatestBlock, extractLatestSection });
+Object.assign(module.exports, { SECTION_DEFS, parseSummary, buildLatestBlock, extractLatestSection, renderReleasePage });

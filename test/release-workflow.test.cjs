@@ -45,6 +45,20 @@ test('release workflows update tags through the GitHub API', () => {
   }
 })
 
+test('release page publishing reads the latest renderer and uses conflict-safe single-file commits', () => {
+  for (const workflow of workflows) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+    const publish = source.slice(source.indexOf('      - name: Checkout 最新 Wiki 发布脚本'), source.indexOf('\n  docker:'))
+    assert.match(publish, /ref: main\n\s+path: wiki-publisher\n\s+persist-credentials: false/)
+    assert.match(publish, /require\('\.\/wiki-publisher\/scripts\/publish-release-page\.cjs'\)/)
+    assert.match(publish, /await publishReleasePage\(/)
+    assert.match(publish, /releasesPath: '\$\{\{ needs\.prepare\.outputs\.release_notes_path \}\}'/)
+    assert.match(publish, /result\.status === 'superseded'[\s\S]*?throw new Error/)
+    assert.doesNotMatch(publish, /ANTHROPIC_API_KEY|continue-on-error/)
+    assert.doesNotMatch(source, /git pull --rebase|git push;|git add "\$\{\{ needs\.prepare\.outputs\.release_notes_path/)
+  }
+})
+
 test('macOS desktop workflows isolate and retry DMG creation', () => {
   for (const workflow of workflows) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')

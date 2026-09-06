@@ -826,65 +826,46 @@ jobs:
               `已校正 release ${data.tag_name}: draft=${data.draft}, prerelease=${data.prerelease}, make_latest=${makeLatest}`
             );
 
-      - name: 更新 Wiki 版本发布页面
+      # Build jobs may take minutes. Load the current renderer only when publishing,
+      # without changing the pinned source commit or downloaded build artifacts.
+      - name: Checkout 最新 Wiki 发布脚本
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: wiki-publisher
+          persist-credentials: false
+
+      - name: 更新并提交 Wiki 版本发布页面
         uses: actions/github-script@v7
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         with:
           script: |
-            const updateReleasePage = require('./scripts/update-release-page.cjs');
-
-            updateReleasePage({
-              version: '${{ needs.prepare.outputs.version }}',
-              baseVersion: '${{ needs.prepare.outputs.base_version }}',
-              channel: '${{ needs.prepare.outputs.channel }}',
-              channelName: '${{ needs.prepare.outputs.channel_name }}',
-              aiSummary: ${{ toJSON(needs.prepare.outputs.ai_summary) }},
-              commitSha: '${{ needs.prepare.outputs.commit_sha_short }}',
-              commitShaFull: '${{ needs.prepare.outputs.commit_sha }}',
-              commitMessage: ${{ toJSON(needs.prepare.outputs.commit_message) }},
-              commitAuthor: ${{ toJSON(needs.prepare.outputs.commit_author) }},
-              commitDate: '${{ needs.prepare.outputs.commit_date }}',
-              releaseDownloadNote: ${{ toJSON(steps.release_assets.outputs.download_note) }},
-              latestVersionMarker: '${{ needs.prepare.outputs.latest_marker }}',
-              historyVersionMarker: '${{ needs.prepare.outputs.history_marker }}',
-              releasesPath: '${{ needs.prepare.outputs.release_notes_path }}',
+            const { publishReleasePage } = require('./wiki-publisher/scripts/publish-release-page.cjs');
+            const result = await publishReleasePage({
+              github,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              options: {
+                version: '${{ needs.prepare.outputs.version }}',
+                baseVersion: '${{ needs.prepare.outputs.base_version }}',
+                channel: '${{ needs.prepare.outputs.channel }}',
+                channelName: '${{ needs.prepare.outputs.channel_name }}',
+                aiSummary: ${{ toJSON(needs.prepare.outputs.ai_summary) }},
+                commitSha: '${{ needs.prepare.outputs.commit_sha_short }}',
+                commitShaFull: '${{ needs.prepare.outputs.commit_sha }}',
+                commitMessage: ${{ toJSON(needs.prepare.outputs.commit_message) }},
+                commitAuthor: ${{ toJSON(needs.prepare.outputs.commit_author) }},
+                commitDate: '${{ needs.prepare.outputs.commit_date }}',
+                releaseDownloadNote: ${{ toJSON(steps.release_assets.outputs.download_note) }},
+                latestVersionMarker: '${{ needs.prepare.outputs.latest_marker }}',
+                historyVersionMarker: '${{ needs.prepare.outputs.history_marker }}',
+                releasesPath: '${{ needs.prepare.outputs.release_notes_path }}',
+              },
             });
-
-            console.log('✅ 已更新版本发布页面');
-
-      - name: 提交 Wiki 更新
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git add "${{ needs.prepare.outputs.release_notes_path }}"
-
-          if git diff --staged --quiet; then
-            echo "没有需要提交的更改"
-          else
-            git commit -m "自动更新${{ needs.prepare.outputs.channel_name }}发布页面: ${{ needs.prepare.outputs.version }}
-
-            - 添加版本 ${{ needs.prepare.outputs.version }} 的发布信息
-            - AI 生成的更新总结
-            - 构建信息和下载链接
-
-            Co-Authored-By: GitHub Actions <github-actions[bot]@users.noreply.github.com>"
-
-            # 推送前先获取远程状态，处理可能的冲突
-            git fetch origin
-            if ! git push; then
-              echo "推送失败，检测到远程更新，正在同步..."
-              git pull --rebase origin main
-              if ! git push; then
-                echo "❌ 推送仍然失败，可能存在冲突"
-                exit 1
-              fi
-              echo "✅ 已同步远程更改并推送 Wiki 更新"
-            else
-              echo "✅ 已推送 Wiki 更新"
-            fi
-          fi
+            if (result.status === 'superseded') {
+              throw new Error('Wiki 已有更新版本，停止过期发布以保护最新版本');
+            }
+            core.info(`Wiki 发布结果: ${result.status}（尝试 ${result.attempts} 次）`);
+            if (result.commitSha) core.info(`Wiki 提交: ${result.commitSha}`);
 
   docker:
     name: 构建并推送 Docker 镜像
