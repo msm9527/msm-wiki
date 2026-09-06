@@ -532,6 +532,17 @@
   color: var(--msm-ink-2);
 }
 
+.msm-release-page .vp-doc .msm-release-lede-label {
+  display: block;
+  margin-bottom: var(--msm-space-1);
+  font-family: var(--msm-font-mono);
+  font-size: var(--msm-text-xs);
+  font-weight: var(--msm-weight-semibold);
+  letter-spacing: var(--msm-tracking-label);
+  text-transform: uppercase;
+  color: var(--msm-accent-ink);
+}
+
 .msm-release-page .vp-doc .msm-release-actions {
   display: flex;
   flex-wrap: wrap;

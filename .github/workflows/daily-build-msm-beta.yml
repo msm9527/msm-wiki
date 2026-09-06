@@ -231,6 +231,8 @@ jobs:
         uses: actions/github-script@v7
         env:
           MODELSCOPE_API_KEY: ${{ secrets.MODELSCOPE_API_KEY }}
+          # 使用当前 ModelScope API 可识别的模型；余额/配额异常时自动逐级降级。
+          MODELSCOPE_MODELS: Qwen/Qwen3-30B-A3B,Qwen/Qwen3-14B,Qwen/Qwen3-8B
         with:
           script: |
             const {
@@ -271,6 +273,7 @@ jobs:
                 apiKey: process.env.MODELSCOPE_API_KEY,
                 prompt,
                 fetchImpl: globalThis.fetch,
+                modelCandidates: process.env.MODELSCOPE_MODELS.split(',').map(model => model.trim()).filter(Boolean),
                 logger: console,
               });
 

@@ -6,14 +6,16 @@
 
 ### 1. AI 智能总结 ✨
 
-工作流会自动使用 Claude AI 分析最近的提交记录，生成简洁的版本发布总结。
+工作流会自动收集上一版源提交到当前提交之间的完整变更，使用 ModelScope Qwen3 生成结构化版本发布总结；AI 不可用时由本地规则生成同样的多分类摘要。
 
 **特点：**
-- 自动分析最近 20 条提交记录
-- 生成 3-5 个要点的中文总结
-- 每个要点不超过 20 字，简洁明了
+- 优先分析上一版源提交到当前提交的完整范围
+- 同时读取提交正文、变更文件、diff 摘要和引用提交
+- 输出“本次亮点 / 新增 / 变更 / 修复 / 备注”分类
+- 每次发布保留多模块功能，不只取第一条提交
 - 自动合并相似的提交
-- 突出重要变更
+- Qwen3-30B-A3B 失败后切换 Qwen3-14B、Qwen3-8B
+- 所有模型失败时使用本地规则兜底，不丢失功能项
 
 **示例输出：**
 ```
@@ -72,27 +74,27 @@
 
 ## 配置步骤
 
-### 1. 配置 Anthropic API Key
+### 1. 配置 ModelScope API Key
 
-AI 总结功能需要 Anthropic API Key。
+AI 总结功能使用 `MODELSCOPE_API_KEY`；模型候选由工作流的 `MODELSCOPE_MODELS` 配置。
 
 **步骤：**
 
 1. 获取 API Key：
-   - 访问 [Anthropic Console](https://console.anthropic.com/)
-   - 创建或登录账号
-   - 在 API Keys 页面创建新的 API Key
+   - 访问 [ModelScope 魔塔社区](https://www.modelscope.cn/)
+   - 登录后进入 Access Token 管理
+   - 创建并复制 Access Token
 
 2. 添加到 GitHub Secrets：
    - 进入仓库 Settings → Secrets and variables → Actions
    - 点击 "New repository secret"
-   - Name: `ANTHROPIC_API_KEY`
+   - Name: `MODELSCOPE_API_KEY`
    - Value: 粘贴你的 API Key
    - 点击 "Add secret"
 
 **注意：**
-- 如果不配置 API Key，工作流会使用默认总结（不会失败）
-- API Key 需要有足够的额度
+- 如果不配置 API Key，工作流会使用本地规则摘要（不会失败）
+- API Key 需要有余额或可用额度；`429 insufficient balance` 会触发模型降级
 - 建议使用项目专用的 API Key
 
 ### 2. 验证工作流权限
@@ -129,7 +131,7 @@ AI 总结功能需要 Anthropic API Key。
 │  准备构建信息    │
 │  - 读取版本号    │
 │  - 获取提交记录  │
-│  - AI 生成总结   │ ← 使用 Claude API
+│  - AI 生成总结   │ ← 使用 ModelScope Qwen3
 └────────┬────────┘
          │
          ▼
@@ -163,16 +165,16 @@ AI 总结功能需要 Anthropic API Key。
 **症状：** Release 页面显示默认总结而不是 AI 生成的总结
 
 **可能原因：**
-1. 未配置 `ANTHROPIC_API_KEY`
+1. 未配置 `MODELSCOPE_API_KEY`
 2. API Key 无效或过期
-3. API 额度不足
+3. API 额度不足或模型没有可用提供方
 4. 网络连接问题
 
 **解决方法：**
-1. 检查 Secret 是否正确配置
-2. 验证 API Key 是否有效
-3. 查看工作流日志中的错误信息
-4. 如果是临时问题，工作流会自动降级到默认总结
+1. 检查 `MODELSCOPE_API_KEY` Secret 是否正确配置
+2. 查看工作流日志确认候选模型和错误码
+3. 优先使用 `Qwen/Qwen3-30B-A3B`、`Qwen/Qwen3-14B`、`Qwen/Qwen3-8B`
+4. 如果全部模型不可用，确认页面是否已经生成“本次亮点”等本地兜底分类
 
 ### Wiki 更新失败
 
@@ -208,7 +210,7 @@ AI 总结功能需要 Anthropic API Key。
 
 ### 修改 AI 提示词
 
-编辑 `.github/workflows/daily-build-msm.yml` 中的 AI 提示词：
+编辑 `scripts/ai-release-summary.cjs` 中的 AI 提示词和本地兜底规则：
 
 ```yaml
 content: `请分析以下 Git 提交记录，生成一个简洁的版本发布总结（3-5 个要点，每个要点不超过 20 字）。只输出要点列表，不要其他内容。
@@ -234,9 +236,9 @@ ${commits.map(c => `- ${c.subject} (${c.author}, ${c.date})`).join('\n')}
 
 ## 成本估算
 
-### Anthropic API 成本
+### ModelScope 配额与成本
 
-使用 Claude 3.5 Sonnet 模型：
+工作流使用 Qwen3 模型；实际可用性取决于 ModelScope 账号余额、免费额度和提供方状态：
 
 - 输入：约 500 tokens（提交记录）
 - 输出：约 200 tokens（总结）
@@ -249,7 +251,7 @@ ${commits.map(c => `- ${c.subject} (${c.author}, ${c.date})`).join('\n')}
 ## 最佳实践
 
 1. **定期检查 API 额度**
-   - 监控 Anthropic 账户余额
+   - 监控 ModelScope 账户额度和模型状态
    - 设置低额度告警
 
 2. **优化提交信息**
@@ -267,7 +269,7 @@ ${commits.map(c => `- ${c.subject} (${c.author}, ${c.date})`).join('\n')}
 
 ## 相关链接
 
-- [Anthropic API 文档](https://docs.anthropic.com/)
+- [ModelScope API 文档](https://www.modelscope.cn/docs/model-service/API-Inference/intro)
 - [GitHub Actions 文档](https://docs.github.com/en/actions)
 - [MSM 项目文档](https://doc.msmbox.net/)
 

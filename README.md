@@ -162,10 +162,10 @@ msm-wiki/
 本项目包含智能化的每日构建工作流，具有以下特性：
 
 ### AI 智能总结
-- 使用 ModelScope 通义千问 2.5 Coder 自动分析提交记录
-- 生成简洁的版本发布总结（3-5 个要点）
-- 自动识别功能变更、修复和优化
-- **完全免费** - 无需付费
+- 使用 ModelScope Qwen3-30B-A3B 自动分析提交、正文、文件和 diff
+- 生成“本次亮点 / 新增 / 变更 / 修复 / 备注”结构化版本总结
+- 余额、配额或模型不可用时自动切换 Qwen3-14B、Qwen3-8B
+- AI 全部失败时由本地规则生成完整多分类摘要，不丢失功能项
 
 ### Release UI 优化
 - 徽章展示（构建状态、版本号、平台）
@@ -181,10 +181,10 @@ msm-wiki/
 ### 智能提交范围
 - 自动检测上一个版本 tag
 - 获取从上个版本到当前的所有提交
-- 无 tag 时降级到最近 20 条提交
+- 无上一版源提交时降级到最近 100 条提交
 
 详细配置和使用说明请查看：
-- [ModelScope API 配置指南](.github/docs/MODELSCOPE_API_GUIDE.md) - 推荐使用，完全免费
+- [ModelScope API 配置指南](.github/docs/MODELSCOPE_API_GUIDE.md) - 模型、配额和降级策略
 - [Release 工作流优化指南](.github/docs/RELEASE_WORKFLOW_GUIDE.md)
 - [AI 技术实现详解](.github/docs/AI_SUMMARY_TECHNICAL_GUIDE.md)
 

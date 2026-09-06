@@ -12,7 +12,7 @@
   <div class="msm-release-hero-copy">
     <span class="msm-release-kicker">MSM / 稳定版</span>
     <h3 class="msm-release-version"><span>稳定版</span> <code>v1.2.6</code></h3>
-    <p class="msm-release-lede">同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单</p>
+    <p class="msm-release-lede"><span class="msm-release-lede-label">本次亮点</span>勋章展示升级为 3D 体验，连接页改用 WebSocket，代理与规则管理支持更高效的编辑流程</p>
   </div>
   <div class="msm-release-actions">
     <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/1.2.6" target="_blank" rel="noreferrer">查看 Release <span aria-hidden="true">↗</span></a>
@@ -28,6 +28,14 @@
 <p class="msm-release-download-note"><span>下载说明</span>同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单</p>
 
 ### 📋 本次更新
+
+::: warning ⭐ 本次亮点（Highlights）
+- 勋章展示升级为 3D 体验，新增画廊、导航栏和登录页展示
+- 连接页改用 WebSocket 实时流，状态与刷新更及时
+- 代理管理支持内联编辑订阅与节点，规则页支持批量导入和热重载
+- MosDNS 增加记忆池容量显示、清空操作和高级模式持久化
+- 配置写入、TUN 网络和外部重启后的托管服务自愈更可靠
+:::
 
 ::: tip ✨ 新增（Added）
 - 勋章展示系统（3D、画廊、导航栏、登录页）

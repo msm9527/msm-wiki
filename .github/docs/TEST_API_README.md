@@ -94,7 +94,7 @@ node test-modelscope-api.js
 
 **解决**:
 1. 检查网络连接
-2. 确认可以访问 api-inference.modelscope.cn
+2. 确认可以访问 api-inference.modelscope.com
 3. 稍后重试
 
 ## 安全最佳实践

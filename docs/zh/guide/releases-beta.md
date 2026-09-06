@@ -29,7 +29,7 @@
   <div class="msm-release-hero-copy">
     <span class="msm-release-kicker">MSM / Beta 版</span>
     <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.4.1</code></h3>
-    <p class="msm-release-lede">同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单</p>
+    <p class="msm-release-lede"><span class="msm-release-lede-label">本次亮点</span>Docker 管理界面与 Compose 入口统一，并补齐 API 令牌用户绑定和失效会话清理</p>
   </div>
   <div class="msm-release-actions">
     <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.1" target="_blank" rel="noreferrer">查看 Release <span aria-hidden="true">↗</span></a>
@@ -46,8 +46,30 @@
 
 ### 📋 本次更新
 
+::: warning ⭐ 本次亮点（Highlights）
+- Docker 管理界面与 Compose 入口统一，容器、镜像、网络、存储和更新流程更连贯
+- API 令牌绑定用户上下文，降低跨用户访问和权限串用风险
+- 清理失效会话并停止授权轮询，减少过期状态和无效请求
+- 清理 Clash 无效订阅提供器，避免失效配置继续参与更新
+- 恢复 macvlan 校验并修正镜像时区，提升 Docker 网络与显示准确性
+:::
+
+::: info 🔧 变更（Changed）
+- Docker 资源工作台统一节点、容器、镜像、网络、存储和 Compose 入口
+- Docker 更新与运行状态展示收敛到同一套工作流，减少页面跳转
+:::
+
+::: danger 🐛 修复（Fixed）
+- 修复 API 令牌未绑定用户上下文的问题
+- 修复失效会话仍持续授权轮询的问题
+- 修复 Clash 无效订阅提供器残留的问题
+- 修复 macvlan 校验缺失和镜像时区错误
+- 阻止 MSM 更新流程下载旧版，避免意外回退
+- 修复 GitHub 图标代理与内网代理冲突
+:::
+
 ::: info 📝 备注（Notes）
-- 本次版本从 2026-09-05T22:16:22Z 之后更新，包含 10 个提交，主要更新：chore: 升级版本至 1.4.1 / bump version to 1.4.1，涉及 M .version; M backend/docs/openapi.json; M backend/docs/openapi.yaml; ...
+- 本次版本从 2026-09-05T22:16:22Z 之后整理 10 个提交；完整提交和构建产物仍以 GitHub Release 为准
 :::
 
 ::: details 📋 构建信息
@@ -63,6 +85,27 @@
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-1.3.9 · 2026-09-06 00:12 · Beta 版
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.3.9" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+**新增 / 优化**
+- 增加 GitHub Token 凭据与限流重试机制
+- 完善 EasyTier 配置、TOML 同步及 TUN 诊断
+- 新增 Docker 更新自动化管理与安全队列
+- 支持外部 Compose 容器检查与安全重建更新
+- 重构 Docker 管理工作台并统一资源卡片体验
+
+**问题修复**
+- 兼容旧配置时间戳并恢复核心切换逻辑
+- 防御 Docker 更新空响应及构建类型错误
+- 修复目标选择器浮层溢出与容器卡片布局
+- 区分 Docker 引擎离线与空环境状态显示
+- 补齐生命周期数据并增强并发执行保护
+
+**注意事项**
+- Docker 更新自动化需满足授权许可要求
+- EasyTier 支持安全的密码查看交互
+:::
 
 ::: details beta-1.0.14 · 2026-03-31 16:29 · Beta 版
 <div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.0.14" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>

@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const {
   buildFallbackSummary,
   buildGitLogArgs,
+  collectFallbackSummaryItems,
   extractCommitShas,
   buildSummaryPrompt,
   requestModelScopeSummary,
@@ -168,4 +169,61 @@ test('release summaries normalize the internal Mihomo name for public text', asy
 
   assert.match(result.summary, /Clash 更新/);
   assert.doesNotMatch(result.summary, /Mihomo/i);
+});
+
+test('fallback release summaries keep highlights and multiple functional areas', () => {
+  const commits = [
+    {
+      subject: 'chore: 升级版本至 1.4.1 / bump version to 1.4.1',
+      files: [{ path: '.version' }],
+    },
+    {
+      subject: 'refactor(docker): 统一 Docker 管理界面与 Compose 入口 / unify Docker UI',
+      files: [{ path: 'frontend/src/pages/docker/DockerStacksPage.tsx' }],
+    },
+    {
+      subject: 'fix: 绑定 API 令牌用户上下文 / bind API tokens to owner context',
+      files: [{ path: 'backend/internal/middleware/auth.go' }],
+    },
+    {
+      subject: 'Dev (#86)',
+      bodyHighlights: [
+        'feat: 增加容器 macvlan 校验，避免错误网络配置',
+        'perf: 优化 Docker 资源工作台的加载体验',
+      ],
+      files: [{ path: 'frontend/src/pages/docker/DockerInventoryWorkbench.tsx' }],
+    },
+  ];
+
+  const summary = buildFallbackSummary(commits, '2026-09-05T22:16:22Z');
+  const items = collectFallbackSummaryItems(commits);
+
+  assert.match(summary, /### ⭐ 本次亮点（Highlights）/u);
+  assert.match(summary, /Docker 管理界面与 Compose 入口/u);
+  assert.match(summary, /API 令牌用户上下文/u);
+  assert.match(summary, /容器 macvlan 校验/u);
+  assert.doesNotMatch(summary, /升级版本至 1\.4\.1/u);
+  assert.ok(items.highlights.length >= 2);
+});
+
+test('ModelScope defaults use currently listed Qwen3 models', async () => {
+  let requestedModel = '';
+  await requestModelScopeSummary({
+    apiKey: 'test-token',
+    prompt: 'test prompt',
+    logger: { log() {}, error() {} },
+    fetchImpl: async (_url, options) => {
+      requestedModel = JSON.parse(options.body).model;
+      return {
+        ok: true,
+        async json() {
+          return {
+            choices: [{ message: { content: '### ⭐ 本次亮点（Highlights）\n- 测试亮点' } }],
+          };
+        },
+      };
+    },
+  });
+
+  assert.equal(requestedModel, 'Qwen/Qwen3-30B-A3B');
 });

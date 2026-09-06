@@ -69,13 +69,15 @@ test('release pages render a scan-friendly overview and collapsible history', ()
     makeOptions(
       releasesPath,
       '1.2.6',
-      '### ✨ 新增（Added）\n- 新的版本概览\n\n### 🐛 修复（Fixed）\n- 修复发布页布局',
+      '### ⭐ 本次亮点（Highlights）\n- 新版本入口更醒目\n\n### ✨ 新增（Added）\n- 新的版本概览\n\n### 🐛 修复（Fixed）\n- 修复发布页布局',
     ),
   )
 
   let output = fs.readFileSync(releasesPath, 'utf8')
   assert.match(output, /class="msm-release-hero[^\n]+data-version="1\.2\.6"/u)
+  assert.match(output, /msm-release-lede-label.*本次亮点/u)
   assert.match(output, /### 📋 本次更新/u)
+  assert.match(output, /::: warning ⭐ 本次亮点（Highlights）/u)
   assert.match(output, /::: tip ✨ 新增（Added）/u)
   assert.match(output, /::: danger 🐛 修复（Fixed）/u)
   assert.match(output, /::: details 1\.2\.5 · 2026-08-01 12:00 · 稳定版/u)
@@ -121,7 +123,7 @@ test('beta release pages keep the beta install entry point and channel labels', 
     makeBetaOptions(
       releasesPath,
       'beta-1.4.1',
-      '### ✨ 新增（Added）\n- Beta 新功能',
+      '### ⭐ 本次亮点（Highlights）\n- Beta 新功能更易发现\n\n### ✨ 新增（Added）\n- Beta 新功能',
     ),
   )
 

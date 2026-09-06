@@ -2,6 +2,15 @@ const fs = require('fs');
 
 const SECTION_DEFS = [
   {
+    key: 'highlights',
+    title: '⭐ 本次亮点（Highlights）',
+    blockType: 'warning',
+    patterns: [
+      /^#{2,3}\s*⭐\s*(?:本次)?亮点(?:（Highlights）)?\s*$/u,
+      /^#{2,3}\s*🚀\s*(?:本次)?重点(?:（Highlights）)?\s*$/u,
+    ],
+  },
+  {
     key: 'added',
     title: '✨ 新增（Added）',
     blockType: 'tip',
@@ -158,7 +167,12 @@ function extractLatestSection(section, channel) {
 }
 
 function buildLatestBlock(options) {
-  const summary = renderSummary(options.aiSummary);
+  const normalizedSummary = normalizePublicTerminology(options.aiSummary);
+  const parsedSummary = parseSummary(normalizedSummary);
+  const summary = renderSummary(normalizedSummary);
+  const highlightLead =
+    parsedSummary.highlights[0]?.replace(/^-\s+/u, '').trim() ||
+    options.releaseDownloadNote;
   const releaseUrl =
     `https://github.com/msm9527/msm-wiki/releases/tag/${options.version}`;
   const installUrl =
@@ -175,7 +189,7 @@ function buildLatestBlock(options) {
     '  <div class="msm-release-hero-copy">',
     `    <span class="msm-release-kicker">MSM / ${escapeHtml(options.channelName)}</span>`,
     `    <h3 class="msm-release-version"><span>${escapeHtml(options.channelName)}</span> <code>${escapeHtml(displayVersion)}</code></h3>`,
-    `    <p class="msm-release-lede">${escapeHtml(options.releaseDownloadNote)}</p>`,
+    `    <p class="msm-release-lede"><span class="msm-release-lede-label">本次亮点</span>${escapeHtml(highlightLead)}</p>`,
     '  </div>',
     '  <div class="msm-release-actions">',
     `    <a class="msm-release-action msm-release-action--primary" href="${escapeHtml(releaseUrl)}" target="_blank" rel="noreferrer">查看 Release <span aria-hidden="true">↗</span></a>`,

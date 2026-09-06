@@ -10,6 +10,13 @@ const DEFAULT_DIFF_CHAR_LIMIT = 1800;
 const DEFAULT_BODY_CHAR_LIMIT = 1400;
 const DEFAULT_BODY_HIGHLIGHT_LIMIT = 80;
 const DEFAULT_BODY_HIGHLIGHT_CHAR_LIMIT = 6000;
+const DEFAULT_MODEL_CANDIDATES = [
+  'Qwen/Qwen3-30B-A3B',
+  'Qwen/Qwen3-14B',
+  'Qwen/Qwen3-8B',
+];
+const DEFAULT_SUMMARY_ITEM_LIMIT = 8;
+const DEFAULT_HIGHLIGHT_LIMIT = 5;
 
 function normalizeText(value) {
   return String(value || '').replace(/\r/g, '').trim();
@@ -545,6 +552,136 @@ function formatCommitForPrompt(commit) {
   return lines.join('\n');
 }
 
+function normalizeReleaseItem(value) {
+  let text = normalizeText(value)
+    .replace(/^[-*]\s+/u, '')
+    .replace(/\s+\/\s+(?=[A-Za-z][^/]*$)[^/]+$/u, '')
+    .replace(
+      /^(?:feat|fix|perf|refactor|security|docs|build|ci|chore|merge)(?:\([^)]+\))?\s*:\s*/iu,
+      '',
+    )
+    .replace(/^merge(?: pull request)?\s*[^:]*:\s*/iu, '')
+    .replace(/\s*\(#\d+\)\s*$/u, '')
+    .replace(/[。；;]+$/u, '')
+    .replace(/\s+/gu, ' ')
+    .trim();
+
+  return text;
+}
+
+function isNoiseReleaseItem(value) {
+  const text = normalizeText(value);
+  return (
+    !text ||
+    text.length < 6 ||
+    /^(?:dev|merge(?: branch| pull request)?|bump version|更新版本|升级版本|版本号升级|release\b)/iu.test(text) ||
+    /^(?:chore|ci|build|docs)\b\s*(?:更新|升级)?$/iu.test(text)
+  );
+}
+
+function classifyReleaseItem(text, commit = {}) {
+  const subject = String(commit.subject || '').toLowerCase();
+  const value = `${commit.subject || ''} ${text} ${(commit.files || [])
+    .map(file => file.path || file.filename || '')
+    .join(' ')}`.toLowerCase();
+
+  if (/^\s*fix(?:\([^)]+\))?\s*:/u.test(subject)) return 'fixed';
+  if (/^\s*feat(?:\([^)]+\))?\s*:/u.test(subject)) return 'added';
+  if (/^\s*(?:perf|refactor|security|merge|chore)(?:\([^)]+\))?\s*:/u.test(subject)) {
+    return 'changed';
+  }
+
+  if (
+    /deprecated|废弃|不再支持|移除.*入口|删除.*功能/iu.test(value)
+  ) {
+    return 'deprecated';
+  }
+  if (
+    /\bfix\b|bug|修复|解决|错误|异常|崩溃|竞态|冲突|阻止|清理失效|回退/iu.test(value)
+  ) {
+    return 'fixed';
+  }
+  if (
+    /\bfeat\b|新增|添加|支持|引入|提供|允许|绑定|统一.*入口|重构.*界面/iu.test(value)
+  ) {
+    return 'added';
+  }
+  return 'changed';
+}
+
+function scoreReleaseItem(text, commit, source) {
+  const value = `${commit.subject || ''} ${text}`.toLowerCase();
+  let score = source === 'subject' ? 5 : 2;
+  if (/\bfeat\b|新增|添加|支持|引入|提供|绑定/iu.test(value)) score += 4;
+  if (/\bfix\b|修复|安全|权限|授权|校验|回退/iu.test(value)) score += 3;
+  if (/\bperf\b|性能|优化|重构|统一/iu.test(value)) score += 2;
+  if ((commit.files || []).length > 1) score += 1;
+  return score;
+}
+
+function collectFallbackSummaryItems(commits, {
+  categoryLimit = DEFAULT_SUMMARY_ITEM_LIMIT,
+  highlightLimit = DEFAULT_HIGHLIGHT_LIMIT,
+} = {}) {
+  const buckets = {
+    added: [],
+    changed: [],
+    fixed: [],
+    deprecated: [],
+    notes: [],
+  };
+  const seen = new Set();
+  let index = 0;
+
+  for (const commit of commits || []) {
+    const bodyHighlights = hasBodyHighlights(commit)
+      ? commit.bodyHighlights
+      : extractChangeHighlights(commit.body, { changedFiles: commit.files });
+    const candidates = [
+      { text: commit.subject, source: 'subject' },
+      ...bodyHighlights.slice(0, 5).map(text => ({ text, source: 'body' })),
+    ];
+
+    for (const candidate of candidates) {
+      const item = normalizeReleaseItem(candidate.text);
+      if (isNoiseReleaseItem(item)) continue;
+
+      const key = item.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      const category = classifyReleaseItem(item, commit);
+      buckets[category].push({
+        item,
+        score: scoreReleaseItem(item, commit, candidate.source),
+        index: index++,
+      });
+    }
+  }
+
+  const sortItems = items =>
+    items
+      .sort((left, right) => right.score - left.score || left.index - right.index)
+      .slice(0, categoryLimit)
+      .map(entry => entry.item);
+  const sortedBuckets = Object.fromEntries(
+    Object.entries(buckets).map(([key, items]) => [key, sortItems(items)]),
+  );
+  const highlightCandidates = [
+    ...buckets.added,
+    ...buckets.changed,
+    ...buckets.fixed,
+  ]
+    .sort((left, right) => right.score - left.score || left.index - right.index)
+    .slice(0, highlightLimit)
+    .map(entry => entry.item);
+
+  return {
+    ...sortedBuckets,
+    highlights: highlightCandidates,
+  };
+}
+
 function buildSummaryPrompt(commits) {
   const commitContexts = (commits || []).map(formatCommitForPrompt).join('\n\n');
 
@@ -556,6 +693,9 @@ ${commitContexts}
 要求：
 1. 用中文输出。
 2. 按照以下格式分类输出：
+
+### ⭐ 本次亮点（Highlights）
+- 用 3-5 条总结用户最能感知的变化，写成“功能 + 价值”，不要写提交数量或内部文件名
 
 ### ✨ 新增（Added）
 - 新增的功能或特性
@@ -572,32 +712,49 @@ ${commitContexts}
 ### 📝 备注（Notes）
 - 重要的使用注意事项或兼容性说明（如果有）
 
-3. 如果某个分类没有内容，完全省略该分类的标题和内容，不要输出“无”。
-4. 每个要点简洁明了，尽量不超过 30 字。
-5. 合并相似提交，忽略纯版本号、打包、CI、格式化、依赖锁文件等非功能性变更。
-6. 如果提交标题很泛（例如 Dev、Merge、bump version），必须优先根据“正文要点”、正文、文件列表、Diff 摘要和引用提交判断真实功能变化。
-7. 对 squash 合并提交，正文要点是高优先级输入；但正文要点可能混入历史提交，最终以本次文件列表和 Diff 摘要为准，明显无关的历史内容请忽略。
-8. 必须覆盖新增、性能、授权、安全、DNS、Clash（内部标识 mihomo）/MosDNS 等跨模块变化，不要只总结前几条修复。
-9. 只输出有内容的分类和要点，不要输出解释性前后缀。`;
+3. “本次亮点”必须输出 3-5 条；如果确实没有用户可感知的功能变化，才省略这一节。
+4. 如果其他分类没有内容，完全省略该分类的标题和内容，不要输出“无”。
+5. 每个要点写清“做了什么 + 对用户有什么影响”，尽量控制在 20-60 字。
+6. 合并相似提交，忽略纯版本号、打包、CI、格式化、依赖锁文件等非功能性变更。
+7. 如果提交标题很泛（例如 Dev、Merge、bump version），必须优先根据“正文要点”、正文、文件列表、Diff 摘要和引用提交判断真实功能变化。
+8. 对 squash 合并提交，正文要点是高优先级输入；但正文要点可能混入历史提交，最终以本次文件列表和 Diff 摘要为准，明显无关的历史内容请忽略。
+9. 必须覆盖所有有实际变化的模块；不要只总结最前面几条提交，也不要因为修复项多就遗漏新增功能、性能、授权、安全、DNS、Clash（内部标识 mihomo）/MosDNS、Docker、桌面端等内容。
+10. 只输出 Markdown 分类和要点，不要输出解释性前后缀、代码围栏或“以下是总结”。`;
 }
 
 function buildFallbackSummary(commits, previousReleasePublishedAt) {
   if (!commits || commits.length === 0) {
-    return '本次发布窗口内无新增提交';
+    return '### 📝 备注（Notes）\n- 本次发布窗口内没有可归纳的新增提交';
   }
 
-  const firstMeaningfulCommit =
-    commits.find(commit => !/^(chore:\s*)?(bump version|更新版本|dev\b|merge\b)/i.test(commit.subject || '')) || commits[0];
-  const fileHint = firstMeaningfulCommit.files && firstMeaningfulCommit.files.length > 0
-    ? `，涉及 ${formatFiles(firstMeaningfulCommit.files, 3)}`
-    : '';
-  const prefix = previousReleasePublishedAt
-    ? `本次版本从 ${previousReleasePublishedAt} 之后更新，包含 ${commits.length} 个提交`
-    : `本次构建包含 ${commits.length} 个提交`;
+  const summary = collectFallbackSummaryItems(commits);
+  const groups = [
+    ['highlights', '### ⭐ 本次亮点（Highlights）'],
+    ['added', '### ✨ 新增（Added）'],
+    ['changed', '### 🔧 变更（Changed）'],
+    ['fixed', '### 🐛 修复（Fixed）'],
+    ['deprecated', '### ⚠️ 废弃（Deprecated）'],
+  ];
+  const lines = [];
 
-  return normalizePublicTerminology(
-    `${prefix}，主要更新：${firstMeaningfulCommit.subject}${fileHint}`,
-  );
+  for (const [key, title] of groups) {
+    if (summary[key].length === 0) continue;
+    lines.push(title, ...summary[key].map(item => `- ${item}`), '');
+  }
+
+  if (lines.length === 0) {
+    lines.push('### 📝 备注（Notes）', '- 本次发布仅包含内部构建或版本元数据调整');
+  } else {
+    const windowText = previousReleasePublishedAt
+      ? `从 ${previousReleasePublishedAt} 之后的 ${commits.length} 个提交中整理`
+      : `从本次 ${commits.length} 个提交中整理`;
+    lines.push(
+      '### 📝 备注（Notes）',
+      `- ${windowText}；摘要同时参考提交正文、变更文件和 diff，完整细节以 GitHub Release 为准`,
+    );
+  }
+
+  return normalizePublicTerminology(lines.join('\n').trim());
 }
 
 function normalizePublicTerminology(value) {
@@ -608,7 +765,7 @@ async function requestModelScopeSummary({
   apiKey,
   prompt,
   fetchImpl = globalThis.fetch,
-  modelCandidates = ['Qwen/Qwen3.5-35B-A3B', 'ZhipuAI/GLM-5'],
+  modelCandidates = DEFAULT_MODEL_CANDIDATES,
   logger = console,
 } = {}) {
   if (!apiKey) {
@@ -657,9 +814,19 @@ async function requestModelScopeSummary({
         throw new Error('API 响应格式异常');
       }
 
+      const summary = normalizePublicTerminology(content)
+        .replace(/<think>[\s\S]*?<\/think>/giu, '')
+        .replace(/^```(?:markdown|md)?\s*/iu, '')
+        .replace(/\s*```$/u, '')
+        .replace(/^- - /gmu, '- ')
+        .trim();
+      if (!summary || !/(亮点|新增|变更|修复)/u.test(summary)) {
+        throw new Error('模型输出缺少有效的版本分类或亮点');
+      }
+
       return {
         modelName,
-        summary: normalizePublicTerminology(content).replace(/^- - /gm, '- '),
+        summary,
         usage: data.usage,
       };
     } catch (error) {
@@ -675,6 +842,7 @@ module.exports = {
   buildFallbackSummary,
   buildGitLogArgs,
   buildSummaryPrompt,
+  collectFallbackSummaryItems,
   collectReleaseCommits,
   extractCommitShas,
   extractChangeHighlights,

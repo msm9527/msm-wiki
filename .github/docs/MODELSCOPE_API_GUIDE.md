@@ -6,19 +6,19 @@
 
 ### 优势
 
-✅ **完全免费** - 无需付费，免费使用
+✅ **有免费额度** - 具体取决于账号余额、免费额度和模型提供方
 ✅ **国内访问稳定** - 阿里云服务器，无需翻墙
 ✅ **响应速度快** - 国内网络延迟低
 ✅ **支持中文** - 通义千问专为中文优化
 ✅ **OpenAI 兼容** - API 格式兼容 OpenAI
-✅ **强大的模型** - Qwen2.5-Coder-32B-Instruct
+✅ **强大的模型** - Qwen3-30B-A3B，并提供轻量级备选
 
 ### 对比
 
 | 特性 | ModelScope (通义千问) | 智谱 AI (GLM-4) | Anthropic (Claude) |
 |------|---------------------|----------------|-------------------|
 | 访问稳定性 | ✅ 国内稳定 | ✅ 国内稳定 | ⚠️ 需要翻墙 |
-| 价格 | ✅ **完全免费** | ⚠️ 付费 | ❌ 较贵 |
+| 价格 | ✅ 有免费额度 | ⚠️ 付费 | ❌ 较贵 |
 | 中文能力 | ✅ 专为中文优化 | ✅ 专为中文优化 | ✅ 支持中文 |
 | 响应速度 | ✅ 快（国内） | ✅ 快（国内） | ⚠️ 慢（国际） |
 | API 兼容性 | ✅ OpenAI 兼容 | ✅ OpenAI 兼容 | ❌ 自有格式 |
@@ -116,14 +116,14 @@ AI 生成的总结:
 ### 请求格式
 
 ```javascript
-const response = await fetch('https://api-inference.modelscope.cn/v1/chat/completions', {
+const response = await fetch('https://api-inference.modelscope.com/v1/chat/completions', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${MODELSCOPE_API_KEY}`
   },
   body: JSON.stringify({
-    model: 'Qwen/Qwen2.5-Coder-32B-Instruct',
+    model: 'Qwen/Qwen3-30B-A3B',
     messages: [
       {
         role: 'system',
@@ -148,7 +148,7 @@ const response = await fetch('https://api-inference.modelscope.cn/v1/chat/comple
   "id": "chatcmpl-xxxxxxxx",
   "object": "chat.completion",
   "created": 1234567890,
-  "model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+  "model": "Qwen/Qwen3-30B-A3B",
   "choices": [
     {
       "index": 0,
@@ -173,48 +173,49 @@ ModelScope 提供多个开源模型，推荐使用：
 
 | 模型 | 说明 | 参数量 | 适用场景 |
 |------|------|--------|---------|
-| Qwen/Qwen2.5-Coder-32B-Instruct | 通义千问 2.5 Coder（推荐） | 32B | 代码分析、技术文档 |
-| Qwen/Qwen2.5-72B-Instruct | 通义千问 2.5 | 72B | 复杂任务 |
-| Qwen/Qwen2-72B-Instruct | 通义千问 2 | 72B | 通用任务 |
+| Qwen/Qwen3-30B-A3B | 通义千问 3 MoE（当前首选） | 30B-A3B | 代码分析、技术文档 |
+| Qwen/Qwen3-14B | 通义千问 3（轻量备选） | 14B | 通用总结、低配额 |
+| Qwen/Qwen3-8B | 通义千问 3（快速备选） | 8B | 兜底生成 |
+| Qwen/Qwen3-Coder-30B-A3B-Instruct | 通义千问 3 Coder | 30B-A3B | 代码变更分析 |
 
-**当前使用:** `Qwen/Qwen2.5-Coder-32B-Instruct` - 专为代码场景优化
+**当前工作流使用:** `Qwen/Qwen3-30B-A3B`，失败后依次切换到 `Qwen/Qwen3-14B`、`Qwen/Qwen3-8B`。
 
 ## 成本分析
 
-### 完全免费！
+### 配额说明
 
-ModelScope API 目前**完全免费**使用，无需付费！
+ModelScope 是否可调用取决于账号余额、免费额度和模型提供方状态。遇到 `429 insufficient balance` 时，工作流会自动尝试更轻量的备选模型；如果仍不可用，会使用本地规则生成完整摘要，不会退化成只显示第一条提交。
 
 **对比其他服务:**
 
 | API | 每次构建 | 每月（30次） | 每年 |
 |-----|---------|------------|------|
-| **ModelScope** | **¥0** | **¥0** | **¥0** |
+| **ModelScope** | **视账号配额** | **视账号配额** | **视账号配额** |
 | 智谱 AI | ¥0.0001 | ¥0.003 | ¥0.036 |
 | 阿里云 | ¥0.004 | ¥0.12 | ¥1.44 |
 | Anthropic | ¥0.027 | ¥0.81 | ¥9.72 |
 
-**结论:** ModelScope 是最经济的选择，完全免费！
+**结论:** ModelScope 适合做自动摘要，但不能假设所有模型都永久免费或始终有可用提供方。
 
 ## 功能改进
 
 ### 1. 智能提交范围
 
 **旧版本:**
-- 固定获取最近 20 条提交
+- 只读取少量提交标题，容易遗漏功能
 
 **新版本:**
 - 自动检测上一个版本 tag
 - 获取从上个版本到当前的所有提交
-- 如果没有 tag，降级到最近 20 条
+- 如果没有上一版源提交，降级到最近 100 条
 
 **示例:**
 ```bash
 # 如果存在 tag 0.7.4
 git log 0.7.4..HEAD  # 获取从 0.7.4 到现在的所有提交
 
-# 如果不存在 tag
-git log -20  # 获取最近 20 条
+# 如果不存在上一版源提交
+git log -100  # 获取最近 100 条
 ```
 
 ### 2. 更详细的日志
@@ -289,13 +290,13 @@ AI 总结失败: fetch failed
 **解决:**
 1. 重新运行工作流
 2. 检查 [ModelScope 服务状态](https://www.modelscope.cn/)
-3. 工作流会自动使用默认总结
+3. 工作流会自动使用本地规则生成多分类摘要
 
 ### 问题 4: 未找到上一个版本
 
 **症状:**
 ```
-未找到上一个版本，使用最近 20 条提交
+未找到上一个版本，使用最近 100 条提交
 ```
 
 **原因:**
@@ -304,7 +305,7 @@ AI 总结失败: fetch failed
 
 **解决:**
 - 这是正常行为，不需要处理
-- 工作流会自动降级到最近 20 条提交
+- 工作流会自动降级到最近 100 条提交，并继续生成结构化摘要
 
 ## 高级配置
 
@@ -314,9 +315,11 @@ AI 总结失败: fetch failed
 
 ```javascript
 body: JSON.stringify({
-  model: 'Qwen/Qwen2.5-72B-Instruct',  // 更强大的模型
+  model: 'Qwen/Qwen3-30B-A3B',          // 当前工作流首选
   // 或
-  model: 'Qwen/Qwen2-72B-Instruct',    // 通用模型
+  model: 'Qwen/Qwen3-14B',              // 轻量备选
+  // 或
+  model: 'Qwen/Qwen3-8B',               // 快速兜底
   // ...
 })
 ```
@@ -325,7 +328,7 @@ body: JSON.stringify({
 
 ```javascript
 {
-  model: 'Qwen/Qwen2.5-Coder-32B-Instruct',
+  model: 'Qwen/Qwen3-30B-A3B',
   messages: [...],
   temperature: 0.7,      // 创造性（0-1）
   top_p: 0.8,           // 采样概率
@@ -377,7 +380,7 @@ ${commits.map(c => `- ${c.subject}`).join('\n')}
 3. **删除旧的 Secret（可选）**
    ```bash
    gh secret delete ANTHROPIC_API_KEY
-   # 或
+   # 或删除旧的无效模型配置
    gh secret delete ZHIPU_API_KEY
    ```
 
@@ -402,7 +405,7 @@ ${commits.map(c => `- ${c.subject}`).join('\n')}
 
 ### Q: ModelScope API 真的免费吗？
 
-A: 是的，目前完全免费使用。但建议关注官方公告，未来可能会有变化。
+A: 不能保证完全免费。是否能调用取决于账号余额、免费额度和模型提供方；工作流遇到 429 会切换轻量模型，全部失败时使用本地规则兜底。
 
 ### Q: 有使用限制吗？
 
@@ -445,9 +448,9 @@ A: 不会自动过期，但可以手动删除或重新生成。
 
 ### 为什么选择 ModelScope？
 
-1. **完全免费** - 无需付费，节省成本
+1. **有免费额度** - 适合每日构建，但需关注账号配额
 2. **国内稳定** - 无需翻墙，访问速度快
-3. **强大模型** - Qwen2.5-Coder-32B-Instruct 专为代码优化
+3. **强大模型** - Qwen3-30B-A3B，另有 Qwen3-14B / Qwen3-8B 兜底
 4. **中文优化** - 专为中文场景设计
 5. **OpenAI 兼容** - API 格式标准，易于集成
 
@@ -460,4 +463,4 @@ A: 不会自动过期，但可以手动删除或重新生成。
 | 阿里云 | ¥0.12 | ¥1.44 | - |
 | Anthropic | ¥0.81 | ¥9.72 | - |
 
-**ModelScope 是最经济的选择 - 完全免费！**
+**ModelScope 适合低成本自动总结，但不能假设所有模型始终免费可用。**
