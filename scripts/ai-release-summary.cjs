@@ -9,7 +9,7 @@ const DEFAULT_DIFF_FILE_LIMIT = 32;
 const DEFAULT_DIFF_CHAR_LIMIT = 24000;
 const MIN_DIFF_FILE_CHARS = 700;
 const DEFAULT_TOTAL_DIFF_CHAR_LIMIT = 180000;
-const DEFAULT_BASELINE_DIFF_CHAR_LIMIT = 120000;
+const DEFAULT_BASELINE_DIFF_CHAR_LIMIT = 180000;
 const DEFAULT_BODY_CHAR_LIMIT = 6000;
 const DEFAULT_BODY_HIGHLIGHT_LIMIT = Infinity;
 const DEFAULT_BODY_HIGHLIGHT_CHAR_LIMIT = Infinity;
@@ -318,9 +318,41 @@ function shortenEvidenceLine(line, limit = 550) {
   return `${line[0]}${start > 1 ? '…' : ''}${line.slice(start, start + limit - 35)}…（长行节选）`;
 }
 
-function createNetPatchPlan(patch) {
-  const lines = patch.split('\n').map(line => shortenEvidenceLine(line));
+function createNetPatchPlan(patch, { compact = false } = {}) {
+  const lines = patch.split('\n').map(line => shortenEvidenceLine(line, compact ? 360 : undefined));
   const mandatory = new Set([0]);
+  if (compact) {
+    const hunkHeaders = [];
+    const changes = [];
+    for (let index = 1; index < lines.length; index++) {
+      if (lines[index].startsWith('@@')) hunkHeaders.push(index);
+      if (lines[index].startsWith('+') || lines[index].startsWith('-')) changes.push(index);
+    }
+    // For a very large release, preserve one strongest before/after line per
+    // file. The complete file index remains in the prompt and this excerpt is
+    // explicitly marked as sampled; it never becomes title-only evidence.
+    for (const sign of ['+', '-']) {
+      const candidate = changes
+        .filter(index => lines[index].startsWith(sign))
+        .sort((left, right) => evidenceLineScore(lines[right]) - evidenceLineScore(lines[left]) || left - right)[0];
+      if (candidate === undefined) continue;
+      mandatory.add(candidate);
+      const header = hunkHeaders.filter(index => index < candidate).at(-1);
+      if (header !== undefined) mandatory.add(header);
+    }
+    const marker = '\n…（仅展示本文件关键净差异；上下文不表示新增）';
+    const render = selected => [...selected].sort((left, right) => left - right).map(index => lines[index]).join('\n');
+    const minimum = render(mandatory).length + marker.length;
+    return {
+      minimum,
+      demand: Math.max(minimum, lines.join('\n').length),
+      render(budget) {
+        if (lines.join('\n').length <= budget) return lines.join('\n');
+        return render(mandatory) + marker;
+      },
+    };
+  }
+
   let hunk = [];
   const flush = () => {
     for (const sign of ['+', '-']) {
@@ -370,8 +402,18 @@ function buildNetDiffEvidence(rawDiff, maxChars = DEFAULT_BASELINE_DIFF_CHAR_LIM
   }));
   const source = patches.filter(entry => diffPathPriority(entry.path) > 0);
   const styles = patches.filter(entry => diffPathPriority(entry.path) === 0);
-  const plans = source.map(entry => createNetPatchPlan(entry.patch));
-  const minimum = plans.reduce((sum, plan) => sum + plan.minimum + 1, 0);
+  let compact = false;
+  let plans = source.map(entry => createNetPatchPlan(entry.patch));
+  let minimum = plans.reduce((sum, plan) => sum + plan.minimum + 1, 0);
+  // Large releases can touch hundreds of files. Keep the complete file index,
+  // but reduce each file to its strongest old/new evidence when the normal
+  // sampling plan cannot fit the input budget. This remains code evidence and
+  // is explicitly marked as sampled below; it never falls back to titles alone.
+  if (minimum > maxChars) {
+    compact = true;
+    plans = source.map(entry => createNetPatchPlan(entry.patch, { compact: true }));
+    minimum = plans.reduce((sum, plan) => sum + plan.minimum + 1, 0);
+  }
   if (minimum > maxChars) throw new Error('净差异关键证据超过预算，不能仅保留文件路径或静默丢弃实现文件');
   const styleBudget = Math.min(4000, Math.max(0, Math.floor((maxChars - minimum) / 12)));
   const styleDiff = styles.length && styleBudget >= MIN_DIFF_FILE_CHARS
@@ -380,7 +422,12 @@ function buildNetDiffEvidence(rawDiff, maxChars = DEFAULT_BASELINE_DIFF_CHAR_LIM
   const extras = allocateBudgets(plans.map(plan => plan.demand - plan.minimum), remaining);
   const diff = [...plans.map((plan, index) => plan.render(plan.minimum + extras[index])), ...(styleDiff ? [styleDiff] : [])].join('\n');
   const sampledStylePaths = styleDiff.split('\n').map(line => line.match(/^diff --git .* b\/(.+)$/u)?.[1]).filter(Boolean);
-  return { diff, sampledFiles: [...source.map(entry => entry.path), ...sampledStylePaths], sourceFileCount: source.length };
+  return {
+    diff,
+    sampledFiles: [...source.map(entry => entry.path), ...sampledStylePaths],
+    sourceFileCount: source.length,
+    compact,
+  };
 }
 
 function isMeaningfulChangeLine(line) {
@@ -1003,7 +1050,8 @@ function collectFallbackSummaryItems(commits, {
   };
 }
 
-function buildSummaryPrompt(commits, { maxPromptChars = DEFAULT_PROMPT_CHAR_LIMIT, releaseBaseline = commits?.releaseBaseline } = {}) {
+function buildSummaryPrompt(commits, { maxPromptChars, releaseBaseline = commits?.releaseBaseline } = {}) {
+  const effectiveMaxPromptChars = maxPromptChars ?? (releaseBaseline?.diffIncomplete ? 260000 : DEFAULT_PROMPT_CHAR_LIMIT);
   const netPaths = releaseBaseline ? new Set(releaseBaseline.files.flatMap(file => [file.path, file.previousPath].filter(Boolean))) : null;
   const entries = (commits || []).filter(commit => !netPaths || (commit.files || []).some(file => pathsOverlapRelease(file, netPaths)));
   const instructions = `你是 MSM 的中文技术发布编辑。请把证据整理成值得阅读、便于决定是否升级的发布日志。
@@ -1051,13 +1099,13 @@ function buildSummaryPrompt(commits, { maxPromptChars = DEFAULT_PROMPT_CHAR_LIMI
   // Spend the remaining budget fairly on raw body and patch excerpts from ALL commits.
   const base = entries.map(commit => formatCommitForPrompt(commit, { bodyLimit: 0, diffLimit: 0 }));
   const baselineLength = wrap(base.join('\n\n')).length;
-  if (!Number.isFinite(maxPromptChars) || maxPromptChars < 1) throw new Error('发布日志输入预算必须是正整数');
-  if (baselineLength > maxPromptChars) {
-    throw new Error(`完整变更索引需要 ${baselineLength} 字符，超过输入预算 ${maxPromptChars}；请分批生成或提高 maxPromptChars，不能静默丢弃提交`);
+  if (!Number.isFinite(effectiveMaxPromptChars) || effectiveMaxPromptChars < 1) throw new Error('发布日志输入预算必须是正整数');
+  if (baselineLength > effectiveMaxPromptChars) {
+    throw new Error(`完整变更索引需要 ${baselineLength} 字符，超过输入预算 ${effectiveMaxPromptChars}；请分批生成或提高 maxPromptChars，不能静默丢弃提交`);
   }
   const desired = entries.map(commit => formatCommitForPrompt(commit).length);
   const allocations = base.map(() => 0);
-  let remaining = maxPromptChars - baselineLength;
+  let remaining = effectiveMaxPromptChars - baselineLength;
   let pending = entries.map((_, index) => index).filter(index => desired[index] > base[index].length);
   while (remaining > 0 && pending.length > 0) {
     const share = Math.max(1, Math.floor(remaining / pending.length));
@@ -1084,8 +1132,9 @@ function buildSummaryPrompt(commits, { maxPromptChars = DEFAULT_PROMPT_CHAR_LIMI
   return wrap(contexts.join('\n\n'));
 }
 
-function buildReviewPrompt(commits, draft, { maxPromptChars = DEFAULT_PROMPT_CHAR_LIMIT, releaseBaseline = commits?.releaseBaseline } = {}) {
+function buildReviewPrompt(commits, draft, { maxPromptChars, releaseBaseline = commits?.releaseBaseline } = {}) {
   if (!normalizeText(draft)) throw new Error('待审稿发布日志不能为空');
+  const effectiveMaxPromptChars = maxPromptChars ?? (releaseBaseline?.diffIncomplete ? 260000 : DEFAULT_PROMPT_CHAR_LIMIT);
   const review = `
 
 <release_editorial_review>
@@ -1101,8 +1150,8 @@ function buildReviewPrompt(commits, draft, { maxPromptChars = DEFAULT_PROMPT_CHA
 ${JSON.stringify(String(draft))}
 </release_editorial_review>
 请输出已经逐项补漏、语义去重并纠正假新增的完整中文发布日志。`;
-  if (review.length >= maxPromptChars) throw new Error('审稿草稿超过输入预算');
-  return buildSummaryPrompt(commits, { releaseBaseline, maxPromptChars: maxPromptChars - review.length }) + review;
+  if (review.length >= effectiveMaxPromptChars) throw new Error('审稿草稿超过输入预算');
+  return buildSummaryPrompt(commits, { releaseBaseline, maxPromptChars: effectiveMaxPromptChars - review.length }) + review;
 }
 
 function buildOutputCorrectionPrompt(prompt, draft, reasons) {

@@ -727,6 +727,22 @@ test('net evidence covers every non-CSS file with code, late behavioral hunks an
   assert.match(evidence.diff, /uses the numeric Docker CLI offset/);
 });
 
+test('large release baselines compact per-file evidence instead of aborting collection', () => {
+  const source = Array.from({ length: 220 }, (_, index) =>
+    `diff --git a/src/module${index}.ts b/src/module${index}.ts\n@@ -1,8 +1,8 @@\n-${'old behavior '.repeat(35)}${index}\n+${'new behavior '.repeat(35)}${index}\n@@ -80,8 +80,8 @@\n-${'old implementation '.repeat(35)}${index}\n+${'new implementation '.repeat(35)}${index}`,
+  );
+  const evidence = buildNetDiffEvidence(source.join('\n'), 180000);
+
+  assert.equal(evidence.compact, true);
+  assert.equal(evidence.sourceFileCount, 220);
+  assert.equal(evidence.sampledFiles.length, 220);
+  assert.ok(evidence.diff.length <= 180000);
+  assert.match(evidence.diff, /diff --git a\/src\/module0\.ts b\/src\/module0\.ts/);
+  assert.match(evidence.diff, /diff --git a\/src\/module219\.ts b\/src\/module219\.ts/);
+  assert.match(evidence.diff, /-old behavior/);
+  assert.match(evidence.diff, /\+new behavior/);
+});
+
 test('review prompt keeps the authoritative evidence and treats a draft as material to correct', () => {
   const commits = [{ subject: 'fix: 修复模板权限校验', files: [{ path: 'src/Template.tsx' }] }];
   const baseline = {
