@@ -12,53 +12,91 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.4.5" data-release-date="2026-09-07 19:00:21 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.5">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.4.7" data-release-date="2026-09-08 11:00:38 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.7">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.4.5</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.4.7</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.5" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.7" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>20 项</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>3 项</strong></div>
   <div class="msm-release-metric"><span>亮点</span><strong>3 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-07 19:00:21 CST</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-08 11:00:38 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKuWPjeWQkeS7o+eQhui/nuaOpemFjee9rumHjeaehCoq77ya57uf5LiA5YWl5Y+j56uv5Y+j5LiO55uR5ZCs56uv5Y+j6K6+572u77yM5pSv5oyBIEhUVFBTIOiHquWKqOmAieaLqSA0NDMg56uv5Y+j77yM566A5YyW5Y+R5biD5rWB56iL5bm25YeP5bCR6YWN572u6ZSZ6K+v44CCIiwiLSAqKuS7quihqOebmOe7hOS7tuWtl+WPt+iHqumAguW6lCoq77ya5paw5aKe5YWo5bGA5a2X5L2T57yp5pS+6LCD6IqC5Yqf6IO977yM6Ieq5Yqo6YCC6YWN5LiN5ZCM5bC65a+45bCP57uE5Lu277yM5o+Q5Y2H6auY5YiG6L6o546H5bGP5bmV5LiL55qE5Y+v6K+75oCn5LiO5biD5bGA576O6KeC5bqm44CCIiwiLSAqKuS4ieW8leaTjue7hOe9kemrmOe6p+iuvue9ruWujOWWhCoq77yaVGFpbHNjYWxl44CBV2lyZUd1YXJkIOWSjCBFYXN5VGllciDlnYfmlK/mjIHlrozmlbTpq5jnuqflj4LmlbDphY3nva7vvIzljIXmi6zlh7rlj6PoioLngrnjgIFLZWVwYWxpdmUg6Ze06ZqU5ZKM5a6i5oi356uvIE1UVe+8jOa7oei2s+Wkjeadgue9kee7nOmcgOaxguOAgiJdLCJtYWpvciI6W10sImFkZGVkIjpbXSwiY2hhbmdlZCI6WyItICoq5Y+N5ZCR5Luj55CG5Lyg6L6T5bGC6YCJ6aG55pSv5oyBIEhUVFAvMiDkuIrmuLgqKu+8muWcqOWPjeS7o+inhOWImeS4reWPr+aMh+WumuS4iua4uOi/nuaOpeS9v+eUqCBIVFRQLzIg5Y2P6K6u77yM5LyY5YyW5ZCO56uv6YCa5L+h5oCn6IO95LiO5YW85a655oCn44CCIiwiLSAqKlRhaWxzY2FsZSDnu4TnvZHmlK/mjIHlh7rlj6PoioLngrnkuI7lgY/lpb3orr7nva4qKu+8muWPr+WcqOmFjee9ruS4reaMh+WumuiuvuWkh+S9nOS4uuWHuuWPo+iKgueCue+8jOW5tumAmui/hyBgZXhpdF9ub2RlYCDlrZfmrrXlkK/nlKjlhbbku5boioLngrnnmoTlh7rlj6Pot6/nlLHjgIIiLCItICoqV2lyZUd1YXJkIOWuouaIt+err+mFjee9ruaUr+aMgSBNVFUg5LiOIEtlZXBhbGl2ZSoq77ya5paw5aKe5a+5IFdpcmVHdWFyZCDlrqLmiLfnq68gYG10dWAg5ZKMIGBwZXJzaXN0ZW50X2tlZXBhbGl2ZWAg55qE54us56uL5o6n5Yi277yM5o+Q5Y2H6L+e5o6l56iz5a6a5oCn44CCIiwiLSAqKm5mdGFibGVzIOmAj+aYjuS7o+eQhuetlueVpeabtOeyvuehrioq77yaSVB2NiDmtYHph4/lpITnkIbpgLvovpHkvJjljJbvvIzpgb/lhY3or6/mi6bmiKrmnKzlnLDpk77ot6/lnLDlnYDvvIzlop7lvLrlj4zmoIjnjq/looPkuIvnmoTlj6/pnaDmgKfjgIIiLCItICoqQ2xhc2gg5ZKMIFNpbmctQm94IElQdjYgRmFrZUlQIOaooeW8j+WinuW8uua1i+ivleimhueblioq77ya5aKe5Yqg6ZuG5oiQ5rWL6K+V6aqM6K+BIFVEUCDmn6Xor6LkuI7pmqfpgZPov4fmuKHlnLrmma/vvIznoa7kv53moLjlv4Plip/og73nqLPlrprjgIIiXSwicGVyZm9ybWFuY2UiOlsiLSAqKui+uee8mOe9keWFs+i/kOihjOaXtuWGheWtmOmZkOWItue7p+aJv+Wuv+S4u+mFjee9rioq77ya6Iul6K6+572u5LqGIGBHT01FTUxJTUlUYCDnjq/looPlj5jph4/vvIzliJnlrZDov5vnqIvoh6rliqjnu6fmib/or6XpmZDliLbvvIzpmLLmraLotYTmupDotoXnlKjjgIIiLCItICoqRE5TIOafpeivoui2i+WKv+WbvuihqOa4suafk+aAp+iDveaPkOWNhyoq77ya6YCa6L+H57K+566AIERPTSDnu5PmnoTlkozmoLflvI/orqHnrpfvvIzliqDlv6vlpKfmlbDmja7ph4/kuIvotovlir/lm77nmoTliqDovb3kuI7kuqTkupLlk43lupTpgJ/luqbjgIIiXSwiZml4ZWQiOlsiLSAqKuS/ruWkjSBTZXR1cCDpobXpnaIgSVB2NiDkuI4gTW9zRE5TIOW8gOWFs+eKtuaAgeS4jeWQjOatpemXrumimCoq77ya56Gu5L+d5YiH5o2iIElQdjYg5oiW56aB55SoIE1vc0ROUyDlkI7phY3nva7mraPnoa7kv53lrZjlubbnlJ/mlYjvvIzpgb/lhY3ov5DooYzml7bplJnkubHjgIIiLCItICoq6Kej5YazIG5mdGFibGVzIOaUv+etluWPmOabtOWQjuacqumHjeaWsOW6lOeUqOeahOmXrumimCoq77ya5b2T5LuF5L+u5pS55Luj55CG562W55Wl6ICM5peg6ZyA6YeN5ZCv5pe277yM57O757uf5bCG5Li75Yqo6YeN6L29572R57uc6YWN572u5Lul5L2/5pu05pS556uL5Y2z55Sf5pWI44CCIiwiLSAqKuS/ruWkjSBUYWlsc2NhbGUg5pu05paw5o6i5rWL5aSx6LSl5a+86Ie05a6J6KOF5Lit5pat55qE6Zeu6aKYKirvvJrmlLnov5vniYjmnKzmjqLmtYvpgLvovpHvvIzmraPnoa7lpITnkIYgRU9GIOWSjOS4tOaXtue9kee7nOmUmeivr++8jOaPkOmrmOS4i+i9vemygeajkuaAp+OAgiIsIi0gKirkv67mraMgRG9ja2VyIOWuueWZqOmVv+mUmeivr+S/oeaBr+mBruaMoeaTjeS9nOaMiemSrueahOmXrumimCoq77ya6LCD5pW0IFVJIOa6ouWHuuetlueVpe+8jOWFgeiuuOWGheWuuea7muWKqOafpeeci++8jOS/nemanOWFs+mUruaOp+S7tuWni+e7iOWPr+iuv+mXruOAgiIsIi0gKirkv67lpI3ku6rooajnm5jlsI/lsY/mqKHlvI/kuIvnu4Tku7bml6Dms5XmqKrlkJHmu5rliqjnmoTpl67popgqKu+8muW8leWFpeS4k+eUqOa7muWKqOWuueWZqO+8jOehruS/neeqhOWxj+iuvuWkh+S4iuWkmuWIl+e7hOS7tuS7jeWPr+WujOaVtOa1j+iniOOAgiIsIi0gKirop6PlhrPlj43lkJHku6PnkIbojYnnqL/moKHpqozml7bkvKDovpPorr7nva7mnKrph43nva7nmoTpl67popgqKu+8muabtOaWsCBBUEkg6LCD55So6YC76L6R77yM5piO56Gu5Y+R6YCB56m65YC85Lul5riF6Zmk5pen6YWN572u77yM6YG/5YWN5q6L55WZ5b2x5ZON5paw6KeE5YiZ44CCIiwiLSAqKuS/ruWkjSBDbGFzaCDlsI/nu4Tku7bpq5jluqbloYzpmbflr7zoh7TlhoXlrrnooqvoo4HliarnmoTpl67popgqKu+8muS8mOWMliBDU1Mg5biD5bGA57qm5p2f77yM5L+d6K+B5omA5pyJ5oyH5qCH6KGM5q2j5bi45pi+56S65LiU5LiN6YeN5Y+g44CCIiwiLSAqKuS/ruato+acjeWKoeWNoeeJh+W6lemDqOaPkOekuuS/oeaBr+S4juaTjeS9nOagj+mHjeWPoOeahOmXrumimCoq77ya6LCD5pW06Ze06Led5LiO5bGC57qn77yM56Gu5L+d4oCc6K6+572u5b6F5ZCM5q2l4oCd562J54q25oCB5o+Q56S65riF5pmw5Y+v6KeB44CCIiwiLSAqKuS/ruWkjSBETlMg5LiK5ri457uf6K6h5p2h55uu6L+H5aSa5pe25biD5bGA6ZSZ5L2N55qE6Zeu6aKYKirvvJrph4fnlKjlvLnmgKfmjaLooYzorr7orqHvvIzkv53mjIHntKflh5HlkIzml7bpmLLmraLmuqLlh7rlrrnlmajovrnnlYzjgIIiLCItICoq6Kej5Yaz56Gs5Lu25L+h5oGv5Lit6Zu25Yip55So546H5LiO5LiN5Y+v55So54q25oCB5re35reG55qE6Zeu6aKYKirvvJrljLrliIblrp7pmYXkuLogMCDnmoTor7vmlbDkuI7mnKrph4fpm4bmlbDmja7vvIzmj5Dkvpvmm7Tlh4bnoa7nmoTnirbmgIHlj43ppojjgIIiLCItICoq5L+u5aSN55So5oi355WM6Z2i5pCc57Si5qGG54Sm54K56KGM5Li65byC5bi455qE6Zeu6aKYKirvvJrngrnlh7vovpPlhaXmoYblpJbpg6jljLrln5/kuI3lho3mhI/lpJbop6blj5HogZrnhKbvvIzmlLnlloTkuqTkupLkuIDoh7TmgKfjgIIiLCItICoq5L+u5q2jIEVkZ2Ug572R5YWz54q25oCB5Y2h5Zyo4oCc5q2j5Zyo5L+u5aSN4oCd5L2G5a6e6ZmF5bey5YGc5q2i55qE6Zeu6aKYKirvvJrlh4bnoa7or4bliKvmiYvliqjlhbPpl63nirbmgIHvvIzmraPnoa7mmL7npLrkuLrnqbrpl7LogIzpnZ7mjIHnu63lsJ3or5XmgaLlpI3jgIIiXSwic2VjdXJpdHkiOlsiLSAqKuWinuW8uiBXaXJlR3VhcmQg6Ziy54Gr5aKZ6KeE5YiZ55Sf5oiQ5a6J5YWo5oCnKirvvJrlnKjmnoTlu7rovazlj5HnrZbnlaXliY3ov5vooYwgQ0lEUiDmoLzlvI/moKHpqozvvIzpmLLmraLpnZ7ms5XovpPlhaXlvJXlj5HphY3nva7plJnor6/miJbmvZzlnKjnu5Xov4fjgIIiXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g54mI5pys5Y+35bey5LuOIDEuNC4yIOWNh+e6p+iHsyAxLjQuNe+8jOWMheWQq+WkmumhueWJjeWQjuerr+WNj+WQjOWPmOabtO+8jOivt+ehruS/neWuouaIt+err+S4juacjeWKoeerr+WQjOatpeabtOaWsOS7peiOt+W+l+WujOaVtOWKn+iDveS9k+mqjOOAgiJdfX0= -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDkv67lpI0gQ2xvdWRmbGFyZSBIVFRQUyDlhaXlj6PkuI7lrp7ml7bov57mjqUiLCItIOS/ruWkjemFjee9ruW6lOeUqOeahOWPjeS7o+i2heaXtuS4jui/m+W6puaBouWkjSIsIi0g5L+u5aSN5LiJ56eN57uE572R5pyN5Yqh55qE5oiQ5ZGY54q25oCB5LiO57uf6K6h5bGV56S6Il0sIm1ham9yIjpbXSwiYWRkZWQiOltdLCJjaGFuZ2VkIjpbXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOS/ruWkjSBDbG91ZGZsYXJlIEhUVFBTIOWFpeWPo+S4juWunuaXtui/nuaOpSIsIi0g5L+u5aSN6YWN572u5bqU55So55qE5Y+N5Luj6LaF5pe25LiO6L+b5bqm5oGi5aSNIiwiLSDkv67lpI3kuInnp43nu4TnvZHmnI3liqHnmoTmiJDlkZjnirbmgIHkuI7nu5/orqHlsZXnpLoiXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSDku44gMjAyNi0wOS0wN1QxMTo1NjoxNlog5LmL5ZCO55qEIDQg5Liq5o+Q5Lqk5Lit5pW055CG77yb5b2T5YmN5L2/55So5o+Q5Lqk5qCH6aKY5LiO5q2j5paH6KaB54K555Sf5oiQ6KeE5YiZ5pGY6KaB77yM5pyq57uP6L+HIEFJIOivreS5ieW9kue6s+aIlui/kOihjOmqjOivgSJdfX0= -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p><strong>反向代理连接配置重构：</strong>统一入口端口与监听端口设置，支持 HTTPS 自动选择 443 端口，简化发布流程并减少配置错误。</p>
+    <p>修复 Cloudflare HTTPS 入口与实时连接</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p><strong>仪表盘组件字号自适应：</strong>新增全局字体缩放调节功能，自动适配不同尺寸小组件，提升高分辨率屏幕下的可读性与布局美观度。</p>
+    <p>修复配置应用的反代超时与进度恢复</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p><strong>三引擎组网高级设置完善：</strong>Tailscale、WireGuard 和 EasyTier 均支持完整高级参数配置，包括出口节点、Keepalive 间隔和客户端 MTU，满足复杂网络需求。</p>
+    <p>修复三种组网服务的成员状态与统计展示</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-changed">✨ 功能增强 <span>5</span></a>
-  <a href="#release-performance">⚡ 性能优化 <span>2</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>12</span></a>
-  <a href="#release-security">🛡️ 安全加固 <span>1</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>3</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
 
-<section class="msm-release-section msm-release-section--changed">
+<section class="msm-release-section msm-release-section--fixed">
 
-### ✨ 功能增强 {#release-changed}
+### 🐛 问题修复 {#release-fixed}
+
+- 修复 Cloudflare HTTPS 入口与实时连接
+- 修复配置应用的反代超时与进度恢复
+- 修复三种组网服务的成员状态与统计展示
+
+</section>
+
+<section class="msm-release-section msm-release-section--notes">
+
+### 📌 升级提醒 {#release-notes}
+
+- 从 2026-09-07T11:56:16Z 之后的 4 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+</section>
+
+::: details 📋 构建信息
+- **发布通道**：beta（Beta 版）
+- **源提交**： [`d24412a`](https://github.com/msm9527/msm/commit/d24412a7f3df64fdecea862f204c931e23b9f22a)
+- **提交信息**：升级版本至 1.4.7 / Bump version to 1.4.7
+- **提交作者**：root
+- **提交时间**：2026-09-08 11:00:38 CST
+- **下载说明**：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
+:::
+
+---
+
+## 📚 历史 Beta 版本
+
+> 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-1.4.5 · 2026-09-07 19:00 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.5" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- **反向代理连接配置重构**：统一入口端口与监听端口设置，支持 HTTPS 自动选择 443 端口，简化发布流程并减少配置错误。
+- **仪表盘组件字号自适应**：新增全局字体缩放调节功能，自动适配不同尺寸小组件，提升高分辨率屏幕下的可读性与布局美观度。
+- **三引擎组网高级设置完善**：Tailscale、WireGuard 和 EasyTier 均支持完整高级参数配置，包括出口节点、Keepalive 间隔和客户端 MTU，满足复杂网络需求。
+
+**✨ 功能增强**
 
 - **反向代理传输层选项支持 HTTP/2 上游**：在反代规则中可指定上游连接使用 HTTP/2 协议，优化后端通信性能与兼容性。
 - **Tailscale 组网支持出口节点与偏好设置**：可在配置中指定设备作为出口节点，并通过 `exit_node` 字段启用其他节点的出口路由。
@@ -66,20 +104,12 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 - **nftables 透明代理策略更精确**：IPv6 流量处理逻辑优化，避免误拦截本地链路地址，增强双栈环境下的可靠性。
 - **Clash 和 Sing-Box IPv6 FakeIP 模式增强测试覆盖**：增加集成测试验证 UDP 查询与隧道过渡场景，确保核心功能稳定。
 
-</section>
-
-<section class="msm-release-section msm-release-section--performance">
-
-### ⚡ 性能优化 {#release-performance}
+**⚡ 性能优化**
 
 - **边缘网关运行时内存限制继承宿主配置**：若设置了 `GOMEMLIMIT` 环境变量，则子进程自动继承该限制，防止资源超用。
 - **DNS 查询趋势图表渲染性能提升**：通过精简 DOM 结构和样式计算，加快大数据量下趋势图的加载与交互响应速度。
 
-</section>
-
-<section class="msm-release-section msm-release-section--fixed">
-
-### 🐛 问题修复 {#release-fixed}
+**🐛 问题修复**
 
 - **修复 Setup 页面 IPv6 与 MosDNS 开关状态不同步问题**：确保切换 IPv6 或禁用 MosDNS 后配置正确保存并生效，避免运行时错乱。
 - **解决 nftables 政策变更后未重新应用的问题**：当仅修改代理策略而无需重启时，系统将主动重载网络配置以使更改立即生效。
@@ -94,38 +124,15 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 - **修复用户界面搜索框焦点行为异常的问题**：点击输入框外部区域不再意外触发聚焦，改善交互一致性。
 - **修正 Edge 网关状态卡在“正在修复”但实际已停止的问题**：准确识别手动关闭状态，正确显示为空闲而非持续尝试恢复。
 
-</section>
-
-<section class="msm-release-section msm-release-section--security">
-
-### 🛡️ 安全加固 {#release-security}
+**🛡️ 安全加固**
 
 - **增强 WireGuard 防火墙规则生成安全性**：在构建转发策略前进行 CIDR 格式校验，防止非法输入引发配置错误或潜在绕过。
 
-</section>
-
-<section class="msm-release-section msm-release-section--notes">
-
-### 📌 升级提醒 {#release-notes}
+**📌 升级提醒**
 
 - 版本号已从 1.4.2 升级至 1.4.5，包含多项前后端协同变更，请确保客户端与服务端同步更新以获得完整功能体验。
 
-</section>
-
-::: details 📋 构建信息
-- **发布通道**：beta（Beta 版）
-- **源提交**： [`df65610`](https://github.com/msm9527/msm/commit/df656107d1f304fbb7dd110a97e88883d7c0214e)
-- **提交信息**：升级版本至 1.4.5 / Bump version to 1.4.5
-- **提交作者**：root
-- **提交时间**：2026-09-07 19:00:21 CST
-- **下载说明**：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 :::
-
----
-
-## 📚 历史 Beta 版本
-
-> 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
 
 ::: details beta-1.4.2 · 2026-09-06 17:05 · Beta 版
 
