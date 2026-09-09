@@ -12,54 +12,88 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.4.7" data-release-date="2026-09-08 11:00:38 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.7">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.4.8" data-release-date="2026-09-09 21:53:01 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.8">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.4.7</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.4.8</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.7" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.8" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>3 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>3 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-08 11:00:38 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>9 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-09 21:53:01 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDkv67lpI0gQ2xvdWRmbGFyZSBIVFRQUyDlhaXlj6PkuI7lrp7ml7bov57mjqUiLCItIOS/ruWkjemFjee9ruW6lOeUqOeahOWPjeS7o+i2heaXtuS4jui/m+W6puaBouWkjSIsIi0g5L+u5aSN5LiJ56eN57uE572R5pyN5Yqh55qE5oiQ5ZGY54q25oCB5LiO57uf6K6h5bGV56S6Il0sIm1ham9yIjpbXSwiYWRkZWQiOltdLCJjaGFuZ2VkIjpbXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOS/ruWkjSBDbG91ZGZsYXJlIEhUVFBTIOWFpeWPo+S4juWunuaXtui/nuaOpSIsIi0g5L+u5aSN6YWN572u5bqU55So55qE5Y+N5Luj6LaF5pe25LiO6L+b5bqm5oGi5aSNIiwiLSDkv67lpI3kuInnp43nu4TnvZHmnI3liqHnmoTmiJDlkZjnirbmgIHkuI7nu5/orqHlsZXnpLoiXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSDku44gMjAyNi0wOS0wN1QxMTo1NjoxNlog5LmL5ZCO55qEIDQg5Liq5o+Q5Lqk5Lit5pW055CG77yb5b2T5YmN5L2/55So5o+Q5Lqk5qCH6aKY5LiO5q2j5paH6KaB54K555Sf5oiQ6KeE5YiZ5pGY6KaB77yM5pyq57uP6L+HIEFJIOivreS5ieW9kue6s+aIlui/kOihjOmqjOivgSJdfX0= -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDlrozlloTns7vnu5/or4rmlq3kuI7nu5Pmnpzlh4bnoa7mgKciLCItIOmalOemu+S4tOaXtiBWaXRlIOmqjOivgee8k+WtmCAvIGlzb2xhdGUgdGVtcG9yYXJ5IFZpdGUgdmFsaWRhdGlvbiBjYWNoZXMiLCItIOaUr+aMgeafpeeci+W3suS/neWtmOeahCBHaXRIdWIgVG9rZW4gLyByZXZlYWwgc2F2ZWQgR2l0SHViIGNyZWRlbnRpYWxzIiwiLSDkv67lpI3oh6rliqjnu4TliIfmjaLor6/miqUgNTAyIC8gaGFuZGxlIHVuc3VwcG9ydGVkIGF1dG9tYXRpYyBncm91cCBzZWxlY3Rpb25zIiwiLSDkv67lpI3pobXpnaLph43or5XkuI7lvIDlj5Hkvp3otZbnvJPlrZggLyByZWNvdmVyIHBhZ2UgZXJyb3JzIGFuZCByZXZhbGlkYXRlIGRldiBkZXBlbmRlbmNpZXMiLCItIOS/ruWkjSBIVFRQUyDliIfmjaLlkozor4HkuabnrqHnkIYgLyBzdGFiaWxpemUgSFRUUFMgc3dpdGNoaW5nIGFuZCBjZXJ0aWZpY2F0ZSBtYW5hZ2VtZW50Il0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSDlrozlloTns7vnu5/or4rmlq3kuI7nu5Pmnpzlh4bnoa7mgKciXSwiY2hhbmdlZCI6WyItIOmalOemu+S4tOaXtiBWaXRlIOmqjOivgee8k+WtmCAvIGlzb2xhdGUgdGVtcG9yYXJ5IFZpdGUgdmFsaWRhdGlvbiBjYWNoZXMiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOaUr+aMgeafpeeci+W3suS/neWtmOeahCBHaXRIdWIgVG9rZW4gLyByZXZlYWwgc2F2ZWQgR2l0SHViIGNyZWRlbnRpYWxzIiwiLSDkv67lpI3oh6rliqjnu4TliIfmjaLor6/miqUgNTAyIC8gaGFuZGxlIHVuc3VwcG9ydGVkIGF1dG9tYXRpYyBncm91cCBzZWxlY3Rpb25zIiwiLSDkv67lpI3pobXpnaLph43or5XkuI7lvIDlj5Hkvp3otZbnvJPlrZggLyByZWNvdmVyIHBhZ2UgZXJyb3JzIGFuZCByZXZhbGlkYXRlIGRldiBkZXBlbmRlbmNpZXMiLCItIOS/ruWkjSBIVFRQUyDliIfmjaLlkozor4HkuabnrqHnkIYgLyBzdGFiaWxpemUgSFRUUFMgc3dpdGNoaW5nIGFuZCBjZXJ0aWZpY2F0ZSBtYW5hZ2VtZW50IiwiLSDkv67lpI3lj4zmoLjlv4Pop4LmtYvkuI7mn6Xor6Llj5bmtogiLCItIOS/ruWkjeS7o+eQhuS7u+WKoeaBouWkjeS4jumFjee9ruW5tuWPkeeos+WumuaApyIsIi0g5L+u5aSN5Luj55CG5qC45b+D5YiH5o2i5LiO5pyN5Yqh56iz5a6a5oCnIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMDktMDhUMDM6Mzg6MjdaIOS5i+WQjueahCAxMCDkuKrmj5DkuqTkuK3mlbTnkIbvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>修复 Cloudflare HTTPS 入口与实时连接</p>
+    <p>完善系统诊断与结果准确性</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>修复配置应用的反代超时与进度恢复</p>
+    <p>隔离临时 Vite 验证缓存 / isolate temporary Vite validation caches</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>修复三种组网服务的成员状态与统计展示</p>
+    <p>支持查看已保存的 GitHub Token / reveal saved GitHub credentials</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">04</span>
+    <p>修复自动组切换误报 502 / handle unsupported automatic group selections</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">05</span>
+    <p>修复页面重试与开发依赖缓存 / recover page errors and revalidate dev dependencies</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">06</span>
+    <p>修复 HTTPS 切换和证书管理 / stabilize HTTPS switching and certificate management</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-fixed">🐛 问题修复 <span>3</span></a>
+  <a href="#release-added">🆕 新增功能 <span>1</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>1</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>7</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
+
+<section class="msm-release-section msm-release-section--added">
+
+### 🆕 新增功能 {#release-added}
+
+- 完善系统诊断与结果准确性
+
+</section>
+
+<section class="msm-release-section msm-release-section--changed">
+
+### ✨ 功能增强 {#release-changed}
+
+- 隔离临时 Vite 验证缓存 / isolate temporary Vite validation caches
+
+</section>
 
 <section class="msm-release-section msm-release-section--fixed">
 
 ### 🐛 问题修复 {#release-fixed}
 
-- 修复 Cloudflare HTTPS 入口与实时连接
-- 修复配置应用的反代超时与进度恢复
-- 修复三种组网服务的成员状态与统计展示
+- 支持查看已保存的 GitHub Token / reveal saved GitHub credentials
+- 修复自动组切换误报 502 / handle unsupported automatic group selections
+- 修复页面重试与开发依赖缓存 / recover page errors and revalidate dev dependencies
+- 修复 HTTPS 切换和证书管理 / stabilize HTTPS switching and certificate management
+- 修复双核心观测与查询取消
+- 修复代理任务恢复与配置并发稳定性
+- 修复代理核心切换与服务稳定性
 
 </section>
 
@@ -67,16 +101,16 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-09-07T11:56:16Z 之后的 4 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 从 2026-09-08T03:38:27Z 之后的 10 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`d24412a`](https://github.com/msm9527/msm/commit/d24412a7f3df64fdecea862f204c931e23b9f22a)
-- **提交信息**：升级版本至 1.4.7 / Bump version to 1.4.7
+- **源提交**： [`2f6331e`](https://github.com/msm9527/msm/commit/2f6331e8c4234ab4f46ee74b1d1e1d9a68206893)
+- **提交信息**：fix(settings): 支持查看已保存的 GitHub Token / reveal saved GitHub credentials
 - **提交作者**：root
-- **提交时间**：2026-09-08 11:00:38 CST
+- **提交时间**：2026-09-09 21:53:01 CST
 - **下载说明**：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 :::
 
@@ -85,6 +119,28 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-1.4.7 · 2026-09-08 11:00 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.7" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 修复 Cloudflare HTTPS 入口与实时连接
+- 修复配置应用的反代超时与进度恢复
+- 修复三种组网服务的成员状态与统计展示
+
+**🐛 问题修复**
+
+- 修复 Cloudflare HTTPS 入口与实时连接
+- 修复配置应用的反代超时与进度恢复
+- 修复三种组网服务的成员状态与统计展示
+
+**📌 升级提醒**
+
+- 从 2026-09-07T11:56:16Z 之后的 4 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+:::
 
 ::: details beta-1.4.5 · 2026-09-07 19:00 · Beta 版
 
