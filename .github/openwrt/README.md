@@ -43,7 +43,22 @@ its matching beta. IPK **filenames** use an underscore instead of a tilde, such 
 `msm_1.5.0_beta-r1_x86_64.ipk`; the control file still contains
 `Version: 1.5.0~beta-r1`. This prevents GitHub release asset-name normalization
 from changing filenames and invalidating `SHA256SUMS` entries. APK names are unchanged.
-`--release` changes the package revision. `SOURCE_DATE_EPOCH` defaults to zero.
+`--release` changes the core package revision (default `1`); `--luci-release`
+changes only the LuCI revision (default `2`). `SOURCE_DATE_EPOCH` defaults to zero.
+The release workflow publishes OpenWrt packages only on the Beta channel.
+
+Build a LuCI update without a core archive or a core rebuild:
+
+```sh
+python3 .github/openwrt/build-packages.py \
+  --version beta-1.5.0 --luci-only --luci-release 2 \
+  --format all --output-dir dist/luci
+```
+
+The dashboard uses its own bounded rpcd helper for status, service actions and
+logs. Saving commits only the `msm` UCI configuration. LuCI package upgrades
+reload rpcd and refresh the plugin's resource timestamps; they do not restart
+MSM or replace its binary. The new dashboard view path bypasses cached r1 assets.
 
 The UCI section is `msm.main` (type `msm`): `enabled=0`,
 `config_dir=/etc/msm`, `port=7777`. The package enables the procd boot script;
@@ -57,7 +72,7 @@ for sysupgrade preservation. Users selecting another storage location should
 include it in their own backup policy.
 
 ```sh
-node --test test/openwrt-package*.test.cjs
+node --test test/openwrt-*.test.cjs
 MSM_TEST_APK=1 node --test test/openwrt-package-apk.test.cjs
 ```
 
@@ -89,3 +104,21 @@ removing verified old aliases. Existing canonical files are checked on reruns.
 It uses the same `DEPLOY_SERVERS` configuration as the daily publisher and changes
 only `<target>/beta/<tag>`. The remote mirror requires Bash and GNU coreutils.
 Local mirror tests on macOS use GNU `gmv` from `brew install coreutils`.
+
+## Updating only the Beta LuCI plugin
+
+Run `openwrt-update-luci.yml` on `main` with an existing numeric Beta tag and a
+LuCI revision. It builds only the architecture-independent IPK and APK, protects
+all core and desktop asset hashes, and updates the two LuCI filenames and their
+entries in the complete checksum manifest. Mirror preflight runs before GitHub
+publication; old LuCI assets are removed only after mirror verification. Backups
+and the update plan are retained as a workflow artifact. A revision already
+published with different contents is rejected and requires a higher revision.
+
+Before replacing `SHA256SUMS`, the workflow uploads and verifies a temporary
+`SHA256SUMS.luci-backup` release asset. If a runner stops after deleting the old
+manifest, rerunning with the same tag, revision and package contents verifies
+every backup entry against the release before restoring the manifest. The backup
+is removed after all mirrors and new assets are verified. If both manifests are
+missing or a backup fails validation, restore the saved workflow artifact before
+retrying; the workflow stops instead of guessing package hashes.

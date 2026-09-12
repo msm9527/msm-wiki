@@ -1,0 +1,232 @@
+#!/bin/sh
+# rpcd executable plugin: stdin contains JSON; stdout contains one JSON object.
+# No request parameter is used as a command, service name, or filesystem path.
+# BusyBox ash supports local variables in functions.
+# shellcheck disable=SC3043
+PATH=/usr/sbin:/usr/bin:/sbin:/bin
+export PATH
+LC_ALL=C
+export LC_ALL
+
+. /usr/share/libubox/jshn.sh
+
+MSM_BINARY=/usr/bin/msm
+MSM_INIT=/etc/init.d/msm
+PROC_ROOT=/proc
+APK_DATABASE=/lib/apk/db/installed
+OPKG_DATABASE=/usr/lib/opkg/status
+RUNTIME_LOG_DIR=/tmp/msm/logs
+
+reply_error() {
+	json_init
+	if [ "$method" = logs ]; then
+		json_add_array lines
+		json_close_array
+	else
+		json_add_boolean ok 0
+	fi
+	json_add_string error_code "$1"
+	json_add_string error "$2"
+	json_dump
+}
+
+valid_directory() {
+	[ "${#1}" -le 512 ] || return 1
+	case "$1" in
+		/|*//*|/../*|/..|/./*|/.|/*/../*|/*/..|/*/./*|/*/.) return 1 ;;
+		/*) ;;
+		*) return 1 ;;
+	esac
+	case "$1" in *'
+'*) return 1 ;; esac
+	! printf '%s' "$1" | grep -q '[[:cntrl:]]'
+}
+
+read_config() {
+	config_dir="$(uci -q get msm.main.config_dir 2>/dev/null)"
+	config_dir="${config_dir:-/etc/msm}"
+	port="$(uci -q get msm.main.port 2>/dev/null)"
+	port="${port:-7777}"
+	enabled="$(uci -q get msm.main.enabled 2>/dev/null)"
+	case "$enabled" in 1|on|true|yes|enabled) enabled=1 ;; *) enabled=0 ;; esac
+	config_valid=1
+	valid_directory "$config_dir" || config_valid=0
+	case "$port" in ''|*[!0-9]*) config_valid=0; port=0 ;; esac
+	if [ "${#port}" -gt 5 ] || [ "$port" -lt 1 ] || [ "$port" -gt 65535 ]; then
+		config_valid=0
+		port=0
+	fi
+}
+
+package_version() {
+	if [ -f "$APK_DATABASE" ]; then
+		awk -F: '$1 == "P" { selected = ($2 == "msm") } selected && $1 == "V" { print substr($0, 3); exit }' "$APK_DATABASE"
+	elif [ -f "$OPKG_DATABASE" ]; then
+		awk '/^Package: / { selected = ($2 == "msm") } selected && /^Version: / { print $2; exit }' "$OPKG_DATABASE"
+	fi
+}
+
+status() {
+	local installed=0 running=0 pid=0 version memory=0 uptime=0 total=0 available=0
+	local services candidates candidate executable binary ticks hz storage_dir storage
+	[ -x "$MSM_BINARY" ] && [ -x "$MSM_INIT" ] && installed=1
+	version="$(package_version)"
+	version="$(printf '%s' "$version" | head -c 128)"
+	services="$(timeout 2 ubus call service list '{"name":"msm"}' 2>/dev/null)"
+	candidates="$(jsonfilter -s "$services" -e '@.msm.instances[@.running=true].pid' 2>/dev/null)"
+	binary="$(readlink -f "$MSM_BINARY" 2>/dev/null)"
+	for candidate in $candidates; do
+		case "$candidate" in ''|*[!0-9]*) continue ;; esac
+		[ "${#candidate}" -le 10 ] && [ "$candidate" -gt 0 ] || continue
+		executable="$(readlink -f "$PROC_ROOT/$candidate/exe" 2>/dev/null)"
+		[ -n "$binary" ] && [ "$executable" = "$binary" ] || continue
+		pid="$candidate"
+		running=1
+		break
+	done
+	if [ "$running" = 1 ]; then
+		memory="$(awk '/^VmRSS:/ { printf "%.0f", $2 * 1024; exit }' "$PROC_ROOT/$pid/status" 2>/dev/null)"
+		ticks="$(awk '{ sub(/^.*\) /, ""); print $20 }' "$PROC_ROOT/$pid/stat" 2>/dev/null)"
+		hz="$(getconf CLK_TCK 2>/dev/null)"
+		# Linux USER_HZ is 100 on the supported OpenWrt x86 and ARM targets.
+		case "$hz" in ''|*[!0-9]*|0) hz=100 ;; esac
+		case "$ticks" in
+			''|*[!0-9]*) ;;
+			*) uptime="$(awk -v ticks="$ticks" -v hz="$hz" 'NR == 1 { age = int($1 - ticks / hz); printf "%d", (age > 0 ? age : 0); exit }' "$PROC_ROOT/uptime" 2>/dev/null)" ;;
+		esac
+	fi
+	if [ "$config_valid" = 1 ]; then
+		storage_dir="$config_dir"
+		while [ ! -d "$storage_dir" ] && [ "$storage_dir" != / ]; do storage_dir="$(dirname "$storage_dir")"; done
+		storage="$(timeout 2 df -Pk "$storage_dir" 2>/dev/null | awk 'NR == 2 { printf "%.0f %.0f", $2 * 1024, $4 * 1024 }')"
+		total="${storage%% *}"
+		available="${storage#* }"
+	fi
+	case "$memory" in ''|*[!0-9]*) memory=0 ;; esac
+	case "$uptime" in ''|*[!0-9]*) uptime=0 ;; esac
+	case "$total" in ''|*[!0-9]*) total=0 ;; esac
+	case "$available" in ''|*[!0-9]*) available=0 ;; esac
+	json_init
+	json_add_boolean running "$running"
+	json_add_int pid "$pid"
+	json_add_string version "$version"
+	json_add_int uptime_seconds "$uptime"
+	json_add_int memory_bytes "$memory"
+	json_add_string config_dir "$config_dir"
+	json_add_int port "$port"
+	json_add_boolean enabled "$enabled"
+	json_add_int storage_total_bytes "$total"
+	json_add_int storage_available_bytes "$available"
+	json_add_boolean installed "$installed"
+	json_dump
+}
+
+action() {
+	local result
+	case "$requested_action" in
+		start|restart)
+			if [ "$enabled" != 1 ]; then reply_error disabled 'Enable MSM and save its settings before starting it.'; return; fi
+			if [ "$config_valid" != 1 ]; then reply_error invalid_config 'Save a valid MSM data directory and port first.'; return; fi
+			if [ ! -x "$MSM_BINARY" ]; then reply_error not_installed 'The MSM executable is not installed.'; return; fi
+			;;
+		stop) ;;
+		*) reply_error invalid_action 'Only start, stop, and restart are allowed.'; return ;;
+	esac
+	if [ ! -x "$MSM_INIT" ]; then reply_error not_installed 'The MSM service is not installed.'; return; fi
+	# Do not run uci commit/apply, reload_config, or commands for other services.
+	timeout 8 "$MSM_INIT" "$requested_action" >/dev/null 2>&1
+	result=$?
+	case "$result" in
+		0) json_init; json_add_boolean ok 1; json_dump ;;
+		124|137|143) reply_error action_timeout 'The MSM service operation timed out; check its status.' ;;
+		*) reply_error action_failed 'The MSM service operation failed; check the MSM log.' ;;
+	esac
+}
+
+logs() {
+	local root log_file resolved text selected line
+	if [ "$config_valid" != 1 ]; then reply_error invalid_config 'The MSM data directory or port is invalid.'; return; fi
+	root="$(readlink -f "$config_dir" 2>/dev/null)"
+	log_file="$config_dir/logs/msm.log"
+	if [ -L "$log_file" ]; then reply_error unsafe_log_path 'Symbolic links to log files are not allowed.'; return; fi
+	if [ ! -f "$log_file" ]; then reply_error log_unavailable 'The MSM runtime log is not available yet.'; return; fi
+	resolved="$(readlink -f "$log_file" 2>/dev/null)"
+	# The package creates config_dir/logs -> /tmp/msm/logs. Other directory
+	# redirects, rotated files, component logs and arbitrary request paths are excluded.
+	case "$resolved" in
+		"$root/logs/msm.log"|"$RUNTIME_LOG_DIR/msm.log") ;;
+		*) reply_error unsafe_log_path 'The MSM log resolves outside its allowed directory.'; return ;;
+	esac
+	# One look-behind byte detects a cut first line. The sentinel preserves
+	# trailing newlines so the byte count stays exact, even at the 32 KiB limit.
+	text="$(timeout 2 tail -c 32769 "$resolved" 2>/dev/null && printf '.')" || {
+		reply_error log_read_failed 'The MSM runtime log could not be read in time.'; return
+	}
+	text="${text%.}"
+	if [ "${#text}" -gt 32768 ]; then
+		# Discard the partial record, which may start inside a UTF-8 character.
+		case "$text" in
+			*'
+'*) text="${text#*'
+'}" ;;
+			*) text='' ;;
+		esac
+	fi
+	selected="$(printf '%s' "$text" | tail -n "$requested_lines")"
+	json_init
+	json_add_array lines
+	if [ -n "$selected" ]; then
+		while IFS= read -r line || [ -n "$line" ]; do json_add_string '' "$line"; done <<EOF
+$selected
+EOF
+	fi
+	json_close_array
+	json_add_string source msm.log
+	json_dump
+}
+
+case "$1" in
+	list)
+		printf '%s\n' '{"status":{},"action":{"action":""},"logs":{"lines":0}}'
+		exit 0
+		;;
+	call) method="$2" ;;
+	*) exit 1 ;;
+esac
+
+case "$method" in status|action|logs) ;; *) reply_error invalid_arguments 'Unknown MSM method.'; exit 0 ;; esac
+input="$(head -c 4097)"
+[ -n "$input" ] || input='{}'
+case "$(printf '%s' "$input" | sed 's/^[[:space:]]*//')" in
+	\{*) ;;
+	*) reply_error invalid_arguments 'Expected a small JSON object.'; exit 0 ;;
+esac
+if [ "${#input}" -gt 4096 ] || ! json_load "$input" 2>/dev/null; then
+	reply_error invalid_arguments 'Expected a small JSON object.'
+	exit 0
+fi
+keys=''
+json_get_keys keys
+for key in $keys; do
+	case "$method:$key" in status:ubus_rpc_session|action:ubus_rpc_session|logs:ubus_rpc_session|action:action|logs:lines) ;;
+		*) reply_error invalid_arguments 'Unsupported MSM argument.'; exit 0 ;;
+	esac
+done
+requested_lines=100
+requested_action=''
+if [ "$method" = action ]; then
+	json_get_type type action
+	json_get_var requested_action action
+	if [ "$type" != string ]; then reply_error invalid_action 'Only start, stop, and restart are allowed.'; exit 0; fi
+elif [ "$method" = logs ]; then
+	json_get_type type lines
+	if [ -n "$type" ]; then
+		json_get_var requested_lines lines
+		case "$requested_lines" in ''|*[!0-9]*) requested_lines=0 ;; esac
+		if [ "$type" != int ] || [ "${#requested_lines}" -gt 3 ] || [ "$requested_lines" -lt 1 ] || [ "$requested_lines" -gt 200 ]; then
+			reply_error invalid_lines 'Request between 1 and 200 log lines.'; exit 0
+		fi
+	fi
+fi
+read_config
+case "$method" in status) status ;; action) action ;; logs) logs ;; esac
