@@ -313,17 +313,6 @@ jobs:
           ref: ${{ needs.prepare.outputs.commit_sha }}
           token: ${{ secrets.MSM_REPO_TOKEN }}
 
-      - name: 验证 OpenWrt 运行时兼容性
-        if: matrix.target == 'linux-amd64' || matrix.target == 'linux-arm64' || matrix.target == 'linux-armv7' || matrix.target == 'linux-armv6'
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ ! -f scripts/check-openwrt-compatibility.sh ]; then
-            echo "error: MSM 源码缺少 OpenWrt 兼容性检查；请先合入 procd 和网络规则归属修复" >&2
-            exit 1
-          fi
-          bash scripts/check-openwrt-compatibility.sh
-
       - name: Checkout 当前仓库（msm-wiki）用于派网 APX 模板
         if: matrix.target == 'linux-amd64' || matrix.target == 'linux-arm64'
         continue-on-error: true
@@ -512,67 +501,9 @@ jobs:
           path: dist/msm-${{ needs.prepare.outputs.version }}-${{ matrix.target }}-panabit.apx
           if-no-files-found: ignore
 
-  openwrt:
-    name: OpenWrt IPK / APK（${{ matrix.target }}）
-    needs: [prepare, build]
-    if: needs.prepare.outputs.skip != 'true'
-    runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [linux-amd64, linux-arm64, linux-armv7, linux-armv6]
-    steps:
-      - name: Checkout 当前仓库（msm-wiki）用于 OpenWrt 打包
-        uses: actions/checkout@v4
-
-      - name: 下载对应架构的 MSM 发布包
-        uses: actions/download-artifact@v4
-        with:
-          name: msm-${{ needs.prepare.outputs.version }}-${{ matrix.target }}
-          path: dist
-
-      - name: 生成 OpenWrt 原生安装包与 LuCI 插件
-        shell: bash
-        run: |
-          set -euo pipefail
-          VERSION="${{ needs.prepare.outputs.version }}"
-          python3 .github/openwrt/build-packages.py \
-            --version "${VERSION}" \
-            --target "${{ matrix.target }}" \
-            --input "dist/msm-${VERSION}-${{ matrix.target }}.tar.gz" \
-            --output-dir dist/openwrt \
-            --format all
-          compgen -G 'dist/openwrt/msm_*.ipk' >/dev/null
-          compgen -G 'dist/openwrt/msm-*.apk' >/dev/null
-          if [ "${{ matrix.target }}" = linux-amd64 ]; then
-            compgen -G 'dist/openwrt/luci-app-msm_*.ipk' >/dev/null
-            compgen -G 'dist/openwrt/luci-app-msm-*.apk' >/dev/null
-          fi
-
-      - name: Setup Node.js for OpenWrt checks
-        if: matrix.target == 'linux-amd64'
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: 验证真实 APK 安装、升级和卸载
-        if: matrix.target == 'linux-amd64'
-        env:
-          MSM_TEST_APK: '1'
-        run: node --test test/openwrt-package*.test.cjs
-
-      - name: 上传 OpenWrt IPK / APK 产物
-        uses: actions/upload-artifact@v4
-        with:
-          name: msm-${{ needs.prepare.outputs.version }}-openwrt-${{ matrix.target }}
-          path: |
-            dist/openwrt/*.ipk
-            dist/openwrt/*.apk
-          if-no-files-found: error
-
   release:
     name: 发布构建产物（${{ needs.prepare.outputs.channel_name }}）
-    needs: [prepare, build, openwrt]
+    needs: [prepare, build]
     if: needs.prepare.outputs.skip != 'true'
     runs-on: ubuntu-24.04
     steps:
@@ -593,42 +524,11 @@ jobs:
           set -euo pipefail
           VERSION="${{ needs.prepare.outputs.version }}"
 
-          mapfile -t RELEASE_FILES < <(find dist -type f \( -name "msm-${VERSION}-*.tar.gz" -o -name "msm-${VERSION}-*-panabit.apx" -o -name 'msm_*.ipk' -o -name 'msm-*.apk' -o -name 'luci-app-msm_*.ipk' -o -name 'luci-app-msm-*.apk' \) | sort)
+          mapfile -t RELEASE_FILES < <(find dist -type f \( -name "msm-${VERSION}-*.tar.gz" -o -name "msm-${VERSION}-*-panabit.apx" \) | sort)
           if [ "${#RELEASE_FILES[@]}" -eq 0 ]; then
             echo "error: 没有找到任何可发布附件" >&2
             exit 1
           fi
-
-          mapfile -t OPENWRT_FILES < <(find dist -type f \( -name 'msm_*.ipk' -o -name 'msm-*.apk' -o -name 'luci-app-msm_*.ipk' -o -name 'luci-app-msm-*.apk' \) | sort)
-          if [ "${#OPENWRT_FILES[@]}" -eq 0 ]; then
-            echo "error: 缺少 OpenWrt 安装包，拒绝发布不完整版本" >&2
-            exit 1
-          fi
-          OPENWRT_SECTION="$(printf '%s\n' \
-            '### 📡 OpenWrt 原生安装包（IPK / APK + LuCI）' \
-            '' \
-            'OpenWrt 24.10 及以前使用 IPK（opkg），25.12 及以后使用 APK（apk v3）。选择与设备包架构匹配的 msm 包，再安装同版本 luci-app-msm 插件。' \
-            '' \
-            '[安装、架构选择与校验说明](https://doc.msmbox.net/zh/guide/install-openwrt.html)' \
-            '' \
-            '<details>' \
-            '<summary><b>下载 OpenWrt 软件包（x86_64 / ARM64 / ARMv7 / ARMv6）</b></summary>' \
-            '' \
-            '| 文件 | 格式 |' \
-            '|------|------|')"
-          for file in "${OPENWRT_FILES[@]}"; do
-            base="$(basename "${file}")"
-            OPENWRT_SECTION="${OPENWRT_SECTION}
-            | [\`${base}\`](https://github.com/msm9527/msm-wiki/releases/download/${VERSION}/${base}) | ${base##*.} |"
-          done
-          OPENWRT_SECTION="${OPENWRT_SECTION}
-
-            </details>"
-          {
-            echo "openwrt_section<<EOF"
-            printf '%s\n' "${OPENWRT_SECTION}"
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
 
           CHECKSUM_FILE="dist/SHA256SUMS"
           : > "${CHECKSUM_FILE}"
@@ -646,7 +546,7 @@ jobs:
 
           mapfile -t APX_FILES < <(find dist -type f -name "msm-${VERSION}-*-panabit.apx" | sort)
           if [ "${#APX_FILES[@]}" -eq 0 ]; then
-            echo "download_note=同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件与 SHA256 校验清单" >> "$GITHUB_OUTPUT"
+            echo "download_note=同一发布页内提供各平台二进制、安装包与 SHA256 校验清单" >> "$GITHUB_OUTPUT"
             echo "panabit_section=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -687,7 +587,7 @@ jobs:
 
             </details>"
 
-          echo "download_note=同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单" >> "$GITHUB_OUTPUT"
+          echo "download_note=同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单" >> "$GITHUB_OUTPUT"
           {
             echo "panabit_section<<EOF"
             printf '%s\n' "${SECTION}"
@@ -798,8 +698,6 @@ jobs:
 
             </details>
 
-            ${{ steps.release_assets.outputs.openwrt_section }}
-
             ${{ steps.release_assets.outputs.panabit_section }}
 
             <details>
@@ -838,9 +736,7 @@ jobs:
 
             ## 🚀 快速安装
 
-            OpenWrt 请使用上方的原生软件包，按 [OpenWrt 安装指南](https://doc.msmbox.net/zh/guide/install-openwrt.html) 操作。
-
-            ### 一键安装脚本（Linux / macOS）
+            ### 一键安装脚本（推荐）
 
             ```bash
             curl -fsSL ${{ needs.prepare.outputs.install_script_url }} | sudo bash
@@ -1095,7 +991,7 @@ jobs:
           set -euo pipefail
           VERSION="${{ needs.prepare.outputs.version }}"
           mkdir -p upload/"${VERSION}"
-          find dist -type f \( -name "msm-${VERSION}-*.tar.gz" -o -name "msm-${VERSION}-*-panabit.apx" -o -name 'msm_*.ipk' -o -name 'msm-*.apk' -o -name 'luci-app-msm_*.ipk' -o -name 'luci-app-msm-*.apk' \) -exec cp {} upload/"${VERSION}"/ \;
+          find dist -type f \( -name "msm-${VERSION}-*.tar.gz" -o -name "msm-${VERSION}-*-panabit.apx" \) -exec cp {} upload/"${VERSION}"/ \;
           CHECKSUM_FILE="$(find dist -type f -name SHA256SUMS | head -n 1)"
           if [ -z "${CHECKSUM_FILE}" ]; then
             echo "error: 未找到 SHA256SUMS" >&2
