@@ -43,7 +43,7 @@ free -m
 
 在同一个发布版本中下载三个文件：**一个匹配架构的 `msm` 包、一个同格式的 `luci-app-msm` 包和 `SHA256SUMS`**。发布页的「OpenWrt 原生安装包」表列出了完整文件名。IPK 与 APK 不能混装；APK 是 OpenWrt 的软件包，与 Android 安装包无关。
 
-例如，发布标签 `1.5.0` 的 x86_64 包名是 `msm_1.5.0-r1_x86_64.ipk` 或 `msm-1.5.0-r1_x86_64.apk`，LuCI 包名是 `luci-app-msm_1.5.0-r1_all.ipk` 或 `luci-app-msm-1.5.0-r1_all.apk`。Beta 标签 `beta-1.5.0` 的 IPK 包版本为 `1.5.0~beta-r1`，APK 包版本为 `1.5.0_beta-r1`，以遵循各包管理器的预发布版本排序；下载 URL 的目录仍使用原发布标签。这里的版本号仅用于说明命名，请以发布页实际文件为准。
+例如，发布标签 `1.5.0` 的 x86_64 包名是 `msm_1.5.0-r1_x86_64.ipk` 或 `msm-1.5.0-r1_x86_64.apk`，LuCI 包名是 `luci-app-msm_1.5.0-r1_all.ipk` 或 `luci-app-msm-1.5.0-r1_all.apk`。Beta 标签 `beta-1.5.0` 的文件名使用 `1.5.0_beta-r1`，例如 `msm_1.5.0_beta-r1_x86_64.ipk`，避免下载服务器改写特殊字符。IPK 内部版本仍为 `1.5.0~beta-r1`，APK 内部版本为 `1.5.0_beta-r1`，以遵循各包管理器的预发布版本排序；下载 URL 的目录仍使用原发布标签。这里的版本号仅用于说明命名，请以发布页实际文件为准。
 
 在路由器上创建一个空目录，例如 `/tmp/msm-install`，通过 SCP / SFTP 上传这三个文件。保留下载时的完整文件名，之后在该目录执行校验：
 
