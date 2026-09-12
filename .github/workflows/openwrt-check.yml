@@ -1,0 +1,66 @@
+name: OpenWrt 包与发布校验
+
+on:
+  pull_request:
+    paths:
+      - '.github/openwrt/**'
+      - '.github/workflows/openwrt-check.yml'
+      - '.github/workflows/daily-build-msm.yml'
+      - '.github/workflows/daily-build-msm-beta.yml'
+      - 'test/openwrt-package*.test.cjs'
+      - 'test/release-workflow.test.cjs'
+  push:
+    branches: [codex/openwrt-packages]
+    paths:
+      - '.github/openwrt/**'
+      - '.github/workflows/openwrt-check.yml'
+      - '.github/workflows/daily-build-msm.yml'
+      - '.github/workflows/daily-build-msm-beta.yml'
+      - 'test/openwrt-package*.test.cjs'
+      - 'test/release-workflow.test.cjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openwrt-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: OpenWrt package validation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Wiki
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 校验 Actions 工作流
+        shell: bash
+        run: |
+          set -euo pipefail
+          ACTIONLINT_ARCHIVE="${RUNNER_TEMP}/actionlint_1.7.12_linux_amd64.tar.gz"
+          curl --fail --silent --show-error --location --retry 3 \
+            https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz \
+            --output "${ACTIONLINT_ARCHIVE}"
+          printf '%s  %s\n' \
+            '8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8' \
+            "${ACTIONLINT_ARCHIVE}" | sha256sum -c -
+          tar -xzf "${ACTIONLINT_ARCHIVE}" -C "${RUNNER_TEMP}" actionlint
+          "${RUNNER_TEMP}/actionlint" -shellcheck= \
+            .github/workflows/openwrt-check.yml \
+            .github/workflows/daily-build-msm.yml \
+            .github/workflows/daily-build-msm-beta.yml
+
+      - name: 验证 IPK / APK 生命周期与发布集成
+        env:
+          MSM_TEST_APK: '1'
+        run: node --test test/openwrt-package*.test.cjs test/release-workflow.test.cjs
