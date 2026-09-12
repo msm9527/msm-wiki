@@ -1,0 +1,86 @@
+name: 修复 OpenWrt Beta 镜像文件名
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '已修复 GitHub 附件与 SHA256SUMS 的 Beta 标签，例如 beta-1.4.8'
+        type: string
+        required: true
+      source_run_id:
+        description: '已成功完成镜像上传的 Beta 发布 run ID'
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: openwrt-repair-mirror-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: 验证原发布已完成镜像上传
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$TAG" =~ ^beta-[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          [[ "$SOURCE_RUN_ID" =~ ^[0-9]+$ ]]
+          gh api "repos/${REPO}/actions/runs/${SOURCE_RUN_ID}" > source-run.json
+          jq -e '.path == ".github/workflows/daily-build-msm-beta.yml"' source-run.json
+          gh api "repos/${REPO}/actions/runs/${SOURCE_RUN_ID}/jobs?per_page=100" > source-jobs.json
+          jq -e '[.jobs[] | select(.name == "上传每日构建到自定义服务器")] | length == 1 and all(.[]; .status == "completed" and .conclusion == "success")' source-jobs.json
+          gh run download "$SOURCE_RUN_ID" --repo "$REPO" --name "msm-${TAG}-checksums" --dir source-checksums
+          gh api "repos/${REPO}/releases/tags/${TAG}" > release.json
+          gh release download "$TAG" --repo "$REPO" --pattern SHA256SUMS
+          node .github/openwrt/prepare-mirror-repair.cjs "$TAG" release.json SHA256SUMS source-checksums/SHA256SUMS repair-mirror.sh
+      - name: 安装 SSH 工具
+        run: sudo apt-get update -qq && sudo apt-get install -y sshpass
+      - name: 校验后修复镜像文件名和清单
+        env:
+          TAG: ${{ inputs.tag }}
+          EXTRA_SERVERS: ${{ secrets.DEPLOY_SERVERS }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$EXTRA_SERVERS" ]; then
+            echo 'error: DEPLOY_SERVERS is required for mirror repair' >&2
+            exit 1
+          fi
+          repaired=0
+          while IFS= read -r entry; do
+            [ -z "${entry//[[:space:]]/}" ] && continue
+            IFS=',' read -r host user pass target port <<< "$entry"
+            if [ -z "$host" ] || [ -z "$user" ] || [ -z "$pass" ] || [ -z "$target" ]; then
+              echo 'error: incomplete mirror configuration' >&2
+              exit 1
+            fi
+            [[ "$target" == /* ]]
+            SSH_ARGS=(-o StrictHostKeyChecking=no -o ConnectTimeout=20)
+            if [ -n "$port" ]; then
+              [[ "$port" =~ ^[0-9]+$ ]]
+              SSH_ARGS+=(-p "$port")
+            fi
+            printf -v directory_quoted '%q' "${target%/}/beta/${TAG}"
+            SSHPASS="$pass" sshpass -e ssh "${SSH_ARGS[@]}" "${user}@${host}" \
+              "bash -s -- ${directory_quoted}" < repair-mirror.sh
+            repaired=$((repaired + 1))
+          done <<< "$EXTRA_SERVERS"
+          [ "$repaired" -gt 0 ]
+          echo "Verified and repaired ${repaired} mirror server(s)"
