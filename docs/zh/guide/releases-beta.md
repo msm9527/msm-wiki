@@ -12,7 +12,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.4.8" data-release-date="2026-09-09 21:53:01 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.8">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.4.8" data-release-date="2026-09-12 18:08:13 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.8">
   <div class="msm-release-hero-copy">
     <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.4.8</code></h3>
   </div>
@@ -22,19 +22,19 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>9 项</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>11 项</strong></div>
   <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-09 21:53:01 CST</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-12 18:08:13 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDlrozlloTns7vnu5/or4rmlq3kuI7nu5Pmnpzlh4bnoa7mgKciLCItIOmalOemu+S4tOaXtiBWaXRlIOmqjOivgee8k+WtmCAvIGlzb2xhdGUgdGVtcG9yYXJ5IFZpdGUgdmFsaWRhdGlvbiBjYWNoZXMiLCItIOaUr+aMgeafpeeci+W3suS/neWtmOeahCBHaXRIdWIgVG9rZW4gLyByZXZlYWwgc2F2ZWQgR2l0SHViIGNyZWRlbnRpYWxzIiwiLSDkv67lpI3oh6rliqjnu4TliIfmjaLor6/miqUgNTAyIC8gaGFuZGxlIHVuc3VwcG9ydGVkIGF1dG9tYXRpYyBncm91cCBzZWxlY3Rpb25zIiwiLSDkv67lpI3pobXpnaLph43or5XkuI7lvIDlj5Hkvp3otZbnvJPlrZggLyByZWNvdmVyIHBhZ2UgZXJyb3JzIGFuZCByZXZhbGlkYXRlIGRldiBkZXBlbmRlbmNpZXMiLCItIOS/ruWkjSBIVFRQUyDliIfmjaLlkozor4HkuabnrqHnkIYgLyBzdGFiaWxpemUgSFRUUFMgc3dpdGNoaW5nIGFuZCBjZXJ0aWZpY2F0ZSBtYW5hZ2VtZW50Il0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSDlrozlloTns7vnu5/or4rmlq3kuI7nu5Pmnpzlh4bnoa7mgKciXSwiY2hhbmdlZCI6WyItIOmalOemu+S4tOaXtiBWaXRlIOmqjOivgee8k+WtmCAvIGlzb2xhdGUgdGVtcG9yYXJ5IFZpdGUgdmFsaWRhdGlvbiBjYWNoZXMiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOaUr+aMgeafpeeci+W3suS/neWtmOeahCBHaXRIdWIgVG9rZW4gLyByZXZlYWwgc2F2ZWQgR2l0SHViIGNyZWRlbnRpYWxzIiwiLSDkv67lpI3oh6rliqjnu4TliIfmjaLor6/miqUgNTAyIC8gaGFuZGxlIHVuc3VwcG9ydGVkIGF1dG9tYXRpYyBncm91cCBzZWxlY3Rpb25zIiwiLSDkv67lpI3pobXpnaLph43or5XkuI7lvIDlj5Hkvp3otZbnvJPlrZggLyByZWNvdmVyIHBhZ2UgZXJyb3JzIGFuZCByZXZhbGlkYXRlIGRldiBkZXBlbmRlbmNpZXMiLCItIOS/ruWkjSBIVFRQUyDliIfmjaLlkozor4HkuabnrqHnkIYgLyBzdGFiaWxpemUgSFRUUFMgc3dpdGNoaW5nIGFuZCBjZXJ0aWZpY2F0ZSBtYW5hZ2VtZW50IiwiLSDkv67lpI3lj4zmoLjlv4Pop4LmtYvkuI7mn6Xor6Llj5bmtogiLCItIOS/ruWkjeS7o+eQhuS7u+WKoeaBouWkjeS4jumFjee9ruW5tuWPkeeos+WumuaApyIsIi0g5L+u5aSN5Luj55CG5qC45b+D5YiH5o2i5LiO5pyN5Yqh56iz5a6a5oCnIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMDktMDhUMDM6Mzg6MjdaIOS5i+WQjueahCAxMCDkuKrmj5DkuqTkuK3mlbTnkIbvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDmlK/mjIEgcHJvY2Qg5bm25L+d5oqk546w5pyJ572R57uc6KeE5YiZIiwiLSDpmpTnprvkuLTml7YgVml0ZSDpqozor4HnvJPlrZggLyBpc29sYXRlIHRlbXBvcmFyeSBWaXRlIHZhbGlkYXRpb24gY2FjaGVzIiwiLSDmlK/mjIHmn6XnnIvlt7Lkv53lrZjnmoQgR2l0SHViIFRva2VuIC8gcmV2ZWFsIHNhdmVkIEdpdEh1YiBjcmVkZW50aWFscyIsIi0g5a6M5ZaE57O757uf6K+K5pat5LiO57uT5p6c5YeG56Gu5oCnIiwiLSDlhYjlj5bmtojmm7TmlrDlho3nrYnlvoXosIPluqblmaggLyBjYW5jZWwgdXBkYXRlcyBiZWZvcmUgam9pbmluZyBzY2hlZHVsZXJzIiwiLSDkv67lpI3oh6rliqjnu4TliIfmjaLor6/miqUgNTAyIC8gaGFuZGxlIHVuc3VwcG9ydGVkIGF1dG9tYXRpYyBncm91cCBzZWxlY3Rpb25zIl0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSDmlK/mjIEgcHJvY2Qg5bm25L+d5oqk546w5pyJ572R57uc6KeE5YiZIiwiLSDlrozlloTns7vnu5/or4rmlq3kuI7nu5Pmnpzlh4bnoa7mgKciXSwiY2hhbmdlZCI6WyItIOmalOemu+S4tOaXtiBWaXRlIOmqjOivgee8k+WtmCAvIGlzb2xhdGUgdGVtcG9yYXJ5IFZpdGUgdmFsaWRhdGlvbiBjYWNoZXMiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOaUr+aMgeafpeeci+W3suS/neWtmOeahCBHaXRIdWIgVG9rZW4gLyByZXZlYWwgc2F2ZWQgR2l0SHViIGNyZWRlbnRpYWxzIiwiLSDlhYjlj5bmtojmm7TmlrDlho3nrYnlvoXosIPluqblmaggLyBjYW5jZWwgdXBkYXRlcyBiZWZvcmUgam9pbmluZyBzY2hlZHVsZXJzIiwiLSDkv67lpI3oh6rliqjnu4TliIfmjaLor6/miqUgNTAyIC8gaGFuZGxlIHVuc3VwcG9ydGVkIGF1dG9tYXRpYyBncm91cCBzZWxlY3Rpb25zIiwiLSDkv67lpI3pobXpnaLph43or5XkuI7lvIDlj5Hkvp3otZbnvJPlrZggLyByZWNvdmVyIHBhZ2UgZXJyb3JzIGFuZCByZXZhbGlkYXRlIGRldiBkZXBlbmRlbmNpZXMiLCItIOS/ruWkjSBIVFRQUyDliIfmjaLlkozor4HkuabnrqHnkIYgLyBzdGFiaWxpemUgSFRUUFMgc3dpdGNoaW5nIGFuZCBjZXJ0aWZpY2F0ZSBtYW5hZ2VtZW50IiwiLSDkv67lpI3lj4zmoLjlv4Pop4LmtYvkuI7mn6Xor6Llj5bmtogiLCItIOS/ruWkjeS7o+eQhuS7u+WKoeaBouWkjeS4jumFjee9ruW5tuWPkeeos+WumuaApyIsIi0g5L+u5aSN5Luj55CG5qC45b+D5YiH5o2i5LiO5pyN5Yqh56iz5a6a5oCnIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMDktMDhUMDM6Mzg6MjdaIOS5i+WQjueahCAxMiDkuKrmj5DkuqTkuK3mlbTnkIbvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>完善系统诊断与结果准确性</p>
+    <p>支持 procd 并保护现有网络规则</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
@@ -46,24 +46,24 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>修复自动组切换误报 502 / handle unsupported automatic group selections</p>
+    <p>完善系统诊断与结果准确性</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>修复页面重试与开发依赖缓存 / recover page errors and revalidate dev dependencies</p>
+    <p>先取消更新再等待调度器 / cancel updates before joining schedulers</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">06</span>
-    <p>修复 HTTPS 切换和证书管理 / stabilize HTTPS switching and certificate management</p>
+    <p>修复自动组切换误报 502 / handle unsupported automatic group selections</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-added">🆕 新增功能 <span>1</span></a>
+  <a href="#release-added">🆕 新增功能 <span>2</span></a>
   <a href="#release-changed">✨ 功能增强 <span>1</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>7</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>8</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
 
@@ -71,6 +71,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🆕 新增功能 {#release-added}
 
+- 支持 procd 并保护现有网络规则
 - 完善系统诊断与结果准确性
 
 </section>
@@ -88,6 +89,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ### 🐛 问题修复 {#release-fixed}
 
 - 支持查看已保存的 GitHub Token / reveal saved GitHub credentials
+- 先取消更新再等待调度器 / cancel updates before joining schedulers
 - 修复自动组切换误报 502 / handle unsupported automatic group selections
 - 修复页面重试与开发依赖缓存 / recover page errors and revalidate dev dependencies
 - 修复 HTTPS 切换和证书管理 / stabilize HTTPS switching and certificate management
@@ -101,17 +103,17 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-09-08T03:38:27Z 之后的 10 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 从 2026-09-08T03:38:27Z 之后的 12 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`2f6331e`](https://github.com/msm9527/msm/commit/2f6331e8c4234ab4f46ee74b1d1e1d9a68206893)
-- **提交信息**：fix(settings): 支持查看已保存的 GitHub Token / reveal saved GitHub credentials
-- **提交作者**：root
-- **提交时间**：2026-09-09 21:53:01 CST
-- **下载说明**：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
+- **源提交**： [`5e7b0ea`](https://github.com/msm9527/msm/commit/5e7b0eaa2fc0a6e41e2b452e92c9f67f792f6486)
+- **提交信息**：fix(runtime): 先取消更新再等待调度器 / cancel updates before joining schedulers
+- **提交作者**：msm
+- **提交时间**：2026-09-12 18:08:13 CST
+- **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
 ---
