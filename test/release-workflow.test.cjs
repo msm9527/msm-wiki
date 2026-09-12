@@ -194,7 +194,7 @@ function withReleaseFixture(workflow, callback) {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'msm-release-openwrt-'))
   const version = workflow.includes('-beta') ? 'beta-1.5.0' : '1.5.0'
   const apkVersion = workflow.includes('-beta') ? '1.5.0_beta' : '1.5.0'
-  const ipkVersion = workflow.includes('-beta') ? '1.5.0~beta' : '1.5.0'
+  const ipkVersion = workflow.includes('-beta') ? '1.5.0_beta' : '1.5.0'
   const names = [
     `msm-${version}-linux-amd64.tar.gz`,
     `msm-${version}-linux-arm64.tar.gz`,

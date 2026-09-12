@@ -173,7 +173,10 @@ def build_ipk(root, name, version, arch, output, epoch):
     if name == "msm":
         controls.append(("conffiles", b"/etc/config/msm\n", 0o644, False))
     package = tar_gz([("debian-binary", b"2.0\n", 0o644, False), ("data.tar.gz", data, 0o644, False), ("control.tar.gz", tar_gz(controls, epoch), 0o644, False)], epoch)
-    path = output / (name + "_" + version + "_" + arch + ".ipk")
+    # GitHub normalizes '~' in release asset names. Keep it only in control
+    # metadata so prerelease ordering works and checksum filenames stay valid.
+    filename_version = version.replace("~", "_")
+    path = output / (name + "_" + filename_version + "_" + arch + ".ipk")
     path.write_bytes(package)
     return path
 

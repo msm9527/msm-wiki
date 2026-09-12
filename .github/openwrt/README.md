@@ -37,8 +37,12 @@ built once by the amd64 job, or for another target with `--with-luci`. IPK uses
 both formats. APK filenames include the architecture so release matrix outputs
 cannot overwrite one another.
 
-Stable versions map to `1.5.0-r1`. `beta-1.5.0` maps to `1.5.0~beta-r1` for opkg
-and `1.5.0_beta-r1` for apk, so a stable package supersedes its matching beta.
+Stable versions map to `1.5.0-r1`. `beta-1.5.0` maps to package metadata version
+`1.5.0~beta-r1` for opkg and `1.5.0_beta-r1` for apk, so a stable package supersedes
+its matching beta. IPK **filenames** use an underscore instead of a tilde, such as
+`msm_1.5.0_beta-r1_x86_64.ipk`; the control file still contains
+`Version: 1.5.0~beta-r1`. This prevents GitHub release asset-name normalization
+from changing filenames and invalidating `SHA256SUMS` entries. APK names are unchanged.
 `--release` changes the package revision. `SOURCE_DATE_EPOCH` defaults to zero.
 
 The UCI section is `msm.main` (type `msm`): `enabled=0`,

@@ -107,15 +107,22 @@ test('native IPK payload has correct metadata, original executable, notices and 
   assert.ok(luci.data['www/luci-static/resources/view/msm.js']);
 });
 
-test('IPKs are reproducible and beta versions preserve package-manager ordering syntax', (t) => {
+test('IPKs use release-safe filenames while preserving beta ordering metadata and reproducibility', (t) => {
   const dir = scratch(t);
   const input = archive(dir, elf());
   successful(build(dir, input, ['--version', 'beta-1.5.0']));
-  const file = path.join(dir, 'out/msm_1.5.0~beta-r1_x86_64.ipk');
+  const file = path.join(dir, 'out/msm_1.5.0_beta-r1_x86_64.ipk');
   const first = fs.readFileSync(file);
   successful(build(dir, input, ['--version', 'beta-1.5.0']));
   assert.deepEqual(fs.readFileSync(file), first);
   assert.match(text(inspectIpk(file).control.control), /Version: 1.5.0~beta-r1/);
+  const filenames = fs.readdirSync(path.join(dir, 'out'));
+  assert.deepEqual(filenames.sort(), ['luci-app-msm_1.5.0_beta-r1_all.ipk', 'msm_1.5.0_beta-r1_x86_64.ipk']);
+  for (const filename of filenames) {
+    assert.ok(!filename.includes('~'), 'release asset filenames must not need GitHub normalization');
+    assert.match(filename, /^[A-Za-z0-9_.-]+$/);
+    assert.match(text(inspectIpk(path.join(dir, 'out', filename)).control.control), /Version: 1.5.0~beta-r1/);
+  }
 });
 
 test('all supported ARM architectures receive the matching original ELF', (t) => {
