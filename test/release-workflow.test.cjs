@@ -202,8 +202,8 @@ function withReleaseFixture(workflow, callback) {
     `msm-${apkVersion}-r1_x86_64.apk`,
     `msm_${ipkVersion}-r1_aarch64_generic.ipk`,
     `msm-${apkVersion}-r1_aarch64_generic.apk`,
-    `luci-app-msm_${ipkVersion}-r1_all.ipk`,
-    `luci-app-msm-${apkVersion}-r1_all.apk`,
+    `luci-app-msm_${ipkVersion}-r2_all.ipk`,
+    `luci-app-msm-${apkVersion}-r2_all.apk`,
   ]
   fs.mkdirSync(path.join(temp, 'dist', 'fixture'), { recursive: true })
   for (const name of names) fs.writeFileSync(path.join(temp, 'dist', 'fixture', name), `${name}\n`)
@@ -420,7 +420,7 @@ test('OpenWrt pull request checks are path-scoped, read-only and exercise real A
     '.github/openwrt/**',
     '.github/workflows/openwrt-check.yml',
     ...workflows,
-    'test/openwrt-package*.test.cjs',
+    'test/openwrt-*.test.cjs',
     'test/release-workflow.test.cjs',
   ]) {
     assert.equal(triggers.split(`'${watchedPath}'`).length - 1, 2, `${watchedPath} must trigger pull requests and branch pushes`)
@@ -430,7 +430,7 @@ test('OpenWrt pull request checks are path-scoped, read-only and exercise real A
   assert.match(source, /node-version: '22'/)
   assert.match(source, /actionlint_1\.7\.12_linux_amd64\.tar\.gz/)
   assert.match(source, /sha256sum -c -/)
-  assert.match(source, /MSM_TEST_APK: '1'\n\s+run: node --test test\/openwrt-package\*\.test\.cjs test\/release-workflow\.test\.cjs/)
+  assert.match(source, /MSM_TEST_APK: '1'\n\s+run: node --test test\/openwrt-\*\.test\.cjs test\/release-workflow\.test\.cjs/)
   assert.doesNotMatch(source, /pull_request_target|secrets\.|contents: write|npm ci|continue-on-error|git push|gh release|upload-artifact|deploy-pages/)
 })
 

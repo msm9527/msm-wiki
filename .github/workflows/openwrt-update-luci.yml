@@ -1,0 +1,88 @@
+name: 单独更新 OpenWrt Beta LuCI
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '已发布的 numeric Beta 标签，例如 beta-1.4.8'
+        type: string
+        required: true
+      revision:
+        description: 'LuCI 包 revision；同 revision 内容不同会拒绝覆盖'
+        type: string
+        default: '2'
+        required: true
+
+permissions:
+  contents: write
+
+# Share the original Beta publisher lock so desktop assets, manifests and
+# mirrors cannot be replaced by the daily main workflow during this update.
+concurrency:
+  group: daily-build-beta-refs/heads/main
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      TAG: ${{ inputs.tag }}
+      LUCI_REVISION: ${{ inputs.revision }}
+    steps:
+      - name: Checkout Wiki
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: 限定主分支和 Beta 标签
+        shell: bash
+        run: |
+          set -euo pipefail
+          [ "$GITHUB_REF" = refs/heads/main ]
+          [[ "$TAG" =~ ^beta-[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          [[ "$LUCI_REVISION" =~ ^[0-9]+$ ]]
+          [ "$LUCI_REVISION" -ge 2 ]
+      - name: 仅构建 LuCI IPK 和 APK
+        run: >-
+          python3 .github/openwrt/build-packages.py
+          --version "$TAG" --luci-only --luci-release "$LUCI_REVISION"
+          --format all --output-dir new-luci
+      - name: 验证包和更新流程
+        env:
+          MSM_TEST_APK: '1'
+        run: node --test test/openwrt-*.test.cjs
+      - name: 准备完整备份和受限更新计划
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOY_SERVERS: ${{ secrets.DEPLOY_SERVERS }}
+        run: node .github/openwrt/prepare-luci-update.cjs prepare "$TAG" "$LUCI_REVISION" new-luci luci-update
+      - name: 安装镜像传输工具
+        run: sudo apt-get update -qq && sudo apt-get install -y sshpass
+      - name: 上传到镜像私有目录并预检所有现有包
+        env:
+          DEPLOY_SERVERS: ${{ secrets.DEPLOY_SERVERS }}
+        run: node .github/openwrt/prepare-luci-update.cjs stage-mirrors luci-update
+      - name: 发布并校验新 LuCI 附件与元数据
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node .github/openwrt/prepare-luci-update.cjs publish luci-update
+      - name: 原子替换镜像文件并全量校验
+        env:
+          DEPLOY_SERVERS: ${{ secrets.DEPLOY_SERVERS }}
+        run: node .github/openwrt/prepare-luci-update.cjs commit-mirrors luci-update
+      - name: 再次核验后删除旧 LuCI 附件
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node .github/openwrt/prepare-luci-update.cjs finalize luci-update
+      - name: 保存原元数据、旧 LuCI 包和恢复记录
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openwrt-luci-update-${{ github.run_id }}-${{ github.run_attempt }}
+          path: luci-update/
+          if-no-files-found: warn
+          retention-days: 30

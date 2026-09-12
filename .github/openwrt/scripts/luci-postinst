@@ -1,6 +1,13 @@
 #!/bin/sh
 [ -z "${IPKG_INSTROOT:-}" ] || exit 0
 [ "${IPKG_NO_SCRIPT:-0}" != 1 ] || exit 0
+# Package archives use reproducible timestamps. Refresh only MSM web resources
+# so uhttpd does not answer 304 using an older package's Last-Modified date.
+for resource in /www/luci-static/resources/view/msm/dashboard.js \
+    /www/luci-static/resources/msm/*.js /www/luci-static/resources/msm/*.css; do
+    [ -f "$resource" ] && [ ! -L "$resource" ] || continue
+    touch "$resource" || exit 1
+done
 # LuCI uses hashed JSON cache names on current OpenWrt; retain cleanup of the
 # unsuffixed name for older releases as well (see upstream luci/luci.mk).
 rm -f /tmp/luci-indexcache /tmp/luci-indexcache.*

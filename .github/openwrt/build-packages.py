@@ -113,8 +113,9 @@ def write(path, contents, mode=0o644):
 
 def prepare_tree(root, name, release_files):
     shutil.copytree(HERE / "files" / name, root)
+    executables = {"etc/init.d/msm", "usr/libexec/rpcd/msm"}
     for path in root.rglob("*"):
-        path.chmod(0o755 if path.is_dir() or path.name == "msm" and path.parent.name == "init.d" else 0o644)
+        path.chmod(0o755 if path.is_dir() or path.relative_to(root).as_posix() in executables else 0o644)
     if name == "msm":
         write(root / "usr/bin/msm", release_files["msm"], 0o755)
         for document in RELEASE_DOCUMENTS:
@@ -157,7 +158,7 @@ def tree_entries(root):
 def metadata(name):
     if name == "msm":
         return "MSM DNS and network services manager", ["procd", "uci", "ca-bundle"]
-    return "LuCI configuration and Web UI launcher for MSM", ["msm", "luci-base"]
+    return "LuCI dashboard and service controls for MSM", ["msm", "luci-base", "rpcd", "ubus", "uci", "jsonfilter", "jshn"]
 
 
 def build_ipk(root, name, version, arch, output, epoch):
@@ -251,24 +252,32 @@ def finish_apk(temporary_output, output):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--version", required=True)
-    parser.add_argument("--release", type=int, default=1)
-    parser.add_argument("--target", required=True, choices=ARCHITECTURES)
-    parser.add_argument("--input", required=True, type=Path)
+    parser.add_argument("--release", type=int, default=1, help="MSM core package revision (default: %(default)s)")
+    parser.add_argument("--luci-release", type=int, default=2, help="LuCI package revision (default: %(default)s)")
+    parser.add_argument("--target", choices=ARCHITECTURES)
+    parser.add_argument("--input", type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--format", choices=["ipk", "apk", "all"], default="all")
     parser.add_argument("--arch", action="append", help="Build only these package architectures from the target's supported list")
     parser.add_argument("--with-luci", action="store_true", help="Also build LuCI; automatic for linux-amd64")
+    parser.add_argument("--luci-only", action="store_true", help="Build only architecture-independent LuCI packages; no --target or --input required")
     parser.add_argument("--apk-bin", help="Use a native apk-tools 3 executable")
     parser.add_argument("--apk-image", default=APK_IMAGE, help="Docker APK builder image (default: %(default)s)")
     args = parser.parse_args()
     if args.release < 1:
         parser.error("--release must be positive")
+    if args.luci_release < 1:
+        parser.error("--luci-release must be positive")
+    if not args.luci_only and (not args.target or not args.input):
+        parser.error("--target and --input are required unless --luci-only is used")
+    if args.luci_only and args.arch:
+        parser.error("--arch cannot be used with --luci-only")
     try:
-        version = package_version(args.version, args.release)
-        arches = args.arch or ARCHITECTURES[args.target][2]
+        versions = {"msm": package_version(args.version, args.release), "luci-app-msm": package_version(args.version, args.luci_release)}
+        arches = [] if args.luci_only else args.arch or ARCHITECTURES[args.target][2]
         if any(arch not in ARCHITECTURES[args.target][2] for arch in arches):
             raise ValueError("architecture is not supported by target " + args.target)
-        release_files = read_release(args.input, args.target)
+        release_files = {} if args.luci_only else read_release(args.input, args.target)
         native = apk_command(args.apk_bin) if args.format != "ipk" else None
         epoch = int(os.environ.get("SOURCE_DATE_EPOCH", "0"))
         args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -277,15 +286,15 @@ def main():
             work = Path(temporary)
             docker_jobs = []
             entries = [("msm", arch) for arch in arches]
-            if args.with_luci or args.target == "linux-amd64":
+            if args.luci_only or args.with_luci or args.target == "linux-amd64":
                 entries.append(("luci-app-msm", "all"))
             for name, arch in entries:
                 root = work / (name + "-" + arch)
                 prepare_tree(root, name, release_files)
                 if args.format != "apk":
-                    packages.append(build_ipk(root, name, version, arch, args.output_dir, epoch))
+                    packages.append(build_ipk(root, name, versions[name], arch, args.output_dir, epoch))
                 if args.format != "ipk":
-                    packages.append(build_apk(root, name, version, arch, args.output_dir, epoch, native, work, docker_jobs))
+                    packages.append(build_apk(root, name, versions[name], arch, args.output_dir, epoch, native, work, docker_jobs))
             if docker_jobs:
                 # One container per target, copying before chown so host files
                 # retain their ownership. Network is unnecessary after image pull.

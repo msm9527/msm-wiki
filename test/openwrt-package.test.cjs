@@ -99,12 +99,56 @@ test('native IPK payload has correct metadata, original executable, notices and 
   assert.match(text(msm.data['lib/upgrade/keep.d/msm']), /\/etc\/msm\//);
   assert.ok(!Object.keys(msm.data).some((name) => name.startsWith('etc/msm/')));
   assert.ok(!Object.keys(msm.data).some((name) => name.includes('not-extracted')));
-  const luci = inspectIpk(path.join(dir, 'out/luci-app-msm_1.5.0-r1_all.ipk'));
+  const luci = inspectIpk(path.join(dir, 'out/luci-app-msm_1.5.0-r2_all.ipk'));
   const menu = JSON.parse(text(luci.data['usr/share/luci/menu.d/luci-app-msm.json']));
-  assert.equal(menu['admin/services/msm'].action.path, 'msm');
+  assert.equal(menu['admin/services/msm'].action.path, 'msm/dashboard');
+  assert.equal(luci.data['www/luci-static/resources/view/msm.js'], undefined, 'do not reuse the legacy browser-cached view URL');
+  assert.match(text(luci.control.control), /Depends: msm, luci-base, rpcd, ubus, uci, jsonfilter, jshn/);
   const acl = JSON.parse(text(luci.data['usr/share/rpcd/acl.d/luci-app-msm.json']));
-  assert.deepEqual(acl['luci-app-msm'].write, { uci: ['msm'] });
-  assert.ok(luci.data['www/luci-static/resources/view/msm.js']);
+  assert.deepEqual(acl['luci-app-msm'].read, { uci: ['msm'], ubus: { msm: ['status', 'logs'] } });
+  assert.deepEqual(acl['luci-app-msm'].write, { uci: ['msm'], ubus: { msm: ['action'], uci: ['commit'] } });
+  const helper = 'usr/libexec/rpcd/msm';
+  assert.equal(luci.data[helper].mode, 0o755);
+  assert.equal(text(luci.data[helper]), fs.readFileSync(path.join(templates, 'files/luci-app-msm', helper), 'utf8'));
+  for (const file of [
+    'usr/share/luci/menu.d/luci-app-msm.json',
+    'usr/share/rpcd/acl.d/luci-app-msm.json',
+    'www/luci-static/resources/view/msm/dashboard.js',
+    'www/luci-static/resources/msm/dashboard.js',
+    'www/luci-static/resources/msm/dashboard.css',
+  ]) {
+    assert.equal(luci.data[file].mode, 0o644, `${file} must remain a static non-executable file`);
+    assert.equal(text(luci.data[file]), fs.readFileSync(path.join(templates, 'files/luci-app-msm', file), 'utf8'));
+  }
+  for (const [name, value] of Object.entries(luci.data)) {
+    assert.deepEqual([value.uid, value.gid], [0, 0]);
+    if (value.data != null && name !== helper) assert.equal(value.mode, 0o644, `${name} must not inherit executable permissions`);
+  }
+});
+
+test('LuCI revisions can advance without rebuilding the core package or reading a release archive', (t) => {
+  const dir = scratch(t);
+  const input = archive(dir, elf());
+  successful(build(dir, input, ['--version', 'beta-1.5.0', '--luci-release', '1']));
+  const core = path.join(dir, 'out/msm_1.5.0_beta-r1_x86_64.ipk');
+  const originalCore = fs.readFileSync(core);
+  successful(build(dir, input, ['--version', 'beta-1.5.0']));
+  assert.deepEqual(fs.readFileSync(core), originalCore, 'updating LuCI revision must preserve core package bytes');
+
+  const output = path.join(dir, 'luci-only');
+  successful(run(python, [builder, '--version', 'beta-1.5.0', '--luci-only', '--format', 'ipk', '--output-dir', output]));
+  assert.deepEqual(fs.readdirSync(output), ['luci-app-msm_1.5.0_beta-r2_all.ipk']);
+  assert.deepEqual(fs.readFileSync(path.join(output, 'luci-app-msm_1.5.0_beta-r2_all.ipk')),
+    fs.readFileSync(path.join(dir, 'out/luci-app-msm_1.5.0_beta-r2_all.ipk')));
+  successful(build(dir, input, ['--release', '3', '--luci-release', '4']));
+  assert.match(text(inspectIpk(path.join(dir, 'out/msm_1.5.0-r3_x86_64.ipk')).control.control), /Version: 1.5.0-r3/);
+  assert.match(text(inspectIpk(path.join(dir, 'out/luci-app-msm_1.5.0-r4_all.ipk')).control.control), /Version: 1.5.0-r4/);
+  for (const extra of [['--release', '0'], ['--luci-release', '0'], ['--luci-release', '-1'], ['--luci-only', '--arch', 'x86_64']]) {
+    assert.notEqual(build(dir, input, extra).status, 0);
+  }
+  const noInput = run(python, [builder, '--version', 'beta-1.5.0', '--format', 'ipk', '--output-dir', output]);
+  assert.notEqual(noInput.status, 0);
+  assert.match(noInput.stderr, /--target and --input are required unless --luci-only is used/);
 });
 
 test('IPKs use release-safe filenames while preserving beta ordering metadata and reproducibility', (t) => {
@@ -117,11 +161,12 @@ test('IPKs use release-safe filenames while preserving beta ordering metadata an
   assert.deepEqual(fs.readFileSync(file), first);
   assert.match(text(inspectIpk(file).control.control), /Version: 1.5.0~beta-r1/);
   const filenames = fs.readdirSync(path.join(dir, 'out'));
-  assert.deepEqual(filenames.sort(), ['luci-app-msm_1.5.0_beta-r1_all.ipk', 'msm_1.5.0_beta-r1_x86_64.ipk']);
+  assert.deepEqual(filenames.sort(), ['luci-app-msm_1.5.0_beta-r2_all.ipk', 'msm_1.5.0_beta-r1_x86_64.ipk']);
   for (const filename of filenames) {
     assert.ok(!filename.includes('~'), 'release asset filenames must not need GitHub normalization');
     assert.match(filename, /^[A-Za-z0-9_.-]+$/);
-    assert.match(text(inspectIpk(path.join(dir, 'out', filename)).control.control), /Version: 1.5.0~beta-r1/);
+    assert.match(text(inspectIpk(path.join(dir, 'out', filename)).control.control),
+      filename.startsWith('luci-app-msm') ? /Version: 1.5.0~beta-r2/ : /Version: 1.5.0~beta-r1/);
   }
 });
 
@@ -190,34 +235,56 @@ test('install and upgrade register reload triggers even when disabled and respec
   assert.deepEqual(lifecycle(t, 'msm-pre-upgrade', '1'), ['stop']);
 });
 
-test('packaged LuCI lifecycle clears legacy and hashed menu caches before reloading rpcd', (t) => {
+test('packaged LuCI lifecycle refreshes owned web resources and clears menu caches before reloading rpcd', (t) => {
   const dir = scratch(t);
   successful(build(dir, archive(dir, elf())));
-  const pkg = inspectIpk(path.join(dir, 'out/luci-app-msm_1.5.0-r1_all.ipk'));
+  const pkg = inspectIpk(path.join(dir, 'out/luci-app-msm_1.5.0-r2_all.ipk'));
   const caches = path.join(dir, 'cache');
   const rpcd = path.join(dir, 'rpcd');
   const calls = path.join(dir, 'calls');
+  const web = path.join(dir, 'www');
+  const resources = ['luci-static/resources/view/msm/dashboard.js', 'luci-static/resources/msm/dashboard.js', 'luci-static/resources/msm/dashboard.css'];
+  const unrelated = ['luci-static/resources/luci.js', 'luci-static/resources/view/adguardhome.js', 'luci-static/resources/msm/keep.json'];
   fs.mkdirSync(caches);
   fs.writeFileSync(rpcd, '#!/bin/sh\n[ ! -e "$CACHES/luci-indexcache.829a004f.json" ] || exit 1\nprintf "%s\\n" "$*" >> "$CALLS"\n', { mode: 0o755 });
   const expected = ['luci-indexcache', 'luci-indexcache.829a004f.json', 'luci-indexcache.another.json', 'luci-modulecache'];
   for (const phase of ['postinst', 'postrm']) {
+    for (const name of [...resources, ...unrelated]) {
+      const file = path.join(web, name);
+      fs.mkdirSync(path.dirname(file), { recursive: true });
+      // Same-size upgraded content may still have the old archive's epoch mtime.
+      fs.writeFileSync(file, 'new resource contents\n', { mode: 0o644 });
+      fs.utimesSync(file, new Date(0), new Date(0));
+    }
+    const linked = path.join(web, 'luci-static/resources/msm/external.js');
+    if (!fs.existsSync(linked)) fs.symlinkSync(path.join(web, unrelated[0]), linked);
     for (const name of expected.slice(0, -1)) fs.writeFileSync(path.join(caches, name), 'stale menu');
     fs.mkdirSync(path.join(caches, 'luci-modulecache'), { recursive: true });
     fs.writeFileSync(path.join(caches, 'luci-modulecache/old.lua'), 'stale module');
     fs.writeFileSync(path.join(caches, 'luci-indexcache-unrelated'), 'keep');
     fs.writeFileSync(path.join(caches, 'other-application-cache'), 'keep');
-    const script = text(pkg.control[phase]).replaceAll('/tmp/', caches + '/').replaceAll('/etc/init.d/rpcd', rpcd);
+    const script = text(pkg.control[phase]).replaceAll('/tmp/', caches + '/').replaceAll('/etc/init.d/rpcd', rpcd).replaceAll('/www/', web + '/');
     const invoke = (extra = {}) => successful(run('sh', ['-s'], {
       input: script, env: { ...process.env, CACHES: caches, CALLS: calls, ...extra },
     }));
     invoke({ IPKG_INSTROOT: '/image-root' });
     invoke({ IPKG_NO_SCRIPT: '1' });
     for (const name of expected) assert.ok(fs.existsSync(path.join(caches, name)), `${name} must survive image-root/script-disabled installs`);
+    for (const name of resources) assert.equal(fs.statSync(path.join(web, name)).mtimeMs, 0);
     invoke();
+    for (const name of resources) {
+      const file = path.join(web, name);
+      assert.ok(fs.statSync(file).mtimeMs > 0, `${name} must invalidate the old If-Modified-Since validator`);
+      assert.equal(fs.statSync(file).mode & 0o777, 0o644);
+      assert.equal(fs.readFileSync(file, 'utf8'), 'new resource contents\n');
+    }
+    for (const name of unrelated) assert.equal(fs.statSync(path.join(web, name)).mtimeMs, 0, `${name} must not be touched`);
     for (const name of expected) assert.equal(fs.existsSync(path.join(caches, name)), false, `${name} must be invalidated`);
     assert.equal(fs.readFileSync(path.join(caches, 'luci-indexcache-unrelated'), 'utf8'), 'keep');
     assert.equal(fs.readFileSync(path.join(caches, 'other-application-cache'), 'utf8'), 'keep');
-    invoke(); // Reinstall/removal remain safe when caches do not exist.
+    for (const name of resources) fs.unlinkSync(path.join(web, name));
+    invoke(); // Reinstall/removal must not recreate missing resources or caches.
+    for (const name of resources) assert.equal(fs.existsSync(path.join(web, name)), false);
   }
   assert.equal(fs.readFileSync(calls, 'utf8'), 'reload\nreload\nreload\nreload\n');
 });
@@ -258,27 +325,4 @@ service_triggers
   assert.equal(fs.readFileSync(path.join(data, 'database/sentinel'), 'utf8'), 'persistent');
   for (const invalid of ['/', '//', 'relative', '/tmp/../root', '/../root']) assert.notEqual(start('1', invalid).status, 0);
   for (const invalid of ['0', '65536', '7777; true']) assert.notEqual(start('1', data, invalid).status, 0);
-});
-
-test('LuCI validates the data directory and builds an IPv6-safe Web UI link', async () => {
-  const vm = require('node:vm');
-  const options = {};
-  const map = { section: () => ({ option: (type, name) => (options[name] = {}) }), render: async () => 'map' };
-  let pollCallback;
-  const source = fs.readFileSync(path.join(templates, 'files/luci-app-msm/www/luci-static/resources/view/msm.js'), 'utf8');
-  const view = vm.runInNewContext(`(function(){${source}})()`, {
-    view: { extend: (v) => v }, form: { Map: function() { return map; } },
-    rpc: { declare: (definition) => async () => definition.object === 'service' ? { msm: { instances: { main: { running: true } } } } : '7788' },
-    uci: { get: () => '7777' }, poll: { add: (callback, interval) => { assert.equal(interval, 5); pollCallback = callback; } },
-    window: { location: { hostname: '2001:db8::1' } }, _: (s) => s,
-    E: (tag, attributes = {}, children) => ({ tag, attributes, children, setAttribute(name, value) { this.attributes[name] = value; } }),
-  });
-  const rendered = await view.render([{}, {}]);
-  assert.equal(rendered.children[1].children.attributes.href, 'http://[2001:db8::1]:7777/');
-  assert.equal(rendered.children[0].children[1].textContent, 'Stopped');
-  await pollCallback();
-  assert.equal(rendered.children[1].children.attributes.href, 'http://[2001:db8::1]:7788/');
-  assert.equal(rendered.children[0].children[1].textContent, 'Running');
-  assert.equal(options.config_dir.validate('main', '/mnt/msm'), true);
-  for (const value of ['/', '////', '/tmp/../root', 'relative', '/tmp\nwrong']) assert.notEqual(options.config_dir.validate('main', value), true);
 });
