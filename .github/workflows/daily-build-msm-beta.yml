@@ -534,6 +534,7 @@ jobs:
           VERSION="${{ needs.prepare.outputs.version }}"
           python3 .github/openwrt/build-packages.py \
             --version "${VERSION}" \
+            --release 2 \
             --target "${{ matrix.target }}" \
             --input "dist/msm-${VERSION}-${{ matrix.target }}.tar.gz" \
             --output-dir dist/openwrt \

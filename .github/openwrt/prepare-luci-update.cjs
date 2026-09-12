@@ -46,9 +46,17 @@ function prepareLuciUpdate(release, checksums, packages, tag, revision = 2, back
     const asset = assets.get(item.name);
     check(asset && asset.state === 'uploaded' && asset.digest === `sha256:${item.hash}`, `Existing asset checksum mismatch: ${item.name}`);
   }
-  const coreNames = ARCHES.flatMap(arch => [`msm_${version}-r1_${arch}.ipk`, `msm-${version}-r1_${arch}.apk`]);
   const coreAssets = release.assets.filter(asset => /\.(ipk|apk)$/.test(asset.name) && !isLuci(asset.name));
-  check(coreAssets.length === 18 && coreAssets.every(asset => coreNames.includes(asset.name)), 'Expected exactly the 18 canonical r1 core packages');
+  check(coreAssets.length === 18, 'Expected exactly the 18 canonical core packages');
+  const coreRevisions = new Set(coreAssets.map(asset => {
+    const match = /-r([1-9][0-9]*)_/.exec(asset.name);
+    check(match && Number.isSafeInteger(Number(match[1])), 'Invalid core package revision');
+    return match[1];
+  }));
+  check(coreRevisions.size === 1, 'Core package revisions must agree');
+  const [coreRevision] = coreRevisions;
+  const coreNames = ARCHES.flatMap(arch => [`msm_${version}-r${coreRevision}_${arch}.ipk`, `msm-${version}-r${coreRevision}_${arch}.apk`]);
+  check(coreAssets.every(asset => coreNames.includes(asset.name)), 'Expected exactly the 18 canonical core packages');
   check(coreNames.every(name => sums.has(name)), 'Missing core package checksum');
   const luciLines = lines.filter(item => isLuci(item.name));
   check(luciLines.length === 2 && ['.ipk', '.apk'].every(ext => luciLines.filter(item => item.name.endsWith(ext)).length === 1), 'Expected two authoritative LuCI checksums');

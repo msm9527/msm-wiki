@@ -6,12 +6,12 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { prepareLuciUpdate, mirrorScript, publishGithub, finalizeGithub, recoverGithub, parseMirrors, sha256, BACKUP_NAME } = require('../.github/openwrt/prepare-luci-update.cjs');
 
-function fixture() {
+function fixture(coreRevision = 1) {
   const tag = 'beta-1.4.8', version = '1.4.8_beta';
   const arches = ['x86_64', 'aarch64_generic', 'aarch64_cortex-a53', 'aarch64_cortex-a72', 'arm_cortex-a7_neon-vfpv4', 'arm_cortex-a9_vfpv3-d16', 'arm_cortex-a9_neon', 'arm_cortex-a15_neon-vfpv4', 'arm_arm1176jzf-s_vfp'];
   const targets = ['darwin-amd64', 'darwin-arm64', 'linux-amd64', 'linux-amd64-v3', 'linux-amd64-musl', 'linux-amd64-musl-v3', 'linux-arm64', 'linux-arm64-musl', 'linux-armv7', 'linux-armv6'];
   const oldNames = [`luci-app-msm_${version}-r1_all.ipk`, `luci-app-msm-${version}-r1_all.apk`];
-  const names = [...targets.map(target => `msm-${tag}-${target}.tar.gz`), 'msm-beta-1.4.8-linux-amd64-panabit.apx', 'msm-beta-1.4.8-linux-arm64-panabit.apx', ...oldNames, ...arches.flatMap(arch => [`msm_${version}-r1_${arch}.ipk`, `msm-${version}-r1_${arch}.apk`])];
+  const names = [...targets.map(target => `msm-${tag}-${target}.tar.gz`), 'msm-beta-1.4.8-linux-amd64-panabit.apx', 'msm-beta-1.4.8-linux-arm64-panabit.apx', ...oldNames, ...arches.flatMap(arch => [`msm_${version}-r${coreRevision}_${arch}.ipk`, `msm-${version}-r${coreRevision}_${arch}.apk`])];
   const files = new Map(names.map(name => [name, Buffer.from(`original package:${name}\n`)]));
   const checksums = [...files].map(([name, data]) => `${sha256(data)}  ${name}\n`).join('');
   const release = { id: 77, tag_name: tag, name: 'Existing Beta title', draft: false, prerelease: true, target_commitish: 'main', published_at: '2026-09-12T00:00:00Z', body: `Existing introduction\n${oldNames.map(name => `[${name}](https://example.test/${name})`).join('\n')}\nOther platform links and notes stay unchanged.`, assets: [...files].map(([name, bytes], index) => ({ id: index + 1, name, state: 'uploaded', size: bytes.length, digest: `sha256:${sha256(bytes)}` })) };
@@ -58,6 +58,48 @@ test('LuCI plan changes only two manifest lines and the corresponding release fi
   let expected = input.release.body;
   for (const name of input.oldNames) expected = expected.split(name).join(name.replace('-r1_', '-r2_'));
   assert.equal(input.plan.afterBody, expected);
+});
+
+test('LuCI updates preserve all 18 packages when the core uses revision 2', () => {
+  const input = fixture(2), fake = fakeApi(input);
+  const oldCore = input.release.assets.filter(asset => /^msm[_-].*\.(ipk|apk)$/.test(asset.name));
+  assert.equal(oldCore.length, 18);
+  assert.ok(oldCore.every(asset => asset.name.includes('-r2_')));
+  const untouched = text => text.split('\n').filter(line => !line.includes('luci-app-msm'));
+  assert.deepEqual(untouched(input.plan.afterChecksums), untouched(input.checksums));
+  publishGithub(input.plan, fake.api);
+  const final = finalizeGithub(input.plan, fake.api);
+  for (const asset of oldCore) assert.deepEqual(final.assets.find(item => item.id === asset.id), asset);
+  assert.equal(final.assets.filter(asset => /^msm[_-].*\.(ipk|apk)$/.test(asset.name)).length, 18);
+});
+
+test('LuCI plans reject mixed, missing, unknown or noncanonical core revisions', () => {
+  for (const scenario of ['mixed', 'missing', 'unknown-arch', 'wrong-version', 'wrong-format', 'zero', 'leading-zero', 'negative', 'unsafe-integer']) {
+    const input = fixture(2);
+    const asset = input.release.assets.find(item => item.name === 'msm_1.4.8_beta-r2_x86_64.ipk');
+    if (scenario === 'missing') input.release.assets = input.release.assets.filter(item => item !== asset);
+    else {
+      const names = {
+        mixed: asset.name.replace('-r2_', '-r1_'),
+        'unknown-arch': asset.name.replace('_x86_64.', '_unknown.'),
+        'wrong-version': asset.name.replace('1.4.8', '1.4.9'),
+        'wrong-format': asset.name.replace('.ipk', '.apk'),
+        zero: asset.name.replace('-r2_', '-r0_'),
+        'leading-zero': asset.name.replace('-r2_', '-r02_'),
+        negative: asset.name.replace('-r2_', '-r-2_'),
+        'unsafe-integer': asset.name.replace('-r2_', '-r9007199254740992_'),
+      };
+      asset.name = names[scenario];
+    }
+    // Authenticate the modified inventory so rejection tests the core contract,
+    // rather than merely detecting a stale checksum manifest.
+    const checksums = input.release.assets.filter(item => item.name !== 'SHA256SUMS' && !item.name.endsWith('.dmg'))
+      .map(item => `${item.digest.slice(7)}  ${item.name}\n`).join('');
+    const manifest = input.release.assets.find(item => item.name === 'SHA256SUMS');
+    manifest.digest = `sha256:${sha256(checksums)}`;
+    manifest.size = Buffer.byteLength(checksums);
+    assert.throws(() => prepareLuciUpdate(input.release, checksums, input.packages, input.tag), /18 canonical|core package revision|Core package revisions/, scenario);
+  }
 });
 
 test('LuCI plan rejects stable tags, wrong release state, malformed hashes and same-revision replacement', () => {
