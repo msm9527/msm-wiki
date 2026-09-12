@@ -44,3 +44,17 @@ start_service() {
 service_triggers() {
 	procd_add_reload_trigger msm
 }
+
+# procd termination is asynchronous. Recover only after the managed processes
+# and their DNS sockets have gone; the CLI verifies persisted ownership.
+service_stopped() {
+	local config_dir
+	config_load msm
+	config_get config_dir main config_dir /etc/msm
+	case "$config_dir" in
+		/|*//*|/../*|/..|/./*|/.|/*/../*|/*/..|/*/./*|/*/.) return 1 ;;
+		/*) ;;
+		*) return 1 ;;
+	esac
+	/usr/bin/msm service recover-dns -c "$config_dir" --wait 40s
+}

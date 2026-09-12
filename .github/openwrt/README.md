@@ -105,6 +105,23 @@ It uses the same `DEPLOY_SERVERS` configuration as the daily publisher and chang
 only `<target>/beta/<tag>`. The remote mirror requires Bash and GNU coreutils.
 Local mirror tests on macOS use GNU `gmv` from `brew install coreutils`.
 
+## DNS and port handoff
+
+MSM's Beta core package revision 2 checks the active MosDNS, Mihomo and Sing-box
+TCP/UDP listeners before starting a component. On OpenWrt, when port 53 belongs
+to the system dnsmasq, MSM temporarily disables only that instance's DNS listener
+and retains DHCP. The original port setting is saved before any change and is
+restored after the final managed DNS owner stops or fails to start. User edits
+made while DNS is leased are preserved. Other occupied ports are reported with
+their protocol, address and process when available; unrelated services are not
+terminated automatically.
+
+The packaged service waits for DNS recovery during stop, removal and upgrade.
+If recovery cannot complete, package removal/upgrade returns an error and keeps
+the recovery executable and data available. For an interrupted shutdown, run
+`msm service recover-dns -c /etc/msm --wait 40s` after stopping MSM. This command
+refuses to restore dnsmasq over a live managed process or another DNS listener.
+
 ## Updating only the Beta LuCI plugin
 
 Run `openwrt-update-luci.yml` on `main` with an existing numeric Beta tag and a
