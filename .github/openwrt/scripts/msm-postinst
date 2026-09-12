@@ -1,0 +1,10 @@
+#!/bin/sh
+# Package installation must never start services inside an image build root.
+[ -z "${IPKG_INSTROOT:-}" ] || exit 0
+[ "${IPKG_NO_SCRIPT:-0}" != 1 ] || exit 0
+/etc/init.d/msm enable
+# Register procd's config.change trigger even when MSM is disabled. Without an
+# initial reload, the first LuCI Save & Apply has no service trigger to invoke.
+# start_service checks UCI enabled before creating any process instance.
+/etc/init.d/msm reload
+exit 0

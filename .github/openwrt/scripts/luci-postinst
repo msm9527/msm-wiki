@@ -1,0 +1,9 @@
+#!/bin/sh
+[ -z "${IPKG_INSTROOT:-}" ] || exit 0
+[ "${IPKG_NO_SCRIPT:-0}" != 1 ] || exit 0
+# LuCI uses hashed JSON cache names on current OpenWrt; retain cleanup of the
+# unsuffixed name for older releases as well (see upstream luci/luci.mk).
+rm -f /tmp/luci-indexcache /tmp/luci-indexcache.*
+rm -rf /tmp/luci-modulecache
+[ ! -x /etc/init.d/rpcd ] || /etc/init.d/rpcd reload
+exit 0

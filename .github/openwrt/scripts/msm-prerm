@@ -1,0 +1,10 @@
+#!/bin/sh
+[ -z "${IPKG_INSTROOT:-}" ] || exit 0
+[ "${IPKG_NO_SCRIPT:-0}" != 1 ] || exit 0
+/etc/init.d/msm stop
+case "${1:-}" in
+	upgrade) ;;
+	*) /etc/init.d/msm disable ;;
+esac
+# Configuration and application data are intentionally retained.
+exit 0

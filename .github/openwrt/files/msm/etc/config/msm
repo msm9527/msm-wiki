@@ -1,0 +1,4 @@
+config msm 'main'
+	option enabled '0'
+	option config_dir '/etc/msm'
+	option port '7777'

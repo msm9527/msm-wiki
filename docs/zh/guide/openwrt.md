@@ -1,6 +1,8 @@
 # OpenWrt 配置指南
 
-适用于 OpenWrt/LEDE。以下以命令行（UCI）方式配置，适用于 LuCI 与 SSH 场景。
+本文用于 **OpenWrt / LEDE 接入另一台 MSM 主机**，以命令行（UCI）方式配置路由与 DNS。
+
+要把 MSM 直接安装到 OpenWrt 路由器上，请先阅读 [OpenWrt 原生包与 LuCI 插件安装](/zh/guide/install-openwrt)。
 
 ## 示例环境
 

@@ -1,0 +1,5 @@
+#!/bin/sh
+[ -z "${IPKG_INSTROOT:-}" ] || exit 0
+[ "${IPKG_NO_SCRIPT:-0}" != 1 ] || exit 0
+[ ! -x /etc/init.d/msm ] || /etc/init.d/msm stop
+exit 0

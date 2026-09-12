@@ -1,0 +1,7 @@
+{
+  "luci-app-msm": {
+    "description": "Configure MSM service",
+    "read": { "uci": ["msm"], "ubus": { "service": ["list"] } },
+    "write": { "uci": ["msm"] }
+  }
+}

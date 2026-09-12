@@ -113,6 +113,7 @@ export default defineConfig({
             { text: 'Linux 安装', link: '/zh/guide/install-linux' },
             { text: 'macOS 安装', link: '/zh/guide/install-macos' },
             { text: 'Alpine 安装', link: '/zh/guide/install-alpine' },
+            { text: 'OpenWrt 安装', link: '/zh/guide/install-openwrt' },
             { text: 'Docker 安装', link: '/zh/guide/docker' },
             { text: '首次使用', link: '/zh/guide/first-use' },
             { text: '完整使用流程', link: '/zh/guide/complete-workflow' }
