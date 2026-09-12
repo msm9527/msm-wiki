@@ -96,11 +96,11 @@ jobs:
           original='sha256:1ac73464a72ecaec5268cb04e270976c0c631230838e363362e503c16616a344'
           withdrawn='sha256:1fcdd290138ae19d80a4ada22a8777b8b904b08f49c5d913e0fe7b8a052a434c'
           for tag in 1.2.6 latest; do
-            current=$(docker buildx imagetools inspect "msmbox/msm:${tag}" | awk '$1 == "Digest:" {print $2; exit}')
+            current=$(docker buildx imagetools inspect "msmbox/msm:${tag}" --format '{{.Manifest.Digest}}')
             [ "$current" = "$original" ] || [ "$current" = "$withdrawn" ]
           done
           docker buildx imagetools create --tag msmbox/msm:1.2.6 --tag msmbox/msm:latest "msmbox/msm@${original}"
           for tag in 1.2.6 latest; do
-            current=$(docker buildx imagetools inspect "msmbox/msm:${tag}" | awk '$1 == "Digest:" {print $2; exit}')
+            current=$(docker buildx imagetools inspect "msmbox/msm:${tag}" --format '{{.Manifest.Digest}}')
             [ "$current" = "$original" ]
           done
