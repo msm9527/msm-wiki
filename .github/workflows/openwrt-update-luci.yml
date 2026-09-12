@@ -10,7 +10,7 @@ on:
       revision:
         description: 'LuCI 包 revision；同 revision 内容不同会拒绝覆盖'
         type: string
-        default: '2'
+        default: '3'
         required: true
 
 permissions:

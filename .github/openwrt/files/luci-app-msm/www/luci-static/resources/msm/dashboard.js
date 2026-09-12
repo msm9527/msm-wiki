@@ -37,18 +37,23 @@ return baseclass.extend({
 				var level = String(entry.level || 'info').toLowerCase();
 				var details = Object.keys(entry).filter(function(key) { return ['time', 'level', 'msg', 'caller'].indexOf(key) === -1; })
 					.map(function(key) { return key + '=' + (typeof entry[key] === 'string' ? entry[key] : JSON.stringify(entry[key])); });
-				return { level: level, content: (stamp && !isNaN(stamp.getTime()) ? stamp.toLocaleString() + '  ' : '') +
-					level.toUpperCase().padEnd(5) + '  ' + String(entry.msg || '') + (details.length ? '  ·  ' + details.join('  ') : '') };
+				var message = String(entry.msg || '') + (details.length ? '  ·  ' + details.join('  ') : '');
+				var time = stamp && !isNaN(stamp.getTime()) ? stamp : null;
+				return { level: level, time: time ? time.toLocaleTimeString() : '—', timestamp: time ? time.toLocaleString() : '', message: message,
+					content: (time ? time.toLocaleString() + '  ' : '') + level.toUpperCase().padEnd(5) + '  ' + message };
 			}
 		} catch (e) { /* Plain-text startup logs remain readable. */ }
-		return { level: 'info', content: String(line) };
+		return { level: 'info', time: '—', timestamp: '', message: String(line), content: String(line) };
 	},
-	filteredLogs: function(lines, level, query) {
+	filteredEntries: function(lines, level, query) {
 		query = (query || '').toLowerCase();
 		return lines.map(this.logEntry).filter(function(entry) {
 			return (level === 'all' || (level === 'warn' ? ['warn', 'warning', 'error', 'fatal', 'panic'].indexOf(entry.level) !== -1 : ['error', 'fatal', 'panic'].indexOf(entry.level) !== -1)) &&
 				(!query || entry.content.toLowerCase().indexOf(query) !== -1);
-		}).map(function(entry) { return entry.content; }).join('\n');
+		});
+	},
+	filteredLogs: function(lines, level, query) {
+		return this.filteredEntries(lines, level, query).map(function(entry) { return entry.content; }).join('\n');
 	},
 	error: function(result) {
 		var messages = {

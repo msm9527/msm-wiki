@@ -104,6 +104,29 @@ test('a partial LuCI upload can resume with identical package hashes', () => {
   assert.equal(fake.calls.filter(call => call[0] === 'upload' && call[1].endsWith('.ipk')).length, 1);
 });
 
+test('LuCI r3 replaces published r2 while all 18 r1 core packages remain unchanged', () => {
+  const input = fixture(), fake = fakeApi(input);
+  publishGithub(input.plan, fake.api);
+  const r2 = finalizeGithub(input.plan, fake.api);
+  const checksums = input.plan.afterChecksums;
+  const packages = input.packages.map(item => {
+    const name = item.name.replace('-r2_', '-r3_');
+    const bytes = Buffer.from(`visual dashboard r3:${name}\n`);
+    return { name, hash: sha256(bytes), size: bytes.length };
+  });
+  input.plan = prepareLuciUpdate(r2, checksums, packages, input.tag, 3);
+  assert.equal(input.plan.legacyAssets.length, 2);
+  assert.ok(input.plan.legacyAssets.every(asset => asset.revision === 2));
+  const untouched = text => text.split('\n').filter(line => !line.includes('luci-app-msm'));
+  assert.deepEqual(untouched(input.plan.afterChecksums), untouched(checksums));
+  publishGithub(input.plan, fake.api);
+  const final = finalizeGithub(input.plan, fake.api);
+  assert.equal(final.assets.filter(asset => /^msm[_-].*\.(ipk|apk)$/.test(asset.name)).length, 18);
+  for (const old of input.plan.protectedAssets) assert.deepEqual(final.assets.find(asset => asset.id === old.id), r2.assets.find(asset => asset.id === old.id));
+  for (const item of packages) assert.ok(final.body.includes(item.name));
+  assert.ok(final.assets.filter(asset => asset.name.startsWith('luci-app-msm')).every(asset => asset.name.includes('-r3_')));
+});
+
 test('a fresh plan repairs old body links when the new manifest was already uploaded', () => {
   const input = fixture(), fake = fakeApi(input), setBody = fake.api.setBody;
   fake.api.setBody = () => { throw new Error('body update interrupted'); };
@@ -288,6 +311,8 @@ test('mirror configuration is restricted to the Beta subdirectory and omits cred
 
 test('the manual workflow builds only LuCI and delays old asset deletion until mirror commit', () => {
   const workflow = fs.readFileSync(path.join(__dirname, '../.github/workflows/openwrt-update-luci.yml'), 'utf8');
+  assert.match(workflow, /revision:[\s\S]*?default: '3'/);
+  assert.match(workflow, /\[ "\$LUCI_REVISION" -ge 2 \]/);
   assert.match(workflow, /--luci-only/);
   assert.match(workflow, /MSM_TEST_APK: '1'/);
   assert.match(workflow, /node --test test\/openwrt-\*\.test\.cjs/);

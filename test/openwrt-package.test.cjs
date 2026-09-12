@@ -99,7 +99,7 @@ test('native IPK payload has correct metadata, original executable, notices and 
   assert.match(text(msm.data['lib/upgrade/keep.d/msm']), /\/etc\/msm\//);
   assert.ok(!Object.keys(msm.data).some((name) => name.startsWith('etc/msm/')));
   assert.ok(!Object.keys(msm.data).some((name) => name.includes('not-extracted')));
-  const luci = inspectIpk(path.join(dir, 'out/luci-app-msm_1.5.0-r2_all.ipk'));
+  const luci = inspectIpk(path.join(dir, 'out/luci-app-msm_1.5.0-r3_all.ipk'));
   const menu = JSON.parse(text(luci.data['usr/share/luci/menu.d/luci-app-msm.json']));
   assert.equal(menu['admin/services/msm'].action.path, 'msm/dashboard');
   assert.equal(luci.data['www/luci-static/resources/view/msm.js'], undefined, 'do not reuse the legacy browser-cached view URL');
@@ -116,6 +116,8 @@ test('native IPK payload has correct metadata, original executable, notices and 
     'www/luci-static/resources/view/msm/dashboard.js',
     'www/luci-static/resources/msm/dashboard.js',
     'www/luci-static/resources/msm/dashboard.css',
+    'www/luci-static/resources/msm/telemetry.js',
+    'www/luci-static/resources/msm/logo.svg',
   ]) {
     assert.equal(luci.data[file].mode, 0o644, `${file} must remain a static non-executable file`);
     assert.equal(text(luci.data[file]), fs.readFileSync(path.join(templates, 'files/luci-app-msm', file), 'utf8'));
@@ -124,12 +126,13 @@ test('native IPK payload has correct metadata, original executable, notices and 
     assert.deepEqual([value.uid, value.gid], [0, 0]);
     if (value.data != null && name !== helper) assert.equal(value.mode, 0o644, `${name} must not inherit executable permissions`);
   }
+  assert.equal(text(luci.data['www/luci-static/resources/msm/logo.svg']), fs.readFileSync(path.join(root, 'docs/public/logo/logo-square.svg'), 'utf8'), 'ship the original official MSM logo unchanged');
 });
 
 test('LuCI revisions can advance without rebuilding the core package or reading a release archive', (t) => {
   const dir = scratch(t);
   const input = archive(dir, elf());
-  successful(build(dir, input, ['--version', 'beta-1.5.0', '--luci-release', '1']));
+  successful(build(dir, input, ['--version', 'beta-1.5.0', '--luci-release', '2']));
   const core = path.join(dir, 'out/msm_1.5.0_beta-r1_x86_64.ipk');
   const originalCore = fs.readFileSync(core);
   successful(build(dir, input, ['--version', 'beta-1.5.0']));
@@ -137,9 +140,9 @@ test('LuCI revisions can advance without rebuilding the core package or reading 
 
   const output = path.join(dir, 'luci-only');
   successful(run(python, [builder, '--version', 'beta-1.5.0', '--luci-only', '--format', 'ipk', '--output-dir', output]));
-  assert.deepEqual(fs.readdirSync(output), ['luci-app-msm_1.5.0_beta-r2_all.ipk']);
-  assert.deepEqual(fs.readFileSync(path.join(output, 'luci-app-msm_1.5.0_beta-r2_all.ipk')),
-    fs.readFileSync(path.join(dir, 'out/luci-app-msm_1.5.0_beta-r2_all.ipk')));
+  assert.deepEqual(fs.readdirSync(output), ['luci-app-msm_1.5.0_beta-r3_all.ipk']);
+  assert.deepEqual(fs.readFileSync(path.join(output, 'luci-app-msm_1.5.0_beta-r3_all.ipk')),
+    fs.readFileSync(path.join(dir, 'out/luci-app-msm_1.5.0_beta-r3_all.ipk')));
   successful(build(dir, input, ['--release', '3', '--luci-release', '4']));
   assert.match(text(inspectIpk(path.join(dir, 'out/msm_1.5.0-r3_x86_64.ipk')).control.control), /Version: 1.5.0-r3/);
   assert.match(text(inspectIpk(path.join(dir, 'out/luci-app-msm_1.5.0-r4_all.ipk')).control.control), /Version: 1.5.0-r4/);
@@ -161,12 +164,12 @@ test('IPKs use release-safe filenames while preserving beta ordering metadata an
   assert.deepEqual(fs.readFileSync(file), first);
   assert.match(text(inspectIpk(file).control.control), /Version: 1.5.0~beta-r1/);
   const filenames = fs.readdirSync(path.join(dir, 'out'));
-  assert.deepEqual(filenames.sort(), ['luci-app-msm_1.5.0_beta-r2_all.ipk', 'msm_1.5.0_beta-r1_x86_64.ipk']);
+  assert.deepEqual(filenames.sort(), ['luci-app-msm_1.5.0_beta-r3_all.ipk', 'msm_1.5.0_beta-r1_x86_64.ipk']);
   for (const filename of filenames) {
     assert.ok(!filename.includes('~'), 'release asset filenames must not need GitHub normalization');
     assert.match(filename, /^[A-Za-z0-9_.-]+$/);
     assert.match(text(inspectIpk(path.join(dir, 'out', filename)).control.control),
-      filename.startsWith('luci-app-msm') ? /Version: 1.5.0~beta-r2/ : /Version: 1.5.0~beta-r1/);
+      filename.startsWith('luci-app-msm') ? /Version: 1.5.0~beta-r3/ : /Version: 1.5.0~beta-r1/);
   }
 });
 
@@ -238,12 +241,12 @@ test('install and upgrade register reload triggers even when disabled and respec
 test('packaged LuCI lifecycle refreshes owned web resources and clears menu caches before reloading rpcd', (t) => {
   const dir = scratch(t);
   successful(build(dir, archive(dir, elf())));
-  const pkg = inspectIpk(path.join(dir, 'out/luci-app-msm_1.5.0-r2_all.ipk'));
+  const pkg = inspectIpk(path.join(dir, 'out/luci-app-msm_1.5.0-r3_all.ipk'));
   const caches = path.join(dir, 'cache');
   const rpcd = path.join(dir, 'rpcd');
   const calls = path.join(dir, 'calls');
   const web = path.join(dir, 'www');
-  const resources = ['luci-static/resources/view/msm/dashboard.js', 'luci-static/resources/msm/dashboard.js', 'luci-static/resources/msm/dashboard.css'];
+  const resources = ['luci-static/resources/view/msm/dashboard.js', 'luci-static/resources/msm/dashboard.js', 'luci-static/resources/msm/dashboard.css', 'luci-static/resources/msm/telemetry.js', 'luci-static/resources/msm/logo.svg'];
   const unrelated = ['luci-static/resources/luci.js', 'luci-static/resources/view/adguardhome.js', 'luci-static/resources/msm/keep.json'];
   fs.mkdirSync(caches);
   fs.writeFileSync(rpcd, '#!/bin/sh\n[ ! -e "$CACHES/luci-indexcache.829a004f.json" ] || exit 1\nprintf "%s\\n" "$*" >> "$CALLS"\n', { mode: 0o755 });

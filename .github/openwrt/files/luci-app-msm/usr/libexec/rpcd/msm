@@ -72,7 +72,10 @@ status() {
 	[ -x "$MSM_BINARY" ] && [ -x "$MSM_INIT" ] && installed=1
 	version="$(package_version)"
 	version="$(printf '%s' "$version" | head -c 128)"
-	services="$(timeout 2 ubus call service list '{"name":"msm"}' 2>/dev/null)"
+	services="$(timeout 2 ubus call service list '{"name":"msm"}' 2>/dev/null)" || {
+		# An unavailable procd query does not mean that MSM has stopped.
+		reply_error status_unavailable 'The MSM service status could not be queried.'; return
+	}
 	candidates="$(jsonfilter -s "$services" -e '@.msm.instances[@.running=true].pid' 2>/dev/null)"
 	binary="$(readlink -f "$MSM_BINARY" 2>/dev/null)"
 	for candidate in $candidates; do
