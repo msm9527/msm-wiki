@@ -150,6 +150,21 @@ test('status rejects foreign executables, stopped instances and unsafe PIDs, and
   assert.equal(status.version, '1.4.8~beta-r1');
 });
 
+test('failed procd queries report unknown while a successful empty service list means stopped', t => {
+  const f = fixture(t);
+  const failed = f.run('status', {}, { MOCK_TIMEOUT_COMMAND: 'ubus' });
+  assert.equal(failed.ok, false);
+  assert.equal(failed.error_code, 'status_unavailable');
+  assert.equal(Object.hasOwn(failed, 'running'), false, 'do not report a failed query as stopped');
+  fs.writeFileSync(path.join(f.dir, 'service.json'), '{}');
+  const empty = f.run('status');
+  assert.equal(empty.running, false);
+  assert.equal(empty.pid, 0);
+  assert.equal(empty.installed, true);
+  assert.equal(empty.error_code, undefined);
+  assert.doesNotMatch(f.commands(), /action:|"apply"|"commit"/);
+});
+
 test('actions reject command and service injection without invoking any init script', t => {
   const f = fixture(t);
   for (const action of ['start; touch /tmp/injected', 'restart\nstop', '$(reboot)', '../dnsmasq', 'enable', '', 1]) {

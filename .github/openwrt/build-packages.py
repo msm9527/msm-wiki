@@ -253,7 +253,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--version", required=True)
     parser.add_argument("--release", type=int, default=1, help="MSM core package revision (default: %(default)s)")
-    parser.add_argument("--luci-release", type=int, default=2, help="LuCI package revision (default: %(default)s)")
+    parser.add_argument("--luci-release", type=int, default=3, help="LuCI package revision (default: %(default)s)")
     parser.add_argument("--target", choices=ARCHITECTURES)
     parser.add_argument("--input", type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)

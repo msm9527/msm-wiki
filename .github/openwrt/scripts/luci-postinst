@@ -4,7 +4,8 @@
 # Package archives use reproducible timestamps. Refresh only MSM web resources
 # so uhttpd does not answer 304 using an older package's Last-Modified date.
 for resource in /www/luci-static/resources/view/msm/dashboard.js \
-    /www/luci-static/resources/msm/*.js /www/luci-static/resources/msm/*.css; do
+    /www/luci-static/resources/msm/*.js /www/luci-static/resources/msm/*.css \
+    /www/luci-static/resources/msm/*.svg; do
     [ -f "$resource" ] && [ ! -L "$resource" ] || continue
     touch "$resource" || exit 1
 done

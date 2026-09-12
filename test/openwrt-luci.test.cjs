@@ -8,7 +8,7 @@ function helpers(lang = 'zh-cn') {
   return moduleFile('msm/dashboard.js', { baseclass: { extend: value => value }, document: { documentElement: { lang }, body: { className: '' } }, window: { getComputedStyle: () => ({ backgroundColor: 'rgb(31, 31, 31)' }) } });
 }
 class Element {
-  constructor(tag, attrs = {}, children = []) { this.tag = tag; this.attrs = { ...attrs }; this.children = [children].flat().filter(x => x != null); this.listeners = {}; this.value = attrs.value || ''; this.hidden = !!attrs.hidden; }
+  constructor(tag, attrs = {}, children = []) { this.tag = tag; this.attrs = { ...attrs }; this.children = [children].flat().filter(x => x != null); this.listeners = {}; this.style = {}; this.value = attrs.value || ''; this.hidden = !!attrs.hidden; }
   get textContent() { return this.children.map(x => typeof x === 'string' ? x : x.textContent).join(''); }
   set textContent(value) { this.children = [String(value)]; }
   setAttribute(key, value) { this.attrs[key] = value; }
@@ -19,7 +19,13 @@ class Element {
   remove() {}
   click() { return this.attrs.click?.(); }
 }
-const E = (tag, attrs, children) => new Element(tag, attrs, children);
+// LuCI dom.append parses a scalar string as HTML; strings in an array are text.
+// Track the HTML sink so a permissive mock cannot hide unsafe log rendering.
+const E = (tag, attrs, children) => {
+  const node = new Element(tag, attrs, children);
+  node.htmlInput = typeof children === 'string' ? children : null;
+  return node;
+};
 function all(node) { return [node, ...node.children.filter(x => x instanceof Element).flatMap(all)]; }
 async function fixture() {
   const state = { running: true, installed: true, enabled: true, pid: 42, version: '1.4.8_beta-r1', port: 7777, config_dir: '/etc/msm', uptime_seconds: 123, memory_bytes: 123456, storage_available_bytes: 1234, storage_total_bytes: 10000 };
@@ -37,7 +43,7 @@ async function fixture() {
   const map = { readonly: false, section: () => ({ option: (_, name) => (fields[name] = { formvalue: () => values[name] }) }), render: async () => E('div'), save: async () => calls.push(['save']), load: async () => {}, reset: async () => {} };
   const context = { E, view: { extend: v => v }, form: { Map: function() { return map; } }, uci, rpc,
     poll: { add: callback => { poller = callback; } }, ui: { changes: { init() {} }, showModal() {}, hideModal() {} },
-    dashboard: helpers(), window: { location: { hostname: '2001:db8::1' }, setTimeout: fn => fn() }, L: { resource: x => '/resources/' + x }, document: { body: E('body') }, URL, Blob };
+    dashboard: helpers(), telemetry: moduleFile('msm/telemetry.js', { baseclass: { extend: value => value } }), window: { location: { hostname: '2001:db8::1' }, setTimeout: fn => fn() }, L: { resource: x => '/resources/' + x }, document: { body: E('body'), createElementNS: (ns, tag) => E(tag) }, URL, Blob };
   const view = moduleFile('view/msm/dashboard.js', context), root = await view.render(await view.load());
   return { root, state, values, calls, fields, map, poll: () => poller(), fail: () => { fail = true; }, button: label => all(root).find(n => n.tag === 'button' && n.textContent === label) };
 }
@@ -118,4 +124,23 @@ test('readonly access cannot trigger settings or service actions through handler
   await f.button('重启服务').click();
   await f.button('保存并应用').click();
   assert.ok(!f.calls.some(call => call[0] === 'msm.action' || call[0] === 'uci.commit'));
+});
+
+test('dashboard uses the official local logo and clears its live memory plot on disconnect', async () => {
+  const f = await fixture();
+  assert.ok(all(f.root).some(n => n.tag === 'img' && n.attrs.src === '/resources/msm/logo.svg'));
+  const line = all(f.root).find(n => n.tag === 'path' && n.attrs.class === 'msm-chart-line');
+  assert.match(line.attrs.d, /^M/);
+  f.fail(); await f.poll();
+  assert.equal(line.attrs.d, '');
+});
+
+test('log rows use text nodes and preserve the time and severity columns', async () => {
+  const f = await fixture();
+  await f.button('读取日志').click();
+  const row = all(f.root).find(n => n.attrs.class === 'msm-log-row');
+  assert.match(row.textContent, /ERRORsafe <script>/);
+  assert.equal(all(row).filter(n => n.tag === 'script').length, 0);
+  assert.ok(all(row).every(n => n.htmlInput === null), 'untrusted log fields must never enter LuCI’s HTML-string sink');
+  assert.equal(all(row).find(n => n.attrs.class === 'msm-log-level').attrs['data-level'], 'error');
 });

@@ -39,7 +39,7 @@ with tarfile.open(sys.argv[1], 'w:gz') as tar:
   for (const version of ['1.5.0', '1.5.1']) {
     run(process.env.PYTHON || 'python3', [path.join(root, '.github/openwrt/build-packages.py'), '--version', version,
       '--target', 'linux-amd64', '--input', archive, '--output-dir', out, '--format', 'apk', '--apk-image', image,
-      '--luci-release', version === '1.5.0' ? '1' : '2']);
+      '--luci-release', version === '1.5.0' ? '2' : '3']);
   }
   const originalCore = fs.readFileSync(path.join(out, 'msm-1.5.0-r1_x86_64.apk'));
   run(process.env.PYTHON || 'python3', [path.join(root, '.github/openwrt/build-packages.py'), '--version', '1.5.0',
@@ -52,12 +52,12 @@ with tarfile.open(sys.argv[1], 'w:gz') as tar:
   // Alpine test root does not need OpenWrt procd/uci. Shell lifecycle hooks have
   // separate tests with an OpenWrt service harness in openwrt-package.test.cjs.
   const script = `set -eu
-apk adbdump --allow-untrusted /work/luci-app-msm-1.5.0-r2_all.apk > /tmp/luci-metadata
+apk adbdump --allow-untrusted /work/luci-app-msm-1.5.0-r3_all.apk > /tmp/luci-metadata
 grep -q 'arch: noarch' /tmp/luci-metadata
 apk mkpkg --info name:openwrt-test-dependencies --info version:1-r1 --info arch:noarch --info license:MIT --info description:fixture --info 'provides:procd=1 uci=1 ca-bundle=1 luci-base=1 rpcd=1 ubus=1 jsonfilter=1 jshn=1' --output /tmp/dependencies.apk
 mkdir -p /tmp/root/etc/apk/protected_paths.d
 printf '+etc\\n' > /tmp/root/etc/apk/protected_paths.d/default.list
-apk --root /tmp/root --arch x86_64 --initdb --no-scripts --no-network --allow-untrusted add /tmp/dependencies.apk /work/msm-1.5.0-r1_x86_64.apk /work/luci-app-msm-1.5.0-r1_all.apk
+apk --root /tmp/root --arch x86_64 --initdb --no-scripts --no-network --allow-untrusted add /tmp/dependencies.apk /work/msm-1.5.0-r1_x86_64.apk /work/luci-app-msm-1.5.0-r2_all.apk
 test "$(stat -c %u:%g /tmp/root/usr/bin/msm)" = 0:0
 test -x /tmp/root/usr/bin/msm
 test -x /tmp/root/etc/init.d/msm
@@ -67,8 +67,8 @@ printf '\\n# keep upgraded configuration\\n' >> /tmp/root/etc/config/msm
 mkdir -p /tmp/root/etc/msm/database
 printf 'keep database\\n' > /tmp/root/etc/msm/database/sentinel
 sha256sum /tmp/root/usr/bin/msm > /tmp/core.sha256
-apk --root /tmp/root --arch x86_64 --no-scripts --no-network --allow-untrusted add /work/luci-app-msm-1.5.0-r2_all.apk
-apk --root /tmp/root info -e luci-app-msm=1.5.0-r2
+apk --root /tmp/root --arch x86_64 --no-scripts --no-network --allow-untrusted add /work/luci-app-msm-1.5.0-r3_all.apk
+apk --root /tmp/root info -e luci-app-msm=1.5.0-r3
 apk --root /tmp/root info -e msm=1.5.0-r1
 sha256sum -c /tmp/core.sha256
 grep -q 'keep upgraded configuration' /tmp/root/etc/config/msm
@@ -76,11 +76,11 @@ test "$(cat /tmp/root/etc/msm/database/sentinel)" = 'keep database'
 test "$(stat -c %a /tmp/root/usr/libexec/rpcd/msm)" = 755
 test "$(stat -c %u:%g /tmp/root/usr/libexec/rpcd/msm)" = 0:0
 test ! -e /tmp/root/www/luci-static/resources/view/msm.js
-for file in usr/share/luci/menu.d/luci-app-msm.json usr/share/rpcd/acl.d/luci-app-msm.json www/luci-static/resources/view/msm/dashboard.js www/luci-static/resources/msm/dashboard.js www/luci-static/resources/msm/dashboard.css; do
+for file in usr/share/luci/menu.d/luci-app-msm.json usr/share/rpcd/acl.d/luci-app-msm.json www/luci-static/resources/view/msm/dashboard.js www/luci-static/resources/msm/dashboard.js www/luci-static/resources/msm/dashboard.css www/luci-static/resources/msm/telemetry.js www/luci-static/resources/msm/logo.svg; do
     test "$(stat -c %a /tmp/root/$file)" = 644
     test -s "/tmp/root/$file"
 done
-apk --root /tmp/root --arch x86_64 --no-scripts --no-network --allow-untrusted add /work/msm-1.5.1-r1_x86_64.apk /work/luci-app-msm-1.5.1-r2_all.apk
+apk --root /tmp/root --arch x86_64 --no-scripts --no-network --allow-untrusted add /work/msm-1.5.1-r1_x86_64.apk /work/luci-app-msm-1.5.1-r3_all.apk
 grep -q 'keep upgraded configuration' /tmp/root/etc/config/msm
 test "$(cat /tmp/root/etc/msm/database/sentinel)" = 'keep database'
 apk --root /tmp/root --arch x86_64 --no-scripts --no-network del luci-app-msm msm
@@ -88,6 +88,8 @@ test ! -e /tmp/root/usr/bin/msm
 test ! -e /tmp/root/usr/libexec/rpcd/msm
 test ! -e /tmp/root/www/luci-static/resources/msm/dashboard.js
 test ! -e /tmp/root/www/luci-static/resources/msm/dashboard.css
+test ! -e /tmp/root/www/luci-static/resources/msm/telemetry.js
+test ! -e /tmp/root/www/luci-static/resources/msm/logo.svg
 grep -q 'keep upgraded configuration' /tmp/root/etc/config/msm
 test "$(cat /tmp/root/etc/msm/database/sentinel)" = 'keep database'
 printf 'APK v3 install/upgrade/remove preservation passed\\n'
