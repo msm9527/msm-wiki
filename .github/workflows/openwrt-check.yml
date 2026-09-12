@@ -6,6 +6,7 @@ on:
       - '.github/openwrt/**'
       - '.github/workflows/openwrt-check.yml'
       - '.github/workflows/openwrt-repair-mirror.yml'
+      - '.github/workflows/restore-stable-1.2.6.yml'
       - '.github/workflows/daily-build-msm.yml'
       - '.github/workflows/daily-build-msm-beta.yml'
       - 'test/openwrt-package*.test.cjs'
@@ -16,6 +17,7 @@ on:
       - '.github/openwrt/**'
       - '.github/workflows/openwrt-check.yml'
       - '.github/workflows/openwrt-repair-mirror.yml'
+      - '.github/workflows/restore-stable-1.2.6.yml'
       - '.github/workflows/daily-build-msm.yml'
       - '.github/workflows/daily-build-msm-beta.yml'
       - 'test/openwrt-package*.test.cjs'
@@ -60,6 +62,7 @@ jobs:
           "${RUNNER_TEMP}/actionlint" -shellcheck= \
             .github/workflows/openwrt-check.yml \
             .github/workflows/openwrt-repair-mirror.yml \
+            .github/workflows/restore-stable-1.2.6.yml \
             .github/workflows/daily-build-msm.yml \
             .github/workflows/daily-build-msm-beta.yml
 
