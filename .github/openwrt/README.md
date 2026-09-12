@@ -72,3 +72,20 @@ Format references:
 - [OpenWrt package generation and APK metadata](https://github.com/openwrt/openwrt/blob/main/include/package-pack.mk)
 - [Upstream apk mkpkg](https://gitlab.alpinelinux.org/alpine/apk-tools/-/blob/master/doc/apk-mkpkg.8.scd)
 - [OpenWrt apk usage](https://openwrt.org/docs/guide-user/additional-software/apk)
+
+## Repairing an existing Beta mirror
+
+After correcting GitHub IPK asset names and its `SHA256SUMS`, the manual
+`openwrt-repair-mirror.yml` workflow can repair an already uploaded mirror without
+rebuilding or replacing package contents. Supply the numeric Beta tag and its
+original daily Beta run ID. That run must have completed its mirror upload;
+its exact `msm-<tag>-checksums` artifact must match every published file hash after
+normalizing only the old IPK filenames.
+
+The workflow validates the complete mirror before making changes, copies verified
+legacy IPKs to canonical names, keeps IPKs and the manifest readable with mode
+0644, verifies the complete manifest, and atomically replaces `SHA256SUMS` before
+removing verified old aliases. Existing canonical files are checked on reruns.
+It uses the same `DEPLOY_SERVERS` configuration as the daily publisher and changes
+only `<target>/beta/<tag>`. The remote mirror requires Bash and GNU coreutils.
+Local mirror tests on macOS use GNU `gmv` from `brew install coreutils`.
