@@ -13,7 +13,7 @@ MSM 是自托管管理平台。请仅用于自有或已获明确授权的设备�
 | --- | --- | --- |
 | Linux 服务器/虚拟机 | [Linux 安装](/zh/guide/install-linux) | 一键脚本 + systemd 服务 |
 | macOS 主机 | [macOS 安装](/zh/guide/install-macos) | CLI 安装或桌面版 |
-| OpenWrt 路由器 | [OpenWrt 安装](/zh/guide/install-openwrt) | 原生 IPK / APK + LuCI 插件 + procd 服务 |
+| OpenWrt 路由器 | [OpenWrt 安装](/zh/guide/install-openwrt) | 测试版原生 IPK / APK + LuCI 插件 + procd 服务 |
 | Alpine Linux | [Alpine 安装](/zh/guide/install-alpine) | musl + 手动服务管理 |
 | Docker 环境 | [Docker 安装](/zh/guide/docker) | 容器化部署 |
 

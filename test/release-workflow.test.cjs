@@ -4,10 +4,9 @@ const path = require('node:path')
 const test = require('node:test')
 
 const root = path.resolve(__dirname, '..')
-const workflows = [
-  '.github/workflows/daily-build-msm.yml',
-  '.github/workflows/daily-build-msm-beta.yml',
-]
+const stableWorkflow = '.github/workflows/daily-build-msm.yml'
+const betaWorkflow = '.github/workflows/daily-build-msm-beta.yml'
+const workflows = [stableWorkflow, betaWorkflow]
 
 test('release workflows pass SHA256SUMS to the custom upload job', () => {
   for (const workflow of workflows) {
@@ -130,7 +129,7 @@ test('all MSM build checkouts use the exact source commit selected during prepar
     const checkouts = [...source.matchAll(/repository: msm9527\/msm\n\s+ref: ([^\n]+)/g)]
 
     assert.equal(checkouts.length, 3, `${workflow}: prepare, server build and desktop build`)
-    assert.match(checkouts[0][1], /^(?:main|dev)$/)
+    assert.equal(checkouts[0][1], workflow === stableWorkflow ? 'main' : 'dev')
     for (const checkout of checkouts.slice(1)) {
       assert.equal(checkout[1], '${{ needs.prepare.outputs.commit_sha }}')
     }
@@ -158,8 +157,8 @@ test('summary preview validates inputs and uses the same runner without publishi
   assert.equal((source.match(/uses: actions\/upload-artifact@/g) || []).length, 1)
 })
 
-test('OpenWrt packaging is mandatory and reuses each selected static Linux build', () => {
-  for (const workflow of workflows) {
+test('Beta OpenWrt packaging is mandatory and reuses each selected static Linux build', () => {
+  for (const workflow of [betaWorkflow]) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
     const openwrt = source.slice(source.indexOf('\n  openwrt:\n'), source.indexOf('\n  release:\n'))
     const release = source.slice(source.indexOf('\n  release:\n'), source.indexOf('\n  docker:\n'))
@@ -247,9 +246,46 @@ fi
   })
 }
 
-test('both release channels attach, checksum and mirror OpenWrt runtime and LuCI packages', () => {
+test('stable release keeps its original assets and ignores OpenWrt artifacts during publish and mirror upload', () => {
   const { createHash } = require('node:crypto')
-  for (const workflow of workflows) {
+  const source = fs.readFileSync(path.join(root, stableWorkflow), 'utf8')
+  const release = source.slice(source.indexOf('\n  release:\n'), source.indexOf('\n  docker:\n'))
+  assert.match(release, /needs: \[prepare, build\]/)
+  assert.doesNotMatch(source, /openwrt|OpenWrt|luci-app-msm|\.ipk|\.apk/)
+
+  for (const includeUnexpectedOpenwrt of [false, true]) {
+    withReleaseFixture(stableWorkflow, (fixture) => {
+      const expectedNames = fixture.names.filter((name) => !/\.(?:ipk|apk)$/.test(name))
+      if (!includeUnexpectedOpenwrt) {
+        for (const name of fixture.names.filter((name) => /\.(?:ipk|apk)$/.test(name))) {
+          fs.unlinkSync(path.join(fixture.temp, 'dist', 'fixture', name))
+        }
+      }
+      const collected = runWorkflowScript(source, '收集 Release 附件', fixture)
+      assert.equal(collected.status, 0, collected.stderr)
+      const outputs = fs.readFileSync(path.join(fixture.temp, 'step-output'), 'utf8')
+      const checksums = fs.readFileSync(path.join(fixture.temp, 'dist', 'SHA256SUMS'), 'utf8')
+      const attachedPaths = outputs.split('paths<<EOF\n')[1].split('\nEOF')[0].split('\n')
+      assert.deepEqual(attachedPaths.sort(), [
+        ...expectedNames.map((name) => `dist/fixture/${name}`),
+        'dist/SHA256SUMS',
+      ].sort())
+      assert.deepEqual(checksums.trim().split('\n').sort(), expectedNames.map((name) =>
+        `${createHash('sha256').update(`${name}\n`).digest('hex')}  ${name}`).sort())
+      assert.doesNotMatch(outputs, /openwrt|OpenWrt|luci-app-msm|\.ipk|\.apk/)
+
+      const uploaded = runWorkflowScript(source, '准备上传文件', fixture)
+      assert.equal(uploaded.status, 0, uploaded.stderr)
+      assert.deepEqual(fs.readdirSync(path.join(fixture.temp, 'upload', fixture.version)).sort(),
+        [...expectedNames, 'SHA256SUMS'].sort())
+      assert.equal(fs.readFileSync(path.join(fixture.temp, 'upload', fixture.version, 'SHA256SUMS'), 'utf8'), checksums)
+    })
+  }
+})
+
+test('Beta release attaches, checksums and mirrors OpenWrt runtime and LuCI packages', () => {
+  const { createHash } = require('node:crypto')
+  for (const workflow of [betaWorkflow]) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
     withReleaseFixture(workflow, (fixture) => {
       const collected = runWorkflowScript(source, '收集 Release 附件', fixture)
@@ -274,8 +310,8 @@ test('both release channels attach, checksum and mirror OpenWrt runtime and LuCI
   }
 })
 
-test('release refuses a missing OpenWrt artifact and still lists OpenWrt when optional Panabit is absent', () => {
-  for (const workflow of workflows) {
+test('Beta release refuses missing OpenWrt artifacts and still lists OpenWrt when optional Panabit is absent', () => {
+  for (const workflow of [betaWorkflow]) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
     withReleaseFixture(workflow, (fixture) => {
       for (const name of fixture.names.filter((name) => name.endsWith('.apx'))) {
@@ -296,8 +332,8 @@ test('release refuses a missing OpenWrt artifact and still lists OpenWrt when op
   }
 })
 
-test('OpenWrt builds reject source revisions without a successful runtime compatibility check', () => {
-  for (const workflow of workflows) {
+test('Beta OpenWrt builds reject source revisions without a successful runtime compatibility check', () => {
+  for (const workflow of [betaWorkflow]) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
     const guard = source.indexOf('      - name: 验证 OpenWrt 运行时兼容性')
     assert.ok(guard > source.indexOf('\n  build:\n'))
@@ -364,8 +400,8 @@ test('CLI packaging supports pre-Caddy sources and requires complete notices for
   }
 })
 
-test('both release channels require real APK lifecycle checks in the amd64 OpenWrt job', () => {
-  for (const workflow of workflows) {
+test('Beta release requires real APK lifecycle checks in the amd64 OpenWrt job', () => {
+  for (const workflow of [betaWorkflow]) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
     const openwrt = source.slice(source.indexOf('\n  openwrt:\n'), source.indexOf('\n  release:\n'))
     assert.match(openwrt, /name: Setup Node\.js for OpenWrt checks\n\s+if: matrix\.target == 'linux-amd64'\n\s+uses: actions\/setup-node@v4\n\s+with:\n\s+node-version: '22'/)

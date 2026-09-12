@@ -1,0 +1,106 @@
+name: 恢复原始稳定版 1.2.6 镜像
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-build-stable-refs/heads/main
+  cancel-in-progress: false
+
+jobs:
+  restore:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: 确认 main 已恢复原稳定源码树
+        env:
+          GH_TOKEN: ${{ secrets.MSM_REPO_TOKEN }}
+        run: |
+          set -euo pipefail
+          tree=$(gh api repos/msm9527/msm/commits/main --jq '.commit.tree.sha')
+          [ "$tree" = 'eb15c2af4b96566f2341e870c1915b8eca5f3031' ]
+      - name: 校验 GitHub 已恢复的原始附件并准备镜像
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          mkdir upload
+          gh api "repos/${REPO}/releases/tags/1.2.6" > release.json
+          gh release download 1.2.6 --repo "$REPO" --dir upload \
+            --pattern '*.tar.gz' --pattern '*.apx' --pattern SHA256SUMS
+          node .github/openwrt/prepare-stable-restore.cjs \
+            .github/openwrt/stable-1.2.6-restore.json release.json upload/SHA256SUMS restore-mirror.sh
+          (cd upload && sha256sum -c SHA256SUMS)
+      - name: 安装镜像同步工具
+        run: sudo apt-get update -qq && sudo apt-get install -y sshpass rsync
+      - name: 恢复原包并撤下稳定版 OpenWrt 镜像附件
+        env:
+          EXTRA_SERVERS: ${{ secrets.DEPLOY_SERVERS }}
+        run: |
+          set -euo pipefail
+          [ -n "$EXTRA_SERVERS" ]
+          restored=0
+          while IFS= read -r entry; do
+            [ -z "${entry//[[:space:]]/}" ] && continue
+            IFS=',' read -r host user pass target port <<< "$entry"
+            [ -n "$host" ] && [ -n "$user" ] && [ -n "$pass" ] && [[ "$target" == /* ]]
+            SSH_ARGS=(-o StrictHostKeyChecking=no -o ConnectTimeout=20)
+            RSYNC_SSH='ssh -o StrictHostKeyChecking=no -o ConnectTimeout=20'
+            if [ -n "$port" ]; then
+              [[ "$port" =~ ^[0-9]+$ ]]
+              SSH_ARGS+=(-p "$port")
+              RSYNC_SSH+=" -p ${port}"
+            fi
+            directory="${target%/}/1.2.6"
+            stage="${target%/}/.msm-restore-1.2.6-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+            printf -v directory_q '%q' "$directory"
+            printf -v stage_q '%q' "$stage"
+            SSHPASS="$pass" sshpass -e ssh "${SSH_ARGS[@]}" "${user}@${host}" "mkdir -m 0700 -- ${stage_q}"
+            SSHPASS="$pass" sshpass -e rsync -a --protect-args -e "$RSYNC_SSH" upload/ "${user}@${host}:${stage}/"
+            SSHPASS="$pass" sshpass -e ssh "${SSH_ARGS[@]}" "${user}@${host}" \
+              "bash -s -- ${directory_q} ${stage_q}" < restore-mirror.sh
+            # Only remove the exact files staged by this run, then the empty directory.
+            SSHPASS="$pass" sshpass -e ssh "${SSH_ARGS[@]}" "${user}@${host}" "bash -s -- ${stage_q}" <<'CLEANUP'
+          set -euo pipefail
+          cd -- "$1"
+          sha256sum -c SHA256SUMS
+          while read -r hash name; do
+            [[ "$hash" =~ ^[a-f0-9]{64}$ ]] && [[ "$name" =~ ^msm-1\.2\.6-[a-z0-9.-]+\.(tar\.gz|apx)$ ]]
+            rm -- "$name"
+          done < SHA256SUMS
+          rm -- SHA256SUMS
+          rmdir -- "$1"
+          CLEANUP
+            restored=$((restored + 1))
+          done <<< "$EXTRA_SERVERS"
+          [ "$restored" -gt 0 ]
+          echo "Restored ${restored} stable mirror server(s)"
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: 将稳定 Docker 标签恢复到原始多架构镜像
+        run: |
+          set -euo pipefail
+          original='sha256:1ac73464a72ecaec5268cb04e270976c0c631230838e363362e503c16616a344'
+          withdrawn='sha256:1fcdd290138ae19d80a4ada22a8777b8b904b08f49c5d913e0fe7b8a052a434c'
+          for tag in 1.2.6 latest; do
+            current=$(docker buildx imagetools inspect "msmbox/msm:${tag}" | awk '$1 == "Digest:" {print $2; exit}')
+            [ "$current" = "$original" ] || [ "$current" = "$withdrawn" ]
+          done
+          docker buildx imagetools create --tag msmbox/msm:1.2.6 --tag msmbox/msm:latest "msmbox/msm@${original}"
+          for tag in 1.2.6 latest; do
+            current=$(docker buildx imagetools inspect "msmbox/msm:${tag}" | awk '$1 == "Digest:" {print $2; exit}')
+            [ "$current" = "$original" ]
+          done

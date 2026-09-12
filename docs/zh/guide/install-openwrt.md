@@ -1,6 +1,8 @@
 # OpenWrt 安装
 
-将 MSM 直接安装到 OpenWrt 路由器时，使用发布页的 **`msm` 原生软件包 + `luci-app-msm` 插件**。`msm` 包提供程序、UCI 配置和 procd 服务；LuCI 插件在「服务 → MSM」中提供启停配置、状态和 Web 控制台入口。
+OpenWrt 原生安装包目前**仅随测试版（Beta）发布**，源码来自 MSM 的 `dev` 分支。稳定版继续使用 `main` 分支和原有发布流程，不提供 OpenWrt 包。
+
+将 MSM 直接安装到 OpenWrt 路由器时，使用 Beta 发布页的 **`msm` 原生软件包 + `luci-app-msm` 插件**。`msm` 包提供程序、UCI 配置和 procd 服务；LuCI 插件在「服务 → MSM」中提供启停配置、状态和 Web 控制台入口。
 
 如果 MSM 运行在另一台服务器，只需要让 OpenWrt 接入它，请阅读 [OpenWrt 路由与 DNS 配置](/zh/guide/openwrt)。
 
@@ -37,13 +39,13 @@ free -m
 
 ## 下载和校验
 
-- [稳定版发布页](https://github.com/msm9527/msm-wiki/releases/latest)
-- [全部发布记录（包含 Beta）](https://github.com/msm9527/msm-wiki/releases)
-- 国内镜像：稳定版目录为 `https://msm.19930520.xyz/dl/<发布标签>/`，Beta 目录为 `https://msm.19930520.xyz/dl/beta/<发布标签>/`。
+- [测试版更新与下载](/zh/guide/releases-beta)
+- [全部发布记录（选择 `beta-` 开头的版本）](https://github.com/msm9527/msm-wiki/releases)
+- 国内镜像：`https://msm.19930520.xyz/dl/beta/<发布标签>/`。
 
 在同一个发布版本中下载三个文件：**一个匹配架构的 `msm` 包、一个同格式的 `luci-app-msm` 包和 `SHA256SUMS`**。发布页的「OpenWrt 原生安装包」表列出了完整文件名。IPK 与 APK 不能混装；APK 是 OpenWrt 的软件包，与 Android 安装包无关。
 
-例如，发布标签 `1.5.0` 的 x86_64 包名是 `msm_1.5.0-r1_x86_64.ipk` 或 `msm-1.5.0-r1_x86_64.apk`，LuCI 包名是 `luci-app-msm_1.5.0-r1_all.ipk` 或 `luci-app-msm-1.5.0-r1_all.apk`。Beta 标签 `beta-1.5.0` 的文件名使用 `1.5.0_beta-r1`，例如 `msm_1.5.0_beta-r1_x86_64.ipk`，避免下载服务器改写特殊字符。IPK 内部版本仍为 `1.5.0~beta-r1`，APK 内部版本为 `1.5.0_beta-r1`，以遵循各包管理器的预发布版本排序；下载 URL 的目录仍使用原发布标签。这里的版本号仅用于说明命名，请以发布页实际文件为准。
+例如，Beta 标签 `beta-1.5.0` 的 x86_64 包名是 `msm_1.5.0_beta-r1_x86_64.ipk` 或 `msm-1.5.0_beta-r1_x86_64.apk`，LuCI 包名是 `luci-app-msm_1.5.0_beta-r1_all.ipk` 或 `luci-app-msm-1.5.0_beta-r1_all.apk`。文件名使用 `_beta`，避免下载服务器改写特殊字符。IPK 内部版本仍为 `1.5.0~beta-r1`，APK 内部版本为 `1.5.0_beta-r1`，以遵循各包管理器的预发布版本排序；下载 URL 的目录仍使用原发布标签。这里的版本号仅用于说明命名，请以发布页实际文件为准。
 
 在路由器上创建一个空目录，例如 `/tmp/msm-install`，通过 SCP / SFTP 上传这三个文件。保留下载时的完整文件名，之后在该目录执行校验：
 
@@ -108,7 +110,7 @@ uci commit msm
 
 ## 服务管理和排错
 
-OpenWrt 原生包统一使用 procd 管理。下面的命令也适用于尚未包含新 CLI 服务管理适配的旧版 MSM：
+OpenWrt 原生包统一使用 procd 管理：
 
 ```sh
 # 状态、重启、停止
@@ -139,7 +141,7 @@ uci commit msm
 
 ## 更新、备份和卸载
 
-更新前，在 MSM 的 [备份恢复](/zh/guide/backup-restore) 页面导出配置，也可以在停服后复制整个数据目录。下载同一渠道的新 `msm` 与 `luci-app-msm` 包，校验后重复对应安装命令。升级保留 UCI 配置和应用数据；原先启用的服务在升级后恢复运行。
+更新前，在 MSM 的 [备份恢复](/zh/guide/backup-restore) 页面导出配置，也可以在停服后复制整个数据目录。下载同一 Beta 版本的新 `msm` 与 `luci-app-msm` 包，校验后重复对应安装命令。升级保留 UCI 配置和应用数据；原先启用的服务在升级后恢复运行。
 
 OpenWrt 软件包安装的 MSM 应通过 **opkg / apk 更新**，不要再用通用 Linux 安装脚本覆盖程序和服务文件。
 
