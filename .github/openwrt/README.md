@@ -116,11 +116,25 @@ made while DNS is leased are preserved. Other occupied ports are reported with
 their protocol, address and process when available; unrelated services are not
 terminated automatically.
 
-The packaged service waits for DNS recovery during stop, removal and upgrade.
-If recovery cannot complete, package removal/upgrade returns an error and keeps
-the recovery executable and data available. For an interrupted shutdown, run
-`msm service recover-dns -c /etc/msm --wait 40s` after stopping MSM. This command
-refuses to restore dnsmasq over a live managed process or another DNS listener.
+The service and package hooks request DNS recovery and propagate failures, but
+apk v3 may still remove or replace the executable after a hook fails. Before
+upgrading or removing packages, require a successful stop with `&&`:
+
+```sh
+# Upgrade
+/etc/init.d/msm stop && apk add --allow-untrusted ./msm-*.apk ./luci-app-msm-*.apk
+
+# Or remove
+/etc/init.d/msm stop && apk del luci-app-msm msm
+```
+
+The init script reads the configured data directory. If stop fails, do not
+continue the package operation: resolve the conflict or use the existing
+`msm service recover-dns -c /etc/msm --wait 40s` after stopping managed services,
+substituting a custom data directory when needed. Recovery refuses to restore
+dnsmasq while a managed process is running or another service occupies its DNS
+port. Configuration and lease data are retained; retention of the executable
+after a failed package hook is not guaranteed.
 
 ## Updating only the Beta LuCI plugin
 

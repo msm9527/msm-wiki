@@ -25,7 +25,7 @@ service_stopped
   }
 });
 
-test('package removal and upgrade abort when stop cannot restore system DNS', (t) => {
+test('package hooks propagate DNS recovery errors', (t) => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'msm-dns-recovery-'));
   t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
   const init = path.join(dir, 'init');

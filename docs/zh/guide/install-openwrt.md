@@ -104,7 +104,11 @@ uci commit msm
 /etc/init.d/msm restart
 ```
 
-默认 Web 地址是 `http://<路由器-LAN-IP>:7777`。OpenWrt 自带的 dnsmasq 通常使用 DNS 端口 `53`；初始化 DNS 服务时先选用空闲端口（例如 `1053`），验证成功后再配置 dnsmasq 转发或其他接入方式。安装包不会自动修改 DHCP、DNS、防火墙或静态路由。
+默认 Web 地址是 `http://<路由器-LAN-IP>:7777`。**安装本身不会抢占 DNS 端口 `53`。** 从 Beta 主程序包 r2 起，启动 MSM 托管的 DNS / 代理内核时，会按实际配置检查 TCP / UDP 监听地址和端口。
+
+如果托管服务需要监听 `53`，MSM 会严格核实占用者是否为 OpenWrt 系统 dnsmasq。核实通过后，先保存原端口设置，再临时将对应 dnsmasq 实例的 DNS 端口设为 `0`，**保留 DHCP 服务**。最后一个接管服务停止后会恢复原设置；接管后启动失败也会回滚，仍有其他接管服务运行时则保留接管。接管期间用户自行修改的端口设置不会被覆盖。
+
+其他端口发生冲突时，会显示协议、监听地址和能够识别的占用进程，MSM 不会自动终止占用服务。也可以自行选用空闲端口（例如 `1053`），再配置 dnsmasq 转发或其他接入方式；这是可选部署方式。
 
 如果 MSM 就运行在这台 OpenWrt 上，不要照抄「MSM 位于另一台主机」的网关静态路由示例；按实际部署配置本机服务。
 
@@ -149,9 +153,30 @@ uci commit msm
 
 出现 Web 页面无法访问时，检查服务状态、配置端口是否被占用，以及实际 LAN 地址。修改数据目录后无法启动时，检查目录是否为绝对路径、存储是否已挂载且可写。LuCI 菜单未出现时，重新登录 LuCI 并确认 `luci-app-msm` 安装成功。
 
+异常退出后系统 DNS 尚未恢复时，先停止 MSM 及其托管的 DNS / 代理服务，再执行恢复命令。自定义数据目录请将 `/etc/msm` 替换为实际目录：
+
+```sh
+/etc/init.d/msm stop
+msm service recover-dns -c /etc/msm --wait 40s
+```
+
+恢复命令会检查托管进程和 DNS 端口；托管进程仍在运行或其他 DNS 服务占用端口时会报错，不会强行覆盖监听。
+
 ## 更新、备份和卸载
 
-更新前，在 MSM 的 [备份恢复](/zh/guide/backup-restore) 页面导出配置，也可以在停服后复制整个数据目录。下载同一 Beta 版本的新 `msm` 与 `luci-app-msm` 包，校验后重复对应安装命令。升级保留 UCI 配置和应用数据；原先启用的服务在升级后恢复运行。
+更新前，在 MSM 的 [备份恢复](/zh/guide/backup-restore) 页面导出配置，也可以在停服后复制整个数据目录。下载同一 Beta 版本的新 `msm` 与 `luci-app-msm` 包，校验后，在包所在目录执行对应更新命令：
+
+```sh
+# opkg 固件
+/etc/init.d/msm stop && opkg install ./msm_*.ipk ./luci-app-msm_*.ipk
+
+# apk 固件（二选一，按实际包管理器执行）
+/etc/init.d/msm stop && apk add --allow-untrusted ./msm-*.apk ./luci-app-msm-*.apk
+```
+
+**更新和卸载都必须先停服成功，再通过 `&&` 执行包操作。** 停服脚本会读取 UCI 中的数据目录并恢复 DNS，无需为自定义目录改写上述命令。APK 即使遇到恢复钩子失败，也可能继续替换或删除程序，不能依赖钩子阻止包操作。若停止失败，请先解决冲突或使用上文的 `recover-dns` 命令恢复，不要继续更新或卸载。
+
+升级保留 UCI 配置和应用数据；原先启用的服务在升级后恢复运行。
 
 OpenWrt 软件包安装的 MSM 应通过 **opkg / apk 更新**，不要再用通用 Linux 安装脚本覆盖程序和服务文件。
 
@@ -159,13 +184,13 @@ OpenWrt 软件包安装的 MSM 应通过 **opkg / apk 更新**，不要再用通
 
 ```sh
 # opkg 固件
-opkg remove luci-app-msm msm
+/etc/init.d/msm stop && opkg remove luci-app-msm msm
 
 # apk 固件（二选一，按实际包管理器执行）
-apk del luci-app-msm msm
+/etc/init.d/msm stop && apk del luci-app-msm msm
 ```
 
-卸载会停止服务，应用数据目录会保留。固件重刷、恢复出厂设置或外接存储变更前，应另外保存备份；自定义数据目录需要自行纳入固件升级备份。
+卸载前的停止过程会恢复接管前的 dnsmasq DNS 端口；配置、应用数据和未完成恢复的接管状态会保留，但不能保证包操作失败后程序仍然存在。固件重刷、恢复出厂设置或外接存储变更前，应另外保存备份；自定义数据目录需要自行纳入固件升级备份。
 
 ## 下一步
 
