@@ -12,7 +12,7 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 
 ## 🚀 最新稳定版本
 
-<div class="msm-release-hero msm-release-hero--stable" data-version="1.2.6" data-release-date="2026-07-27 16:07:30 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/1.2.6">
+<div class="msm-release-hero msm-release-hero--stable" data-version="1.2.6" data-release-date="2026-09-12 18:12:29 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/1.2.6">
   <div class="msm-release-hero-copy">
     <h3 class="msm-release-version"><span>稳定版</span> <code>v1.2.6</code></h3>
   </div>
@@ -22,43 +22,67 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>4 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>3 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-07-27 16:07:30 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>7 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>4 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-12 18:12:29 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKuS/ruWkjee9kee7nOinhOWImeWIt+aWsOaXtueahOW0qea6gyoq77ya5pu05pawIG5mdGFibGVzIOS+nei1lu+8jOS/ruWkjemrmOaWh+S7tuaPj+i/sOespuWcuuaZr+S4i+eahOi2iueVjOmXrumimO+8jOWinuW8uue9kee7nOinhOWImee7tOaKpOeahOeos+WumuaAp+OAgiIsIi0gKirmm7TmlrDmo4Dmn6XlpLHotKXlkI7mnInoioLlpY/lnLDph43or5UqKu+8muaMiee7hOS7tueLrOeri+mAgOmBv++8jOmBv+WFjee9kee7nOW8guW4uOaXtuavj+WIhumSn+mHjeWkjeivt+axgu+8m+aIkOWKn+WQjuaBouWkjeato+W4uOajgOafpeiKguWlj+OAgiIsIi0gKirml6Xlv5fmm7TlronpnZnvvIzlhbPplK7kv6Hmga/ku43kv53nlZkqKu+8mkNsYXNoIOmihOacn+i/kOihjOaAgemUmeivr+S4jeWGjemZhOW4pumHjeWkjeWghuagiO+8jOaEj+WklumUmeivr+S7jeS/neeVmeaOkumanOS/oeaBr+OAgiJdLCJtYWpvciI6W10sImFkZGVkIjpbXSwiY2hhbmdlZCI6W10sInBlcmZvcm1hbmNlIjpbIi0gKirnsr7nroDorr/pl67ml6Xlv5floIbmoIgqKu+8muiuv+mXruaXpeW/l+S/neeVmeivt+axguWPiumUmeivr+Wtl+aute+8jOenu+mZpOmHjeWkjeeahOS4remXtOS7tuiwg+eUqOagiO+8jOW5tuWkjeeUqOaXpeW/l+WunuS+i++8jOWHj+WwkeaXoOS/oeaBr+mHj+eahOi+k+WHuuOAgiJdLCJmaXhlZCI6WyItICoq5L+u5aSNIG5mdGFibGVzIOaWh+S7tuaPj+i/sOespui2iueVjOW0qea6gyoq77ya5Y2H57qn5L6d6LWW5Lul5L+u5aSN5paH5Lu25o+P6L+w56ym6L6+5YiwIGAxMDI0YCDmiJbmm7Tpq5jml7bvvIznvZHnu5zop4TliJnliLfmlrDot6/lvoTlj6/og73op6blj5HnmoTmlbDnu4TotornlYwgcGFuaWPjgIIiLCItICoq5L+u5aSN57uE5Lu25pu05paw5qOA5p+l55qE6YeN6K+V6aOO5pq0KirvvJrmo4Dmn6XlpLHotKXml7bljZXni6zorrDlvZXpgIDpgb/nirbmgIHvvIzpppbmrKHnrYnlvoUgMiDliIbpkp/vvIzlkI7nu63pgJDmrKHnv7vlgI3jgIHmnIDplb8gMSDlsI/ml7bvvJvlkITnu4Tku7bkupLkuI3lvbHlk43vvIzmiJDlip/lkI7muIXpm7bvvIzpgb/lhY3mjIHnu63lpLHotKXlkI7mr4/kuKrosIPluqblkajmnJ/pg73lj5Hotbfor7fmsYLjgIIiLCItICoqQ2xhc2gg6L+Q6KGM5oCB6ZSZ6K+v5YiG57qn6K6w5b2VKirvvJrmoLjlv4PmnKrlkK/liqjjgIHph43lkK/kuK3jgIHov57mjqXlpLHotKXjgIE0MDQg5oiW6LaF5pe2562J6aKE5pyf5oOF5Ya16YeH55SoIFdhcm4g5LiU5LiN6YeH6ZuG5aCG5qCI77yb5YW25LuW5oSP5aSW6ZSZ6K+v5LuN6YeH55SoIEVycm9yIOW5tuS/neeVmeWghuagiOOAgiJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItICoq5pys54mI6IGa54Sm56iz5a6a5oCn5LiO5pel5b+X5L2T6aqMKirvvJrku6XkuIrlhoXlrrnmjIkgYHYxLjIuNSDihpIgdjEuMi42YCDnmoTlrp7pmYXku6PnoIHlt67lvILmlbTnkIbjgILli4vnq6AgM0TjgIHov57mjqXpobUgV2ViU29ja2V044CB5Luj55CG5YaF6IGU57yW6L6R562J5bey5Zyo5q2k5YmN54mI5pys5Ye6546w77yM6K+35Zyo5LiL5pa55Y6G5Y+y6K6w5b2V5p+l55yL77yM5pyq6YeN5aSN5YiX5Li65pys54mI5paw5aKe44CCIl19fQ== -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKk9wZW5XcnQg5Y6f55Sf5pyN5Yqh5omY566hKirvvJrmlrDlop4gcHJvY2Qg5pSv5oyB77yM6ZuG5oiQIFVDSSDphY3nva7kuI7lvIDmnLroh6rlkK/vvIzpgILphY0gT3BlbldydCDova/ku7bljIXnjq/looPjgIIiLCItICoq572R57uc6KeE5YiZ5b2S5bGe5L+d5oqkKirvvJrlupTnlKjliY3orrDlvZXlvZLlsZ7nirbmgIHvvIzmuIXnkIbml7bku4XliKDpmaQgTVNNIOaJmOeuoeinhOWIme+8jOmBv+WFjeivr+WIoOWklumDqOi3r+eUseOAgiIsIi0gKirpooTmnJ/plJnor6/ml6Xlv5fpmY3lmaoqKu+8muWGheaguOS4jeWPr+i+vuOAgTQwNC81MDQg562J6L+Q6KGM5oCB6ZSZ6K+v6ZmN57qn6K2m5ZGK77yM5LiN5YaN6YeH6ZuG5aCG5qCI77yM5YeP5bCR56OB55uYIEkvT+OAgiIsIi0gKirmm7TmlrDmo4Dmn6Xmmbrog73pgIDpgb8qKu+8mui/nue7reWksei0peaXtuaMh+aVsOW7tumVv+mHjeivlemXtOmalO+8iDIg5YiG6ZKf6LW35q2l77yM5LiK6ZmQIDEg5bCP5pe277yJ77yM5YeP5bCR5peg5pWI572R57uc6K+35rGC44CCIl0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSAqKk9wZW5XcnQgcHJvY2Qg5pyN5Yqh5pSv5oyBKirvvJrmlrDlop4gcHJvY2Qg5pyN5Yqh566h55CG5Zmo5qOA5rWL44CB5a6J6KOF5LiO5Y246L295ZG95Luk77yM5pSv5oyB6YCa6L+HIFVDSSDphY3nva4gTVNNIOWQr+eUqOeKtuaAgeOAgemFjee9ruebruW9leS4juerr+WPo++8jOmAgumFjSBPcGVuV3J0IOi9r+S7tuWMheagh+iusO+8iGAjIE1TTV9PUEVOV1JUX1BBQ0tBR0Vg77yJ44CCIl0sImNoYW5nZWQiOlsiLSAqKue9kee7nOinhOWImeW9kuWxnueuoeeQhioq77ya5byV5YWlIGAubXNtLW1hbmFnZWQtbmV0d29ya2Ag54q25oCB6K6w5b2V77yM5bqU55So5paw6YWN572u5YmN5riF55CG5pen5b2S5bGe6KeE5YiZ77yM5aSx6LSl5pe25Zue5rua6Iez5pen5b2S5bGe6YWN572u77yM6YG/5YWN6YGX55WZ5peg5pWI6KeE5YiZ5oiW6K+v5Yig6Z2eIE1TTSDop4TliJnjgIIiXSwicGVyZm9ybWFuY2UiOlsiLSAqKuaXpeW/l+ezu+e7n+S8mOWMlioq77yaQ2xhc2gg5YaF5qC45LiN5Y+v6L6+44CBNDA0LzUwNCDnrYnpooTmnJ/plJnor6/pmY3nuqfkuLogV2FybiDkuJTkuI3ph4fpm4bloIbmoIjvvJtHSU4g6K6/6Zeu5pel5b+X6aKE5YWI56aB55So5aCG5qCI6YeH6ZuG77yM6YG/5YWN5q+P5p2h6K+35rGC5YiG6YWN6aKd5aSW5YaF5a2Y44CCIiwiLSAqKue7hOS7tuabtOaWsOWksei0pemAgOmBvyoq77ya57uE5Lu25qOA5p+l5aSx6LSl5ZCO6L+b5YWl6YCA6YG/5pyf77yIMiDliIbpkp/otbfmraXvvIzpgJDmrKHnv7vlgI3vvIzkuIrpmZAgMSDlsI/ml7bvvInvvIzmiJDlip/lkI7ph43nva7vvIzmjInnu4Tku7bpmpTnprvnirbmgIHvvIzpgb/lhY3popHnuYHph43or5XjgIIiXSwiZml4ZWQiOlsiLSAqKui/m+eoi+WMuemFjeivr+adgOS/ruWkjSoq77ya5pS56L+b5ZG95Luk6KGM5Yy56YWN6YC76L6R77yM6K+G5Yir5pi+5byP5omn6KGM6Lev5b6E77yM6Ziy5q2i6K+v5Yy56YWN6Z2eIE1TTSDnrqHnkIbnmoTlkIzlkI3ov5vnqIvvvIjlpoLns7vnu5/oh6rluKYgbW9zZG5z77yJ44CCIiwiLSAqKuWFs+mXreacjeWKoeetieW+hei2heaXtioq77ya5YGc5q2i5pu05paw5pyN5Yqh5YmN5YWI5Y+W5raI6L+b6KGM5Lit55qEIEhUVFAg6K+35rGC77yM6YG/5YWN5YWz6Zet5pe2562J5b6F572R57uc6LaF5pe25a+86Ie05Y2h6aG/44CCIl0sInNlY3VyaXR5IjpbIi0gKipuZnRhYmxlcyDotornlYzlhpnkv67lpI0qKu+8muWNh+e6pyBuZnRhYmxlcyDkvp3otZbvvIzkv67lpI3mlofku7bmj4/ov7DnrKYgPj0gMTAyNCDml7YgYGZkLzY0YCDotoXlh7rmlbDnu4TkuIvnlYzlr7zoh7TnmoTltKnmuoPpo47pmanjgIIiXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0gKirniYjmnKzlj7fmm7TmlrAqKu+8muWQjuerr+OAgeWJjeerr+WPiuahjOmdouerr+eJiOacrOWPt+e7n+S4gOabtOaWsOiHsyAxLjIuNuOAgiIsIi0gKipPcGVuV3J0IOeUqOaItyoq77ya6aaW5qyh5a6J6KOF6ZyA5L2/55SoIGBtc20gc2VydmljZSBpbnN0YWxsIC0tbWFuYWdlciBwcm9jZGAg5ZCv55So57O757uf5pyN5Yqh77yM6YWN572u5Y+v6YCa6L+HIFVDSSDnrqHnkIbjgIIiXX19 -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p><strong>修复网络规则刷新时的崩溃：</strong>更新 nftables 依赖，修复高文件描述符场景下的越界问题，增强网络规则维护的稳定性。</p>
+    <p><strong>OpenWrt 原生服务托管：</strong>新增 procd 支持，集成 UCI 配置与开机自启，适配 OpenWrt 软件包环境。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p><strong>更新检查失败后有节奏地重试：</strong>按组件独立退避，避免网络异常时每分钟重复请求；成功后恢复正常检查节奏。</p>
+    <p><strong>网络规则归属保护：</strong>应用前记录归属状态，清理时仅删除 MSM 托管规则，避免误删外部路由。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p><strong>日志更安静，关键信息仍保留：</strong>Clash 预期运行态错误不再附带重复堆栈，意外错误仍保留排障信息。</p>
+    <p><strong>预期错误日志降噪：</strong>内核不可达、404/504 等运行态错误降级警告，不再采集堆栈，减少磁盘 I/O。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">04</span>
+    <p><strong>更新检查智能退避：</strong>连续失败时指数延长重试间隔（2 分钟起步，上限 1 小时），减少无效网络请求。</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-performance">⚡ 性能优化 <span>1</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>3</span></a>
-  <a href="#release-notes">📌 升级提醒 <span>1</span></a>
+  <a href="#release-added">🆕 新增功能 <span>1</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>1</span></a>
+  <a href="#release-performance">⚡ 性能优化 <span>2</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>2</span></a>
+  <a href="#release-security">🛡️ 安全加固 <span>1</span></a>
+  <a href="#release-notes">📌 升级提醒 <span>2</span></a>
 </nav>
+
+<section class="msm-release-section msm-release-section--added">
+
+### 🆕 新增功能 {#release-added}
+
+- **OpenWrt procd 服务支持**：新增 procd 服务管理器检测、安装与卸载命令，支持通过 UCI 配置 MSM 启用状态、配置目录与端口，适配 OpenWrt 软件包标记（`# MSM_OPENWRT_PACKAGE`）。
+
+</section>
+
+<section class="msm-release-section msm-release-section--changed">
+
+### ✨ 功能增强 {#release-changed}
+
+- **网络规则归属管理**：引入 `.msm-managed-network` 状态记录，应用新配置前清理旧归属规则，失败时回滚至旧归属配置，避免遗留无效规则或误删非 MSM 规则。
+
+</section>
 
 <section class="msm-release-section msm-release-section--performance">
 
 ### ⚡ 性能优化 {#release-performance}
 
-- **精简访问日志堆栈**：访问日志保留请求及错误字段，移除重复的中间件调用栈，并复用日志实例，减少无信息量的输出。
+- **日志系统优化**：Clash 内核不可达、404/504 等预期错误降级为 Warn 且不采集堆栈；GIN 访问日志预先禁用堆栈采集，避免每条请求分配额外内存。
+- **组件更新失败退避**：组件检查失败后进入退避期（2 分钟起步，逐次翻倍，上限 1 小时），成功后重置，按组件隔离状态，避免频繁重试。
 
 </section>
 
@@ -66,9 +90,16 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 
 ### 🐛 问题修复 {#release-fixed}
 
-- **修复 nftables 文件描述符越界崩溃**：升级依赖以修复文件描述符达到 `1024` 或更高时，网络规则刷新路径可能触发的数组越界 panic。
-- **修复组件更新检查的重试风暴**：检查失败时单独记录退避状态，首次等待 2 分钟，后续逐次翻倍、最长 1 小时；各组件互不影响，成功后清零，避免持续失败后每个调度周期都发起请求。
-- **Clash 运行态错误分级记录**：核心未启动、重启中、连接失败、404 或超时等预期情况采用 Warn 且不采集堆栈；其他意外错误仍采用 Error 并保留堆栈。
+- **进程匹配误杀修复**：改进命令行匹配逻辑，识别显式执行路径，防止误匹配非 MSM 管理的同名进程（如系统自带 mosdns）。
+- **关闭服务等待超时**：停止更新服务前先取消进行中的 HTTP 请求，避免关闭时等待网络超时导致卡顿。
+
+</section>
+
+<section class="msm-release-section msm-release-section--security">
+
+### 🛡️ 安全加固 {#release-security}
+
+- **nftables 越界写修复**：升级 nftables 依赖，修复文件描述符 &gt;= 1024 时 `fd/64` 超出数组下界导致的崩溃风险。
 
 </section>
 
@@ -76,17 +107,18 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 
 ### 📌 升级提醒 {#release-notes}
 
-- **本版聚焦稳定性与日志体验**：以上内容按 `v1.2.5 → v1.2.6` 的实际代码差异整理。勋章 3D、连接页 WebSocket、代理内联编辑等已在此前版本出现，请在下方历史记录查看，未重复列为本版新增。
+- **版本号更新**：后端、前端及桌面端版本号统一更新至 1.2.6。
+- **OpenWrt 用户**：首次安装需使用 `msm service install --manager procd` 启用系统服务，配置可通过 UCI 管理。
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：stable（稳定版）
-- **源提交**： [`dd17a55`](https://github.com/msm9527/msm/commit/dd17a5502c662932df341cfbd58271d38bab77bf)
-- **提交信息**：Merge pull request #60 from msm9527/dev
+- **源提交**： [`5abf267`](https://github.com/msm9527/msm/commit/5abf2674e1277422072c78b51e0518688425e7d1)
+- **提交信息**：Merge pull request #88 from msm9527/codex/openwrt-shutdown
 - **提交作者**：msm
-- **提交时间**：2026-07-27 16:07:30 CST
-- **下载说明**：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
+- **提交时间**：2026-09-12 18:12:29 CST
+- **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
 ---
