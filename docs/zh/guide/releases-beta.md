@@ -12,7 +12,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.4.8" data-release-date="2026-09-12 22:38:24 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.8">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.4.8" data-release-date="2026-09-13 15:21:47 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.8">
   <div class="msm-release-hero-copy">
     <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.4.8</code></h3>
   </div>
@@ -22,58 +22,58 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>12 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-12 22:38:24 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>16 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>5 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-13 15:21:47 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDoh6rliqjkuqTmjqXns7vnu58gRE5TIOW5tumihOajgOacjeWKoeerr+WPoyAvIGhhbmQgb2ZmIGhvc3QgRE5TIGFuZCBwcmVmbGlnaHQgbGlzdGVuZXJzIiwiLSDpmpTnprvkuLTml7YgVml0ZSDpqozor4HnvJPlrZggLyBpc29sYXRlIHRlbXBvcmFyeSBWaXRlIHZhbGlkYXRpb24gY2FjaGVzIiwiLSDmlK/mjIHmn6XnnIvlt7Lkv53lrZjnmoQgR2l0SHViIFRva2VuIC8gcmV2ZWFsIHNhdmVkIEdpdEh1YiBjcmVkZW50aWFscyIsIi0g5pSv5oyBIHByb2NkIOW5tuS/neaKpOeOsOaciee9kee7nOinhOWImSIsIi0g5a6M5ZaE57O757uf6K+K5pat5LiO57uT5p6c5YeG56Gu5oCnIiwiLSDlhYjlj5bmtojmm7TmlrDlho3nrYnlvoXosIPluqblmaggLyBjYW5jZWwgdXBkYXRlcyBiZWZvcmUgam9pbmluZyBzY2hlZHVsZXJzIl0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSDoh6rliqjkuqTmjqXns7vnu58gRE5TIOW5tumihOajgOacjeWKoeerr+WPoyAvIGhhbmQgb2ZmIGhvc3QgRE5TIGFuZCBwcmVmbGlnaHQgbGlzdGVuZXJzIiwiLSDmlK/mjIEgcHJvY2Qg5bm25L+d5oqk546w5pyJ572R57uc6KeE5YiZIiwiLSDlrozlloTns7vnu5/or4rmlq3kuI7nu5Pmnpzlh4bnoa7mgKciXSwiY2hhbmdlZCI6WyItIOmalOemu+S4tOaXtiBWaXRlIOmqjOivgee8k+WtmCAvIGlzb2xhdGUgdGVtcG9yYXJ5IFZpdGUgdmFsaWRhdGlvbiBjYWNoZXMiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOaUr+aMgeafpeeci+W3suS/neWtmOeahCBHaXRIdWIgVG9rZW4gLyByZXZlYWwgc2F2ZWQgR2l0SHViIGNyZWRlbnRpYWxzIiwiLSDlhYjlj5bmtojmm7TmlrDlho3nrYnlvoXosIPluqblmaggLyBjYW5jZWwgdXBkYXRlcyBiZWZvcmUgam9pbmluZyBzY2hlZHVsZXJzIiwiLSDkv67lpI3oh6rliqjnu4TliIfmjaLor6/miqUgNTAyIC8gaGFuZGxlIHVuc3VwcG9ydGVkIGF1dG9tYXRpYyBncm91cCBzZWxlY3Rpb25zIiwiLSDkv67lpI3pobXpnaLph43or5XkuI7lvIDlj5Hkvp3otZbnvJPlrZggLyByZWNvdmVyIHBhZ2UgZXJyb3JzIGFuZCByZXZhbGlkYXRlIGRldiBkZXBlbmRlbmNpZXMiLCItIOS/ruWkjSBIVFRQUyDliIfmjaLlkozor4HkuabnrqHnkIYgLyBzdGFiaWxpemUgSFRUUFMgc3dpdGNoaW5nIGFuZCBjZXJ0aWZpY2F0ZSBtYW5hZ2VtZW50IiwiLSDkv67lpI3lj4zmoLjlv4Pop4LmtYvkuI7mn6Xor6Llj5bmtogiLCItIOS/ruWkjeS7o+eQhuS7u+WKoeaBouWkjeS4jumFjee9ruW5tuWPkeeos+WumuaApyIsIi0g5L+u5aSN5Luj55CG5qC45b+D5YiH5o2i5LiO5pyN5Yqh56iz5a6a5oCnIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMDktMDhUMDM6Mzg6MjdaIOS5i+WQjueahCAxMyDkuKrmj5DkuqTkuK3mlbTnkIbvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKk9wZW5XcnQg6K6+5aSH5Y6f55Sf5pSv5oyBKirvvJrmlrDlop4gcHJvY2Qg5pyN5Yqh566h55CG5Zmo5LiO57O757ufIEROUyDoh6rliqjkuqTmjqXmqKHlnZfvvIzot6/nlLHlmajpg6jnvbLml6DpnIDmiYvliqjphY3nva4gc3lzdGVtZO+8m+acjeWKoeWuieijheWRveS7pOWPr+iHquWKqOivhuWIqyBPcGVuV3J0IOeOr+Wig+W5tuaBouWkjSBETlPjgIIiLCItICoq57O757uf6K+K5pat5LiA6aG15o6M5o+hKirvvJrlhajmlrDor4rmlq3lt6XkvZzljLrmlbTlkIjphY3nva7jgIHnq6/lj6PjgIHmnYPpmZDjgIHno4Hnm5jnrYnmo4Dmn6XpobnvvIzpl67popjlrprkvY3ml6DpnIDmn6XnnIvml6Xlv5fmlofku7bvvJvnu5PmnpzmjInlgaXlurcv6K2m5ZGKL+S4pemHjeWIhue6p+WxleekuuOAgiIsIi0gKipIVFRQUyDor4HkuabmiZjnrqHkuIrnur8qKu+8muaUr+aMgee7keWumuW3suetvuWPkeeahOaJmOeuoeivgeS5pu+8jOiuvue9rumhteWPr+ebtOaOpemAieaLqeWPr+eUqOivgeS5pu+8m+i/h+acn+OAgeW+heetvuWPkeivgeS5puiHquWKqOi/h+a7pO+8jOmBv+WFjeivr+mAieOAgiIsIi0gKirku6PnkIbliIfmjaLmm7Tlj6/pnaAqKu+8muaguOW/g+WIh+aNouS4juacjeWKoeWQr+WKqOWinuWKoOWwsee7quetieW+heS4juS6kuaWpemUge+8jOmBv+WFjeW5tuWPkemFjee9ruWvvOiHtOeahOeKtuaAgeS4jeS4gOiHtO+8m+WJjeerr+aYvuekuuKAnOi/m+ihjOS4reKAneiAjOmdnuiZmuWBh+aIkOWKn+OAgiIsIi0gKipHaXRIdWIgVG9rZW4g5Y+v5p+l55yLKirvvJrorr7nva7pobXmlK/mjIHmn6XnnIvlt7Lkv53lrZjnmoQgVG9rZW4g5piO5paH77yI6ZyA566h55CG5ZGY5p2D6ZmQ77yJ77yM5L6/5LqO5qC45a+55oiW6L+B56e777yb6K+35rGC57uP6YCf546H6ZmQ5Yi25LiU5LiN6K6w5b2V5pel5b+X44CCIl0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSAqKk9wZW5XcnQvcHJvY2Qg5pyN5Yqh566h55CGKirvvJrmlrDlop4gcHJvY2Qg5pyN5Yqh566h55CG5Zmo5a6e546w77yM5pSv5oyBIE9wZW5XcnQg6K6+5aSH55qE5pyN5Yqh5a6J6KOF44CB5ZCv5Yqo5LiO5byA5py66Ieq5ZCv77ybQ0xJIOWRveS7pOW4ruWKqeaWh+acrOabtOaWsO+8jHNlcnZpY2UgaW5zdGFsbCDmlK/mjIEgLS1tYW5hZ2VyPXByb2NkIOWPguaVsOOAgiIsIi0gKirns7vnu58gRE5TIOiHquWKqOS6pOaOpSoq77ya5paw5aKeIGhvc3RkbnMg5qih5Z2X77yM5Zyo5pyN5Yqh5ZCv5Yqo5pe25o6l566h57O757ufIEROUyDphY3nva7vvIzmnI3liqHlgZzmraLml7boh6rliqjmgaLlpI3ljp/orr7nva7vvJvljIXlkKvnq6/lj6PpooTmo4DmnLrliLbvvIzlkK/liqjliY3mo4Dmn6Xnq6/lj6PljaDnlKjlubbnu5nlh7rmmI7noa7plJnor6/jgIIiLCItICoq57O757uf6K+K5pat5bel5L2c5Yy6KirvvJrmlrDlop4gL2FwaS92MS9zeXN0ZW0vZGlhZ25vc3RpY3Mg5o6l5Y+j77yM6L+U5Zue6YWN572u55uu5b2V44CB6YWN572u5paH5Lu244CB5L6d6LWW44CB56uv5Y+j44CB56OB55uY44CB5p2D6ZmQ5YWt6aG55qOA5p+l57uT5p6c77yb5YmN56uv5paw5aKeIFN5c3RlbURpYWdub3N0aWNzV29ya3NwYWNlIOmhtemdou+8jOaUr+aMgeWxleW8gOafpeeci+ivpue7huivgeaNruS4juerr+WPo+WNoOeUqOWIl+ihqOOAgiIsIi0gKipIVFRQUyDmiZjnrqHor4HkuabnrqHnkIYqKu+8muaWsOWiniBodHRwc2NlcnQg5pyN5Yqh5qih5Z2X77yM5pSv5oyB6K+B5Lmm6aqM6K+B44CB5oyB5LmF5YyW5LiO6L+Q6KGM5pe25Yqg6L2977yb6K6+572u6aG15paw5aKeIG1hbmFnZWQg5qih5byP77yM5Y+v5YiX5Ye65bm26YCJ5oup5bey562+5Y+R55qE5Y+v55So6K+B5Lmm44CCIiwiLSAqKkdpdEh1YiBUb2tlbiDmn6XnnIvmjqXlj6MqKu+8muaWsOWiniAvYXBpL3YxL3NldHRpbmdzL2dpdGh1Yi10b2tlbi9yZXZlYWwg5o6l5Y+j77yM566h55CG5ZGY5Y+v6I635Y+W5bey5L+d5a2YIFRva2VuIOaYjuaWh++8m+WJjeerryBHaXRIdWJUb2tlbkRpYWxvZyDmlK/mjIHmmL7npLrkuI7lpI3liLbjgIIiLCItICoq5Luj55CG5pyN5Yqh5bCx57uq5qOA5p+lKirvvJrmlrDlop4gc2VydmljZV9wcm94eV9yZWFkaW5lc3Mg5LiOIG1paG9tb19zZXJ2aWNlX3JlYWRpbmVzcyDmqKHlnZfvvIzmnI3liqHlkK/liqjlkI7nrYnlvoXphY3nva7nlJ/mlYjkuI7nq6/lj6Pnm5HlkKznqLPlrprvvJvliY3nq68gU2VydmljZVdpZGdldCDkuI4gUHJveHlTaGVsbCDmmL7npLrigJzov5vooYzkuK3igJ3nirbmgIHogIzpnZ7nq4vljbPmoIforrDmiJDlip/jgIIiXSwiY2hhbmdlZCI6WyItICoq5Luj55CG5o6n5Yi25Zmo5bm25Y+R5L+d5oqkKirvvJpDbGFzaC9TaW5nQm94IOmFjee9ruS/ruaUueOAgeS7o+eQhumAieaLqeOAgeacjeWKoeeUn+WRveWRqOacn+etieaOpeWPo+WinuWKoOS6kuaWpemUge+8jOW5tuWPkeivt+axgui/lOWbniA0MDkg5Yay56qB6ICM6Z2e6KaG55uW6YWN572u44CCIiwiLSAqKlNTRSDov57mjqXnrqHnkIbkvJjljJYqKu+8muaWsOWiniBTU0Ug5pat5byA5LiO5oiq5q2i5pe26Ze05aSE55CG77yM5a6i5oi356uv5pat5byA5ZCO5Y+K5pe26YeK5pS+5pyN5Yqh56uv6LWE5rqQ77ybVG9rZW4g5Y+Y5pu05pe25b+955Wl5pen5Lya6K+d55qE5bu26L+f5qOA5p+l44CCIiwiLSAqKuacjeWKoeWQr+WKqOWPjemmiOaUuei/myoq77ya5pyN5Yqh5ZCv5Yqo5pON5L2c5aKe5YqgIHdhaXQg5Y+C5pWw5LiO6LaF5pe26K6+572u77yM6L+U5ZueIHBlbmRpbmcg54q25oCB5pe25YmN56uv5pi+56S65o+Q56S65L+h5oGv6ICM6Z2e5oiQ5YqfIHRvYXN044CCIiwiLSAqKuaXtuWMuuiuvue9ruabtOeos+WBpSoq77ya5pe25Yy65aSE55CG6YC76L6R5YWI6aqM6K+BIE1TTSDorr7nva7lho3lsJ3or5XkuLvmnLrlj5jmm7TvvIzml6DmlYjml7bljLrkv53nlZnov5vnqIvorr7nva7vvJtPcGVuV3J0IOaXoCBob3N0IHpvbmVpbmZvIOaXtuS4jeaKpemUmeOAgiJdLCJwZXJmb3JtYW5jZSI6WyItICoqSFRUUCDlrqLmiLfnq6/ov57mjqXlpI3nlKgqKu+8muWQjuerryBIVFRQIOW3peWFt+exu+WFseS6qyBUcmFuc3BvcnQg6L+e5o6l5rGg77yM6L2u6K+i5a6i5oi356uv5LiN5YaN5Li65q+P5qyh6K+35rGC5Yib5bu65paw6L+e5o6l77yb5pys5Zyw6K+35rGC5LiN5YWx5Lqr5Yet5o2u6YG/5YWN5rGh5p+T44CCIiwiLSAqKuW8gOWPkee8k+WtmOmalOemuyoq77yaVml0ZSDkuLTml7bpqozor4HmnI3liqHkvb/nlKjni6znq4sgY2FjaGVEaXLvvIzkuI3kuI7ov5DooYzkuK3lvIDlj5HmnI3liqHlhbHnlKjkvp3otZbpooTnvJbor5HnvJPlrZjvvJvmtYvor5Xnu5PmnZ/ml7bku4XmuIXnkIboh6rlt7HnmoTkuLTml7bnm67lvZXjgIIiXSwiZml4ZWQiOlsiLSAqKuS7o+eQhue7hOWIh+aNouivr+aKpSA1MDIqKu+8muS7o+eQhuaOp+WItuWZqOWvueS4jeaUr+aMgeiHquWKqOmAieaLqeeahOS7o+eQhue7hOi/lOWbnuaYjuehrumUmeivr+iAjOmdniA1MDLvvJvliY3nq68gUHJveHlOb2RlQ2FyZCDlnKjml6DmiYvliqjpgInmi6nml7bkv53nlZnlu7bov5/mtYvor5XlhaXlj6PjgIIiLCItICoq6aG16Z2i5Yqg6L295aSx6LSl5peg5rOV5oGi5aSNKirvvJrliY3nq6/plJnor6/ovrnnlYzmlK/mjIEgY2h1bmsg5Yqg6L296ZSZ6K+v5LiA6ZSu6YeN6L2977yb5Yid5aeL5b+r54Wn5aSx6LSl5pe26Ieq5Yqo6YeN6K+V6ICM6Z2e5rC45LmF56m655m944CCIiwiLSAqKuerr+WPo+iviuaWreivr+aKpeWGsueqgSoq77ya5L+u5aSN5pyq55+l5Y2g55So54q25oCB6KKr5qCH6K6w5Li6IGNvbmZsaWN0IOeahOmXrumimO+8jOS/neeVmSB1bmtub3duIOeKtuaAgeS+m+eUqOaIt+WIpOaWreOAgiIsIi0gKirmtY/op4jlmajpu5jorqTlm77moIfor7fmsYIqKu+8muWQjuerr+WwhiAvZmF2aWNvbi5pY28g6K+35rGC6YeN5a6a5ZCR5YiwIE1TTSBsb2dv77yM6YG/5YWNIDQwNCDml6Xlv5flmarpn7PjgIIiXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSAqKueJiOacrOWPtyoq77ya5ZCO56uv5LiO5YmN56uv54mI5pys5Z2H5LuOIDEuNC43IOWNh+e6p+iHsyAxLjQuOO+8jERvY2tlciDplZzlg4/moIfnrb7lkIzmraXmm7TmlrDjgIIiLCItICoqT3BlbldydCDpg6jnvbIqKu+8mk9wZW5XcnQg6K6+5aSH6aaW5qyh5a6J6KOF6ZyA5L2/55SoIG1zbSBzZXJ2aWNlIGluc3RhbGwgLS1tYW5hZ2VyPXByb2NkIOaIluiHquWKqOajgOa1iyBwcm9jZO+8m+acjeWKoeWBnOatouaXtuS8muiHquWKqOaBouWkjeWOnyBETlMg6YWN572u44CCIiwiLSAqKuezu+e7n+iviuaWreadg+mZkCoq77yaL2FwaS92MS9zeXN0ZW0vZGlhZ25vc3RpY3Mg5o6l5Y+j6ZyA6KaBIG9wZXJhdG9yIOaIliBhZG1pbiDmnYPpmZDvvIx2aWV3ZXIg6KeS6Imy5peg5rOV6K6/6Zeu44CCIiwiLSAqKkdpdEh1YiBUb2tlbiDmn6XnnIsqKu+8mi9hcGkvdjEvc2V0dGluZ3MvZ2l0aHViLXRva2VuL3JldmVhbCDmjqXlj6Pku4XnrqHnkIblkZjlj6/nlKjvvIzor7fmsYLlj5fpgJ/njofpmZDliLbvvIgxMCDmrKEv5YiG6ZKf77yJ5LiU5LiN6K6w5b2VIFRva2VuIOaYjuaWh+aXpeW/l+OAgiJdfX0= -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>自动交接系统 DNS 并预检服务端口 / hand off host DNS and preflight listeners</p>
+    <p><strong>OpenWrt 设备原生支持：</strong>新增 procd 服务管理器与系统 DNS 自动交接模块，路由器部署无需手动配置 systemd；服务安装命令可自动识别 OpenWrt 环境并恢复 DNS。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>隔离临时 Vite 验证缓存 / isolate temporary Vite validation caches</p>
+    <p><strong>系统诊断一页掌握：</strong>全新诊断工作区整合配置、端口、权限、磁盘等检查项，问题定位无需查看日志文件；结果按健康/警告/严重分级展示。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>支持查看已保存的 GitHub Token / reveal saved GitHub credentials</p>
+    <p><strong>HTTPS 证书托管上线：</strong>支持绑定已签发的托管证书，设置页可直接选择可用证书；过期、待签发证书自动过滤，避免误选。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>支持 procd 并保护现有网络规则</p>
+    <p><strong>代理切换更可靠：</strong>核心切换与服务启动增加就绪等待与互斥锁，避免并发配置导致的状态不一致；前端显示“进行中”而非虚假成功。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>完善系统诊断与结果准确性</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">06</span>
-    <p>先取消更新再等待调度器 / cancel updates before joining schedulers</p>
+    <p><strong>GitHub Token 可查看：</strong>设置页支持查看已保存的 Token 明文（需管理员权限），便于核对或迁移；请求经速率限制且不记录日志。</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-added">🆕 新增功能 <span>3</span></a>
-  <a href="#release-changed">✨ 功能增强 <span>1</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>8</span></a>
-  <a href="#release-notes">📌 升级提醒 <span>1</span></a>
+  <a href="#release-added">🆕 新增功能 <span>6</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>4</span></a>
+  <a href="#release-performance">⚡ 性能优化 <span>2</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>4</span></a>
+  <a href="#release-notes">📌 升级提醒 <span>4</span></a>
 </nav>
 
 <section class="msm-release-section msm-release-section--added">
 
 ### 🆕 新增功能 {#release-added}
 
-- 自动交接系统 DNS 并预检服务端口 / hand off host DNS and preflight listeners
-- 支持 procd 并保护现有网络规则
-- 完善系统诊断与结果准确性
+- **OpenWrt/procd 服务管理**：新增 procd 服务管理器实现，支持 OpenWrt 设备的服务安装、启动与开机自启；CLI 命令帮助文本更新，service install 支持 --manager=procd 参数。
+- **系统 DNS 自动交接**：新增 hostdns 模块，在服务启动时接管系统 DNS 配置，服务停止时自动恢复原设置；包含端口预检机制，启动前检查端口占用并给出明确错误。
+- **系统诊断工作区**：新增 /api/v1/system/diagnostics 接口，返回配置目录、配置文件、依赖、端口、磁盘、权限六项检查结果；前端新增 SystemDiagnosticsWorkspace 页面，支持展开查看详细证据与端口占用列表。
+- **HTTPS 托管证书管理**：新增 httpscert 服务模块，支持证书验证、持久化与运行时加载；设置页新增 managed 模式，可列出并选择已签发的可用证书。
+- **GitHub Token 查看接口**：新增 /api/v1/settings/github-token/reveal 接口，管理员可获取已保存 Token 明文；前端 GitHubTokenDialog 支持显示与复制。
+- **代理服务就绪检查**：新增 service_proxy_readiness 与 mihomo_service_readiness 模块，服务启动后等待配置生效与端口监听稳定；前端 ServiceWidget 与 ProxyShell 显示“进行中”状态而非立即标记成功。
 
 </section>
 
@@ -81,7 +81,19 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### ✨ 功能增强 {#release-changed}
 
-- 隔离临时 Vite 验证缓存 / isolate temporary Vite validation caches
+- **代理控制器并发保护**：Clash/SingBox 配置修改、代理选择、服务生命周期等接口增加互斥锁，并发请求返回 409 冲突而非覆盖配置。
+- **SSE 连接管理优化**：新增 SSE 断开与截止时间处理，客户端断开后及时释放服务端资源；Token 变更时忽略旧会话的延迟检查。
+- **服务启动反馈改进**：服务启动操作增加 wait 参数与超时设置，返回 pending 状态时前端显示提示信息而非成功 toast。
+- **时区设置更稳健**：时区处理逻辑先验证 MSM 设置再尝试主机变更，无效时区保留进程设置；OpenWrt 无 host zoneinfo 时不报错。
+
+</section>
+
+<section class="msm-release-section msm-release-section--performance">
+
+### ⚡ 性能优化 {#release-performance}
+
+- **HTTP 客户端连接复用**：后端 HTTP 工具类共享 Transport 连接池，轮询客户端不再为每次请求创建新连接；本地请求不共享凭据避免污染。
+- **开发缓存隔离**：Vite 临时验证服务使用独立 cacheDir，不与运行中开发服务共用依赖预编译缓存；测试结束时仅清理自己的临时目录。
 
 </section>
 
@@ -89,14 +101,10 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🐛 问题修复 {#release-fixed}
 
-- 支持查看已保存的 GitHub Token / reveal saved GitHub credentials
-- 先取消更新再等待调度器 / cancel updates before joining schedulers
-- 修复自动组切换误报 502 / handle unsupported automatic group selections
-- 修复页面重试与开发依赖缓存 / recover page errors and revalidate dev dependencies
-- 修复 HTTPS 切换和证书管理 / stabilize HTTPS switching and certificate management
-- 修复双核心观测与查询取消
-- 修复代理任务恢复与配置并发稳定性
-- 修复代理核心切换与服务稳定性
+- **代理组切换误报 502**：代理控制器对不支持自动选择的代理组返回明确错误而非 502；前端 ProxyNodeCard 在无手动选择时保留延迟测试入口。
+- **页面加载失败无法恢复**：前端错误边界支持 chunk 加载错误一键重载；初始快照失败时自动重试而非永久空白。
+- **端口诊断误报冲突**：修复未知占用状态被标记为 conflict 的问题，保留 unknown 状态供用户判断。
+- **浏览器默认图标请求**：后端将 /favicon.ico 请求重定向到 MSM logo，避免 404 日志噪音。
 
 </section>
 
@@ -104,16 +112,19 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-09-08T03:38:27Z 之后的 13 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- **版本号**：后端与前端版本均从 1.4.7 升级至 1.4.8，Docker 镜像标签同步更新。
+- **OpenWrt 部署**：OpenWrt 设备首次安装需使用 msm service install --manager=procd 或自动检测 procd；服务停止时会自动恢复原 DNS 配置。
+- **系统诊断权限**：/api/v1/system/diagnostics 接口需要 operator 或 admin 权限，viewer 角色无法访问。
+- **GitHub Token 查看**：/api/v1/settings/github-token/reveal 接口仅管理员可用，请求受速率限制（10 次/分钟）且不记录 Token 明文日志。
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`5de1fa1`](https://github.com/msm9527/msm/commit/5de1fa1cd287641b29aef7c980a15017263a42f5)
-- **提交信息**：feat(openwrt): 自动交接系统 DNS 并预检服务端口 / hand off host DNS and preflight listeners
+- **源提交**： [`ebc96d6`](https://github.com/msm9527/msm/commit/ebc96d687c36e4304837b3aa38ba50937973249d)
+- **提交信息**：fix(web): 兼容浏览器默认图标请求 / serve MSM logo for default favicon requests
 - **提交作者**：msm
-- **提交时间**：2026-09-12 22:38:24 CST
+- **提交时间**：2026-09-13 15:21:47 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
