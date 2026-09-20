@@ -12,49 +12,83 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.4.9" data-release-date="2026-09-19 21:41:32 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.9">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.5.1" data-release-date="2026-09-20 16:47:32 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.5.1">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.4.9</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.5.1</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.9" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.5.1" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>2 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>2 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-19 21:41:32 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>12 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-20 16:47:32 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDnu5/kuIDkvb/nlKggbXNtOTUyNy9tb3NkbnMg5Y+R5biD5bm25Yqo5oCB5qCh6aqMIC8gVXNlIG1zbTk1MjcvbW9zZG5zIHJlbGVhc2VzIHdpdGggZHluYW1pYyB2ZXJpZmljYXRpb24iLCItIOS/ruWkjeWuouaIt+err+WFqOmHj+aQnOe0oiAvIHNlYXJjaCBjbGllbnRzIGFjcm9zcyBhbGwgcGFnZXMiXSwibWFqb3IiOltdLCJhZGRlZCI6W10sImNoYW5nZWQiOltdLCJwZXJmb3JtYW5jZSI6W10sImZpeGVkIjpbIi0g57uf5LiA5L2/55SoIG1zbTk1MjcvbW9zZG5zIOWPkeW4g+W5tuWKqOaAgeagoemqjCAvIFVzZSBtc205NTI3L21vc2RucyByZWxlYXNlcyB3aXRoIGR5bmFtaWMgdmVyaWZpY2F0aW9uIiwiLSDkv67lpI3lrqLmiLfnq6/lhajph4/mkJzntKIgLyBzZWFyY2ggY2xpZW50cyBhY3Jvc3MgYWxsIHBhZ2VzIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMDktMDlUMjI6NDg6MzZaIOS5i+WQjueahCAyIOS4quaPkOS6pOS4reaVtOeQhu+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiXX19 -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDlop7liqDnu4Tku7bmibnph4/mo4Dmn6Xmm7TmlrAiLCItIOS/ruWkjSBXaXJlR3VhcmQg5bGA5Z+f572R6L2s5Y+R6KeE5YiZIiwiLSDkv67lpI0gVGFpbHNjYWxlIOWQr+WKqOi2heaXtueKtuaAgeivhuWIqyIsIi0g5L+u5aSNIFNpbmctQm94IOa4oOmBk+mAieaLqeaYvuekuuS4juWIneWni+WMluS/neWtmCIsIi0g5L+u5aSNIFNpbmctQm94IOa4oOmBk+WIh+aNoiIsIi0g5oyJ56iz5a6a5LiO5rWL6K+V5YiG5pSv5Y+R5biDIC8gUm91dGUgcmVsZWFzZXMgYnkgc3RhYmxlIGFuZCB0ZXN0aW5nIGJyYW5jaGVzIl0sIm1ham9yIjpbXSwiYWRkZWQiOltdLCJjaGFuZ2VkIjpbIi0g5aKe5Yqg57uE5Lu25om56YeP5qOA5p+l5pu05pawIiwiLSDooaXpvZDnu4Tku7bmm7TmlrDmuKDpgZPliIfmjaIgLyBDb21wbGV0ZSBjb21wb25lbnQgdXBkYXRlIGNoYW5uZWwgc3dpdGNoaW5nIiwiLSDosIPmlbQgU2luZy1Cb3gg5rig6YGT6YCJ5oup5biD5bGAIC8gQWxpZ24gU2luZy1Cb3ggY2hhbm5lbCBjb250cm9scyB3aXRoIENsYXNoIiwiLSDooaXlhYUgU2luZy1Cb3gg5rig6YGT6YCJ5oupIl0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSDkv67lpI0gV2lyZUd1YXJkIOWxgOWfn+e9kei9rOWPkeinhOWImSIsIi0g5L+u5aSNIFRhaWxzY2FsZSDlkK/liqjotoXml7bnirbmgIHor4bliKsiLCItIOS/ruWkjSBTaW5nLUJveCDmuKDpgZPpgInmi6nmmL7npLrkuI7liJ3lp4vljJbkv53lrZgiLCItIOS/ruWkjSBTaW5nLUJveCDmuKDpgZPliIfmjaIiLCItIOaMieeos+WumuS4jua1i+ivleWIhuaUr+WPkeW4gyAvIFJvdXRlIHJlbGVhc2VzIGJ5IHN0YWJsZSBhbmQgdGVzdGluZyBicmFuY2hlcyIsIi0gUmV2ZXJ0IFwi5L+u5aSNIFNpbmctQm94IOacgOaWsOmFjee9rui/geenuyIsIi0g5L+u5aSNIFNpbmctQm94IOacgOaWsOmFjee9rui/geenuyIsIi0g5L+u5aSNIFdpcmVHdWFyZCDkuJPpobnmtYvor5XotoXml7blpITnkIYiXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSDku44gMjAyNi0wOS0xOVQyMjozMzozOFog5LmL5ZCO55qEIDEzIOS4quaPkOS6pOS4reaVtOeQhu+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiXX19 -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>统一使用 msm9527/mosdns 发布并动态校验 / Use msm9527/mosdns releases with dynamic verification</p>
+    <p>增加组件批量检查更新</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>修复客户端全量搜索 / search clients across all pages</p>
+    <p>修复 WireGuard 局域网转发规则</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">03</span>
+    <p>修复 Tailscale 启动超时状态识别</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">04</span>
+    <p>修复 Sing-Box 渠道选择显示与初始化保存</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">05</span>
+    <p>修复 Sing-Box 渠道切换</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">06</span>
+    <p>按稳定与测试分支发布 / Route releases by stable and testing branches</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-fixed">🐛 问题修复 <span>2</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>4</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>8</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
+
+<section class="msm-release-section msm-release-section--changed">
+
+### ✨ 功能增强 {#release-changed}
+
+- 增加组件批量检查更新
+- 补齐组件更新渠道切换 / Complete component update channel switching
+- 调整 Sing-Box 渠道选择布局 / Align Sing-Box channel controls with Clash
+- 补充 Sing-Box 渠道选择
+
+</section>
 
 <section class="msm-release-section msm-release-section--fixed">
 
 ### 🐛 问题修复 {#release-fixed}
 
-- 统一使用 msm9527/mosdns 发布并动态校验 / Use msm9527/mosdns releases with dynamic verification
-- 修复客户端全量搜索 / search clients across all pages
+- 修复 WireGuard 局域网转发规则
+- 修复 Tailscale 启动超时状态识别
+- 修复 Sing-Box 渠道选择显示与初始化保存
+- 修复 Sing-Box 渠道切换
+- 按稳定与测试分支发布 / Route releases by stable and testing branches
+- Revert "修复 Sing-Box 最新配置迁移
+- 修复 Sing-Box 最新配置迁移
+- 修复 WireGuard 专项测试超时处理
 
 </section>
 
@@ -62,16 +96,16 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-09-09T22:48:36Z 之后的 2 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 从 2026-09-19T22:33:38Z 之后的 13 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`c71ad44`](https://github.com/msm9527/msm/commit/c71ad4448f8e2c2f9dbe49aa3d6165994f617f74)
-- **提交信息**：fix(singbox): 统一使用 msm9527/mosdns 发布并动态校验 / Use msm9527/mosdns releases with dynamic verification
+- **源提交**： [`c31f4bb`](https://github.com/msm9527/msm/commit/c31f4bb8872193b28812afcbc47b9c36836b15d9)
+- **提交信息**：升级版本到 1.5.1 / Bump version to 1.5.1
 - **提交作者**：root
-- **提交时间**：2026-09-19 21:41:32 CST
+- **提交时间**：2026-09-20 16:47:32 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -80,6 +114,26 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-1.4.9 · 2026-09-19 21:41 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.4.9" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 统一使用 msm9527/mosdns 发布并动态校验 / Use msm9527/mosdns releases with dynamic verification
+- 修复客户端全量搜索 / search clients across all pages
+
+**🐛 问题修复**
+
+- 统一使用 msm9527/mosdns 发布并动态校验 / Use msm9527/mosdns releases with dynamic verification
+- 修复客户端全量搜索 / search clients across all pages
+
+**📌 升级提醒**
+
+- 从 2026-09-09T22:48:36Z 之后的 2 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+:::
 
 ::: details beta-1.4.8 · 2026-09-13 15:21 · Beta 版
 
