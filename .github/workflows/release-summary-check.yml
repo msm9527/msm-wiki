@@ -6,6 +6,7 @@ on:
       - 'scripts/ai-release-summary.cjs'
       - 'scripts/generate-release-summary.cjs'
       - 'scripts/RELEASE_NOTES.md'
+      - 'test-modelscope-api.js'
       - 'test/ai-release-summary.test.cjs'
       - 'test/generate-release-summary.test.cjs'
       - 'test/release-workflow.test.cjs'
@@ -13,12 +14,16 @@ on:
       - '.github/workflows/daily-build-msm-beta.yml'
       - '.github/workflows/release-summary-preview.yml'
       - '.github/workflows/release-summary-check.yml'
+      - '.github/docs/MODELSCOPE_API_GUIDE.md'
+      - '.github/docs/RELEASE_WORKFLOW_GUIDE.md'
+      - '.github/docs/TEST_API_README.md'
   push:
     branches: [main]
     paths:
       - 'scripts/ai-release-summary.cjs'
       - 'scripts/generate-release-summary.cjs'
       - 'scripts/RELEASE_NOTES.md'
+      - 'test-modelscope-api.js'
       - 'test/ai-release-summary.test.cjs'
       - 'test/generate-release-summary.test.cjs'
       - 'test/release-workflow.test.cjs'
@@ -26,6 +31,9 @@ on:
       - '.github/workflows/daily-build-msm-beta.yml'
       - '.github/workflows/release-summary-preview.yml'
       - '.github/workflows/release-summary-check.yml'
+      - '.github/docs/MODELSCOPE_API_GUIDE.md'
+      - '.github/docs/RELEASE_WORKFLOW_GUIDE.md'
+      - '.github/docs/TEST_API_README.md'
   workflow_dispatch:
 
 permissions:

@@ -8,6 +8,7 @@ const { execFileSync } = require('node:child_process');
 const {
   buildFallbackSummary,
   DEFAULT_MODEL_CANDIDATES,
+  MODELSCOPE_MODELS_URL,
   MODELSCOPE_CHAT_COMPLETIONS_URL,
   buildGitLogArgs,
   collectFallbackSummaryItems,
@@ -15,6 +16,7 @@ const {
   cleanDiff,
   classifyReleaseItem,
   extractChangeHighlights,
+  fetchModelScopeModels,
   normalizeModelSummary,
   normalizeReleaseMarkdown,
   extractCommitShas,
@@ -23,6 +25,7 @@ const {
   buildNetDiffEvidence,
   requestModelScopeSummary,
   readReleaseBaseline,
+  resolveAvailableModelCandidates,
   resolveModelCandidates,
   selectDiffFiles,
   validateSummary,
@@ -265,8 +268,8 @@ const modelResponse = (content = validSummary, finishReason = 'stop') => ({
   async json() { return { choices: [{ message: { content }, finish_reason: finishReason }], usage: { completion_tokens: 80 } }; },
 });
 
-test('only Qwen3.5 models receive reasoning and a larger total token budget', async () => {
-  for (const model of [...DEFAULT_MODEL_CANDIDATES, 'Other/Qwen3.5-test', 'Qwen/Qwen3-Next-80B-A3B-Instruct']) {
+test('Qwen3.x reasoning models receive thinking mode and a larger total token budget', async () => {
+  for (const model of [...DEFAULT_MODEL_CANDIDATES, 'Qwen/Qwen3.8-27B', 'Other/Qwen3.5-test', 'Qwen/Qwen3-Next-80B-A3B-Instruct']) {
     let body;
     await requestModelScopeSummary({
       apiKey: 'test-token', prompt: 'evidence', modelCandidates: [model], logger: silentLogger,
@@ -275,9 +278,9 @@ test('only Qwen3.5 models receive reasoning and a larger total token budget', as
         return modelResponse();
       },
     });
-    assert.equal(Object.hasOwn(body, 'enable_thinking'), /^Qwen\/Qwen3\.5-/u.test(model), model);
+    assert.equal(Object.hasOwn(body, 'enable_thinking'), /^Qwen\/Qwen3\.\d+-/u.test(model), model);
     if (Object.hasOwn(body, 'enable_thinking')) assert.equal(body.enable_thinking, true);
-    assert.equal(body.max_tokens, /^Qwen\/Qwen3\.5-/u.test(model) ? 16000 : 8000);
+    assert.equal(body.max_tokens, /^Qwen\/Qwen3\.\d+-/u.test(model) ? 16000 : 8000);
     assert.equal(body.extra_body, undefined, 'the HTTP API receives the option at the top level');
   }
 });
@@ -288,6 +291,59 @@ test('default model candidates stay on currently served Qwen3.5 models', () => {
     'Qwen/Qwen3.5-122B-A10B',
     'Qwen/Qwen3.5-35B-A3B',
   ]);
+});
+
+test('model catalog discovery uses the fixed public endpoint and keeps only safe model ids', async () => {
+  let requests = 0;
+  const models = await fetchModelScopeModels({
+    fetchImpl: async (url, options) => {
+      requests++;
+      assert.equal(url, MODELSCOPE_MODELS_URL);
+      assert.equal(url, 'https://api-inference.modelscope.cn/v1/models');
+      assert.equal(options.method, 'GET');
+      assert.deepEqual(options.headers, { Accept: 'application/json' });
+      assert.ok(options.signal instanceof AbortSignal);
+      return {
+        ok: true,
+        async json() {
+          return { data: [
+            { id: 'Qwen/Qwen3.5-122B-A10B' },
+            { id: 'Qwen/Qwen3.5-122B-A10B' },
+            { id: 'Qwen/Qwen3.8-27B' },
+            { id: 'bad model id' },
+            { id: `Qwen/${'x'.repeat(200)}` },
+            { nope: 'missing id' },
+          ] };
+        },
+      };
+    },
+  });
+  assert.equal(requests, 1);
+  assert.deepEqual(models, ['Qwen/Qwen3.5-122B-A10B', 'Qwen/Qwen3.8-27B']);
+});
+
+test('catalog filtering preserves configured priority and only fills defaults with compatible Qwen text models', () => {
+  const availableModels = [
+    'Qwen/Qwen3.5-122B-A10B',
+    'Qwen/Qwen3.8-Flash-Next',
+    'Qwen/Qwen3.8-27B',
+    'Qwen/Qwen-Image-Edit',
+    'deepseek-ai/DeepSeek-V4-Pro',
+  ];
+  assert.deepEqual(resolveAvailableModelCandidates({ availableModels, allowDiscoveredFallback: true }), {
+    candidates: ['Qwen/Qwen3.5-122B-A10B', 'Qwen/Qwen3.8-27B', 'Qwen/Qwen3.8-Flash-Next'],
+    skipped: ['Qwen/Qwen3.5-397B-A17B', 'Qwen/Qwen3.5-35B-A3B'],
+    discovered: ['Qwen/Qwen3.8-27B', 'Qwen/Qwen3.8-Flash-Next'],
+  });
+  assert.deepEqual(resolveAvailableModelCandidates({
+    modelCandidates: ['Custom/Missing', 'Qwen/Qwen3.8-27B', 'Custom/A', 'Custom/B', 'Custom/C'],
+    availableModels: [...availableModels, 'Custom/A', 'Custom/B', 'Custom/C'],
+    allowDiscoveredFallback: true,
+  }), {
+    candidates: ['Qwen/Qwen3.8-27B', 'Custom/A', 'Custom/B', 'Custom/C'],
+    skipped: ['Custom/Missing'],
+    discovered: [],
+  });
 });
 
 test('time-window and fallback log reads are pinned to the requested source ref', () => {

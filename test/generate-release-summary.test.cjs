@@ -4,6 +4,7 @@ const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
 const { generateReleaseSummary, validateReleaseSummaryInputs, countSummaryItems } = require('../scripts/generate-release-summary.cjs');
+const { resolveAvailableModelCandidates } = require('../scripts/ai-release-summary.cjs');
 
 const publicSummary = '### 🎉 本次亮点\n- **Docker 管理升级**：更直观地管理容器。\n\n### ✨ 功能增强\n- 完善 Compose 操作反馈。\n\n### 🐛 问题修复\n- 修复登录状态过期后仍持续请求的问题。';
 const fallbackSummary = '### 🐛 问题修复\n- 修复登录状态问题。';
@@ -96,7 +97,10 @@ test('missing key uses an explicit fallback, emits a warning and never calls inf
   const core = makeCore();
   const result = await generateReleaseSummary({
     core, env: {},
-    summaryModule: makeModule({ requestModelScopeSummary() { assert.fail('must not infer without a key'); } }),
+    summaryModule: makeModule({
+      fetchModelScopeModels() { assert.fail('must not discover models without a key'); },
+      requestModelScopeSummary() { assert.fail('must not infer without a key'); },
+    }),
   });
   assert.equal(result.status, 'fallback');
   assert.equal(result.fallbackReason, 'missing-api-key');
@@ -156,6 +160,7 @@ test('empty release ranges produce a no-changes report without an AI request', a
     summaryModule: makeModule({
       collectReleaseCommits() { return { commits: [], source: 'previous-source-commit' }; },
       buildFallbackSummary() { return '### 📌 升级提醒\n- 本次没有新增提交。'; },
+      fetchModelScopeModels() { assert.fail('empty range must not discover models'); },
       requestModelScopeSummary() { assert.fail('empty range'); },
     }),
   });
@@ -404,6 +409,72 @@ test('real core multi-model errors become safe diagnostic metadata through the s
   assert.doesNotMatch(JSON.stringify({ result, core }), new RegExp(`secret-key|${privateContext}|insufficient balance|has no provider supported`));
 });
 
+test('catalog discovery filters configured models before inference and reports safe counts', async () => {
+  let catalogCalls = 0;
+  let requestCalls = 0;
+  const core = makeCore();
+  const result = await generateReleaseSummary({
+    core,
+    env: { MODELSCOPE_API_KEY: 'secret-key', MODELSCOPE_MODELS: 'Strong/Missing,Strong/Selected' },
+    summaryModule: makeModule({
+      async fetchModelScopeModels() { catalogCalls++; return ['Strong/Selected', privateContext]; },
+      resolveAvailableModelCandidates,
+      async requestModelScopeSummary({ modelCandidates }) {
+        requestCalls++;
+        assert.deepEqual(modelCandidates, ['Strong/Selected']);
+        return { summary: publicSummary, modelName: 'Strong/Selected' };
+      },
+    }),
+  });
+  assert.equal(catalogCalls, 1);
+  assert.equal(requestCalls, 1);
+  assert.deepEqual(result.modelCatalog, {
+    status: 'available', modelCount: 2, candidateCount: 1, skippedCount: 1, discoveredCount: 0,
+  });
+  assert.match(core.jobSummary, /模型目录状态 \| available/u);
+  assert.doesNotMatch(JSON.stringify({ result, core }), new RegExp(`${privateContext}|secret-key`));
+});
+
+test('catalog outages keep the configured chain while an empty live intersection skips inference', async () => {
+  let requests = 0;
+  const recovered = await generateReleaseSummary({
+    env: { MODELSCOPE_API_KEY: 'secret-key', MODELSCOPE_MODELS: 'Strong/Configured' },
+    summaryModule: makeModule({
+      async fetchModelScopeModels() { throw new TypeError('fetch failed'); },
+      resolveAvailableModelCandidates,
+      async requestModelScopeSummary({ modelCandidates }) {
+        requests++;
+        assert.deepEqual(modelCandidates, ['Strong/Configured']);
+        return { summary: publicSummary, modelName: 'Strong/Configured' };
+      },
+    }),
+  });
+  assert.equal(requests, 1);
+  assert.deepEqual(recovered.modelCatalog, { status: 'unavailable', reasonCode: 'network-error' });
+
+  requests = 0;
+  const core = makeCore();
+  const unavailable = await generateReleaseSummary({
+    core,
+    env: { MODELSCOPE_API_KEY: 'secret-key', MODELSCOPE_MODELS: 'Strong/Missing,Strong/AlsoMissing' },
+    summaryModule: makeModule({
+      async fetchModelScopeModels() { return ['Strong/Other']; },
+      resolveAvailableModelCandidates,
+      requestModelScopeSummary() { requests++; assert.fail('a confirmed missing model must not be requested'); },
+    }),
+  });
+  assert.equal(requests, 0);
+  assert.equal(unavailable.status, 'fallback');
+  assert.equal(unavailable.fallbackReason, 'unsupported-model');
+  assert.equal(unavailable.attemptCount, 0);
+  assert.deepEqual(unavailable.modelAttempts, []);
+  assert.ok(!core.logs.some(line => line.includes('模型尝试 1')));
+  assert.doesNotMatch(core.jobSummary, /### 模型尝试结果/u);
+  assert.deepEqual(unavailable.modelCatalog, {
+    status: 'available', modelCount: 1, candidateCount: 0, skippedCount: 2, discoveredCount: 0,
+  });
+});
+
 test('squash-to-merge graph counts stay separate from the release context and do not suppress fallback warnings', async () => {
   const core = makeCore();
   const coverage = {
@@ -478,11 +549,14 @@ test('output diagnostics expose fixed check codes, not rejected model text', asy
 
 test('the editorial pass uses the successful strong model and publishes only the reviewed text', async () => {
   let calls = 0;
+  let catalogCalls = 0;
   const revised = publicSummary + '\n- **镜像时间修正**：按明确时区解析创建时间。';
   const core = makeCore();
   const result = await generateReleaseSummary({
     core, env: { MODELSCOPE_API_KEY: 'secret-key', MODELSCOPE_MODELS: 'Strong/Selected,Strong/Backup' },
     summaryModule: makeModule({
+      async fetchModelScopeModels() { catalogCalls++; return ['Strong/Selected']; },
+      resolveAvailableModelCandidates,
       buildReviewPrompt(commits, draft) {
         assert.equal(commits.length, 1);
         assert.equal(draft, publicSummary);
@@ -490,6 +564,7 @@ test('the editorial pass uses the successful strong model and publishes only the
       },
       async requestModelScopeSummary({ prompt, modelCandidates }) {
         calls++;
+        if (calls === 1) assert.deepEqual(modelCandidates, ['Strong/Selected']);
         if (calls === 2) {
           assert.equal(prompt, privateContext + ' review');
           assert.deepEqual(modelCandidates, ['Strong/Selected']);
@@ -499,6 +574,7 @@ test('the editorial pass uses the successful strong model and publishes only the
     }),
   });
   assert.equal(calls, 2);
+  assert.equal(catalogCalls, 1);
   assert.equal(result.summary, revised);
   assert.deepEqual(result.review, {status: 'passed', modelName: 'Strong/Selected'});
   assert.equal(result.attemptCount, 2);

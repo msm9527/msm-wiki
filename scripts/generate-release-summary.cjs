@@ -73,6 +73,7 @@ function countSummaryItems(summary) {
 }
 
 function failureCode(error) {
+  if (Object.hasOwn(FAILURE_LABELS, error?.reasonCode)) return error.reasonCode;
   const message = String(error?.message || error || '');
   if (/insufficient balance|quota|余额|配额/iu.test(message)) return 'quota-exhausted';
   if (/no provider|unsupported.*model|model.*not found/iu.test(message)) return 'unsupported-model';
@@ -161,7 +162,10 @@ function formatJobSummary(result) {
     ? '\n> 图记录数不是新增功能数；未单列的记录不等于没有新代码，侧分支变化由版本间净差异统一提供证据。\n'
     : '';
   const reviewNote = result.review ? `\n> 二次审稿：${result.review.status === 'passed' ? '已生成审校稿，并通过输出检查（仍不等同于人工验证）' : '未完成，保留通过检查的 AI 初稿'}。\n` : '';
-  return `## 发布日志生成结果\n\n| 项目 | 结果 |\n| --- | --- |\n| 通道 | ${result.channel} |\n| 生成状态 | ${state} |\n| 成功模型 | ${result.modelName || '—'} |\n| 模型尝试次数 | ${result.attemptCount} |\n| 发布线上下文提交数 | ${result.commitCount} |\n${baselineRows}| 日志条目数（含亮点） | ${result.itemCount} |\n| 亮点条目数 | ${result.highlightCount} |\n| 已读取正文与文件列表的上下文提交 | ${result.coverage.detailedCommits ?? '—'} |\n| 已采样 Diff 的上下文提交 | ${result.coverage.commitsWithDiff ?? '—'} |\n| 逐提交累计已采样文件 / 变更文件（非唯一） | ${result.coverage.sampledFiles ?? '—'} / ${result.coverage.totalFiles ?? '—'} |\n| Diff 未完整展开的上下文提交 | ${result.coverage.incompleteDiffs ?? '—'} |\n| 范围来源 | ${result.source} |\n\n> 上述覆盖计数反映输入上下文的采样，不代表模型已逐项覆盖全部功能。\n${baselineNote}${reason}${reviewNote}${attempts}\n### 公开发布日志\n\n${result.summary}\n`;
+  const catalogRows = result.modelCatalog
+    ? `| 模型目录状态 | ${result.modelCatalog.status}${result.modelCatalog.reasonCode ? ` (${result.modelCatalog.reasonCode})` : ''} |\n| 目录候选 / 跳过 / 动态补充 | ${result.modelCatalog.candidateCount ?? '—'} / ${result.modelCatalog.skippedCount ?? '—'} / ${result.modelCatalog.discoveredCount ?? '—'} |\n`
+    : '';
+  return `## 发布日志生成结果\n\n| 项目 | 结果 |\n| --- | --- |\n| 通道 | ${result.channel} |\n| 生成状态 | ${state} |\n| 成功模型 | ${result.modelName || '—'} |\n| 模型尝试次数 | ${result.attemptCount} |\n${catalogRows}| 发布线上下文提交数 | ${result.commitCount} |\n${baselineRows}| 日志条目数（含亮点） | ${result.itemCount} |\n| 亮点条目数 | ${result.highlightCount} |\n| 已读取正文与文件列表的上下文提交 | ${result.coverage.detailedCommits ?? '—'} |\n| 已采样 Diff 的上下文提交 | ${result.coverage.commitsWithDiff ?? '—'} |\n| 逐提交累计已采样文件 / 变更文件（非唯一） | ${result.coverage.sampledFiles ?? '—'} / ${result.coverage.totalFiles ?? '—'} |\n| Diff 未完整展开的上下文提交 | ${result.coverage.incompleteDiffs ?? '—'} |\n| 范围来源 | ${result.source} |\n\n> 上述覆盖计数反映输入上下文的采样，不代表模型已逐项覆盖全部功能。\n${baselineNote}${reason}${reviewNote}${attempts}\n### 公开发布日志\n\n${result.summary}\n`;
 }
 
 /**
@@ -239,18 +243,52 @@ async function generateReleaseSummary({
   let reportedAttempts = 0;
   let status = commits.length ? 'fallback' : 'no-changes';
   let fallbackReason = '';
+  let modelCatalog;
   if (commits.length && !env.MODELSCOPE_API_KEY) {
     fallbackReason = 'missing-api-key';
   } else if (commits.length) {
     try {
       const configuredModels = String(env.MODELSCOPE_MODELS || '').split(',').map(value => value.trim()).filter(Boolean);
       if (configuredModels.some(value => !safeModelName(value))) throw new Error('Invalid model configuration');
+      let selectedModelCandidates = configuredModels.length ? configuredModels : undefined;
+      if (typeof summaryModule.fetchModelScopeModels === 'function'
+          && typeof summaryModule.resolveAvailableModelCandidates === 'function') {
+        try {
+          const availableModels = await summaryModule.fetchModelScopeModels({
+            fetchImpl,
+          });
+          const selection = summaryModule.resolveAvailableModelCandidates({
+            modelCandidates: selectedModelCandidates,
+            availableModels,
+            allowDiscoveredFallback: configuredModels.length === 0,
+          });
+          selectedModelCandidates = selection.candidates;
+          modelCatalog = {
+            status: 'available',
+            modelCount: availableModels.length,
+            candidateCount: selection.candidates.length,
+            skippedCount: selection.skipped.length,
+            discoveredCount: selection.discovered.length,
+          };
+          if (!selectedModelCandidates.length) {
+            const error = new Error('候选模型均不在当前 ModelScope 目录中');
+            error.code = 'NO_AVAILABLE_MODELS';
+            error.reasonCode = 'unsupported-model';
+            throw error;
+          }
+        } catch (error) {
+          if (error?.code === 'NO_AVAILABLE_MODELS') throw error;
+          modelCatalog = { status: 'unavailable', reasonCode: failureCode(error) };
+          // The catalog is a preflight optimization. Keep the configured/static
+          // candidates so a catalog outage cannot block a healthy inference API.
+        }
+      }
       let reportedModel = '';
       const result = await summaryModule.requestModelScopeSummary({
         apiKey: env.MODELSCOPE_API_KEY,
         prompt: summaryModule.buildSummaryPrompt(commits),
         fetchImpl,
-        ...(configuredModels.length ? { modelCandidates: configuredModels } : {}),
+        ...(selectedModelCandidates?.length ? { modelCandidates: selectedModelCandidates } : {}),
         logger,
         onResult(value) {
           // Do not retain the full callback object: it may include non-public evidence.
@@ -344,6 +382,7 @@ async function generateReleaseSummary({
     attemptCount: Math.max(loggedAttempts.length, modelAttempts.length, reportedAttempts, status === 'ai' ? 1 : 0),
     modelAttempts,
     ...(review ? { review } : {}),
+    ...(modelCatalog ? { modelCatalog } : {}),
     fallbackReason,
     source: SOURCES.has(context.source) ? context.source : 'unknown',
     coverage: publicCoverage(context),
@@ -358,6 +397,9 @@ async function generateReleaseSummary({
     result.modelAttempts.forEach((attempt, index) => {
       core.info(`模型尝试 ${index + 1}：${attempt.model}；status=${attempt.status}；reasonCode=${attempt.reasonCode}${attempt.phase ? '；phase=' + attempt.phase : ''}${attempt.checks?.length ? '；checks=' + attempt.checks.join(',') : ''}`);
     });
+    if (modelCatalog) {
+      core.info(`模型目录：status=${modelCatalog.status}${modelCatalog.reasonCode ? '；reasonCode=' + modelCatalog.reasonCode : ''}${modelCatalog.candidateCount != null ? '；candidates=' + modelCatalog.candidateCount + '；skipped=' + modelCatalog.skippedCount + '；discovered=' + modelCatalog.discoveredCount : ''}`);
+    }
     if (review?.status === 'failed') core.warning(`二次审稿未完成（${review.reasonCode}）；保留已通过检查的 AI 初稿，请人工核对覆盖度。`);
     if (fallbackReason) {
       core.warning(`${FAILURE_LABELS[fallbackReason]}；已使用规则回退（非 AI）。上下文提交 ${result.commitCount} 个，日志 ${result.itemCount} 条。`);

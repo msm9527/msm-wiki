@@ -14,6 +14,7 @@ const DEFAULT_BODY_CHAR_LIMIT = 6000;
 const DEFAULT_BODY_HIGHLIGHT_LIMIT = Infinity;
 const DEFAULT_BODY_HIGHLIGHT_CHAR_LIMIT = Infinity;
 const DEFAULT_PROMPT_CHAR_LIMIT = 180000;
+const MODELSCOPE_MODELS_URL = 'https://api-inference.modelscope.cn/v1/models';
 const MODELSCOPE_CHAT_COMPLETIONS_URL = 'https://api-inference.modelscope.cn/v1/chat/completions';
 // Verified against https://api-inference.modelscope.cn/v1/models on 2026-09-22.
 // Catalog membership does not guarantee the caller's account has inference quota.
@@ -24,6 +25,8 @@ const DEFAULT_MODEL_CANDIDATES = Object.freeze([
 ]);
 const DEFAULT_MAX_TOKENS = 8000;
 const DEFAULT_REQUEST_TIMEOUT_MS = 180000;
+const DEFAULT_MODEL_DISCOVERY_TIMEOUT_MS = 10000;
+const DEFAULT_MODEL_CANDIDATE_LIMIT = 3;
 const DEFAULT_SUMMARY_ITEM_LIMIT = Infinity;
 const DEFAULT_HIGHLIGHT_LIMIT = 6;
 
@@ -1208,6 +1211,66 @@ function resolveModelCandidates(value = process.env.MODELSCOPE_MODELS) {
   return candidates.length ? [...new Set(candidates)] : [...DEFAULT_MODEL_CANDIDATES];
 }
 
+function isCompatibleDiscoveredModel(modelName) {
+  return /^Qwen\/Qwen3\.\d+-[a-zA-Z0-9.-]+$/u.test(modelName)
+    && !/(?:Audio|Coder|Embedding|Image|Omni|Reranker|SQL|TTS|VL)/iu.test(modelName);
+}
+
+function discoveredModelRank(modelName) {
+  const version = Number(modelName.match(/^Qwen\/Qwen3\.(\d+)-/u)?.[1] || 0);
+  const parameters = Number(modelName.match(/-(\d+(?:\.\d+)?)B(?:-|$)/u)?.[1] || 0);
+  const flashPenalty = /Flash/iu.test(modelName) ? 1 : 0;
+  return { version, parameters, flashPenalty };
+}
+
+function resolveAvailableModelCandidates({
+  modelCandidates,
+  availableModels,
+  allowDiscoveredFallback = false,
+  maxCandidates = DEFAULT_MODEL_CANDIDATE_LIMIT,
+} = {}) {
+  if (!Array.isArray(availableModels)) throw new Error('ModelScope 模型目录必须是数组');
+  if (availableModels.length > 10000) throw new Error('ModelScope 模型目录记录数异常');
+  if (!Number.isSafeInteger(maxCandidates) || maxCandidates < 1 || maxCandidates > 20) {
+    throw new Error('模型候选数量上限必须在 1–20 之间');
+  }
+  const explicitCandidates = (Array.isArray(modelCandidates)
+    ? modelCandidates
+    : String(modelCandidates || '').split(','))
+    .map(item => String(item || '').trim())
+    .filter(Boolean);
+  const hasExplicitCandidates = explicitCandidates.length > 0;
+  const preferred = resolveModelCandidates(modelCandidates);
+  const available = [...new Set(availableModels.map(item => String(item || '').trim())
+    .filter(item => /^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,159}$/u.test(item)))];
+  const availableSet = new Set(available);
+  const selected = preferred.filter(model => availableSet.has(model));
+  const skipped = preferred.filter(model => !availableSet.has(model));
+  const discovered = [];
+  if (!hasExplicitCandidates && allowDiscoveredFallback && selected.length < maxCandidates) {
+    const preferredSet = new Set(preferred);
+    const compatible = available.filter(model => !preferredSet.has(model) && isCompatibleDiscoveredModel(model));
+    compatible.sort((left, right) => {
+      const a = discoveredModelRank(left);
+      const b = discoveredModelRank(right);
+      return b.version - a.version
+        || b.parameters - a.parameters
+        || a.flashPenalty - b.flashPenalty
+        || left.localeCompare(right);
+    });
+    for (const model of compatible) {
+      if (selected.length >= maxCandidates) break;
+      selected.push(model);
+      discovered.push(model);
+    }
+  }
+  return {
+    candidates: hasExplicitCandidates ? selected : selected.slice(0, maxCandidates),
+    skipped,
+    discovered,
+  };
+}
+
 function normalizeReleaseMarkdown(value) {
   const lines = [];
   let inListParagraph = false;
@@ -1371,6 +1434,36 @@ async function withRequestTimeout(action, timeoutMs) {
   }
 }
 
+async function fetchModelScopeModels({
+  fetchImpl = globalThis.fetch,
+  timeoutMs = DEFAULT_MODEL_DISCOVERY_TIMEOUT_MS,
+} = {}) {
+  if (typeof fetchImpl !== 'function') throw new Error('当前 Node.js 环境不支持 fetch');
+  if (!Number.isFinite(timeoutMs) || timeoutMs <= 0 || timeoutMs > 60000) {
+    throw new Error('模型目录 timeoutMs 必须大于 0 且不超过 60000');
+  }
+  const payload = await withRequestTimeout(async signal => {
+    const response = await fetchImpl(MODELSCOPE_MODELS_URL, {
+      method: 'GET',
+      signal,
+      headers: { Accept: 'application/json' },
+    });
+    if (!response.ok) throw new Error(`模型目录请求失败: ${response.status}`);
+    return response.json();
+  }, timeoutMs);
+  const entries = Array.isArray(payload) ? payload : payload?.data;
+  if (!Array.isArray(entries)) throw new Error('模型目录响应格式无效');
+  if (entries.length > 10000) throw new Error('模型目录记录数异常');
+  const models = [...new Set(entries.map(item => item?.id)
+    .filter(item => typeof item === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,159}$/u.test(item)))];
+  if (!models.length) throw new Error('模型目录没有返回有效模型');
+  return models;
+}
+
+function usesQwenThinking(modelName) {
+  return /^Qwen\/Qwen3\.\d+-/iu.test(modelName);
+}
+
 async function requestModelScopeSummary({
   apiKey,
   prompt,
@@ -1429,9 +1522,9 @@ async function requestModelScopeSummary({
             ],
             temperature: 0.3,
             // Reasoning models need room for both analysis and the full public text.
-            max_tokens: /^Qwen\/Qwen3\.5-/iu.test(modelName) ? maxTokens * 2 : maxTokens,
+            max_tokens: usesQwenThinking(modelName) ? maxTokens * 2 : maxTokens,
             stream: false,
-            ...(/^Qwen\/Qwen3\.5-/iu.test(modelName) ? { enable_thinking: true } : {}),
+            ...(usesQwenThinking(modelName) ? { enable_thinking: true } : {}),
           }),
         });
         if (!response.ok) {
@@ -1498,6 +1591,7 @@ async function requestModelScopeSummary({
 
 module.exports = {
   DEFAULT_MODEL_CANDIDATES,
+  MODELSCOPE_MODELS_URL,
   MODELSCOPE_CHAT_COMPLETIONS_URL,
   SUMMARY_SECTIONS,
   buildFallbackSummary,
@@ -1509,6 +1603,7 @@ module.exports = {
   collectReleaseCommits,
   extractCommitShas,
   extractChangeHighlights,
+  fetchModelScopeModels,
   cleanDiff,
   classifyReleaseItem,
   normalizeModelSummary,
@@ -1518,6 +1613,7 @@ module.exports = {
   normalizePublicTerminology,
   requestModelScopeSummary,
   readReleaseBaseline,
+  resolveAvailableModelCandidates,
   resolveModelCandidates,
   selectDiffFiles,
   validateSummary,

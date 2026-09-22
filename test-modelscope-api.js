@@ -1,166 +1,78 @@
 #!/usr/bin/env node
 
-// ModelScope API 测试脚本
-// 使用环境变量提供 API Key
-const API_KEY = process.env.MODELSCOPE_API_KEY || '';
+import { createRequire } from 'node:module';
 
-if (!API_KEY) {
-  console.error('❌ 错误: 未设置 MODELSCOPE_API_KEY 环境变量');
-  console.error('');
-  console.error('使用方法:');
-  console.error('  MODELSCOPE_API_KEY=your-api-key node test-modelscope-api.js');
-  console.error('');
-  console.error('或者:');
-  console.error('  export MODELSCOPE_API_KEY=your-api-key');
-  console.error('  node test-modelscope-api.js');
+const require = createRequire(import.meta.url);
+const {
+  buildSummaryPrompt,
+  fetchModelScopeModels,
+  requestModelScopeSummary,
+  resolveAvailableModelCandidates,
+} = require('./scripts/ai-release-summary.cjs');
+
+const apiKey = process.env.MODELSCOPE_API_KEY || '';
+
+if (!apiKey) {
+  console.error('错误: 未设置 MODELSCOPE_API_KEY 环境变量');
+  console.error('用法: MODELSCOPE_API_KEY=your-api-key node test-modelscope-api.js');
   process.exit(1);
 }
 
-// 模拟一些 Git 提交记录
 const testCommits = [
-  { hash: '3c305a8', subject: '添加 amd64-v3 优化版本构建支持', author: 'doumao', date: '2 hours ago' },
-  { hash: '83c0819', subject: '添加代理检测提示和sudo -E使用说明', author: 'doumao', date: '3 hours ago' },
-  { hash: '59d5b01', subject: '优先使用用户设置的代理，而不是加速镜像', author: 'doumao', date: '5 hours ago' },
-  { hash: '43af80e', subject: '添加下载前提示：告知用户可使用代理或加速镜像', author: 'doumao', date: '6 hours ago' },
-  { hash: 'f9b0ed1', subject: '修复：移除stderr重定向，正确显示下载进度条', author: 'doumao', date: '8 hours ago' }
+  { hash: '3c305a8', subject: '添加 amd64-v3 优化版本构建支持', author: 'doumao', date: '2 hours ago', body: '', files: [] },
+  { hash: '83c0819', subject: '添加代理检测提示和 sudo -E 使用说明', author: 'doumao', date: '3 hours ago', body: '', files: [] },
+  { hash: '59d5b01', subject: '优先使用用户设置的代理，而不是加速镜像', author: 'doumao', date: '5 hours ago', body: '', files: [] },
+  { hash: '43af80e', subject: '添加下载前代理和加速镜像提示', author: 'doumao', date: '6 hours ago', body: '', files: [] },
+  { hash: 'f9b0ed1', subject: '修复下载进度条显示', author: 'doumao', date: '8 hours ago', body: '', files: [] },
 ];
 
-async function testModelScopeAPI() {
-  console.log('🧪 开始测试 ModelScope API...\n');
-  console.log(`📝 测试提交记录数量: ${testCommits.length}`);
-  console.log('🔑 API Key: 已从环境变量读取\n');
+function configuredModels() {
+  const values = String(process.env.MODELSCOPE_MODELS || '').split(',').map(value => value.trim()).filter(Boolean);
+  return values.length ? values : undefined;
+}
 
+async function selectModels() {
+  const configured = configuredModels();
   try {
-    console.log('📡 发送 API 请求...');
-
-    const response = await fetch('https://api-inference.modelscope.cn/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'Qwen/Qwen3.5-35B-A3B',
-        messages: [
-          {
-            role: 'system',
-            content: '你是一个专业的软件版本发布助手，擅长分析 Git 提交记录并生成结构化的版本发布文档。'
-          },
-          {
-            role: 'user',
-            content: `请分析以下 Git 提交记录，生成结构化的版本发布文档。
-
-提交记录（共 ${testCommits.length} 个）：
-${testCommits.map(c => `- ${c.subject} (${c.author}, ${c.date})`).join('\n')}
-
-要求：
-1. 用中文输出
-2. 按照以下格式分类输出：
-
-### ✨ 新增（Added）
-- 新增的功能或特性
-
-### 🔧 变更（Changed）
-- 行为调整、重构、配置变更等
-
-### 🐛 修复（Fixed）
-- Bug 修复、问题解决等
-
-### ⚠️ 废弃（Deprecated）
-- 即将废弃的功能（如果有）
-
-### 📝 备注（Notes）
-- 重要的使用注意事项或兼容性说明（如果有）
-
-3. **重要**：如果某个分类没有内容，完全省略该分类的标题和内容，不要输出"（无）"
-4. 每个要点简洁明了，不超过 30 字
-5. 合并相似的提交
-6. 突出重要变更
-7. 只输出有内容的分类和要点，不要其他内容`
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 2048,
-        stream: false
-      })
+    const availableModels = await fetchModelScopeModels();
+    const selection = resolveAvailableModelCandidates({
+      modelCandidates: configured,
+      availableModels,
+      allowDiscoveredFallback: !configured,
     });
-
-    console.log(`📊 响应状态: ${response.status} ${response.statusText}\n`);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('❌ API 请求失败:');
-      console.error(`   状态码: ${response.status}`);
-      console.error(`   错误信息: ${errorText}`);
-      return false;
-    }
-
-    const data = await response.json();
-
-    // 检查响应格式
-    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-      console.error('❌ API 响应格式异常:');
-      console.error(JSON.stringify(data, null, 2));
-      return false;
-    }
-
-    const summary = data.choices[0].message.content.trim();
-
-    // 清理可能的重复 "- " 前缀
-    const cleanedSummary = summary.replace(/^- - /gm, '- ');
-
-    console.log('✅ API 调用成功!\n');
-    console.log('📋 AI 生成的总结（原始）:');
-    console.log('─'.repeat(60));
-    console.log(summary);
-    console.log('─'.repeat(60));
-    console.log('');
-
-    console.log('📋 AI 生成的总结（清理后）:');
-    console.log('─'.repeat(60));
-    console.log(cleanedSummary);
-    console.log('─'.repeat(60));
-    console.log('');
-
-    // 显示 token 使用情况
-    if (data.usage) {
-      console.log('📊 Token 使用情况:');
-      console.log(`   输入 tokens: ${data.usage.prompt_tokens}`);
-      console.log(`   输出 tokens: ${data.usage.completion_tokens}`);
-      console.log(`   总计 tokens: ${data.usage.total_tokens}`);
-      console.log('');
-    }
-
-    // 显示完整响应（用于调试）
-    console.log('🔍 完整响应数据:');
-    console.log(JSON.stringify(data, null, 2));
-
-    return true;
-
+    console.log(`模型目录: ${availableModels.length}；候选: ${selection.candidates.length}；跳过: ${selection.skipped.length}；动态补充: ${selection.discovered.length}`);
+    if (!selection.candidates.length) throw new Error('配置的候选模型均不在当前 ModelScope 目录中');
+    return selection.candidates;
   } catch (error) {
-    console.error('❌ 测试失败:');
-    console.error(`   错误类型: ${error.name}`);
-    console.error(`   错误信息: ${error.message}`);
-    if (error.stack) {
-      console.error(`   堆栈跟踪:\n${error.stack}`);
-    }
-    return false;
+    if (/均不在当前 ModelScope 目录/u.test(String(error?.message || ''))) throw error;
+    console.warn('模型目录暂时不可用，将按配置或内置候选继续测试。');
+    return configured;
   }
 }
 
-// 运行测试
-testModelScopeAPI()
-  .then(success => {
-    console.log('');
-    if (success) {
-      console.log('✅ 测试通过！ModelScope API 工作正常。');
-      process.exit(0);
-    } else {
-      console.log('❌ 测试失败！请检查错误信息。');
-      process.exit(1);
-    }
-  })
-  .catch(error => {
-    console.error('💥 未捕获的错误:', error);
-    process.exit(1);
+async function testModelScopeAPI() {
+  console.log(`开始测试 ModelScope API；提交样本: ${testCommits.length}`);
+  const modelCandidates = await selectModels();
+  const result = await requestModelScopeSummary({
+    apiKey,
+    prompt: buildSummaryPrompt(testCommits),
+    ...(modelCandidates?.length ? { modelCandidates } : {}),
+    logger: {
+      log(message) { console.log(message); },
+      error() { console.error('当前候选请求失败，继续尝试下一模型。'); },
+      warn(message) { console.warn(message); },
+    },
   });
+
+  console.log(`API 调用成功；模型: ${result.modelName}`);
+  console.log('生成的发布摘要:');
+  console.log(result.summary);
+  if (result.usage) {
+    console.log(`Token: 输入=${result.usage.prompt_tokens ?? '未知'}；输出=${result.usage.completion_tokens ?? '未知'}；总计=${result.usage.total_tokens ?? '未知'}`);
+  }
+}
+
+testModelScopeAPI().catch(error => {
+  console.error(`测试失败: ${error?.message || '未知错误'}`);
+  process.exitCode = 1;
+});
