@@ -151,10 +151,25 @@ test('summary preview validates inputs and uses the same runner without publishi
   assert.match(source, /fetch-depth: 0\n\s+persist-credentials: false/)
   assert.match(source, /MODELSCOPE_MODELS: \$\{\{ vars\.MODELSCOPE_MODELS \|\| '' \}\}/)
   assert.match(source, /RELEASE_REQUIRE_EXACT_RANGE: 'true'/)
+  assert.match(source, /RELEASE_REQUIRE_AI: 'true'/)
   assert.match(source, /await generateReleaseSummary\(\{[\s\S]*?cwd: path\.resolve\('msm-source'\)/)
+  assert.match(source, /name: 上传公开摘要与非敏感计数\n\s+if: always\(\)/)
   assert.match(source, /path: \|\n\s+release-summary-preview\/summary\.md\n\s+release-summary-preview\/metadata\.json\n/)
   assert.doesNotMatch(source, /contents: write|pages:|id-token:|schedule:|workflow_run:|softprops\/|deploy-pages|gh release|git push|go build|npm run docs:build/)
   assert.equal((source.match(/uses: actions\/upload-artifact@/g) || []).length, 1)
+})
+
+test('release summary code has a dedicated pull request validation workflow', () => {
+  const source = fs.readFileSync(path.join(root, '.github/workflows/release-summary-check.yml'), 'utf8')
+  for (const watched of [
+    "'scripts/ai-release-summary.cjs'",
+    "'scripts/generate-release-summary.cjs'",
+    "'test/ai-release-summary.test.cjs'",
+    "'test/generate-release-summary.test.cjs'",
+    "'.github/workflows/release-summary-preview.yml'",
+  ]) assert.match(source, new RegExp(watched.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+  assert.match(source, /node --test[\s\S]*test\/ai-release-summary\.test\.cjs[\s\S]*test\/generate-release-summary\.test\.cjs[\s\S]*test\/release-workflow\.test\.cjs/)
+  assert.match(source, /node-version: '24'/)
 })
 
 test('Beta OpenWrt packaging is mandatory and reuses each selected static Linux build', () => {

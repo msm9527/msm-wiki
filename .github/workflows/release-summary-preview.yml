@@ -79,6 +79,7 @@ jobs:
           RELEASE_PREVIOUS_COMMIT: ${{ steps.inputs.outputs.previous_commit }}
           RELEASE_CHANNEL: ${{ steps.inputs.outputs.channel }}
           RELEASE_REQUIRE_EXACT_RANGE: 'true'
+          RELEASE_REQUIRE_AI: 'true'
         with:
           script: |
             const path = require('node:path');
@@ -90,6 +91,7 @@ jobs:
             });
 
       - name: 上传公开摘要与非敏感计数
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: release-summary-preview-${{ steps.inputs.outputs.channel }}

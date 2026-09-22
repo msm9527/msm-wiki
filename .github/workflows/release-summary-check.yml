@@ -1,0 +1,63 @@
+name: 发布日志 AI 校验
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/ai-release-summary.cjs'
+      - 'scripts/generate-release-summary.cjs'
+      - 'scripts/RELEASE_NOTES.md'
+      - 'test/ai-release-summary.test.cjs'
+      - 'test/generate-release-summary.test.cjs'
+      - 'test/release-workflow.test.cjs'
+      - '.github/workflows/daily-build-msm.yml'
+      - '.github/workflows/daily-build-msm-beta.yml'
+      - '.github/workflows/release-summary-preview.yml'
+      - '.github/workflows/release-summary-check.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/ai-release-summary.cjs'
+      - 'scripts/generate-release-summary.cjs'
+      - 'scripts/RELEASE_NOTES.md'
+      - 'test/ai-release-summary.test.cjs'
+      - 'test/generate-release-summary.test.cjs'
+      - 'test/release-workflow.test.cjs'
+      - '.github/workflows/daily-build-msm.yml'
+      - '.github/workflows/daily-build-msm-beta.yml'
+      - '.github/workflows/release-summary-preview.yml'
+      - '.github/workflows/release-summary-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-summary-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Release summary regression tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Wiki
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run release summary regression tests
+        run: |
+          node --test \
+            test/ai-release-summary.test.cjs \
+            test/generate-release-summary.test.cjs \
+            test/release-workflow.test.cjs

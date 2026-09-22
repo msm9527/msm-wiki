@@ -11,6 +11,8 @@ const FAILURE_LABELS = {
   'rate-limited': '模型请求受到限流',
   'unsupported-model': '候选模型暂无可用提供商',
   'authentication-failed': '模型凭据无效或无访问权限',
+  'network-error': 'ModelScope 接口网络连接失败',
+  'provider-unavailable': 'ModelScope 推理服务暂时不可用',
   'timeout': '模型请求超时',
   'request-failed': '模型请求失败',
   'invalid-output': '模型输出未通过公开摘要检查',
@@ -75,6 +77,8 @@ function failureCode(error) {
   if (/insufficient balance|quota|余额|配额/iu.test(message)) return 'quota-exhausted';
   if (/no provider|unsupported.*model|model.*not found/iu.test(message)) return 'unsupported-model';
   if (/401|403|unauthorized|forbidden|invalid.*(?:key|token)|鉴权|无权限/iu.test(message)) return 'authentication-failed';
+  if (/ENOTFOUND|EAI_AGAIN|ECONNABORTED|ECONNREFUSED|ECONNRESET|ENETUNREACH|EHOSTUNREACH|ETIMEDOUT|fetch failed|network error|socket hang up/iu.test(message)) return 'network-error';
+  if (/API 请求失败:\s*5\d\d|bad gateway|service unavailable|gateway timeout|provider unavailable/iu.test(message)) return 'provider-unavailable';
   if (/timeout|timed out|超时/iu.test(message)) return 'timeout';
   if (/输出.*(?:校验|截断|未正常结束|敏感凭据)|invalid.*(?:output|summary)|达到输出上限/iu.test(message)) return 'invalid-output';
   if (/429|rate.?limit|限流/iu.test(message)) return 'rate-limited';
@@ -165,7 +169,8 @@ function formatJobSummary(result) {
  * MODELSCOPE_API_KEY, MODELSCOPE_MODELS (optional comma-separated override),
  * RELEASE_CURRENT_REF, RELEASE_PREVIOUS_COMMIT, RELEASE_CHANNEL,
  * RELEASE_LOG_SINCE_EPOCH, RELEASE_LOG_UNTIL_EPOCH, RELEASE_PREVIOUS_PUBLISHED_AT,
- * RELEASE_REQUIRE_EXACT_RANGE (preview: reject an invalid/missing ancestor).
+ * RELEASE_REQUIRE_EXACT_RANGE (preview: reject an invalid/missing ancestor),
+ * RELEASE_REQUIRE_AI (health check: fail after writing diagnostics unless AI succeeds).
  * Returns only the public summary and non-sensitive generation metadata.
  * modelAttempts projects core attempts into { model, status, reasonCode } only;
  * provider error text is classified in memory and never included in reports.
@@ -364,6 +369,9 @@ async function generateReleaseSummary({
     fs.writeFileSync(path.join(artifactDirectory, 'summary.md'), `${result.summary}\n`);
     const { summary: _summary, ...metadata } = result;
     fs.writeFileSync(path.join(artifactDirectory, 'metadata.json'), `${JSON.stringify(metadata, null, 2)}\n`);
+  }
+  if (env.RELEASE_REQUIRE_AI === 'true' && commits.length && status !== 'ai') {
+    throw new Error(`AI 发布日志健康检查失败（${fallbackReason || 'request-failed'}）`);
   }
   return result;
 }

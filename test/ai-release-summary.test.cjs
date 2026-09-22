@@ -8,6 +8,7 @@ const { execFileSync } = require('node:child_process');
 const {
   buildFallbackSummary,
   DEFAULT_MODEL_CANDIDATES,
+  MODELSCOPE_CHAT_COMPLETIONS_URL,
   buildGitLogArgs,
   collectFallbackSummaryItems,
   collectReleaseCommits,
@@ -235,7 +236,9 @@ test('ModelScope defaults use catalog-verified models with room for reasoning an
     prompt: 'test prompt',
     logger: { log() {}, error() {} },
     modelCandidates: DEFAULT_MODEL_CANDIDATES,
-    fetchImpl: async (_url, options) => {
+    fetchImpl: async (url, options) => {
+      assert.equal(url, MODELSCOPE_CHAT_COMPLETIONS_URL);
+      assert.equal(url, 'https://api-inference.modelscope.cn/v1/chat/completions');
       const request = JSON.parse(options.body);
       requestedModel = request.model;
       assert.equal(request.max_tokens, 16000);
@@ -277,6 +280,14 @@ test('only Qwen3.5 models receive reasoning and a larger total token budget', as
     assert.equal(body.max_tokens, /^Qwen\/Qwen3\.5-/u.test(model) ? 16000 : 8000);
     assert.equal(body.extra_body, undefined, 'the HTTP API receives the option at the top level');
   }
+});
+
+test('default model candidates stay on currently served Qwen3.5 models', () => {
+  assert.deepEqual(DEFAULT_MODEL_CANDIDATES, [
+    'Qwen/Qwen3.5-397B-A17B',
+    'Qwen/Qwen3.5-122B-A10B',
+    'Qwen/Qwen3.5-35B-A3B',
+  ]);
 });
 
 test('time-window and fallback log reads are pinned to the requested source ref', () => {
@@ -514,6 +525,20 @@ test('response-body timeouts and malformed JSON fail over without exposing secre
   assert.doesNotMatch(logs.join('\n'), new RegExp(key));
 });
 
+test('transport failures retain only a safe network cause code', async () => {
+  const error = await requestModelScopeSummary({
+    apiKey: 'private-test-credential', prompt: 'test prompt', modelCandidates: ['network-model'], logger: silentLogger,
+    fetchImpl: async () => {
+      const failure = new TypeError('fetch failed');
+      failure.cause = { code: 'ENOTFOUND', hostname: 'private.internal.example' };
+      throw failure;
+    },
+  }).then(() => null, value => value);
+  assert.ok(error);
+  assert.match(error.attempts[0].error, /fetch failed \[ENOTFOUND\]/);
+  assert.doesNotMatch(JSON.stringify(error.attempts), /private\.internal|private-test-credential/);
+});
+
 test('unclosed thinking, absent choices and exposed credentials are never published', async () => {
   const responses = ['<think>reasoning still going', undefined, `${validSummary}\n- private-secret-key`];
   for (const content of responses) {
@@ -540,7 +565,7 @@ test('model overrides are trimmed and deduplicated with safe defaults and invali
   assert.deepEqual(resolveModelCandidates([]), [...DEFAULT_MODEL_CANDIDATES]);
   assert.throws(() => resolveModelCandidates(['model\nAuthorization: secret']), /无效模型标识/);
   assert.ok(!DEFAULT_MODEL_CANDIDATES.includes('ZhipuAI/GLM-5'));
-  assert.ok(!DEFAULT_MODEL_CANDIDATES.includes('Qwen/Qwen3.5-35B-A3B'));
+  assert.ok(!DEFAULT_MODEL_CANDIDATES.includes('Qwen/Qwen3-235B-A22B-Instruct-2507'));
 });
 
 function withReleaseRepository(run) {

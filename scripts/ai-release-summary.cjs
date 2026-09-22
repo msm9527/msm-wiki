@@ -14,12 +14,13 @@ const DEFAULT_BODY_CHAR_LIMIT = 6000;
 const DEFAULT_BODY_HIGHLIGHT_LIMIT = Infinity;
 const DEFAULT_BODY_HIGHLIGHT_CHAR_LIMIT = Infinity;
 const DEFAULT_PROMPT_CHAR_LIMIT = 180000;
-// Verified against https://api-inference.modelscope.com/v1/models on 2026-09-06.
+const MODELSCOPE_CHAT_COMPLETIONS_URL = 'https://api-inference.modelscope.cn/v1/chat/completions';
+// Verified against https://api-inference.modelscope.cn/v1/models on 2026-09-22.
 // Catalog membership does not guarantee the caller's account has inference quota.
 const DEFAULT_MODEL_CANDIDATES = Object.freeze([
   'Qwen/Qwen3.5-397B-A17B',
-  'Qwen/Qwen3-235B-A22B-Instruct-2507',
   'Qwen/Qwen3.5-122B-A10B',
+  'Qwen/Qwen3.5-35B-A3B',
 ]);
 const DEFAULT_MAX_TOKENS = 8000;
 const DEFAULT_REQUEST_TIMEOUT_MS = 180000;
@@ -1342,7 +1343,11 @@ function validateSummary(summary, { verifiedClaims = [] } = {}) {
 }
 
 function sanitizeModelError(error, apiKey) {
-  return String(error?.message || error || '未知错误')
+  const causeCode = String(error?.cause?.code || '');
+  const safeCause = /^(?:ENOTFOUND|EAI_AGAIN|ECONNABORTED|ECONNREFUSED|ECONNRESET|ENETUNREACH|EHOSTUNREACH|ETIMEDOUT)$/u.test(causeCode)
+    ? ` [${causeCode}]`
+    : '';
+  return `${String(error?.message || error || '未知错误')}${safeCause}`
     .split(String(apiKey)).join('[REDACTED]')
     .replace(/Bearer\s+[^\s"',;]+/giu, 'Bearer [REDACTED]')
     .replace(/[\r\n]+/gu, ' ')
@@ -1403,7 +1408,7 @@ async function requestModelScopeSummary({
     try {
       logger?.log?.(`尝试使用模型: ${modelName}`);
       const data = await withRequestTimeout(async signal => {
-        const response = await fetchImpl('https://api-inference.modelscope.com/v1/chat/completions', {
+        const response = await fetchImpl(MODELSCOPE_CHAT_COMPLETIONS_URL, {
           method: 'POST',
           signal,
           headers: {
@@ -1493,6 +1498,7 @@ async function requestModelScopeSummary({
 
 module.exports = {
   DEFAULT_MODEL_CANDIDATES,
+  MODELSCOPE_CHAT_COMPLETIONS_URL,
   SUMMARY_SECTIONS,
   buildFallbackSummary,
   buildGitLogArgs,

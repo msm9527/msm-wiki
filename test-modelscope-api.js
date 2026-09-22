@@ -28,7 +28,7 @@ const testCommits = [
 async function testModelScopeAPI() {
   console.log('🧪 开始测试 ModelScope API...\n');
   console.log(`📝 测试提交记录数量: ${testCommits.length}`);
-  console.log(`🔑 API Key: ${API_KEY.substring(0, 10)}...${API_KEY.substring(API_KEY.length - 10)}\n`);
+  console.log('🔑 API Key: 已从环境变量读取\n');
 
   try {
     console.log('📡 发送 API 请求...');
@@ -40,7 +40,7 @@ async function testModelScopeAPI() {
         'Authorization': `Bearer ${API_KEY}`
       },
       body: JSON.stringify({
-        model: 'Qwen/Qwen2.5-Coder-32B-Instruct',
+        model: 'Qwen/Qwen3.5-35B-A3B',
         messages: [
           {
             role: 'system',
@@ -80,7 +80,7 @@ ${testCommits.map(c => `- ${c.subject} (${c.author}, ${c.date})`).join('\n')}
           }
         ],
         temperature: 0.7,
-        max_tokens: 1024,
+        max_tokens: 2048,
         stream: false
       })
     });

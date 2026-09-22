@@ -109,6 +109,28 @@ test('missing key uses an explicit fallback, emits a warning and never calls inf
   assert.match(core.jobSummary, /规则回退/);
 });
 
+test('strict AI health checks fail only after writing safe diagnostics and artifacts', async t => {
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'msm-summary-strict-'));
+  t.after(() => fs.rmSync(temp, { recursive: true, force: true }));
+  const core = makeCore();
+  await assert.rejects(generateReleaseSummary({
+    core,
+    artifactDirectory: temp,
+    env: { MODELSCOPE_API_KEY: 'secret-key', RELEASE_REQUIRE_AI: 'true' },
+    summaryModule: makeModule({
+      async requestModelScopeSummary() {
+        const error = new Error('fetch failed');
+        error.attempts = [{ modelName: 'Strong/Model', status: 'failed', error: 'fetch failed [ENOTFOUND]' }];
+        throw error;
+      },
+    }),
+  }), /AI 发布日志健康检查失败（network-error）/);
+  assert.match(core.jobSummary, /network-error/);
+  assert.match(core.warnings[0], /网络连接失败/);
+  assert.deepEqual(fs.readdirSync(temp).sort(), ['metadata.json', 'summary.md']);
+  assert.doesNotMatch(JSON.stringify({ core, metadata: fs.readFileSync(path.join(temp, 'metadata.json'), 'utf8') }), /secret-key|ENOTFOUND/);
+});
+
 test('API failure logs contain neither response bodies nor credentials or private context', async () => {
   const core = makeCore();
   const result = await generateReleaseSummary({
@@ -339,6 +361,8 @@ test('attempt projection only exposes known statuses and codes, and redacts cred
           { model: 'Strong/secret-key', status: 'failed', reasonCode: privateContext, error: `401 ${privateContext}` },
           { model: 'Strong/InvalidStatus', status: privateContext, reasonCode: privateContext, error: privateContext },
           { model: 'Strong/TimedOut', status: 'failed', error: `模型请求超时 ${privateContext}` },
+          { model: 'Strong/Network', status: 'failed', error: `fetch failed [ENOTFOUND] ${privateContext}` },
+          { model: 'Strong/Provider', status: 'failed', error: `API 请求失败: 503 ${privateContext}` },
           { model: 'Strong/InvalidOutput', status: 'failed', error: `模型输出校验失败: ${privateContext}` },
           { model: 'Strong/UnknownCode', status: 'failed', reasonCode: privateContext, error: privateContext },
         ];
@@ -350,6 +374,8 @@ test('attempt projection only exposes known statuses and codes, and redacts cred
     { model: 'unknown-model', status: 'failed', reasonCode: 'authentication-failed' },
     { model: 'Strong/InvalidStatus', status: 'unknown', reasonCode: 'unknown' },
     { model: 'Strong/TimedOut', status: 'failed', reasonCode: 'timeout' },
+    { model: 'Strong/Network', status: 'failed', reasonCode: 'network-error' },
+    { model: 'Strong/Provider', status: 'failed', reasonCode: 'provider-unavailable' },
     { model: 'Strong/InvalidOutput', status: 'failed', reasonCode: 'invalid-output' },
     { model: 'Strong/UnknownCode', status: 'failed', reasonCode: 'request-failed' },
   ]);

@@ -11,7 +11,7 @@
 ✅ **响应速度快** - 国内网络延迟低
 ✅ **支持中文** - 通义千问专为中文优化
 ✅ **OpenAI 兼容** - API 格式兼容 OpenAI
-✅ **强大的模型** - Qwen3-30B-A3B，并提供轻量级备选
+✅ **强大的模型** - Qwen3.5-397B-A17B，并提供当前可用的备选
 
 ### 对比
 
@@ -116,14 +116,14 @@ AI 生成的总结:
 ### 请求格式
 
 ```javascript
-const response = await fetch('https://api-inference.modelscope.com/v1/chat/completions', {
+const response = await fetch('https://api-inference.modelscope.cn/v1/chat/completions', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${MODELSCOPE_API_KEY}`
   },
   body: JSON.stringify({
-    model: 'Qwen/Qwen3-30B-A3B',
+    model: 'Qwen/Qwen3.5-397B-A17B',
     messages: [
       {
         role: 'system',
@@ -148,7 +148,7 @@ const response = await fetch('https://api-inference.modelscope.com/v1/chat/compl
   "id": "chatcmpl-xxxxxxxx",
   "object": "chat.completion",
   "created": 1234567890,
-  "model": "Qwen/Qwen3-30B-A3B",
+  "model": "Qwen/Qwen3.5-397B-A17B",
   "choices": [
     {
       "index": 0,
@@ -173,12 +173,11 @@ ModelScope 提供多个开源模型，推荐使用：
 
 | 模型 | 说明 | 参数量 | 适用场景 |
 |------|------|--------|---------|
-| Qwen/Qwen3-30B-A3B | 通义千问 3 MoE（当前首选） | 30B-A3B | 代码分析、技术文档 |
-| Qwen/Qwen3-14B | 通义千问 3（轻量备选） | 14B | 通用总结、低配额 |
-| Qwen/Qwen3-8B | 通义千问 3（快速备选） | 8B | 兜底生成 |
-| Qwen/Qwen3-Coder-30B-A3B-Instruct | 通义千问 3 Coder | 30B-A3B | 代码变更分析 |
+| Qwen/Qwen3.5-397B-A17B | 通义千问 3.5 MoE（当前首选） | 397B-A17B | 复杂发布证据归纳 |
+| Qwen/Qwen3.5-122B-A10B | 通义千问 3.5 MoE（强力备选） | 122B-A10B | 技术文档与代码变更分析 |
+| Qwen/Qwen3.5-35B-A3B | 通义千问 3.5 MoE（轻量备选） | 35B-A3B | 配额或提供方切换 |
 
-**当前工作流使用:** `Qwen/Qwen3-30B-A3B`，失败后依次切换到 `Qwen/Qwen3-14B`、`Qwen/Qwen3-8B`。
+**当前工作流使用:** `Qwen/Qwen3.5-397B-A17B`，失败后依次切换到 `Qwen/Qwen3.5-122B-A10B`、`Qwen/Qwen3.5-35B-A3B`。该目录于 2026-09-22 通过 `/v1/models` 核对。
 
 ## 成本分析
 
@@ -315,11 +314,11 @@ AI 总结失败: fetch failed
 
 ```javascript
 body: JSON.stringify({
-  model: 'Qwen/Qwen3-30B-A3B',          // 当前工作流首选
+  model: 'Qwen/Qwen3.5-397B-A17B',      // 当前工作流首选
   // 或
-  model: 'Qwen/Qwen3-14B',              // 轻量备选
+  model: 'Qwen/Qwen3.5-122B-A10B',      // 强力备选
   // 或
-  model: 'Qwen/Qwen3-8B',               // 快速兜底
+  model: 'Qwen/Qwen3.5-35B-A3B',        // 轻量备选
   // ...
 })
 ```
@@ -328,7 +327,7 @@ body: JSON.stringify({
 
 ```javascript
 {
-  model: 'Qwen/Qwen3-30B-A3B',
+  model: 'Qwen/Qwen3.5-397B-A17B',
   messages: [...],
   temperature: 0.7,      // 创造性（0-1）
   top_p: 0.8,           // 采样概率
@@ -450,7 +449,7 @@ A: 不会自动过期，但可以手动删除或重新生成。
 
 1. **有免费额度** - 适合每日构建，但需关注账号配额
 2. **国内稳定** - 无需翻墙，访问速度快
-3. **强大模型** - Qwen3-30B-A3B，另有 Qwen3-14B / Qwen3-8B 兜底
+3. **强大模型** - Qwen3.5-397B-A17B，另有 122B-A10B / 35B-A3B 兜底
 4. **中文优化** - 专为中文场景设计
 5. **OpenAI 兼容** - API 格式标准，易于集成
 
