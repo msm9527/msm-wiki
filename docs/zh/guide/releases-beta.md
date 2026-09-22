@@ -12,7 +12,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.5.3" data-release-date="2026-09-22 10:20:18 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.5.3">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.5.3" data-release-date="2026-09-22 16:11:21 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.5.3">
   <div class="msm-release-hero-copy">
     <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.5.3</code></h3>
   </div>
@@ -22,56 +22,60 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>2 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>2 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-22 10:20:18 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>3 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>3 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-22 16:11:21 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSBwcmV2ZW50IHN0YWxlIHJ1bnRpbWUgc25hcHNob3RzIC8g6Ziy5q2i57uE572R6L+Q6KGM54q25oCB5b+r54Wn6L+H5pyfIiwiLSBwcmVzZXJ2ZSBUYWlsc2NhbGUgdXBkYXRlIGR1cmluZyBicm93c2VyIGF1dGggLyDmtY/op4jlmajmjojmnYPml7bkv53nlZkgVGFpbHNjYWxlIOabtOaWsCJdLCJtYWpvciI6W10sImFkZGVkIjpbXSwiY2hhbmdlZCI6W10sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSBwcmV2ZW50IHN0YWxlIHJ1bnRpbWUgc25hcHNob3RzIC8g6Ziy5q2i57uE572R6L+Q6KGM54q25oCB5b+r54Wn6L+H5pyfIiwiLSBwcmVzZXJ2ZSBUYWlsc2NhbGUgdXBkYXRlIGR1cmluZyBicm93c2VyIGF1dGggLyDmtY/op4jlmajmjojmnYPml7bkv53nlZkgVGFpbHNjYWxlIOabtOaWsCJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS7jiAyMDI2LTA5LTIxVDIzOjMyOjI2WiDkuYvlkI7nmoQgMyDkuKrmj5DkuqTkuK3mlbTnkIbvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKuiHquWumuS5ieiKgueCueaUr+aMgeaJuemHj+WIoOmZpCoq77ya5Zyo6IqC54K557yW6L6R5Zmo5Lit5paw5aKe5aSa6YCJ6Z2i5p2/77yM5Y+v5LiA5qyh5oCn56e76Zmk5aSa5Liq5peg55So6YWN572u77yM5riF55CG5YiX6KGo5pu06auY5pWI44CCIiwiLSAqKlRhaWxzY2FsZSDmm7TmlrDpgYforqTor4HkuI3lho3lm57pgIAqKu+8mue7hOS7tuWNh+e6p+WQjuiLpeWboOmcgOimgea1j+iniOWZqOeZu+W9leiAjOmHjeWQr+Wksei0pe+8jOWwhuS/neeVmeaWsOeJiOacrOiAjOmdnui/mOWOn++8jOmBv+WFjemHjeWkjeabtOaWsOOAgiIsIi0gKirnu4TnvZHnirbmgIHlv6vnhafnpoHnlKjnvJPlrZgqKu+8muWQjuerr+aOpeWPo+S4juWJjeerr+ivt+axguWdh+WinuWKoOmYsue8k+WtmOagh+iusO+8jOehruS/nemhtemdouaYvuekuueahOWcqOe6v+eKtuaAgeS4juWunuaXtuaVsOaNruS4gOiHtOOAgiJdLCJtYWpvciI6W10sImFkZGVkIjpbIi0gKipDbGFzaCDoioLngrnmibnph4/nrqHnkIYqKu+8muiHquWumuS5ieiKgueCuee8lui+keWZqOaWsOWinuaJuemHj+aTjeS9nOmdouadv++8jOaUr+aMgeWIhuS6q+mTvuaOpeS4jiBZQU1MIOS4pOenjeaooeW8j+S4i+eahOWkmumAieS4juehruiupOWIoOmZpOOAgiJdLCJjaGFuZ2VkIjpbXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItICoq6Ziy5q2i57uE572R5b+r54Wn5pWw5o2u6L+H5pyfKirvvJpOZXR3b3JraW5nIEFQSSDlk43lupTlpLTlop7liqAgYG5vLXN0b3JlYCDmjIfku6TvvIzop6PlhrPlm6DnvJPlrZjlr7zoh7TnmoTnirbmgIHmmL7npLrmu57lkI7pl67popjjgIIiLCItICoq5L+u5q2jIFRhaWxzY2FsZSDmm7TmlrDlm57mu5rpgLvovpEqKu+8muivhuWIq+KAnOmcgOimgeeZu+W9leKAnemUmeivr+S4uumihOacn+eKtuaAge+8jOWcqOatpOaDheWGteS4i+WBnOatouabtOaWsOWbnua7mu+8jOehruS/neWNh+e6p+aIkOaenOS/neeVmeOAgiJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6W119fQ== -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>prevent stale runtime snapshots / 防止组网运行状态快照过期</p>
+    <p><strong>自定义节点支持批量删除：</strong>在节点编辑器中新增多选面板，可一次性移除多个无用配置，清理列表更高效。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>preserve Tailscale update during browser auth / 浏览器授权时保留 Tailscale 更新</p>
+    <p><strong>Tailscale 更新遇认证不再回退：</strong>组件升级后若因需要浏览器登录而重启失败，将保留新版本而非还原，避免重复更新。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">03</span>
+    <p><strong>组网状态快照禁用缓存：</strong>后端接口与前端请求均增加防缓存标记，确保页面显示的在线状态与实时数据一致。</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
+  <a href="#release-added">🆕 新增功能 <span>1</span></a>
   <a href="#release-fixed">🐛 问题修复 <span>2</span></a>
-  <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
+
+<section class="msm-release-section msm-release-section--added">
+
+### 🆕 新增功能 {#release-added}
+
+- **Clash 节点批量管理**：自定义节点编辑器新增批量操作面板，支持分享链接与 YAML 两种模式下的多选与确认删除。
+
+</section>
 
 <section class="msm-release-section msm-release-section--fixed">
 
 ### 🐛 问题修复 {#release-fixed}
 
-- prevent stale runtime snapshots / 防止组网运行状态快照过期
-- preserve Tailscale update during browser auth / 浏览器授权时保留 Tailscale 更新
-
-</section>
-
-<section class="msm-release-section msm-release-section--notes">
-
-### 📌 升级提醒 {#release-notes}
-
-- 从 2026-09-21T23:32:26Z 之后的 3 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- **防止组网快照数据过期**：Networking API 响应头增加 `no-store` 指令，解决因缓存导致的状态显示滞后问题。
+- **修正 Tailscale 更新回滚逻辑**：识别“需要登录”错误为预期状态，在此情况下停止更新回滚，确保升级成果保留。
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`94d27fd`](https://github.com/msm9527/msm/commit/94d27fd9414b15e0ce1e0d78644b12cd5aeb75b9)
-- **提交信息**：chore(release): bump version to 1.5.3 / 升级版本至 1.5.3
+- **源提交**： [`9658390`](https://github.com/msm9527/msm/commit/9658390aa14810ceaff9c8673a4ff13e070ca82b)
+- **提交信息**：feat(Clash): add bulk deletion for custom nodes / 增加自定义节点批量删除
 - **提交作者**：root
-- **提交时间**：2026-09-22 10:20:18 CST
+- **提交时间**：2026-09-22 16:11:21 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
