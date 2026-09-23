@@ -12,52 +12,70 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-1.5.3" data-release-date="2026-09-22 16:11:21 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.5.3">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.0.0" data-release-date="2026-09-23 23:09:02 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.0">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-1.5.3</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.0.0</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.5.3" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.0" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>3 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>3 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-22 16:11:21 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>8 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>4 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-23 23:09:02 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKuiHquWumuS5ieiKgueCueaUr+aMgeaJuemHj+WIoOmZpCoq77ya5Zyo6IqC54K557yW6L6R5Zmo5Lit5paw5aKe5aSa6YCJ6Z2i5p2/77yM5Y+v5LiA5qyh5oCn56e76Zmk5aSa5Liq5peg55So6YWN572u77yM5riF55CG5YiX6KGo5pu06auY5pWI44CCIiwiLSAqKlRhaWxzY2FsZSDmm7TmlrDpgYforqTor4HkuI3lho3lm57pgIAqKu+8mue7hOS7tuWNh+e6p+WQjuiLpeWboOmcgOimgea1j+iniOWZqOeZu+W9leiAjOmHjeWQr+Wksei0pe+8jOWwhuS/neeVmeaWsOeJiOacrOiAjOmdnui/mOWOn++8jOmBv+WFjemHjeWkjeabtOaWsOOAgiIsIi0gKirnu4TnvZHnirbmgIHlv6vnhafnpoHnlKjnvJPlrZgqKu+8muWQjuerr+aOpeWPo+S4juWJjeerr+ivt+axguWdh+WinuWKoOmYsue8k+WtmOagh+iusO+8jOehruS/nemhtemdouaYvuekuueahOWcqOe6v+eKtuaAgeS4juWunuaXtuaVsOaNruS4gOiHtOOAgiJdLCJtYWpvciI6W10sImFkZGVkIjpbIi0gKipDbGFzaCDoioLngrnmibnph4/nrqHnkIYqKu+8muiHquWumuS5ieiKgueCuee8lui+keWZqOaWsOWinuaJuemHj+aTjeS9nOmdouadv++8jOaUr+aMgeWIhuS6q+mTvuaOpeS4jiBZQU1MIOS4pOenjeaooeW8j+S4i+eahOWkmumAieS4juehruiupOWIoOmZpOOAgiJdLCJjaGFuZ2VkIjpbXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItICoq6Ziy5q2i57uE572R5b+r54Wn5pWw5o2u6L+H5pyfKirvvJpOZXR3b3JraW5nIEFQSSDlk43lupTlpLTlop7liqAgYG5vLXN0b3JlYCDmjIfku6TvvIzop6PlhrPlm6DnvJPlrZjlr7zoh7TnmoTnirbmgIHmmL7npLrmu57lkI7pl67popjjgIIiLCItICoq5L+u5q2jIFRhaWxzY2FsZSDmm7TmlrDlm57mu5rpgLvovpEqKu+8muivhuWIq+KAnOmcgOimgeeZu+W9leKAnemUmeivr+S4uumihOacn+eKtuaAge+8jOWcqOatpOaDheWGteS4i+WBnOatouabtOaWsOWbnua7mu+8jOehruS/neWNh+e6p+aIkOaenOS/neeVmeOAgiJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6W119fQ== -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKldpcmVHdWFyZCDltYzlhaXmiYvmnLrlm57lrrbphY3nva4qKu+8mueUn+aIkCBDbGFzaCDmiJYgU2luZy1Cb3gg5omL5py66YWN572u5pe25Y+v5bCGIFdpcmVHdWFyZCDkvZzkuLrlj6/pgInlm57lrrboioLngrnltYzlhaUgUkVNT1RFLUhPTUUg57uE77yM5omL5py65Y+q6ZyA6L+Q6KGM5LiA5Liq5Luj55CG5a6i5oi356uvIFRVTiDljbPlj6/lkIzml7bkvb/nlKjku6PnkIblkowgV2lyZUd1YXJkIOWbnuWutumAmumBk++8m+S7jeS8mumineWkluS6pOS7mOWOn+WniyBXaXJlR3VhcmQg6YWN572u5paH5Lu25L6b54us56uL5L2/55So44CCIiwiLSAqKkFSTSDorr7lpIfmmL7npLrlh4bnoa4gU29DIOWei+WPtyoq77ya5ZyoIExpbnV4IEFSTS9BUk02NCDorr7lpIfkuIror7vlj5borr7lpIfmoJHkv6Hmga/vvIzlsIbpgJrnlKjmoLjlv4Plnovlj7fvvIjlpoIgQ29ydGV4LUE1M++8ieihpeWFheS4uuWFt+S9kyBTb0Mg5Z6L5Y+377yI5aaCIE1lZGlhVGVrIE1UNzk4N0HjgIFSb2NrY2hpcCBSSzM1ODjvvInvvIznoazku7bkv6Hmga/mm7Tnsr7noa7jgIIiLCItICoqSVB2NiDlnLDlnYDnirbmgIHmuIXmmbDmoIfor4YqKu+8muS7quihqOebmOe9kee7nOWcsOWdgOWIl+ihqOaUr+aMgeaYvuekulwi5Li05pe2XCLlkoxcIuW3suW8g+eUqFwi5qCH562+77yM5biu5Yqp6K+G5YirIElQdjYg6ZqQ56eB6L2u5o2i5Zyw5Z2A5ZKM5Y2z5bCG5aSx5pWI55qE5Zyw5Z2A77yb6LaF6L+HIDIg5Liq5Zyw5Z2A5pe26Ieq5Yqo5oqY5Y+g77yM54K55Ye75bGV5byA5p+l55yL5a6M5pW05YiX6KGo44CCIiwiLSAqKkROUyDlsLHnu6rmo4Dmn6XkuI3lho3kuqfnlJ/mn6Xor6IqKu+8muacjeWKoeWQr+WKqOaXtuajgOafpSBETlMg56uv5Y+j5bCx57uq54q25oCB5pS55Li6IFRDUCDov57mjqXmjqLmtYvvvIzkuI3lho3lj5HpgIHlrp7pmYUgRE5TIOafpeivouivt+axgu+8jOWHj+WwkeS4jeW/heimgeeahOe9kee7nOa1gemHj+OAgiJdLCJtYWpvciI6W10sImFkZGVkIjpbIi0gKipBUk0gU29DIOWei+WPt+ivhuWIqyoq77ya5ZCO56uv5paw5aKeIENQVSDlnovlj7fop6PmnpDmqKHlnZfvvIzmlK/mjIHor7vlj5YgYC9zeXMvZmlybXdhcmUvZGV2aWNldHJlZS9iYXNlL2NvbXBhdGlibGVgIOaIliBgL3Byb2MvZGV2aWNlLXRyZWUvY29tcGF0aWJsZWDvvIzor4bliKsgQWxsd2lubmVy44CBQW1sb2dpY+OAgUJyb2FkY29t44CBTlhQ44CBTWFydmVsbOOAgU1lZGlhVGVr44CBTlZJRElB44CBUXVhbGNvbW3jgIFSb2NrY2hpcOOAgVNhbXN1bmcg562J5Y6C5ZWG55qEIFNvQyDlnovlj7fvvIzlnKjpgJrnlKjmoLjlv4Plnovlj7fln7rnoYDkuIrooaXlhYXlhbfkvZPoiq/niYfkv6Hmga/jgIIiLCItICoqV2lyZUd1YXJkIOe7k+aehOWMlumFjee9riBBUEkqKu+8mkVucm9sbG1lbnQg5o6l5Y+j5paw5aKeIGB3aXJlZ3VhcmRgIOWtl+aute+8jOi/lOWbnuWMheWQq+engemSpeOAgeWcsOWdgOOAgUROU+OAgU1UVeOAgeacjeWKoeWZqOOAgeerr+WPo+OAgeWFrOmSpeOAgemihOWFseS6q+WvhumSpeOAgeWFgeiuuCBJUCDlkozkv53mtLvpl7TpmpTnmoTnu5PmnoTljJblr7nosaHvvIznp7vliqjnq6/ml6DpnIDop6PmnpAgSU5JIOagvOW8j+WNs+WPr+ebtOaOpeS9v+eUqOOAgiJdLCJjaGFuZ2VkIjpbIi0gKirnp7vliqjphY3nva7mlK/mjIHltYzlhaUgV2lyZUd1YXJkIOWbnuWutumAmumBkyoq77ya5Yib5bu65omL5py66YWN572u5YyF5pe277yM6Iul5ZCM5pe26YCJ5oup5Luj55CG6YWN572u5ZKMIFdpcmVHdWFyZCDnvZHnu5zmnI3liqHvvIzns7vnu5/kvJrlhYjliJvlu7ogV2lyZUd1YXJkIOaIkOWRmOW5tuWwhue7k+aehOWMlumFjee9ruW1jOWFpSBDbGFzaC9TaW5nLUJveCDphY3nva7mlofku7bvvIzkvZzkuLogUkVNT1RFLUhPTUUg57uE5YaF55qE5Y+v6YCJ5Zue5a626IqC54K577yb6Iul5bWM5YWl6YWN572u55Sf5oiQ5aSx6LSl77yM5Lya6Ieq5Yqo5riF55CG5bey5Yib5bu655qEIFdpcmVHdWFyZCDmiJDlkZjvvIzpgb/lhY3mrovnlZnml6DmlYjphY3nva7jgIIiLCItICoq572R57uc5Zyw5Z2A5YiX6KGo5pSv5oyB5oqY5Y+g5bGV5byAKirvvJrorr7lpIfkv6Hmga/nu4Tku7bkuK3vvIzlvZPlkIzkuIDmjqXlj6PmnInotoXov4cgMiDkuKogSVAg5Zyw5Z2A5pe26buY6K6k5oqY5Y+g5pi+56S677yM55So5oi35Y+v54K55Ye75bGV5byA5p+l55yL5a6M5pW05YiX6KGo77yM5pS26LW35ZCO5oGi5aSN57Sn5YeR6KeG5Zu+77yM6ZW/5Zyw5Z2A5YiX6KGo5pu05piT5rWP6KeI44CCIiwiLSAqKklQdjYg5Zyw5Z2A5oyJ56iz5a6a5oCn5o6S5bqPKirvvJrlhazlhbEgSVB2NiDlnLDlnYDmjInnqLPlrprmgKfkvJjlhYjmjpLluo/vvIznqLPlrprlnLDlnYDmjpLlnKjkuLTml7blnLDlnYDkuYvliY3vvIzlt7LlvIPnlKjlnLDlnYDmjpLlnKjmnIDlkI7vvIzmlrnkvr/nlKjmiLfor4bliKvmjqjojZDkvb/nlKjnmoTlnLDlnYDjgIIiLCItICoqV2lyZUd1YXJkIOerr+eCueino+aekOaUr+aMgSBJUHY2IOagvOW8jyoq77ya5a6i5oi356uv6YWN572u55Sf5oiQ5pe25q2j56Gu6Kej5p6QIGBbMjAwMTpkYjg6OjEwXToxNzcxMWAg5qC85byP55qEIElQdjYg56uv54K577yM5ouG5YiG5Li65pyN5Yqh5Zmo5Zyw5Z2A5ZKM56uv5Y+j44CCIl0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSAqKkROUyDlsLHnu6rmjqLmtYvkuI3lj5HpgIHmn6Xor6IqKu+8muS/ruWkjSBETlMg5pyN5Yqh5bCx57uq5qOA5p+l5Lya5Y+R6YCB5a6e6ZmFIEROUyDmn6Xor6LnmoTpl67popjvvIzmlLnkuLrkvb/nlKggVENQIOi/nuaOpeaOoua1i+err+WPo+ebkeWQrOeKtuaAge+8jOmBv+WFjeWQr+WKqOi/h+eoi+S4reS6p+eUn+mineWkliBETlMg5rWB6YeP44CCIiwiLSAqKuWNleacjeWKoeeKtuaAgeWIt+aWsOS4jeW9seWTjeWFqOWxgOe8k+WtmCoq77ya5L+u5aSN5Y2V5Liq5pyN5Yqh54q25oCB5Yi35paw5Lya5a+86Ie05YWo6YOo5pyN5Yqh54q25oCB57yT5a2Y6L+H5pyf5pe26Ze06YeN572u55qE6Zeu6aKY77yM5pS55Li65oyJ5pyN5Yqh5ZCN54us56uL566h55CG57yT5a2Y6L+H5pyf5pe26Ze077yM5YeP5bCR5LiN5b+F6KaB55qE6YeN5aSN5p+l6K+i44CCIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0gKirniYjmnKzlj7fljYfnuqfoh7MgMi4wLjAqKu+8muacrOasoeWPkeW4g+WwhueJiOacrOWPt+S7jiAxLjUuMyDljYfnuqfoh7MgMi4wLjDvvIzlj43mmKAgV2lyZUd1YXJkIOW1jOWFpemFjee9ruetieWKn+iDveWPmOabtOOAgiJdfX0= -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p><strong>自定义节点支持批量删除：</strong>在节点编辑器中新增多选面板，可一次性移除多个无用配置，清理列表更高效。</p>
+    <p><strong>WireGuard 嵌入手机回家配置：</strong>生成 Clash 或 Sing-Box 手机配置时可将 WireGuard 作为可选回家节点嵌入 REMOTE-HOME 组，手机只需运行一个代理客户端 TUN 即可同时使用代理和 WireGuard 回家通道；仍会额外交付原始 WireGuard 配置文件供独立使用。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p><strong>Tailscale 更新遇认证不再回退：</strong>组件升级后若因需要浏览器登录而重启失败，将保留新版本而非还原，避免重复更新。</p>
+    <p><strong>ARM 设备显示准确 SoC 型号：</strong>在 Linux ARM/ARM64 设备上读取设备树信息，将通用核心型号（如 Cortex-A53）补充为具体 SoC 型号（如 MediaTek MT7987A、Rockchip RK3588），硬件信息更精确。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p><strong>组网状态快照禁用缓存：</strong>后端接口与前端请求均增加防缓存标记，确保页面显示的在线状态与实时数据一致。</p>
+    <p><strong>IPv6 地址状态清晰标识：</strong>仪表盘网络地址列表支持显示&quot;临时&quot;和&quot;已弃用&quot;标签，帮助识别 IPv6 隐私轮换地址和即将失效的地址；超过 2 个地址时自动折叠，点击展开查看完整列表。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">04</span>
+    <p><strong>DNS 就绪检查不再产生查询：</strong>服务启动时检查 DNS 端口就绪状态改为 TCP 连接探测，不再发送实际 DNS 查询请求，减少不必要的网络流量。</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-added">🆕 新增功能 <span>1</span></a>
+  <a href="#release-added">🆕 新增功能 <span>2</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>4</span></a>
   <a href="#release-fixed">🐛 问题修复 <span>2</span></a>
+  <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
 
 <section class="msm-release-section msm-release-section--added">
 
 ### 🆕 新增功能 {#release-added}
 
-- **Clash 节点批量管理**：自定义节点编辑器新增批量操作面板，支持分享链接与 YAML 两种模式下的多选与确认删除。
+- **ARM SoC 型号识别**：后端新增 CPU 型号解析模块，支持读取 `/sys/firmware/devicetree/base/compatible` 或 `/proc/device-tree/compatible`，识别 Allwinner、Amlogic、Broadcom、NXP、Marvell、MediaTek、NVIDIA、Qualcomm、Rockchip、Samsung 等厂商的 SoC 型号，在通用核心型号基础上补充具体芯片信息。
+- **WireGuard 结构化配置 API**：Enrollment 接口新增 `wireguard` 字段，返回包含私钥、地址、DNS、MTU、服务器、端口、公钥、预共享密钥、允许 IP 和保活间隔的结构化对象，移动端无需解析 INI 格式即可直接使用。
+
+</section>
+
+<section class="msm-release-section msm-release-section--changed">
+
+### ✨ 功能增强 {#release-changed}
+
+- **移动配置支持嵌入 WireGuard 回家通道**：创建手机配置包时，若同时选择代理配置和 WireGuard 网络服务，系统会先创建 WireGuard 成员并将结构化配置嵌入 Clash/Sing-Box 配置文件，作为 REMOTE-HOME 组内的可选回家节点；若嵌入配置生成失败，会自动清理已创建的 WireGuard 成员，避免残留无效配置。
+- **网络地址列表支持折叠展开**：设备信息组件中，当同一接口有超过 2 个 IP 地址时默认折叠显示，用户可点击展开查看完整列表，收起后恢复紧凑视图，长地址列表更易浏览。
+- **IPv6 地址按稳定性排序**：公共 IPv6 地址按稳定性优先排序，稳定地址排在临时地址之前，已弃用地址排在最后，方便用户识别推荐使用的地址。
+- **WireGuard 端点解析支持 IPv6 格式**：客户端配置生成时正确解析 `[2001:db8::10]:17711` 格式的 IPv6 端点，拆分为服务器地址和端口。
 
 </section>
 
@@ -65,17 +83,25 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🐛 问题修复 {#release-fixed}
 
-- **防止组网快照数据过期**：Networking API 响应头增加 `no-store` 指令，解决因缓存导致的状态显示滞后问题。
-- **修正 Tailscale 更新回滚逻辑**：识别“需要登录”错误为预期状态，在此情况下停止更新回滚，确保升级成果保留。
+- **DNS 就绪探测不发送查询**：修复 DNS 服务就绪检查会发送实际 DNS 查询的问题，改为使用 TCP 连接探测端口监听状态，避免启动过程中产生额外 DNS 流量。
+- **单服务状态刷新不影响全局缓存**：修复单个服务状态刷新会导致全部服务状态缓存过期时间重置的问题，改为按服务名独立管理缓存过期时间，减少不必要的重复查询。
+
+</section>
+
+<section class="msm-release-section msm-release-section--notes">
+
+### 📌 升级提醒 {#release-notes}
+
+- **版本号升级至 2.0.0**：本次发布将版本号从 1.5.3 升级至 2.0.0，反映 WireGuard 嵌入配置等功能变更。
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`9658390`](https://github.com/msm9527/msm/commit/9658390aa14810ceaff9c8673a4ff13e070ca82b)
-- **提交信息**：feat(Clash): add bulk deletion for custom nodes / 增加自定义节点批量删除
+- **源提交**： [`080776f`](https://github.com/msm9527/msm/commit/080776f05b74b7ee6b16f6e9ccf7cfe419138079)
+- **提交信息**：feat: 内嵌 WireGuard 手机回家配置并发布 2.0.0 / embed WireGuard mobile home access and release 2.0.0
 - **提交作者**：root
-- **提交时间**：2026-09-22 16:11:21 CST
+- **提交时间**：2026-09-23 23:09:02 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -84,6 +110,27 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-1.5.3 · 2026-09-22 16:11 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-1.5.3" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- **自定义节点支持批量删除**：在节点编辑器中新增多选面板，可一次性移除多个无用配置，清理列表更高效。
+- **Tailscale 更新遇认证不再回退**：组件升级后若因需要浏览器登录而重启失败，将保留新版本而非还原，避免重复更新。
+- **组网状态快照禁用缓存**：后端接口与前端请求均增加防缓存标记，确保页面显示的在线状态与实时数据一致。
+
+**🆕 新增功能**
+
+- **Clash 节点批量管理**：自定义节点编辑器新增批量操作面板，支持分享链接与 YAML 两种模式下的多选与确认删除。
+
+**🐛 问题修复**
+
+- **防止组网快照数据过期**：Networking API 响应头增加 `no-store` 指令，解决因缓存导致的状态显示滞后问题。
+- **修正 Tailscale 更新回滚逻辑**：识别“需要登录”错误为预期状态，在此情况下停止更新回滚，确保升级成果保留。
+
+:::
 
 ::: details beta-1.5.2 · 2026-09-21 09:57 · Beta 版
 
