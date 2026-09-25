@@ -12,41 +12,45 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.0.2" data-release-date="2026-09-25 13:39:35 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.2">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.0.3" data-release-date="2026-09-25 21:16:45 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.3">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.0.2</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.0.3</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.2" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.3" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>11 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>4 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-25 13:39:35 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>7 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>5 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-25 21:16:45 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKuaJmOeuoeacjeWKoeW0qea6g+WtmOa0uyoq77yaTGludXgg5LiL5pSv5oyBIHN5c3RlbWQg5omY566h5qih5byP77yMTVNNIOW8guW4uOmAgOWHuuaXtuaJmOeuoeacjeWKoeS4jeS4reaWre+8jOaBouWkjeWQjuiHquWKqOaguOmqjOW5tuaOpeeuoeWOn+i/m+eoi+OAgiIsIi0gKirov5vnqIvmjqfliLbmnYPnu5/kuIAqKu+8mkNMSSDkuI7lkI7lj7DlrojmiqTov5vnqIvpgJrov4fplIHmnLrliLbljY/osIPvvIzpmLLmraLlpJrlrp7kvovlhrLnqoHmk43kvZzvvIznprvnur8gQ0xJIOmcgOiOt+WPluaOp+WItuadg+mUgeaWueWPr+euoeeQhuOAgiIsIi0gKirliJ3lp4vljJYgRE5TIOabtOS/neWuiCoq77ya5pyq5piO56Gu5o6I5p2D5pe26buY6K6k5LiN5L+u5pS55a6/5Li7IEROU++8jOe9kee7nOinhOWImeW6lOeUqOWksei0peWQjuS7jeS/neaMgeWFs+mXreeKtuaAge+8jOmBv+WFjemFjee9ruaui+eVmeOAgiIsIi0gKirotYTmupDmjIfmoIfmm7Tlh4bnoa4qKu+8muacjeWKoeeKtuaAgeaWsOWinumHh+agt+WPr+eUqOagh+ivhuS4jiBjZ3JvdXAg5YaF5a2Y5pWw5o2u77yM6YeH5qC35aSx6LSl5pe25piO56Gu5pi+56S65LiN5Y+v55So6ICM6Z2e6Zu25YC844CCIl0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSAqKnN5c3RlbWQg6L+b56iL5omY566h5ZCO56uvKirvvJpMaW51eCDnjq/looPkuIvmlK/mjIHlsIbmiZjnrqHmnI3liqHphY3nva7kuLogc3lzdGVtZCDmqKHlvI/vvIzliKnnlKggY2dyb3VwIHYyIOWunueOsOabtOeyvuWHhueahOi/m+eoi+e7hOeuoeeQhuS4jui1hOa6kOe7n+iuoeOAgiIsIi0gKipDTEkg5pON5L2c6K6w5b2V5p+l6K+iKirvvJrmlrDlop4gYG1zbSBvcGVyYXRpb24gPElEPmAg5ZG95Luk77yM5pSv5oyB5p+l6K+i5byC5q2l6L+b56iL5o6n5Yi26K+35rGC55qE5omn6KGM6Zi25q615LiO57uT5p6c44CCIl0sImNoYW5nZWQiOlsiLSAqKuacjeWKoeeKtuaAgSBBUEkg5a2X5q615omp5bGVKirvvJpgR0VUIC9hcGkvdjEvc2VydmljZXNgIOi/lOWbnuaWsOWiniBgbWV0cmljc19hdmFpbGFibGVg44CBYGNncm91cF9tZW1vcnlgIOWPiiBgYmFja2VuZGAg5a2X5q6177yM5YmN56uv5o2u5q2k6LCD5pW06LWE5rqQ5bGV56S66YC76L6R44CCIiwiLSAqKuWIneWni+WMliBETlMg5byA5YWz6YC76L6RKirvvJpgUE9TVCAvYXBpL3YxL3NldHVwL2luaXRpYWxpemVgIOeahCBgYXV0b19zZXRfZG5zYCDpu5jorqTkuLrlhbPpl63vvIzkuJTkvJrlnKjnvZHnu5zphY3nva7lpLHotKXml7bmjIHkuYXljJblhbPpl63nirbmgIHvvIzpnIDmmL7lvI/kvKDpgJIgYHRydWVgIOaJjeW8gOWQr+OAgiIsIi0gKirnu4Tku7bkuIvovb3ku6PnkIbnrZbnlaUqKu+8mkVhc3lUaWVyIOS4jiBUYWlsc2NhbGUg5pu05paw5qOA5p+l5LyY5YWI5L2/55So57O757uf6K6+572u55qE57uE5Lu25LiL6L295Luj55CG77yM5peg5pWI6YWN572u5bCG5oql6ZSZ6ICM6Z2e6Z2Z6buY5Zue6YCA55u06L+e44CCIl0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSAqKlNpbmctQm94IOaXp+eJiOWNoOS9jeespua4heeQhioq77ya5Y2H57qn5pe26Ieq5Yqo56e76Zmk5pyq6K6i6ZiF5qih5p2/5Lit55qE5pen54mIIHByb3ZpZGVyIOWNoOS9jeespu+8jOmBv+WFjemFjee9ruWGsueqgeOAgiIsIi0gKipDbGFzaCDnqbrorqLpmIXljLrlnZfkv53lrZgqKu+8muS/ruWkjSBgcHJveHktcHJvdmlkZXJzYCDkuLrnqbrooYzlhoXmmKDlsITvvIjlpoIgYHt9YO+8ieaXtuS/neWtmOWksei0peeahOmXrumimO+8jOaUr+aMgeinhOiMg+WMluWkhOeQhuOAgiIsIi0gKirph43lkK/lpLHotKXmnI3liqHmgaLlpI0qKu+8muS8mOWMliBNU00g6Ieq6Lqr6YeN5ZCv6YC76L6R77yM6Iul6YeN5ZCv5YmN5YeG5aSH5aSx6LSl77yM5pSv5oyB5oGi5aSN5bey5YGc5q2i55qE5omY566h5pyN5Yqh6Iez5Y6f54q25oCB44CCIiwiLSAqKui/m+eoi+e7hOeKtuaAgeaguOmqjCoq77ya5L+u5aSN5qC56L+b56iL6YCA5Ye65L2G5a2Q6L+b56iL57uE5LuN5a2Y5rS75pe254q25oCB6K+v5oql5Li65YGc5q2i55qE6Zeu6aKY77yM5q2k57G75oOF5Ya15bCG5qCH6K6w5Li6IGBVTktOT1dOYCDlubbkv53nlZkgRE5TIOenn+e6puOAgiIsIi0gKipTaW5nLUJveCDml6DphY3nva7mm7TmlrAqKu+8muWFgeiuuOWcqOacjeWKoeWBnOatouS4lOmFjee9ruaWh+S7tue8uuWkseaXtuaJp+ihjCBTaW5nLUJveCDmoLjlv4Pmm7TmlrDvvIzpgb/lhY3pmLvloZ7ljYfnuqfmtYHnqIvjgIIiLCItICoq5Yid5aeL5YyWIEROUyDlhbPpl63lpLHmlYgqKu+8muS/ruWkjeWIneWni+WMluivt+axguS4reacquS8oOmAkiBETlMg5byA5YWz5pe25Y+v6IO96K+v5byA5ZCv6Ieq5Yqo5L+u5pS55a6/5Li7IEROUyDnmoTpl67popjjgIIiXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSAqKueJiOacrOWPtyoq77ya5ZCO56uv5LiO5YmN56uv54mI5pys5Z2H5Y2H57qn6IezIDIuMC4y44CCIiwiLSAqKkFQSSDlhbzlrrnmgKcqKu+8muacjeWKoeeKtuaAgeWTjeW6lOe7k+aehOWPmOabtO+8jOaXp+WuouaIt+err+mcgOmAgumFjSBgbWV0cmljc19hdmFpbGFibGVgIOetieaWsOWtl+aute+8m+WIneWni+WMluaOpeWPoyBgYXV0b1NldEROU2Ag5a2X5q615LuN5YW85a655L2G5o6o6I2Q5L2/55SoIGBhdXRvX3NldF9kbnNg44CCIiwiLSAqKui/m+eoi+euoeeQhioq77yaTGludXgg55So5oi36Iul6YGH5Yiw5pyN5Yqh54q25oCB5pi+56S6IGBVTktOT1dOYO+8jOmAmuW4uOihqOekuui/m+eoi+e7hOW9kuWxnuacquehruiupO+8jOmcgOaJi+WKqOWBnOatouaIluetieW+heezu+e7n+aguOmqjOWujOaIkOOAgiJdfX0= -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKue9keWNoeWBpeW6t+eKtuaAgeWunuaXtuWRiuitpioq77ya5paw5aKe55WM6Z2i5qiq5bmF5LiO6K+K5pat5o6l5Y+j77yM5b2T6YCJ5a6a572R5Y2h5pat5byA44CB57y65aSx5oiW6Lev55Sx5LiN5LiA6Ie05pe25Li75Yqo5o+Q56S677yM566h55CG5ZGY5Y+v55u06L6+6K6+572u6aG15L+u5pS544CCIiwiLSAqKk1vc0ROUyDphY3nva7mm7TmlrDmm7TnqLPlgaUqKu+8muS/neWtmOacquWPmOWMlueahCBJUHY2IOmFjee9ruS4jeWGjeinpuWPkeacjeWKoemHjeWQr++8jOWwsee7quetieW+heaXtumXtOW7tumVv+iHsyA2MCDnp5LvvIzlh4/lsJHkuI3lv4XopoHnmoTkuK3mlq3kuI7lpLHotKXjgIIiLCItICoq57uE5Lu25pu05paw572R57uc562W55Wl566A5YyWKirvvJrmm7TmlrDmo4Dmn6XkuI7kuIvovb3mlLnnlKjns7vnu5/pu5jorqQgRE5TIOino+aekO+8jOenu+mZpOiHquWumuS5iSBETlMg5Zue6YCA6YC76L6R77yM6KGM5Li65pu056ym5ZCI57O757uf6aKE5pyf44CCIiwiLSAqKumFjee9ruS7u+WKoei9ruivoumAu+i+keiwg+aVtCoq77ya56m66Zey54q25oCB5LiL5p+l6K+i6YWN572u5Lu75Yqh6L+U5Zue56m65YC86ICM6Z2e6ZSZ6K+v77yM5YmN56uv6L2u6K+i6YC76L6R5pu056iz5a6a77yM5Yy65YiG56m66Zey5LiO5byC5bi454q25oCB44CCIiwiLSAqKkdlb3NpdGUg6KeE5YiZ5pu05paw6LaF5pe25bu26ZW/KirvvJrljZXmnaHop4TliJnliLfmlrDnrYnlvoXml7bpl7TmlL7lrr3vvIzpgILlupTmhaLpgJ/nvZHnu5znjq/looPkuIvnmoTmm7TmlrDor7fmsYLvvIzliY3nq6/kuI7lkI7nq6/otoXml7blnYflt7LosIPmlbTjgIIiXSwibWFqb3IiOltdLCJhZGRlZCI6WyItICoq6YCJ5a6a572R5Y2h5YGl5bq36K+K5pat5o6l5Y+jKirvvJrmlrDlop4gYC9hcGkvdjEvc2V0dXAvaW50ZXJmYWNlLWhlYWx0aGAg5o6l5Y+j77yM6L+U5Zue572R5Y2h54q25oCB77yI57y65aSx44CB5pat5byA44CB5peg5Zyw5Z2A44CB6Lev55Sx5LiN5LiA6Ie0562J77yJ5Y+K5b2T5YmN6buY6K6k6Lev55Sx5L+h5oGv77yM6ZyA55m75b2V6K6/6Zeu44CCIiwiLSAqKue9kee7nOaOpeWPo+eKtuaAgeWtl+autSoq77ya572R57uc5o6l5Y+j5L+h5oGv5aKe5YqgIGB1cGAg5ZKMIGBydW5uaW5nYCDnirbmgIHlrZfmrrXvvIzorr7nva7pobXkuIvmi4nliJfooajlj6/nm7Top4LmmL7npLrnvZHljaHmmK/lkKbmlq3lvIDjgIIiXSwiY2hhbmdlZCI6WyItICoq6YWN572u5Lu75Yqh5p+l6K+i5ZON5bqU6LCD5pW0KirvvJpgL29wZXJhdGlvbnMvY3VycmVudGAg5o6l5Y+j5Zyo5peg5rS76LeD5Lu75Yqh5pe26L+U5ZueIGAyMDAgT0tgIOS4lCBgZGF0YWAg5Li6IGBudWxsYO+8jOS+v+S6juWJjeerr+WMuuWIhuepuumXsuS4jumUmeivr+eKtuaAgeOAgiIsIi0gKirnu4Tku7bmm7TmlrDkuI7mo4Dmn6XnvZHnu5zop6PmnpDnrZbnlaUqKu+8muabtOaWsOWuouaIt+err+S4jiBHaXRIdWIg5qOA5p+l5pS555So57O757uf6buY6K6k5Lyg6L6T6YWN572u77yM55u06L+e5qih5byP5LiL5LiN5YaN5by65Yi25oyH5a6a5aSH55SoIEROUyDmnI3liqHlmajjgIIiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItICoqTW9zRE5TIOmFjee9ruabtOaWsOS4juWwsee7quetieW+hemAu+i+kSoq77ya5L+u5aSN5L+d5a2Y5pyq5Y+Y5YyW55qEIElQdjYg6K6+572u5pe26K+v6Kem5Y+RIE1vc0ROUyDmnI3liqHph43lkK/nmoTpl67popjvvIzlubblsIblsLHnu6rnrYnlvoXotoXml7bku44gMTUg56eS5bu26ZW/6IezIDYwIOenkuOAgiIsIi0gKipHZW9zaXRlIOinhOWImeabtOaWsOi2heaXtioq77ya5L+u5aSN5Y2V5p2h6KeE5YiZ5Yi35paw5Zyo5oWi6YCf5ZON5bqU5LiL5a655piT6LaF5pe255qE6Zeu6aKY77yM5ZCO56uv562J5b6F5pe26Ze05LiO5YmN56uv6K+35rGC6LaF5pe25Z2H5bey5pS+5a6944CCIiwiLSAqKuWIneWni+WMlueKtuaAgeajgOafpemUmeivr+WkhOeQhioq77ya5L+u5aSN5pWw5o2u5bqT5byC5bi45pe25Yid5aeL5YyW5qOA5p+l5pyq6L+U5Zue5piO56Gu6ZSZ6K+v54q25oCB55qE6Zeu6aKY77yM6YG/5YWN6K+v5a+855So5oi35oiW6Kem5Y+R5LiN5b+F6KaB55qE5oGi5aSN5rWB56iL44CCIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g54mI5pys5Y+35Y2H57qn6IezIDIuMC4z44CCIiwiLSDnvZHljaHlgaXlurfnirbmgIHmqKrluYXku4XnlKjkuo7or4rmlq3mj5DnpLrvvIzkuI3kvJroh6rliqjliIfmjaLnvZHljaHmiJbph43phY3ot6/nlLHvvIzpnIDnlKjmiLfmiYvliqjosIPmlbTorr7nva7jgIIiLCItIOmFjee9ruS7u+WKoeafpeivouaOpeWPo+epuumXsuaXtui/lOWbniBgbnVsbGDvvIzml6fniYjlrqLmiLfnq6/oi6XkuKXmoLzmoKHpqozmlbDmja7nsbvlnovlj6/og73pnIDpgILphY3jgIIiXX19 -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p><strong>托管服务崩溃存活：</strong>Linux 下支持 systemd 托管模式，MSM 异常退出时托管服务不中断，恢复后自动核验并接管原进程。</p>
+    <p><strong>网卡健康状态实时告警：</strong>新增界面横幅与诊断接口，当选定网卡断开、缺失或路由不一致时主动提示，管理员可直达设置页修改。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p><strong>进程控制权统一：</strong>CLI 与后台守护进程通过锁机制协调，防止多实例冲突操作，离线 CLI 需获取控制权锁方可管理。</p>
+    <p><strong>MosDNS 配置更新更稳健：</strong>保存未变化的 IPv6 配置不再触发服务重启，就绪等待时间延长至 60 秒，减少不必要的中断与失败。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p><strong>初始化 DNS 更保守：</strong>未明确授权时默认不修改宿主 DNS，网络规则应用失败后仍保持关闭状态，避免配置残留。</p>
+    <p><strong>组件更新网络策略简化：</strong>更新检查与下载改用系统默认 DNS 解析，移除自定义 DNS 回退逻辑，行为更符合系统预期。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p><strong>资源指标更准确：</strong>服务状态新增采样可用标识与 cgroup 内存数据，采样失败时明确显示不可用而非零值。</p>
+    <p><strong>配置任务轮询逻辑调整：</strong>空闲状态下查询配置任务返回空值而非错误，前端轮询逻辑更稳定，区分空闲与异常状态。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">05</span>
+    <p><strong>Geosite 规则更新超时延长：</strong>单条规则刷新等待时间放宽，适应慢速网络环境下的更新请求，前端与后端超时均已调整。</p>
   </li>
 </ol>
 
@@ -54,8 +58,8 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
   <a href="#release-added">🆕 新增功能 <span>2</span></a>
-  <a href="#release-changed">✨ 功能增强 <span>3</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>6</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>2</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>3</span></a>
   <a href="#release-notes">📌 升级提醒 <span>3</span></a>
 </nav>
 
@@ -63,8 +67,8 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🆕 新增功能 {#release-added}
 
-- **systemd 进程托管后端**：Linux 环境下支持将托管服务配置为 systemd 模式，利用 cgroup v2 实现更精准的进程组管理与资源统计。
-- **CLI 操作记录查询**：新增 `msm operation &lt;ID&gt;` 命令，支持查询异步进程控制请求的执行阶段与结果。
+- **选定网卡健康诊断接口**：新增 `/api/v1/setup/interface-health` 接口，返回网卡状态（缺失、断开、无地址、路由不一致等）及当前默认路由信息，需登录访问。
+- **网络接口状态字段**：网络接口信息增加 `up` 和 `running` 状态字段，设置页下拉列表可直观显示网卡是否断开。
 
 </section>
 
@@ -72,9 +76,8 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### ✨ 功能增强 {#release-changed}
 
-- **服务状态 API 字段扩展**：`GET /api/v1/services` 返回新增 `metrics_available`、`cgroup_memory` 及 `backend` 字段，前端据此调整资源展示逻辑。
-- **初始化 DNS 开关逻辑**：`POST /api/v1/setup/initialize` 的 `auto_set_dns` 默认为关闭，且会在网络配置失败时持久化关闭状态，需显式传递 `true` 才开启。
-- **组件下载代理策略**：EasyTier 与 Tailscale 更新检查优先使用系统设置的组件下载代理，无效配置将报错而非静默回退直连。
+- **配置任务查询响应调整**：`/operations/current` 接口在无活跃任务时返回 `200 OK` 且 `data` 为 `null`，便于前端区分空闲与错误状态。
+- **组件更新与检查网络解析策略**：更新客户端与 GitHub 检查改用系统默认传输配置，直连模式下不再强制指定备用 DNS 服务器。
 
 </section>
 
@@ -82,12 +85,9 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🐛 问题修复 {#release-fixed}
 
-- **Sing-Box 旧版占位符清理**：升级时自动移除未订阅模板中的旧版 provider 占位符，避免配置冲突。
-- **Clash 空订阅区块保存**：修复 `proxy-providers` 为空行内映射（如 `&#123;&#125;`）时保存失败的问题，支持规范化处理。
-- **重启失败服务恢复**：优化 MSM 自身重启逻辑，若重启前准备失败，支持恢复已停止的托管服务至原状态。
-- **进程组状态核验**：修复根进程退出但子进程组仍存活时状态误报为停止的问题，此类情况将标记为 `UNKNOWN` 并保留 DNS 租约。
-- **Sing-Box 无配置更新**：允许在服务停止且配置文件缺失时执行 Sing-Box 核心更新，避免阻塞升级流程。
-- **初始化 DNS 关闭失效**：修复初始化请求中未传递 DNS 开关时可能误开启自动修改宿主 DNS 的问题。
+- **MosDNS 配置更新与就绪等待逻辑**：修复保存未变化的 IPv6 设置时误触发 MosDNS 服务重启的问题，并将就绪等待超时从 15 秒延长至 60 秒。
+- **Geosite 规则更新超时**：修复单条规则刷新在慢速响应下容易超时的问题，后端等待时间与前端请求超时均已放宽。
+- **初始化状态检查错误处理**：修复数据库异常时初始化检查未返回明确错误状态的问题，避免误导用户或触发不必要的恢复流程。
 
 </section>
 
@@ -95,18 +95,18 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- **版本号**：后端与前端版本均升级至 2.0.2。
-- **API 兼容性**：服务状态响应结构变更，旧客户端需适配 `metrics_available` 等新字段；初始化接口 `autoSetDNS` 字段仍兼容但推荐使用 `auto_set_dns`。
-- **进程管理**：Linux 用户若遇到服务状态显示 `UNKNOWN`，通常表示进程组归属未确认，需手动停止或等待系统核验完成。
+- 版本号升级至 2.0.3。
+- 网卡健康状态横幅仅用于诊断提示，不会自动切换网卡或重配路由，需用户手动调整设置。
+- 配置任务查询接口空闲时返回 `null`，旧版客户端若严格校验数据类型可能需适配。
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`331e7ed`](https://github.com/msm9527/msm/commit/331e7ed115ea3b91b63f7ec11591017dd140c9e7)
-- **提交信息**：chore(release): bump version to 2.0.2 / 发布版本升级至 2.0.2
+- **源提交**： [`d12c0fa`](https://github.com/msm9527/msm/commit/d12c0fa459347bf0de8a47a0ce04ccfa1e47d7e0)
+- **提交信息**：fix: 避免故障时误判初始化并限制网卡轮询 / Preserve setup state and bound interface checks
 - **提交作者**：root
-- **提交时间**：2026-09-25 13:39:35 CST
+- **提交时间**：2026-09-25 21:16:45 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -115,6 +115,45 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.0.2 · 2026-09-25 13:39 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.2" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- **托管服务崩溃存活**：Linux 下支持 systemd 托管模式，MSM 异常退出时托管服务不中断，恢复后自动核验并接管原进程。
+- **进程控制权统一**：CLI 与后台守护进程通过锁机制协调，防止多实例冲突操作，离线 CLI 需获取控制权锁方可管理。
+- **初始化 DNS 更保守**：未明确授权时默认不修改宿主 DNS，网络规则应用失败后仍保持关闭状态，避免配置残留。
+- **资源指标更准确**：服务状态新增采样可用标识与 cgroup 内存数据，采样失败时明确显示不可用而非零值。
+
+**🆕 新增功能**
+
+- **systemd 进程托管后端**：Linux 环境下支持将托管服务配置为 systemd 模式，利用 cgroup v2 实现更精准的进程组管理与资源统计。
+- **CLI 操作记录查询**：新增 `msm operation &lt;ID&gt;` 命令，支持查询异步进程控制请求的执行阶段与结果。
+
+**✨ 功能增强**
+
+- **服务状态 API 字段扩展**：`GET /api/v1/services` 返回新增 `metrics_available`、`cgroup_memory` 及 `backend` 字段，前端据此调整资源展示逻辑。
+- **初始化 DNS 开关逻辑**：`POST /api/v1/setup/initialize` 的 `auto_set_dns` 默认为关闭，且会在网络配置失败时持久化关闭状态，需显式传递 `true` 才开启。
+- **组件下载代理策略**：EasyTier 与 Tailscale 更新检查优先使用系统设置的组件下载代理，无效配置将报错而非静默回退直连。
+
+**🐛 问题修复**
+
+- **Sing-Box 旧版占位符清理**：升级时自动移除未订阅模板中的旧版 provider 占位符，避免配置冲突。
+- **Clash 空订阅区块保存**：修复 `proxy-providers` 为空行内映射（如 `&#123;&#125;`）时保存失败的问题，支持规范化处理。
+- **重启失败服务恢复**：优化 MSM 自身重启逻辑，若重启前准备失败，支持恢复已停止的托管服务至原状态。
+- **进程组状态核验**：修复根进程退出但子进程组仍存活时状态误报为停止的问题，此类情况将标记为 `UNKNOWN` 并保留 DNS 租约。
+- **Sing-Box 无配置更新**：允许在服务停止且配置文件缺失时执行 Sing-Box 核心更新，避免阻塞升级流程。
+- **初始化 DNS 关闭失效**：修复初始化请求中未传递 DNS 开关时可能误开启自动修改宿主 DNS 的问题。
+
+**📌 升级提醒**
+
+- **版本号**：后端与前端版本均升级至 2.0.2。
+- **API 兼容性**：服务状态响应结构变更，旧客户端需适配 `metrics_available` 等新字段；初始化接口 `autoSetDNS` 字段仍兼容但推荐使用 `auto_set_dns`。
+- **进程管理**：Linux 用户若遇到服务状态显示 `UNKNOWN`，通常表示进程组归属未确认，需手动停止或等待系统核验完成。
+
+:::
 
 ::: details beta-2.0.0 · 2026-09-23 23:09 · Beta 版
 
