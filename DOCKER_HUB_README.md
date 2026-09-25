@@ -85,8 +85,8 @@ services:
 - `linux/amd64` - x86_64（Intel/AMD 64位）
 - `linux/arm64` - ARM64（树莓派 4、Apple Silicon 等）
 - `linux/arm/v7` - ARMv7（树莓派 3 等）
-- `linux/arm/v6` - ARMv6（树莓派 1/Zero 等）
-- `linux/386` - x86 32位
+
+ARMv6 与 x86 32 位可使用发布页的静态二进制，不包含在 Debian 13 镜像清单中。
 
 Docker 会自动选择适合您平台的镜像。
 

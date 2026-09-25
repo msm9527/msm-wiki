@@ -824,6 +824,33 @@ test('large release baselines compact per-file evidence instead of aborting coll
   assert.match(evidence.diff, /\+new behavior/);
 });
 
+test('large release merge keeps net-scoped change leads and samples both product layers', () => {
+  withReleaseRepository(({ git, write, commit }) => {
+    const previousCommit = git(['rev-parse', 'HEAD']).trim();
+    git(['checkout', '-b', 'dev']);
+    for (let index = 0; index < 110; index++) {
+      write(`backend/internal/service/feature${index}/service.go`, `package feature${index}\nconst enabled = true\n`);
+      write(`frontend/src/pages/Feature${index}/index.tsx`, `export const feature${index} = true\n`);
+    }
+    commit('feat: 增加跨服务状态视图');
+    git(['checkout', 'main']);
+    git(['merge', '--no-ff', 'dev', '-m', 'Merge dev for 2.0.3']);
+
+    const context = collectReleaseCommits({ previousCommit, currentRef: 'HEAD', git });
+    assert.equal(context.coverage.netChangedFiles, 220);
+    assert.ok(context.releaseBaseline.diffFiles.length <= 96);
+    assert.ok(context.releaseBaseline.diffFiles.some(file => file.startsWith('backend/')));
+    assert.ok(context.releaseBaseline.diffFiles.some(file => file.startsWith('frontend/')));
+    assert.equal(context.releaseBaseline.changeLeads.length, 1);
+    const prompt = buildSummaryPrompt(context.commits);
+    assert.match(prompt, /增加跨服务状态视图/);
+    assert.match(prompt, /完整模块索引/u);
+    assert.match(prompt, /完整文件路径未全部发送模型/u);
+    assert.ok(prompt.length <= 260000);
+    assert.doesNotMatch(prompt, /完整净变化文件索引（220 个）/u);
+  });
+});
+
 test('review prompt keeps the authoritative evidence and treats a draft as material to correct', () => {
   const commits = [{ subject: 'fix: 修复模板权限校验', files: [{ path: 'src/Template.tsx' }] }];
   const baseline = {

@@ -1,6 +1,6 @@
 # MSM Docker 镜像
 
-MSM 官方镜像支持 `linux/amd64`、`linux/arm64`、`linux/arm/v7`、`linux/arm/v6` 和 `linux/386`。
+MSM 官方镜像支持 `linux/amd64`、`linux/arm64` 和 `linux/arm/v7`。ARMv6 可使用发布页的静态二进制，但 Debian 13 镜像不提供 ARMv6 运行环境。
 
 完整部署、网络模式、权限、端口和排错说明见 [Docker 安装文档](https://doc.msmbox.net/zh/guide/docker)。
 
@@ -9,7 +9,7 @@ MSM 官方镜像支持 `linux/amd64`、`linux/arm64`、`linux/arm/v7`、`linux/a
 仓库提供的 `docker-compose.yml` 默认使用 Bridge 网络和显式端口映射。先在 `.env` 固定镜像版本并设置随机 JWT 密钥：
 
 ```dotenv
-MSM_IMAGE=msmbox/msm:1.3.0
+MSM_IMAGE=msmbox/msm:2.0.3
 JWT_SECRET=替换为至少32个随机字符
 MSM_DATA_DIR=./data
 MSM_WEB_PORT=7777
@@ -45,7 +45,7 @@ docker run -d \
   -e MSM_CONFIG_DIR=/opt/msm \
   -e TZ=Asia/Shanghai \
   -v /opt/msm:/opt/msm \
-  msmbox/msm:1.3.0
+  msmbox/msm:2.0.3
 ```
 
 `NET_ADMIN`、`NET_RAW` 和 `/dev/net/tun` 用于 TUN、透明代理、诊断与受管隧道。默认不需要 `--privileged`。

@@ -10,6 +10,9 @@ const DEFAULT_DIFF_CHAR_LIMIT = 24000;
 const MIN_DIFF_FILE_CHARS = 700;
 const DEFAULT_TOTAL_DIFF_CHAR_LIMIT = 180000;
 const DEFAULT_BASELINE_DIFF_CHAR_LIMIT = 180000;
+const LARGE_RELEASE_FILE_THRESHOLD = 200;
+const LARGE_RELEASE_EVIDENCE_FILE_LIMIT = 96;
+const LARGE_RELEASE_DIFF_CHAR_LIMIT = 90000;
 const DEFAULT_BODY_CHAR_LIMIT = 6000;
 const DEFAULT_BODY_HIGHLIGHT_LIMIT = Infinity;
 const DEFAULT_BODY_HIGHLIGHT_CHAR_LIMIT = Infinity;
@@ -232,6 +235,61 @@ function selectDiffFiles(files, limit = DEFAULT_DIFF_FILE_LIMIT) {
     }
     if (selected.length >= limit) break;
   }
+  return selected;
+}
+
+function releaseModule(filePath) {
+  const parts = filePath.split('/');
+  if (parts[0] === 'backend' && parts[1] === 'internal' && ['service', 'api'].includes(parts[2])) {
+    return parts.slice(0, 4).join('/');
+  }
+  if (parts[0] === 'frontend' && parts[1] === 'src' && ['pages', 'components'].includes(parts[2])) {
+    return parts.slice(0, 4).join('/');
+  }
+  return parts.slice(0, 3).join('/');
+}
+
+function takeAcrossModules(paths, limit) {
+  const groups = new Map();
+  for (const filePath of paths) {
+    const module = releaseModule(filePath);
+    if (!groups.has(module)) groups.set(module, []);
+    groups.get(module).push(filePath);
+  }
+  const result = [];
+  while (result.length < limit && groups.size) {
+    const modules = [...groups.keys()];
+    const remaining = limit - result.length;
+    const selectedModules = modules.length > remaining
+      ? Array.from({ length: remaining }, (_, index) => modules[Math.floor(index * modules.length / remaining)])
+      : modules;
+    for (const module of selectedModules) {
+      const group = groups.get(module);
+      result.push(group.shift());
+      if (!group.length) groups.delete(module);
+      if (result.length === limit) break;
+    }
+  }
+  return result;
+}
+
+function selectLargeReleaseEvidenceFiles(files, limit = LARGE_RELEASE_EVIDENCE_FILE_LIMIT) {
+  const paths = selectDiffFiles(files, Infinity);
+  const implementation = paths.filter(filePath => !/(?:^|\/)(?:third_party|tests?|__tests__|docs?)\//u.test(filePath)
+    && !/(?:[._-](?:test|spec))\.[^.]+$/iu.test(filePath)
+    && !/\.(?:md|mdx|css|scss|sass|less|svg|snap)$/iu.test(filePath));
+  const lanes = [
+    [/^backend\/internal\/service\//u, 0.25],
+    [/^backend\/internal\/api\//u, 0.09],
+    [/^backend\/internal\/app\//u, 0.08],
+    [/^frontend\/src\/pages\//u, 0.25],
+    [/^frontend\/src\/components\//u, 0.17],
+    [/^frontend\/src\/(?:hooks|stores|lib)\//u, 0.08],
+  ];
+  const selected = lanes.flatMap(([pattern, share]) =>
+    takeAcrossModules(implementation.filter(filePath => pattern.test(filePath)), Math.floor(limit * share)));
+  const seen = new Set(selected);
+  selected.push(...takeAcrossModules(paths.filter(filePath => !seen.has(filePath)), limit - selected.length));
   return selected;
 }
 
@@ -713,10 +771,22 @@ function readReleaseBaseline(previousCommit, currentRef, { git = defaultGit, dif
   try {
     const files = parseNameStatus(git(['diff', '--name-status', '--find-renames', previousCommit, currentRef, '--']));
     const eligibleFiles = selectDiffFiles(files, Infinity);
-    const rawDiff = eligibleFiles.length ? git([
-      'diff', '--find-renames', '--unified=3', '--no-ext-diff', '--no-textconv', previousCommit, currentRef, '--', ...eligibleFiles,
-    ]) : '';
-    const evidence = buildNetDiffEvidence(rawDiff, diffCharLimit);
+    const largeRelease = eligibleFiles.length > LARGE_RELEASE_FILE_THRESHOLD;
+    let evidenceFiles = largeRelease ? selectLargeReleaseEvidenceFiles(files) : eligibleFiles;
+    let rawDiff = '';
+    let evidence;
+    while (true) {
+      rawDiff = evidenceFiles.length ? git([
+        'diff', '--find-renames', '--unified=3', '--no-ext-diff', '--no-textconv', previousCommit, currentRef, '--', ...evidenceFiles,
+      ]) : '';
+      try {
+        evidence = buildNetDiffEvidence(rawDiff, largeRelease ? Math.min(diffCharLimit, LARGE_RELEASE_DIFF_CHAR_LIMIT) : diffCharLimit);
+        break;
+      } catch (error) {
+        if (!largeRelease || evidenceFiles.length <= 1 || !/关键证据超过预算/u.test(error.message)) throw error;
+        evidenceFiles = evidenceFiles.slice(0, Math.ceil(evidenceFiles.length / 2));
+      }
+    }
     return {
       previousCommit,
       currentRef,
@@ -726,7 +796,7 @@ function readReleaseBaseline(previousCommit, currentRef, { git = defaultGit, dif
       sourceFileCount: evidence.sourceFileCount,
       fileStates: parseRawFileStates(git(['diff', '--raw', '--no-abbrev', '--no-renames', previousCommit, currentRef, '--'])),
       omittedDiffFiles: eligibleFiles.length - evidence.sampledFiles.length,
-      diffIncomplete: evidence.diff !== cleanDiff(rawDiff, Infinity),
+      diffIncomplete: evidenceFiles.length < eligibleFiles.length || evidence.diff !== cleanDiff(rawDiff, Infinity),
     };
   } catch {
     // A missing baseline is not permission to summarize all reachable dev history.
@@ -761,6 +831,19 @@ function collectNetSupportedExplanations(rawCommits, releaseLine, baseline, git)
     if (explanations.length === 3) break;
   }
   return explanations;
+}
+
+function collectNetChangeLeads(rawCommits, releaseLine, baseline, git) {
+  const netPaths = new Set(baseline.files.flatMap(file => [file.path, file.previousPath].filter(Boolean)));
+  const releaseHashes = new Set(releaseLine.map(commit => commit.hash));
+  return rawCommits.filter(commit => !releaseHashes.has(commit.hash) && commit.parents?.length === 1
+    && !isNoiseReleaseItem(normalizeReleaseItem(commit.subject))).flatMap(commit => {
+    const changed = normalizeText(git([
+      'diff-tree', '--no-commit-id', '--name-only', '-r', commit.parents[0], commit.hash, '--',
+    ])).split('\n').filter(filePath => netPaths.has(filePath));
+    return changed.length ? [{ hash: commit.shortHash || commit.hash, subject: commit.subject,
+      files: takeAcrossModules(changed, 2), changedFileCount: changed.length }] : [];
+  });
 }
 
 function pathsOverlapRelease(file, netPaths) {
@@ -799,7 +882,12 @@ function collectReleaseCommits({
   const releaseLine = releaseBaseline
     ? parseGitLog(git(['log', '--first-parent', ...rangeArgs, logFormat]))
     : rawCommits;
-  if (releaseBaseline) releaseBaseline.explanations = collectNetSupportedExplanations(rawCommits, releaseLine, releaseBaseline, git);
+  if (releaseBaseline) {
+    releaseBaseline.explanations = collectNetSupportedExplanations(rawCommits, releaseLine, releaseBaseline, git);
+    if (releaseBaseline.files.length > LARGE_RELEASE_FILE_THRESHOLD) {
+      releaseBaseline.changeLeads = collectNetChangeLeads(rawCommits, releaseLine, releaseBaseline, git);
+    }
+  }
   const netPaths = releaseBaseline ? new Set(releaseBaseline.files.flatMap(file => [file.path, file.previousPath].filter(Boolean))) : null;
   // All commits receive body and file evidence, including commits beyond the old
   // detailLimit. With a baseline, only release-line commits are eligible; graph
@@ -877,6 +965,16 @@ function formatFiles(files, limit = Infinity) {
   return (files || []).length > limit ? `${formatted}; …（另 ${(files || []).length - limit} 个文件未展开）` : formatted;
 }
 
+function formatReleaseModules(files) {
+  const counts = new Map();
+  for (const file of files) {
+    const module = releaseModule(file.path || file);
+    counts.set(module, (counts.get(module) || 0) + 1);
+  }
+  return [...counts].sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))
+    .map(([module, count]) => `${module} (${count})`).join('; ');
+}
+
 function indent(text, prefix = '    ') {
   return normalizeText(text)
     .split('\n')
@@ -884,7 +982,7 @@ function indent(text, prefix = '    ') {
     .join('\n');
 }
 
-function formatCommitForPrompt(commit, { bodyLimit = DEFAULT_BODY_CHAR_LIMIT, diffLimit = DEFAULT_DIFF_CHAR_LIMIT } = {}) {
+function formatCommitForPrompt(commit, { bodyLimit = DEFAULT_BODY_CHAR_LIMIT, diffLimit = DEFAULT_DIFF_CHAR_LIMIT, fileLimit = Infinity } = {}) {
   const lines = [`- ${commit.shortHash || commit.hash} ${commit.subject} (${commit.author || 'unknown'}, ${commit.date || 'unknown'})`];
   if (commit.releaseScope) {
     lines.push(`  范围约束: 本次 first-parent 发布线；仅展开与版本净变化相交的文件${commit.excludedFileCount ? `（排除 ${commit.excludedFileCount} 个无净变化文件）` : ''}。提交说明必须服从版本净差异。`);
@@ -894,7 +992,7 @@ function formatCommitForPrompt(commit, { bodyLimit = DEFAULT_BODY_CHAR_LIMIT, di
     ? commit.bodyHighlights
     : extractChangeHighlights(commit.body, { changedFiles: commit.files });
   const body = bodyLimit ? sampleText(commit.body, bodyLimit) : '';
-  const files = formatFiles(commit.files);
+  const files = formatFiles(commit.files, fileLimit);
   const diff = diffLimit ? cleanDiff(commit.diff, diffLimit) : '';
 
   if (bodyHighlights.length > 0) {
@@ -1056,6 +1154,8 @@ function collectFallbackSummaryItems(commits, {
 
 function buildSummaryPrompt(commits, { maxPromptChars, releaseBaseline = commits?.releaseBaseline } = {}) {
   const effectiveMaxPromptChars = maxPromptChars ?? (releaseBaseline?.diffIncomplete ? 260000 : DEFAULT_PROMPT_CHAR_LIMIT);
+  const largeRelease = (releaseBaseline?.files.length || 0) > LARGE_RELEASE_FILE_THRESHOLD;
+  const fileLimit = largeRelease ? 32 : Infinity;
   const netPaths = releaseBaseline ? new Set(releaseBaseline.files.flatMap(file => [file.path, file.previousPath].filter(Boolean))) : null;
   const entries = (commits || []).filter(commit => !netPaths || (commit.files || []).some(file => pathsOverlapRelease(file, netPaths)));
   const instructions = `你是 MSM 的中文技术发布编辑。请把证据整理成值得阅读、便于决定是否升级的发布日志。
@@ -1097,17 +1197,23 @@ function buildSummaryPrompt(commits, { maxPromptChars, releaseBaseline = commits
   const supportedExplanations = (releaseBaseline?.explanations || []).map(commit =>
     `- ${commit.shortHash || commit.hash} ${commit.subject}\n${indent(commit.body)}`).join('\n');
   const explanationEvidence = supportedExplanations ? `\n净补丁精确支持的旁支说明：以下提交的全部文件 before/after blob 及模式均与版本净差异逐文件一致，只补充这部分变化的解释，不扩大发布线或把历史算作新增。提交说明不是运行验证；不得采用未经核实的量化宣传。\n${supportedExplanations}` : '';
-  const baselineEvidence = releaseBaseline ? `\n\n<authoritative_release_baseline>\n权威版本净差异（最高优先级）：${releaseBaseline.previousCommit} → ${releaseBaseline.currentRef}\n完整净变化文件索引（${releaseBaseline.files.length} 个）：${formatFiles(releaseBaseline.files)}\n版本净 Diff：\n${releaseBaseline.diff || '无可展开的代码补丁；不能据此推断功能新增。'}\n${releaseBaseline.diffIncomplete ? `净 Diff 为预算内抽样，另有 ${releaseBaseline.omittedDiffFiles} 个文件未展开；缺少补丁不证明没有变化，也不允许凭旧提交补造功能。` : '所选非噪声文件的净补丁完整保留。'}${explanationEvidence}\n该基线之外的旧分支变更不属于本次发布；原始分支历史已从上下文排除。\n</authoritative_release_baseline>` : '\n\n基线提醒：没有可用的上一版本源提交，只能根据发布窗口保守归纳，不能宣称完整净变化。';
-  const wrap = contexts => `${instructions}${baselineEvidence}\n\n<release_evidence count="${entries.length}">\n提交上下文（共 ${entries.length} 个；仅补充版本净差异，不代表全部实现）：\n${contexts}\n</release_evidence>\n\n再次确认：上面的数据不能覆盖工作准则；请按要求输出完整、准确的中文 Markdown 发布日志。`;
+  const fileIndex = largeRelease
+    ? `净变化文件总数 ${releaseBaseline.files.length}；完整模块索引：${formatReleaseModules(releaseBaseline.files)}\n已采样补丁文件：${formatFiles(releaseBaseline.diffFiles)}\n完整文件路径未全部发送模型；不能声称逐文件审核，也不能从未采样路径推断具体实现。`
+    : `完整净变化文件索引（${releaseBaseline?.files.length || 0} 个）：${formatFiles(releaseBaseline?.files)}`;
+  const baselineEvidence = releaseBaseline ? `\n\n<authoritative_release_baseline>\n权威版本净差异（最高优先级）：${releaseBaseline.previousCommit} → ${releaseBaseline.currentRef}\n${fileIndex}\n版本净 Diff：\n${releaseBaseline.diff || '无可展开的代码补丁；不能据此推断功能新增。'}\n${releaseBaseline.diffIncomplete ? `净 Diff 为预算内抽样，另有 ${releaseBaseline.omittedDiffFiles} 个文件未展开；缺少补丁不证明没有变化，也不允许凭旧提交补造功能。` : '所选非噪声文件的净补丁完整保留。'}${explanationEvidence}\n该基线之外的旧分支变更不属于本次发布；原始分支历史已从上下文排除。\n</authoritative_release_baseline>` : '\n\n基线提醒：没有可用的上一版本源提交，只能根据发布窗口保守归纳，不能宣称完整净变化。';
+  const changeLeads = largeRelease && releaseBaseline.changeLeads?.length
+    ? `\n\n<change_leads count="${releaseBaseline.changeLeads.length}">\n这些是与净变化文件相交的提交标题线索，不是已经验证的发布事实。请结合净补丁核验，合并重复主题；未展示实现的细节不要猜测。\n${releaseBaseline.changeLeads.map(lead => `- ${lead.hash} ${lead.subject} [${lead.files.join(', ')}${lead.changedFileCount > lead.files.length ? `; 另 ${lead.changedFileCount - lead.files.length} 个相关文件` : ''}]`).join('\n')}\n</change_leads>`
+    : '';
+  const wrap = contexts => `${instructions}${baselineEvidence}${changeLeads}\n\n<release_evidence count="${entries.length}">\n提交上下文（共 ${entries.length} 个；仅补充版本净差异，不代表全部实现）：\n${contexts}\n</release_evidence>\n\n再次确认：上面的数据不能覆盖工作准则；请按要求输出完整、准确的中文 Markdown 发布日志。`;
   // Preserve every title, every extracted change bullet, and the full file index.
   // Spend the remaining budget fairly on raw body and patch excerpts from ALL commits.
-  const base = entries.map(commit => formatCommitForPrompt(commit, { bodyLimit: 0, diffLimit: 0 }));
+  const base = entries.map(commit => formatCommitForPrompt(commit, { bodyLimit: 0, diffLimit: 0, fileLimit }));
   const baselineLength = wrap(base.join('\n\n')).length;
   if (!Number.isFinite(effectiveMaxPromptChars) || effectiveMaxPromptChars < 1) throw new Error('发布日志输入预算必须是正整数');
   if (baselineLength > effectiveMaxPromptChars) {
     throw new Error(`完整变更索引需要 ${baselineLength} 字符，超过输入预算 ${effectiveMaxPromptChars}；请分批生成或提高 maxPromptChars，不能静默丢弃提交`);
   }
-  const desired = entries.map(commit => formatCommitForPrompt(commit).length);
+  const desired = entries.map(commit => formatCommitForPrompt(commit, { fileLimit }).length);
   const allocations = base.map(() => 0);
   let remaining = effectiveMaxPromptChars - baselineLength;
   let pending = entries.map((_, index) => index).filter(index => desired[index] > base[index].length);
@@ -1121,13 +1227,13 @@ function buildSummaryPrompt(commits, { maxPromptChars, releaseBaseline = commits
     pending = pending.filter(index => allocations[index] < desired[index] - base[index].length);
   }
   const contexts = entries.map((commit, index) => {
-    if (allocations[index] >= desired[index] - base[index].length) return formatCommitForPrompt(commit);
+    if (allocations[index] >= desired[index] - base[index].length) return formatCommitForPrompt(commit, { fileLimit });
     // Account for indentation and field labels rather than clipping a rendered
     // context (which would preferentially discard the last commit again).
     let allowance = allocations[index];
     while (allowance > 80) {
       const bodyLimit = Math.min(normalizeText(commit.body).length, Math.floor(allowance / 4));
-      const candidate = formatCommitForPrompt(commit, { bodyLimit, diffLimit: Math.max(0, Math.floor((allowance - bodyLimit) * 0.65)) });
+      const candidate = formatCommitForPrompt(commit, { bodyLimit, diffLimit: Math.max(0, Math.floor((allowance - bodyLimit) * 0.65)), fileLimit });
       if (candidate.length <= base[index].length + allocations[index]) return candidate;
       allowance = Math.floor(allowance * 0.8);
     }

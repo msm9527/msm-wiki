@@ -6,18 +6,33 @@ ARG TARGETPLATFORM
 
 # 安装运行时依赖并应用安全更新
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
+    bash \
     ca-certificates \
-    tzdata \
     curl \
+    iproute2 \
+    iputils-ping \
+    iptables \
+    net-tools \
+    nftables \
+    openresolv \
+    procps \
+    tzdata \
+    wireguard-go \
+    wireguard-tools \
     && apt-get upgrade -y \
     && rm -rf /var/lib/apt/lists/*
+
+RUN set -eu; \
+    for command in bash ip sysctl iptables nft wg wg-quick wireguard-go resolvconf; do \
+      command -v "${command}" >/dev/null || exit 1; \
+    done
 
 # 创建必要的目录
 RUN mkdir -p /opt/msm /var/log/msm
 
 # 复制对应架构的二进制文件
-# TARGETPLATFORM 格式: linux/amd64, linux/arm64, linux/arm/v7, linux/arm/v6, linux/386
+# TARGETPLATFORM 格式: linux/amd64, linux/arm64, linux/arm/v7
 COPY binaries/${TARGETPLATFORM}/msm /usr/local/bin/msm
 RUN chmod +x /usr/local/bin/msm
 
@@ -38,6 +53,7 @@ EXPOSE 7777 53/tcp 53/udp 1053 7890 7891 7892 6666
 ENV JWT_SECRET="" \
     MSM_PORT="7777" \
     MSM_CONFIG_DIR="/opt/msm" \
+    MSM_DOCKER="1" \
     TZ="Asia/Shanghai"
 
 # 健康检查
@@ -46,4 +62,3 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 # 启动命令
 CMD ["sh", "-c", "msm serve -p ${MSM_PORT} -c ${MSM_CONFIG_DIR}"]
-

@@ -1004,7 +1004,7 @@ jobs:
           VERSION="${{ needs.prepare.outputs.version }}"
 
           # 创建目录结构 binaries/{platform}/msm
-          mkdir -p binaries/linux/amd64 binaries/linux/arm64 binaries/linux/arm/v7 binaries/linux/arm/v6
+          mkdir -p binaries/linux/amd64 binaries/linux/arm64 binaries/linux/arm/v7
 
           # 解压并复制各架构的二进制文件
           echo "准备 linux/amd64 二进制..."
@@ -1016,12 +1016,12 @@ jobs:
           echo "准备 linux/arm/v7 二进制..."
           tar -xzf "dist/msm-${VERSION}-linux-armv7/msm-${VERSION}-linux-armv7.tar.gz" -C binaries/linux/arm/v7
 
-          echo "准备 linux/arm/v6 二进制..."
-          tar -xzf "dist/msm-${VERSION}-linux-armv6/msm-${VERSION}-linux-armv6.tar.gz" -C binaries/linux/arm/v6
-
           # 验证文件结构
           echo "验证二进制文件:"
           find binaries -name msm -exec ls -lh {} \;
+
+      - name: 设置 QEMU
+        uses: docker/setup-qemu-action@v3
 
       - name: 设置 Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -1037,7 +1037,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile.binary
-          platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: msmbox/msm:${{ needs.prepare.outputs.version }},msmbox/msm:${{ needs.prepare.outputs.docker_channel_tag }}
           labels: |
@@ -1067,7 +1067,6 @@ jobs:
           echo "  - linux/amd64"
           echo "  - linux/arm64"
           echo "  - linux/arm/v7"
-          echo "  - linux/arm/v6"
           echo ""
           echo "注意: Docker 镜像使用标准 amd64 版本，amd64-v3 优化版仅作为独立二进制文件提供"
           echo ""
