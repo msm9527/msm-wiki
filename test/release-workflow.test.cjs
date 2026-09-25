@@ -8,6 +8,17 @@ const stableWorkflow = '.github/workflows/daily-build-msm.yml'
 const betaWorkflow = '.github/workflows/daily-build-msm-beta.yml'
 const workflows = [stableWorkflow, betaWorkflow]
 
+test('PanaBit release section keeps Markdown headings and tables out of code blocks', () => {
+  for (const workflow of workflows) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+    assert.match(source, /'### 🧩 派网应用版本（APX）'/u)
+    assert.match(source, /'\| 架构 \| 文件 \| 说明 \|'/u)
+    assert.doesNotMatch(source, /' {4,}### 🧩 派网应用版本（APX）'/u)
+    assert.doesNotMatch(source, /' {4,}<details>'/u)
+    assert.match(source, /^          \| \$\{arch\} \|/mu)
+  }
+})
+
 test('release workflows pass SHA256SUMS to the custom upload job', () => {
   for (const workflow of workflows) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')

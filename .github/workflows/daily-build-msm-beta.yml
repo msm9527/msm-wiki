@@ -649,13 +649,13 @@ jobs:
           fi
 
           SECTION="$(printf '%s\n' \
-            '            ### 🧩 派网应用版本（APX）' \
+            '### 🧩 派网应用版本（APX）' \
             '' \
-            '            <details>' \
-            '            <summary><b>PanaBit / 派网</b></summary>' \
+            '<details>' \
+            '<summary><b>PanaBit / 派网</b></summary>' \
             '' \
-            '            | 架构 | 文件 | 说明 |' \
-            '            |------|------|------|')"
+            '| 架构 | 文件 | 说明 |' \
+            '|------|------|------|')"
 
           for file in "${APX_FILES[@]}"; do
             base="$(basename "${file}")"
@@ -672,17 +672,17 @@ jobs:
                 ;;
             esac
             SECTION="${SECTION}
-            | ${arch} | [\`${base}\`](https://github.com/msm9527/msm-wiki/releases/download/${VERSION}/${base}) | ${desc} |"
+          | ${arch} | [\`${base}\`](https://github.com/msm9527/msm-wiki/releases/download/${VERSION}/${base}) | ${desc} |"
           done
 
           SECTION="${SECTION}
 
-            **说明：**
-            1. \`.apx\` 安装后会在派网页面中提供 MSM 控制入口
-            2. 实际管理界面由派网入口页跳转到 MSM 自身 Web 控制台
-            3. 如果派网设备已有服务占用目标端口，请先处理端口冲突
+          **说明：**
+          1. \`.apx\` 安装后会在派网页面中提供 MSM 控制入口
+          2. 实际管理界面由派网入口页跳转到 MSM 自身 Web 控制台
+          3. 如果派网设备已有服务占用目标端口，请先处理端口冲突
 
-            </details>"
+          </details>"
 
           echo "download_note=同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单" >> "$GITHUB_OUTPUT"
           {
