@@ -866,7 +866,8 @@ test('large release merge keeps net-scoped change leads and samples both product
     const focusedPrompt = buildSummaryPrompt(context.commits);
     assert.match(focusedPrompt, /<release_editorial_brief>/u);
     assert.match(focusedPrompt, /手机 WireGuard 回家配置/u);
-    assert.match(focusedPrompt, /版本净 Diff（再次跨文件节选）/u);
+    assert.match(focusedPrompt, /不代表模型逐文件审核代码/u);
+    assert.doesNotMatch(focusedPrompt, /diff --git/u);
     assert.ok(focusedPrompt.length < prompt.length);
   });
 });
