@@ -862,6 +862,12 @@ test('large release merge keeps net-scoped change leads and samples both product
     assert.match(prompt, /完整文件路径未全部发送模型/u);
     assert.ok(prompt.length <= 260000);
     assert.doesNotMatch(prompt, /完整净变化文件索引（220 个）/u);
+    context.releaseBaseline.editorialBrief = { topics: ['手机 WireGuard 回家配置'], requiredTopics: [] };
+    const focusedPrompt = buildSummaryPrompt(context.commits);
+    assert.match(focusedPrompt, /<release_editorial_brief>/u);
+    assert.match(focusedPrompt, /手机 WireGuard 回家配置/u);
+    assert.match(focusedPrompt, /版本净 Diff（再次跨文件节选）/u);
+    assert.ok(focusedPrompt.length < prompt.length);
   });
 });
 
