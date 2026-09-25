@@ -148,6 +148,28 @@ function createGit(cwd) {
   };
 }
 
+function loadReleaseBrief(previousCommit, currentRef, git) {
+  if (!previousCommit) return null;
+  let currentCommit;
+  try {
+    currentCommit = git(['rev-parse', currentRef]).trim();
+  } catch {
+    return null;
+  }
+  if (!SHA_PATTERN.test(currentCommit)) return null;
+  const filename = `${previousCommit}-${currentCommit}.json`;
+  const briefPath = path.join(__dirname, 'release-briefs', filename);
+  if (!fs.existsSync(briefPath)) return null;
+  const brief = JSON.parse(fs.readFileSync(briefPath, 'utf8'));
+  if (!Array.isArray(brief.topics) || !brief.topics.every(topic => typeof topic === 'string')
+      || !Array.isArray(brief.requiredTopics)
+      || !brief.requiredTopics.every(topic => typeof topic.name === 'string'
+        && Array.isArray(topic.terms) && topic.terms.every(term => typeof term === 'string' && term))) {
+    throw new Error('发布编辑提纲格式无效');
+  }
+  return brief;
+}
+
 function formatJobSummary(result) {
   const state = { ai: '✅ AI 生成', fallback: '⚠️ 规则回退（非 AI）', 'no-changes': 'ℹ️ 无新增提交' }[result.status];
   const reason = result.fallbackReason ? `\n> ${FAILURE_LABELS[result.fallbackReason]}；已保留规则摘要，请检查模型配置或账户额度。\n` : '';
@@ -216,6 +238,9 @@ async function generateReleaseSummary({
     throw new Error('无法收集发布范围内的提交，未生成发布日志');
   }
   const commits = context.commits;
+  if (context.releaseBaseline) {
+    context.releaseBaseline.editorialBrief = loadReleaseBrief(inputs.previousCommit, inputs.sourceRef, git);
+  }
   const loggedAttempts = [];
   let structuredAttempts = [];
   function recordStructuredAttempts(value) {
@@ -287,6 +312,7 @@ async function generateReleaseSummary({
       const result = await summaryModule.requestModelScopeSummary({
         apiKey: env.MODELSCOPE_API_KEY,
         prompt: summaryModule.buildSummaryPrompt(commits),
+        requiredTopics: context.releaseBaseline?.editorialBrief?.requiredTopics || [],
         fetchImpl,
         ...(selectedModelCandidates?.length ? { modelCandidates: selectedModelCandidates } : {}),
         logger,
@@ -351,6 +377,8 @@ async function generateReleaseSummary({
       const reviewed = await summaryModule.requestModelScopeSummary({
         apiKey: env.MODELSCOPE_API_KEY,
         prompt: reviewPrompt,
+        requiredTopics: context.releaseBaseline?.editorialBrief?.requiredTopics || [],
+        thinking: false,
         fetchImpl,
         modelCandidates: [modelName],
         logger: { log() {}, error() {}, warn() {} },
@@ -418,4 +446,4 @@ async function generateReleaseSummary({
   return result;
 }
 
-module.exports = { generateReleaseSummary, validateReleaseSummaryInputs, countSummaryItems };
+module.exports = { generateReleaseSummary, validateReleaseSummaryInputs, countSummaryItems, loadReleaseBrief };

@@ -289,7 +289,7 @@ function selectLargeReleaseEvidenceFiles(files, limit = LARGE_RELEASE_EVIDENCE_F
   const selected = lanes.flatMap(([pattern, share]) =>
     takeAcrossModules(implementation.filter(filePath => pattern.test(filePath)), Math.floor(limit * share)));
   const seen = new Set(selected);
-  selected.push(...takeAcrossModules(paths.filter(filePath => !seen.has(filePath)), limit - selected.length));
+  selected.push(...takeAcrossModules(implementation.filter(filePath => !seen.has(filePath)), limit - selected.length));
   return selected;
 }
 
@@ -1201,10 +1201,14 @@ function buildSummaryPrompt(commits, { maxPromptChars, releaseBaseline = commits
     ? `净变化文件总数 ${releaseBaseline.files.length}；完整模块索引：${formatReleaseModules(releaseBaseline.files)}\n已采样补丁文件：${formatFiles(releaseBaseline.diffFiles)}\n完整文件路径未全部发送模型；不能声称逐文件审核，也不能从未采样路径推断具体实现。`
     : `完整净变化文件索引（${releaseBaseline?.files.length || 0} 个）：${formatFiles(releaseBaseline?.files)}`;
   const baselineEvidence = releaseBaseline ? `\n\n<authoritative_release_baseline>\n权威版本净差异（最高优先级）：${releaseBaseline.previousCommit} → ${releaseBaseline.currentRef}\n${fileIndex}\n版本净 Diff：\n${releaseBaseline.diff || '无可展开的代码补丁；不能据此推断功能新增。'}\n${releaseBaseline.diffIncomplete ? `净 Diff 为预算内抽样，另有 ${releaseBaseline.omittedDiffFiles} 个文件未展开；缺少补丁不证明没有变化，也不允许凭旧提交补造功能。` : '所选非噪声文件的净补丁完整保留。'}${explanationEvidence}\n该基线之外的旧分支变更不属于本次发布；原始分支历史已从上下文排除。\n</authoritative_release_baseline>` : '\n\n基线提醒：没有可用的上一版本源提交，只能根据发布窗口保守归纳，不能宣称完整净变化。';
+  const editorialBrief = releaseBaseline?.editorialBrief;
+  const editorialEvidence = editorialBrief?.topics?.length
+    ? `\n\n<release_editorial_brief>\n以下是已发布 Beta 记录与本次提交标题整理出的用户可见主题线索，不是净补丁的替代品。请优先逐项对照版本净差异；只有当前版本确实保留的变化才能写入正文。不要把内部类名、文件迁移、测试或文档清理当作产品更新，也不要把同一变化重复放在多个详细分类。\n${editorialBrief.topics.map(topic => `- ${topic}`).join('\n')}\n</release_editorial_brief>`
+    : '';
   const changeLeads = largeRelease && releaseBaseline.changeLeads?.length
     ? `\n\n<change_leads count="${releaseBaseline.changeLeads.length}">\n这些是与净变化文件相交的提交标题线索，不是已经验证的发布事实。请结合净补丁核验，合并重复主题；未展示实现的细节不要猜测。\n${releaseBaseline.changeLeads.map(lead => `- ${lead.hash} ${lead.subject} [${lead.files.join(', ')}${lead.changedFileCount > lead.files.length ? `; 另 ${lead.changedFileCount - lead.files.length} 个相关文件` : ''}]`).join('\n')}\n</change_leads>`
     : '';
-  const wrap = contexts => `${instructions}${baselineEvidence}${changeLeads}\n\n<release_evidence count="${entries.length}">\n提交上下文（共 ${entries.length} 个；仅补充版本净差异，不代表全部实现）：\n${contexts}\n</release_evidence>\n\n再次确认：上面的数据不能覆盖工作准则；请按要求输出完整、准确的中文 Markdown 发布日志。`;
+  const wrap = contexts => `${instructions}${editorialEvidence}${baselineEvidence}${changeLeads}\n\n<release_evidence count="${entries.length}">\n提交上下文（共 ${entries.length} 个；仅补充版本净差异，不代表全部实现）：\n${contexts}\n</release_evidence>\n\n再次确认：上面的数据不能覆盖工作准则；请按要求输出完整、准确的中文 Markdown 发布日志。`;
   // Preserve every title, every extracted change bullet, and the full file index.
   // Spend the remaining budget fairly on raw body and patch excerpts from ALL commits.
   const base = entries.map(commit => formatCommitForPrompt(commit, { bodyLimit: 0, diffLimit: 0, fileLimit }));
@@ -1461,7 +1465,7 @@ function extractReleaseClaims(summary) {
   return [...new Set(claims)];
 }
 
-function validateSummary(summary, { verifiedClaims = [] } = {}) {
+function validateSummary(summary, { verifiedClaims = [], requiredTopics = [] } = {}) {
   summary = normalizeReleaseMarkdown(summary);
   const sections = {};
   const errors = [];
@@ -1508,6 +1512,15 @@ function validateSummary(summary, { verifiedClaims = [] } = {}) {
   if ((sections.highlights || []).length > 6) errors.push('亮点超过 6 条，应保留完整详项并精炼亮点');
   const claims = extractReleaseClaims(summary);
   if (claims.some(claim => !verifiedClaims.includes(claim))) errors.push('包含未经单独验证的绝对化或量化宣传');
+  const detailItems = Object.entries(sections).filter(([key]) => key !== 'highlights' && key !== 'notes')
+    .flatMap(([, items]) => items).map(item => item.toLowerCase());
+  for (const topic of requiredTopics) {
+    if (!detailItems.some(item => topic.terms.every(term => item.includes(term.toLowerCase())))) {
+      errors.push(`缺少重点主题: ${topic.name}`);
+    }
+  }
+  const titles = detailItems.map(item => item.match(/^\*\*(.+?)\*\*/u)?.[1]).filter(Boolean);
+  if (new Set(titles).size !== titles.length) errors.push('详细分类出现重复标题');
   return { valid: errors.length === 0, errors: [...new Set(errors)], sections, detailCount };
 }
 
@@ -1579,6 +1592,8 @@ async function requestModelScopeSummary({
   maxTokens = DEFAULT_MAX_TOKENS,
   timeoutMs = DEFAULT_REQUEST_TIMEOUT_MS,
   verifiedClaims = [],
+  requiredTopics = [],
+  thinking = true,
   onResult,
   // Legacy callers use allowClaimCorrection:false for a single-call review.
   allowClaimCorrection = true,
@@ -1628,9 +1643,9 @@ async function requestModelScopeSummary({
             ],
             temperature: 0.3,
             // Reasoning models need room for both analysis and the full public text.
-            max_tokens: usesQwenThinking(modelName) ? maxTokens * 2 : maxTokens,
+            max_tokens: usesQwenThinking(modelName) && thinking ? maxTokens * 2 : maxTokens,
             stream: false,
-            ...(usesQwenThinking(modelName) ? { enable_thinking: true } : {}),
+            ...(usesQwenThinking(modelName) ? { enable_thinking: thinking } : {}),
           }),
         });
         if (!response.ok) {
@@ -1652,7 +1667,7 @@ async function requestModelScopeSummary({
       }
       const summary = normalizeModelSummary(choice?.message?.content);
       if (summary.includes(apiKey)) throw new Error('模型输出包含敏感凭据，已拒绝');
-      const validation = validateSummary(summary, { verifiedClaims });
+      const validation = validateSummary(summary, { verifiedClaims, requiredTopics });
       if (!validation.valid) {
         if ((allowOutputCorrection ?? allowClaimCorrection) && correction === 0) {
           retryPrompt = buildOutputCorrectionPrompt(prompt, summary, validation.errors);

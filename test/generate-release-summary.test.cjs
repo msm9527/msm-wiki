@@ -3,12 +3,21 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
-const { generateReleaseSummary, validateReleaseSummaryInputs, countSummaryItems } = require('../scripts/generate-release-summary.cjs');
+const { generateReleaseSummary, validateReleaseSummaryInputs, countSummaryItems, loadReleaseBrief } = require('../scripts/generate-release-summary.cjs');
 const { resolveAvailableModelCandidates } = require('../scripts/ai-release-summary.cjs');
 
 const publicSummary = '### 🎉 本次亮点\n- **Docker 管理升级**：更直观地管理容器。\n\n### ✨ 功能增强\n- 完善 Compose 操作反馈。\n\n### 🐛 问题修复\n- 修复登录状态过期后仍持续请求的问题。';
 const fallbackSummary = '### 🐛 问题修复\n- 修复登录状态问题。';
 const privateContext = 'PRIVATE_SOURCE_DIFF_NOT_FOR_ARTIFACTS';
+
+test('release brief applies only to its exact source range', () => {
+  const previous = 'dd17a5502c662932df341cfbd58271d38bab77bf';
+  const current = '8ef0fd2051a869331ac0068adba9d8259476c83e';
+  const brief = loadReleaseBrief(previous, 'HEAD', () => `${current}\n`);
+  assert.ok(brief.topics.some(topic => topic.includes('WireGuard')));
+  assert.ok(brief.requiredTopics.some(topic => topic.name.includes('进程托管')));
+  assert.equal(loadReleaseBrief(previous, 'HEAD', () => `${'a'.repeat(40)}\n`), null);
+});
 
 function makeCore() {
   const outputs = {};

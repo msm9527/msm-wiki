@@ -285,6 +285,20 @@ test('Qwen3.x reasoning models receive thinking mode and a larger total token bu
   }
 });
 
+test('editorial review can disable thinking to reserve output tokens', async () => {
+  let body;
+  await requestModelScopeSummary({
+    apiKey: 'test-token', prompt: 'evidence', modelCandidates: [DEFAULT_MODEL_CANDIDATES[0]],
+    thinking: false, logger: silentLogger,
+    fetchImpl: async (_url, options) => {
+      body = JSON.parse(options.body);
+      return modelResponse();
+    },
+  });
+  assert.equal(body.enable_thinking, false);
+  assert.equal(body.max_tokens, 8000);
+});
+
 test('default model candidates stay on currently served Qwen3.5 models', () => {
   assert.deepEqual(DEFAULT_MODEL_CANDIDATES, [
     'Qwen/Qwen3.5-397B-A17B',
@@ -849,6 +863,17 @@ test('large release merge keeps net-scoped change leads and samples both product
     assert.ok(prompt.length <= 260000);
     assert.doesNotMatch(prompt, /完整净变化文件索引（220 个）/u);
   });
+});
+
+test('editorial topics and duplicate detail titles are checked before publication', () => {
+  const summary = '### 🆕 新增功能\n- **手机回家**：WireGuard 手机配置可用于回家。\n\n### 🐛 问题修复\n- **手机回家**：WireGuard 手机配置可用于回家。';
+  const result = validateSummary(summary, { requiredTopics: [
+    { name: 'WireGuard 手机回家', terms: ['wireguard', '手机'] },
+    { name: '进程托管', terms: ['systemd', '托管'] },
+  ] });
+  assert.match(result.errors.join('；'), /缺少重点主题: 进程托管/);
+  assert.match(result.errors.join('；'), /详细分类出现重复标题/);
+  assert.doesNotMatch(result.errors.join('；'), /缺少重点主题: WireGuard 手机回家/);
 });
 
 test('review prompt keeps the authoritative evidence and treats a draft as material to correct', () => {
