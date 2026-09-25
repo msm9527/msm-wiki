@@ -1156,7 +1156,7 @@ function buildSummaryPrompt(commits, { maxPromptChars, releaseBaseline = commits
   const effectiveMaxPromptChars = maxPromptChars ?? (releaseBaseline?.diffIncomplete ? 260000 : DEFAULT_PROMPT_CHAR_LIMIT);
   if (releaseBaseline?.editorialBrief?.topics?.length) {
     const brief = releaseBaseline.editorialBrief;
-    const prompt = `你是 MSM 的中文发布编辑。以下提纲根据已发布 Beta 版本说明与 ${releaseBaseline.previousCommit} 到 ${releaseBaseline.currentRef} 的源码提交整理；完整净变化为 ${releaseBaseline.files.length} 个文件。提纲是本次文案的事实边界，不代表模型逐文件审核代码。你的任务是准确、完整地整理用户可见变化，不增加提纲之外的功能、效果、指标、验证结论或升级操作。\n\n<release_editorial_brief>\n${brief.topics.map((topic, index) => `${index + 1}. ${topic}`).join('\n')}\n</release_editorial_brief>\n\n写作要求：\n1. 每个提纲主题都要在详细分类中有对应条目；同一主题的互相关联变化可合并成一条，不同主题不要笼统合并。先列完整更新，再从中挑 3–6 条跨模块亮点。\n2. 只写用户能感知的行为、影响和必要的兼容提醒。不写内部类名、函数名、源码路径、文件迁移、测试或文档清理。不要把修复改写成首次新增，不能重复列出同一事实。\n3. 进程托管不含逐服务选择开关；网卡告警不会自动切换网卡；DNS 关闭须保持关闭。涉及旧版升级时只说明已知兼容边界，不保证所有环境零风险。\n4. 每条以“- **短标题**：具体变化和用户收益”呈现。不要输出总标题、解释、覆盖清单、HTML、代码围栏或思考过程；空分类省略。避免“全面”“彻底解决”“零故障”等绝对化用语和未经实测的性能数字。\n可用分类：### 🎉 本次亮点（Highlights）、### 🎉 重磅功能（Major）、### 🆕 新增功能（Added）、### ✨ 功能增强（Changed）、### ⚡ 性能优化（Performance）、### 🐛 问题修复（Fixed）、### 🛡️ 安全加固（Security）、### ⚠️ 兼容性变更（Deprecated）、### 📌 升级提醒（Notes）。\n\n特别核对手机 WireGuard、进程恢复、初始化 DNS 关闭、多网卡健康提示、自定义节点批量删除、Sing-Box 兼容升级、Docker Compose 和 IPv6 透明代理是否各有具体详项。只输出完整中文 Markdown 发布日志。`;
+    const prompt = `你是 MSM 的中文发布编辑。以下提纲根据已发布 Beta 版本说明与 ${releaseBaseline.previousCommit} 到 ${releaseBaseline.currentRef} 的源码提交整理；完整净变化为 ${releaseBaseline.files.length} 个文件。提纲是本次文案的事实边界，不代表模型逐文件审核代码。你的任务是准确、完整地整理用户可见变化，不增加提纲之外的功能、效果、指标、验证结论或升级操作。\n\n<release_editorial_brief>\n${brief.topics.map((topic, index) => `${index + 1}. ${topic}`).join('\n')}\n</release_editorial_brief>\n\n写作要求：\n1. 每个提纲主题都要在详细分类中有对应条目；同一主题的互相关联变化可合并成一条，不同主题不要笼统合并。先列完整更新，再从中挑 3–6 条跨模块亮点。\n2. 方括号类型决定详细分类：[新增] 归新增功能、[增强] 归功能增强、[修复] 归问题修复、[安全] 归安全加固、[性能] 归性能优化；不得把已有功能的重构、恢复校验或兼容修复写成首次新增。每个提纲主题只能落一个详细分类，亮点可提炼但不重复整段。\n3. 只写用户能感知的行为和影响，不写内部类名、函数名、源码路径、文件迁移、测试或文档清理。不要把提纲中的“不能”“不要”“核对”等编辑约束当作发布事实。升级提醒只写必须采取的操作或真实兼容边界，不要重复正文，也不要保证跨版本升级绝对无损。\n4. systemd 模式是有环境条件的能力，并非所有服务默认统一切换；网卡告警不会自动切换网卡；DNS 关闭须保持关闭。已存在的 Docker Center、反向代理与 macvlan 校验不能写成首次新增。\n5. 每条以“- **短标题**：具体变化和用户收益”呈现。不要输出总标题、解释、覆盖清单、HTML、代码围栏或思考过程；空分类省略。避免“全面”“彻底解决”“零故障”等绝对化用语和未经实测的性能数字。\n可用分类：### 🎉 本次亮点（Highlights）、### 🎉 重磅功能（Major）、### 🆕 新增功能（Added）、### ✨ 功能增强（Changed）、### ⚡ 性能优化（Performance）、### 🐛 问题修复（Fixed）、### 🛡️ 安全加固（Security）、### ⚠️ 兼容性变更（Deprecated）、### 📌 升级提醒（Notes）。\n\n特别核对手机 WireGuard、进程恢复、初始化 DNS 关闭、多网卡健康提示、自定义节点批量删除、Sing-Box 兼容升级、Docker Compose 和 IPv6 透明代理是否各有具体详项。只输出完整中文 Markdown 发布日志。`;
     if (prompt.length > effectiveMaxPromptChars) throw new Error('发布编辑提纲超过输入预算');
     return prompt;
   }
@@ -1468,7 +1468,7 @@ function extractReleaseClaims(summary) {
   return [...new Set(claims)];
 }
 
-function validateSummary(summary, { verifiedClaims = [], requiredTopics = [] } = {}) {
+function validateSummary(summary, { verifiedClaims = [], requiredTopics = [], forbiddenClaims = [] } = {}) {
   summary = normalizeReleaseMarkdown(summary);
   const sections = {};
   const errors = [];
@@ -1524,6 +1524,9 @@ function validateSummary(summary, { verifiedClaims = [], requiredTopics = [] } =
   }
   const titles = detailItems.map(item => item.match(/^\*\*(.+?)\*\*/u)?.[1]).filter(Boolean);
   if (new Set(titles).size !== titles.length) errors.push('详细分类出现重复标题');
+  for (const claim of forbiddenClaims) {
+    if (new RegExp(claim.pattern, 'iu').test(summary)) errors.push(`包含不支持的发布断言: ${claim.name}`);
+  }
   return { valid: errors.length === 0, errors: [...new Set(errors)], sections, detailCount };
 }
 
@@ -1596,6 +1599,7 @@ async function requestModelScopeSummary({
   timeoutMs = DEFAULT_REQUEST_TIMEOUT_MS,
   verifiedClaims = [],
   requiredTopics = [],
+  forbiddenClaims = [],
   thinking = true,
   onResult,
   // Legacy callers use allowClaimCorrection:false for a single-call review.
@@ -1670,7 +1674,7 @@ async function requestModelScopeSummary({
       }
       const summary = normalizeModelSummary(choice?.message?.content);
       if (summary.includes(apiKey)) throw new Error('模型输出包含敏感凭据，已拒绝');
-      const validation = validateSummary(summary, { verifiedClaims, requiredTopics });
+      const validation = validateSummary(summary, { verifiedClaims, requiredTopics, forbiddenClaims });
       if (!validation.valid) {
         if ((allowOutputCorrection ?? allowClaimCorrection) && correction === 0) {
           retryPrompt = buildOutputCorrectionPrompt(prompt, summary, validation.errors);

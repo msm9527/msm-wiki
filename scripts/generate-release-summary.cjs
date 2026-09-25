@@ -164,7 +164,10 @@ function loadReleaseBrief(previousCommit, currentRef, git) {
   if (!Array.isArray(brief.topics) || !brief.topics.every(topic => typeof topic === 'string')
       || !Array.isArray(brief.requiredTopics)
       || !brief.requiredTopics.every(topic => typeof topic.name === 'string'
-        && Array.isArray(topic.terms) && topic.terms.every(term => typeof term === 'string' && term))) {
+        && Array.isArray(topic.terms) && topic.terms.every(term => typeof term === 'string' && term))
+      || !Array.isArray(brief.forbiddenClaims)
+      || !brief.forbiddenClaims.every(claim => typeof claim.name === 'string'
+        && typeof claim.pattern === 'string' && claim.pattern)) {
     throw new Error('发布编辑提纲格式无效');
   }
   return brief;
@@ -313,6 +316,7 @@ async function generateReleaseSummary({
         apiKey: env.MODELSCOPE_API_KEY,
         prompt: summaryModule.buildSummaryPrompt(commits),
         requiredTopics: context.releaseBaseline?.editorialBrief?.requiredTopics || [],
+        forbiddenClaims: context.releaseBaseline?.editorialBrief?.forbiddenClaims || [],
         fetchImpl,
         ...(selectedModelCandidates?.length ? { modelCandidates: selectedModelCandidates } : {}),
         logger,
@@ -378,6 +382,7 @@ async function generateReleaseSummary({
         apiKey: env.MODELSCOPE_API_KEY,
         prompt: reviewPrompt,
         requiredTopics: context.releaseBaseline?.editorialBrief?.requiredTopics || [],
+        forbiddenClaims: context.releaseBaseline?.editorialBrief?.forbiddenClaims || [],
         thinking: false,
         fetchImpl,
         modelCandidates: [modelName],

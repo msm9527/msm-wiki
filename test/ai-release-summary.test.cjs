@@ -881,6 +881,10 @@ test('editorial topics and duplicate detail titles are checked before publicatio
   assert.match(result.errors.join('；'), /缺少重点主题: 进程托管/);
   assert.match(result.errors.join('；'), /详细分类出现重复标题/);
   assert.doesNotMatch(result.errors.join('；'), /缺少重点主题: WireGuard 手机回家/);
+  const falseClaim = validateSummary('### 🆕 新增功能\n- **新增 Docker Center**：统一管理容器。', {
+    forbiddenClaims: [{ name: 'Docker Center 假新增', pattern: '(?:新增|首次).{0,16}Docker\\s*Center' }],
+  });
+  assert.match(falseClaim.errors.join('；'), /包含不支持的发布断言: Docker Center 假新增/);
 });
 
 test('review prompt keeps the authoritative evidence and treats a draft as material to correct', () => {
