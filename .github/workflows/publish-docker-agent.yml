@@ -69,16 +69,17 @@ jobs:
           set -euo pipefail
           SOURCE_VERSION="$(tr -d '[:space:]' < msm-source/.version)"
           EXPECTED_VERSION="$SOURCE_VERSION"
-          MOVING_TAG="agent-latest"
+          MOVING_TAG="latest"
           if [[ "$RELEASE_CHANNEL" == beta ]]; then
             EXPECTED_VERSION="beta-$SOURCE_VERSION"
-            MOVING_TAG="agent-beta-latest"
+            MOVING_TAG="beta-latest"
           fi
           [[ "$RELEASE_VERSION" == "$EXPECTED_VERSION" ]] || { echo "release version does not match source" >&2; exit 1; }
           echo "tags<<EOF" >> "$GITHUB_OUTPUT"
-          echo "msmbox/msm:agent-$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
-          echo "msmbox/msm:$MOVING_TAG" >> "$GITHUB_OUTPUT"
+          echo "msmbox/msm-agent:$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+          echo "msmbox/msm-agent:$MOVING_TAG" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "moving_tag=$MOVING_TAG" >> "$GITHUB_OUTPUT"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -117,10 +118,16 @@ jobs:
         shell: bash
         env:
           RELEASE_VERSION: ${{ inputs.version }}
+          MOVING_TAG: ${{ steps.meta.outputs.moving_tag }}
         run: |
           set -euo pipefail
-          IMAGE="msmbox/msm:agent-$RELEASE_VERSION"
+          IMAGE="msmbox/msm-agent:$RELEASE_VERSION"
           docker buildx imagetools inspect --raw "$IMAGE" | jq -e '
+            [.manifests[] | select(.platform.os == "linux") |
+              if .platform.architecture == "arm" then "arm/" + .platform.variant
+              else .platform.architecture end] | sort == ["amd64", "arm/v7", "arm64"]
+          '
+          docker buildx imagetools inspect --raw "msmbox/msm-agent:$MOVING_TAG" | jq -e '
             [.manifests[] | select(.platform.os == "linux") |
               if .platform.architecture == "arm" then "arm/" + .platform.variant
               else .platform.architecture end] | sort == ["amd64", "arm/v7", "arm64"]

@@ -54,9 +54,10 @@ MSM 后端必须能够访问 Docker Engine。常见部署需要挂载 Docker Soc
 目标主机只需运行轻量 `msm-docker-agent`，不需要安装完整 MSM。进入 **Docker 管理 → 节点**，可选择两种接入方式：
 
 Agent 使用独立构建的镜像，与 MSM 主镜像分开发布。稳定版镜像为
-`msmbox/msm:agent-<MSM版本>`（例如 `agent-2.0.3`），Beta 版为
-`msmbox/msm:agent-beta-<MSM版本>`；页面生成的命令固定拉取当前版本，
-不依赖会移动的 `agent-latest` 标签。镜像支持 Linux amd64、arm64 和 arm/v7。
+`msmbox/msm-agent:latest`，也可用 `msmbox/msm-agent:<MSM版本>` 固定版本。
+Beta 版使用 `msmbox/msm-agent:beta-latest` 或 `beta-<MSM版本>`；
+页面生成的安装命令默认拉取稳定版 `latest`，使用 Beta 控制端时应选择匹配的
+Beta 镜像。镜像支持 Linux amd64、arm64 和 arm/v7，由 msm-wiki 的发布工作流构建。
 
 | 方式 | 连接方向 | 适用场景 |
 |------|----------|----------|
