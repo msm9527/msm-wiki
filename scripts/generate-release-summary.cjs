@@ -170,11 +170,15 @@ function loadReleaseBrief(previousCommit, currentRef, git) {
         && typeof claim.pattern === 'string' && claim.pattern)) {
     throw new Error('发布编辑提纲格式无效');
   }
+  const editorialPath = briefPath.replace(/\.json$/u, '.md');
+  if (fs.existsSync(editorialPath)) {
+    brief.editorialSummary = fs.readFileSync(editorialPath, 'utf8').trim();
+  }
   return brief;
 }
 
 function formatJobSummary(result) {
-  const state = { ai: '✅ AI 生成', fallback: '⚠️ 规则回退（非 AI）', 'no-changes': 'ℹ️ 无新增提交' }[result.status];
+  const state = { ai: '✅ AI 生成', editorial: '✅ 编辑审定', fallback: '⚠️ 规则回退（非 AI）', 'no-changes': 'ℹ️ 无新增提交' }[result.status];
   const reason = result.fallbackReason ? `\n> ${FAILURE_LABELS[result.fallbackReason]}；已保留规则摘要，请检查模型配置或账户额度。\n` : '';
   const attempts = result.modelAttempts.length
     ? `\n### 模型尝试结果\n\n| 次序 | 模型 | 状态 | 原因码 | 阶段 |\n| --- | --- | --- | --- | --- |\n${result.modelAttempts.map((attempt, index) => `| ${index + 1} | ${attempt.model} | ${attempt.status} | ${attempt.reasonCode} | ${attempt.phase || 'draft'} |`).join('\n')}\n`
@@ -272,7 +276,20 @@ async function generateReleaseSummary({
   let status = commits.length ? 'fallback' : 'no-changes';
   let fallbackReason = '';
   let modelCatalog;
-  if (commits.length && !env.MODELSCOPE_API_KEY) {
+  const editorialSummary = commits.length && inputs.channel === 'stable'
+    ? context.releaseBaseline?.editorialBrief?.editorialSummary : '';
+  if (editorialSummary) {
+    summary = redactSecrets(editorialSummary, env);
+    const { validateSummary } = require('./ai-release-summary.cjs');
+    const validation = validateSummary(summary, {
+      requiredTopics: context.releaseBaseline.editorialBrief.requiredTopics,
+      forbiddenClaims: context.releaseBaseline.editorialBrief.forbiddenClaims,
+    });
+    if (!isPublicSummary(summary) || !validation.valid) {
+      throw new Error(`发布编辑稿未通过检查: ${validation.errors.join('；') || '包含非公开上下文'}`);
+    }
+    status = 'editorial';
+  } else if (commits.length && !env.MODELSCOPE_API_KEY) {
     fallbackReason = 'missing-api-key';
   } else if (commits.length) {
     try {
@@ -345,7 +362,7 @@ async function generateReleaseSummary({
       fallbackReason ||= (Object.hasOwn(FAILURE_LABELS, structuredFailure) && structuredFailure) || lastFailure || failureCode(error);
     }
   }
-  if (status !== 'ai') {
+  if (status !== 'ai' && status !== 'editorial') {
     try {
       summary = redactSecrets(summaryModule.buildFallbackSummary(commits, env.RELEASE_PREVIOUS_PUBLISHED_AT || ''), env);
     } catch {
@@ -445,7 +462,7 @@ async function generateReleaseSummary({
     const { summary: _summary, ...metadata } = result;
     fs.writeFileSync(path.join(artifactDirectory, 'metadata.json'), `${JSON.stringify(metadata, null, 2)}\n`);
   }
-  if (env.RELEASE_REQUIRE_AI === 'true' && commits.length && status !== 'ai') {
+  if (env.RELEASE_REQUIRE_AI === 'true' && commits.length && !['ai', 'editorial'].includes(status)) {
     throw new Error(`AI 发布日志健康检查失败（${fallbackReason || 'request-failed'}）`);
   }
   return result;

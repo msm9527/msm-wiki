@@ -2,6 +2,8 @@
 
 稳定版、Beta 版与“发布日志预览（不构建、不发布）”共用 `generate-release-summary.cjs`。内容提取、模型链、提示词和输出校验由 `ai-release-summary.cjs` 维护；Wiki 排版和历史归档由 `update-release-page.cjs` 维护。
 
+跨度过大的发布可以在 `scripts/release-briefs/` 中保存与“上一稳定版源 SHA-当前源 SHA”同名的 `.json` 事实提纲及 `.md` 编辑审定稿。只有两个提交都精确匹配时才读取；审定稿通过分类、重点覆盖、禁止断言和公开内容检查后标记为 `editorial`，不调用或冒充 AI。没有审定稿时仍走原有模型与规则回退流程。更新审定稿后须通过页面生成器重建 Wiki，保持可见文案和 `msm-release-data` 归档一致。
+
 ## 模型与密钥
 
 - GitHub Actions Secret `MODELSCOPE_API_KEY`：仅保存密钥，不在代码、日志或预览产物中写入。
@@ -17,7 +19,7 @@
 ## 调整后如何验证
 
 1. 运行 `npm test`、`npm run docs:build`，并用 actionlint 检查相关 workflow。
-2. 在 Actions 手动运行“发布日志预览（不构建、不发布）”。`source_ref` 填本次版本的源提交 SHA，`previous_commit` 填上一版源 SHA，选择对应通道。该预览启用严格 AI 健康检查：精确范围不合法或 AI 未成功时任务会失败，但仍上传脱敏后的摘要与元数据供排查。
+2. 在 Actions 手动运行“发布日志预览（不构建、不发布）”。`source_ref` 填本次版本的源提交 SHA，`previous_commit` 填上一版源 SHA，选择对应通道。该预览启用严格健康检查：精确范围不合法，或既无审定稿也无成功 AI 结果时任务会失败，但仍上传脱敏后的摘要与元数据供排查。
 3. 检查任务摘要中的成功模型、回退状态、提交与采样计数，再阅读 `summary.md`。采样计数不代表模型已经完整覆盖每一项功能，应对照实际发布范围审阅。
 4. 确认亮点不替代完整分类，重大功能有实现依据，兼容变化及必要升级操作没有遗漏。预览不会修改 GitHub Release、Wiki 或安装包。
 

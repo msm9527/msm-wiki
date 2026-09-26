@@ -16,7 +16,59 @@ test('release brief applies only to its exact source range', () => {
   const brief = loadReleaseBrief(previous, 'HEAD', () => `${current}\n`);
   assert.ok(brief.topics.some(topic => topic.includes('WireGuard')));
   assert.ok(brief.requiredTopics.some(topic => topic.name.includes('进程托管')));
+  assert.match(brief.editorialSummary, /\*\*DDNS 工作区\*\*/u);
+  assert.match(brief.editorialSummary, /\*\*Docker 独立子节点\*\*/u);
   assert.equal(loadReleaseBrief(previous, 'HEAD', () => `${'a'.repeat(40)}\n`), null);
+});
+
+test('exact stable range uses the reviewed complete summary without calling inference', async () => {
+  const previous = 'dd17a5502c662932df341cfbd58271d38bab77bf';
+  const current = '8ef0fd2051a869331ac0068adba9d8259476c83e';
+  const result = await generateReleaseSummary({
+    env: {
+      RELEASE_CURRENT_REF: current,
+      RELEASE_PREVIOUS_COMMIT: previous,
+      RELEASE_CHANNEL: 'stable',
+      RELEASE_REQUIRE_AI: 'true',
+    },
+    git: () => `${current}\n`,
+    summaryModule: makeModule({
+      collectReleaseCommits() {
+        return {
+          commits: [{ subject: 'stable release' }],
+          source: 'previous-source-commit',
+          releaseBaseline: { files: [], previousCommit: previous, currentRef: current },
+        };
+      },
+      requestModelScopeSummary() { assert.fail('reviewed summary should not use inference'); },
+    }),
+  });
+  assert.equal(result.status, 'editorial');
+  assert.equal(result.itemCount, 58);
+  assert.equal(result.highlightCount, 6);
+  assert.match(result.summary, /\*\*图标库工作区\*\*/u);
+  assert.match(result.summary, /\*\*可选 systemd 进程托管\*\*/u);
+});
+
+test('reviewed stable text is not substituted into a beta preview', async () => {
+  const previous = 'dd17a5502c662932df341cfbd58271d38bab77bf';
+  const current = '8ef0fd2051a869331ac0068adba9d8259476c83e';
+  const result = await generateReleaseSummary({
+    env: { RELEASE_CURRENT_REF: current, RELEASE_PREVIOUS_COMMIT: previous, RELEASE_CHANNEL: 'beta' },
+    git: () => `${current}\n`,
+    summaryModule: makeModule({
+      collectReleaseCommits() {
+        return {
+          commits: [{ subject: 'beta preview' }],
+          source: 'previous-source-commit',
+          releaseBaseline: { files: [], previousCommit: previous, currentRef: current },
+        };
+      },
+      requestModelScopeSummary() { assert.fail('no key should skip inference'); },
+    }),
+  });
+  assert.equal(result.status, 'fallback');
+  assert.equal(result.summary, fallbackSummary);
 });
 
 function makeCore() {
