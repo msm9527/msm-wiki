@@ -7,14 +7,25 @@ const test = require('node:test')
 const updateReleasePage = require('../scripts/update-release-page.cjs')
 const { renderReleasePage } = updateReleasePage
 
-test('published stable 2.0.3 page matches every reviewed summary item', () => {
+test('published stable 2.0.3 page retains every reviewed summary item', () => {
   const basename = 'dd17a5502c662932df341cfbd58271d38bab77bf-8ef0fd2051a869331ac0068adba9d8259476c83e.md'
   const reviewed = fs.readFileSync(path.join(__dirname, '../scripts/release-briefs', basename), 'utf8')
   const page = fs.readFileSync(path.join(__dirname, '../docs/zh/guide/releases.md'), 'utf8')
+  const expected = updateReleasePage.parseSummary(reviewed.replace(/\bmihomo\b/giu, 'Clash'))
   const latest = updateReleasePage.extractLatestSection(page, 'stable')
-  assert.equal(latest.version, '2.0.3')
-  assert.deepEqual(latest.sections, updateReleasePage.parseSummary(reviewed.replace(/\bmihomo\b/giu, 'Clash')))
-  assert.match(page, /<span>更新<\/span><strong>50 项<\/strong>/u)
+  if (latest.version === '2.0.3') {
+    assert.deepEqual(latest.sections, expected)
+    assert.match(page, /<span>更新<\/span><strong>50 项<\/strong>/u)
+    return
+  }
+
+  const history = page.match(/^::: details 2\.0\.3 ·[^\n]*\n([\s\S]*?)^:::/mu)?.[1]
+  assert.ok(history, '2.0.3 must remain in release history')
+  assert.match(history, /releases\/tag\/2\.0\.3/u)
+  for (const { key, title } of updateReleasePage.SECTION_DEFS) {
+    if (!expected[key].length) continue
+    assert.ok(history.includes(`**${title}**\n\n${expected[key].join('\n')}`), `${key} must retain every reviewed item`)
+  }
 })
 
 function makeOptions(releasesPath, version, summary) {
