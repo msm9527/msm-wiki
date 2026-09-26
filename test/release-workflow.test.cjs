@@ -72,6 +72,19 @@ test('stable and beta releases gate publication on the standalone Docker Agent i
   assert.doesNotMatch(source, /file: \.\/msm-source\/Dockerfile\n/u)
 })
 
+test('release jobs download only versioned MSM artifacts', () => {
+  for (const workflow of workflows) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+    const broadDownloads = [...source.matchAll(/- name: 下载构建产物\n\s+uses: actions\/download-artifact@v4/gu)]
+    const filteredDownloads = [...source.matchAll(/- name: 下载构建产物\n\s+uses: actions\/download-artifact@v4\n\s+with:\n\s+path: dist\n\s+pattern: msm-\$\{\{ needs\.prepare\.outputs\.version \}\}-\*/gu)]
+    assert.equal(broadDownloads.length, 3, `${workflow} must cover release, Docker and mirror jobs`)
+    assert.equal(filteredDownloads.length, broadDownloads.length, `${workflow} must exclude Buildx records`)
+  }
+
+  const agent = fs.readFileSync(path.join(root, '.github/workflows/publish-docker-agent.yml'), 'utf8')
+  assert.match(agent, /Build and publish Agent image\n\s+uses: docker\/build-push-action@v6\n\s+env:\n\s+DOCKER_BUILD_RECORD_UPLOAD: "false"/u)
+})
+
 test('release workflows update tags through the GitHub API', () => {
   for (const workflow of workflows) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')

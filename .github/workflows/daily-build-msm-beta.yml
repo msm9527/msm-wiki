@@ -582,6 +582,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: dist
+          pattern: msm-${{ needs.prepare.outputs.version }}-*
 
       - name: 收集 Release 附件
         id: release_assets
@@ -1007,6 +1008,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: dist
+          pattern: msm-${{ needs.prepare.outputs.version }}-*
 
       - name: 准备各架构二进制文件
         shell: bash
@@ -1095,6 +1097,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: dist
+          pattern: msm-${{ needs.prepare.outputs.version }}-*
 
       - name: 准备上传文件
         shell: bash
