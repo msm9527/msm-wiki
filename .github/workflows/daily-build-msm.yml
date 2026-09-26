@@ -504,7 +504,7 @@ jobs:
 
   release:
     name: 发布构建产物（${{ needs.prepare.outputs.channel_name }}）
-    needs: [prepare, build]
+    needs: [prepare, build, docker-agent]
     if: needs.prepare.outputs.skip != 'true'
     runs-on: ubuntu-24.04
     steps:
@@ -882,6 +882,17 @@ jobs:
             }
             core.info(`Wiki 发布结果: ${result.status}（尝试 ${result.attempts} 次）`);
             if (result.commitSha) core.info(`Wiki 提交: ${result.commitSha}`);
+
+  docker-agent:
+    name: 发布独立 Docker 子节点镜像
+    needs: [prepare, build]
+    if: needs.prepare.outputs.skip != 'true'
+    uses: ./.github/workflows/publish-docker-agent.yml
+    with:
+      source_commit: ${{ needs.prepare.outputs.commit_sha }}
+      version: ${{ needs.prepare.outputs.version }}
+      channel: stable
+    secrets: inherit
 
   docker:
     name: 构建并推送 Docker 镜像

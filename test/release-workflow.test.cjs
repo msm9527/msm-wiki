@@ -45,6 +45,30 @@ test('release workflows publish the merged single MSM runtime', () => {
   }
 })
 
+test('stable and beta releases gate publication on the standalone Docker Agent image', () => {
+  for (const [workflow, channel] of [[stableWorkflow, 'stable'], [betaWorkflow, 'beta']]) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+    assert.match(source, /docker-agent:\n\s+name: 发布独立 Docker 子节点镜像[\s\S]*?uses: \.\/\.github\/workflows\/publish-docker-agent\.yml/u)
+    assert.match(source, /source_commit: \$\{\{ needs\.prepare\.outputs\.commit_sha \}\}/u)
+    assert.match(source, /version: \$\{\{ needs\.prepare\.outputs\.version \}\}/u)
+    assert.ok(source.includes(`channel: ${channel}\n    secrets: inherit`))
+    const release = source.slice(source.indexOf('\n  release:\n'), source.indexOf('\n  docker-agent:\n'))
+    assert.match(release, /needs: \[[^\]]*docker-agent\]/u)
+  }
+
+  const source = fs.readFileSync(path.join(root, '.github/workflows/publish-docker-agent.yml'), 'utf8')
+  assert.match(source, /workflow_call:[\s\S]*?workflow_dispatch:/u)
+  assert.match(source, /ref: \$\{\{ inputs\.source_commit \}\}/u)
+  assert.match(source, /RELEASE_VERSION.*EXPECTED_VERSION/u)
+  assert.match(source, /msmbox\/msm:agent-\$RELEASE_VERSION/u)
+  assert.match(source, /agent-beta-latest/u)
+  assert.match(source, /file: \.\/msm-source\/Dockerfile\.agent/u)
+  assert.match(source, /platforms: linux\/amd64,linux\/arm64,linux\/arm\/v7/u)
+  assert.match(source, /imagetools inspect --raw/u)
+  assert.match(source, /docker run --rm --platform linux\/amd64 "\$IMAGE" version/u)
+  assert.doesNotMatch(source, /file: \.\/msm-source\/Dockerfile\n/u)
+})
+
 test('release workflows update tags through the GitHub API', () => {
   for (const workflow of workflows) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
@@ -196,7 +220,7 @@ test('Beta OpenWrt packaging is mandatory and reuses each selected static Linux 
     assert.match(openwrt, /dist\/openwrt\/\*\.ipk\n\s+dist\/openwrt\/\*\.apk/)
     assert.match(openwrt, /if-no-files-found: error/)
     assert.doesNotMatch(openwrt, /continue-on-error|if-no-files-found: ignore/)
-    assert.match(release, /needs: \[prepare, build, openwrt\]/)
+    assert.match(release, /needs: \[prepare, build, openwrt, docker-agent\]/)
     assert.match(release, /\$\{\{ steps\.release_assets\.outputs\.openwrt_section \}\}/)
     assert.match(source, /CGO_ENABLED: \$\{\{ matrix\.goos == 'darwin' && '1' \|\| '0' \}\}/)
     assert.match(source, /if \[ -f \.\.\/scripts\/prepare-embedded-frontend\.sh \]; then\n\s+bash \.\.\/scripts\/prepare-embedded-frontend\.sh\n\s+else/)

@@ -1,0 +1,129 @@
+name: Publish Docker Agent image
+
+on:
+  workflow_call:
+    inputs:
+      source_commit:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+      channel:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      source_commit:
+        description: "MSM source commit (full SHA)"
+        required: true
+        type: string
+      version:
+        description: "Release version, e.g. 2.0.3 or beta-2.0.3"
+        required: true
+        type: string
+      channel:
+        description: "Release channel"
+        required: true
+        type: choice
+        options:
+          - stable
+          - beta
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Build and publish standalone Agent
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Validate release inputs
+        shell: bash
+        env:
+          SOURCE_COMMIT: ${{ inputs.source_commit }}
+          RELEASE_VERSION: ${{ inputs.version }}
+          RELEASE_CHANNEL: ${{ inputs.channel }}
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]] || { echo "source_commit must be a full SHA" >&2; exit 1; }
+          [[ "$RELEASE_VERSION" =~ ^(beta-)?[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "invalid release version" >&2; exit 1; }
+          [[ "$RELEASE_CHANNEL" == stable || "$RELEASE_CHANNEL" == beta ]] || { echo "invalid release channel" >&2; exit 1; }
+
+      - name: Checkout exact MSM source
+        uses: actions/checkout@v4
+        with:
+          repository: msm9527/msm
+          ref: ${{ inputs.source_commit }}
+          token: ${{ secrets.MSM_REPO_TOKEN }}
+          path: msm-source
+          persist-credentials: false
+
+      - name: Verify source version and select tags
+        id: meta
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          RELEASE_CHANNEL: ${{ inputs.channel }}
+        run: |
+          set -euo pipefail
+          SOURCE_VERSION="$(tr -d '[:space:]' < msm-source/.version)"
+          EXPECTED_VERSION="$SOURCE_VERSION"
+          MOVING_TAG="agent-latest"
+          if [[ "$RELEASE_CHANNEL" == beta ]]; then
+            EXPECTED_VERSION="beta-$SOURCE_VERSION"
+            MOVING_TAG="agent-beta-latest"
+          fi
+          [[ "$RELEASE_VERSION" == "$EXPECTED_VERSION" ]] || { echo "release version does not match source" >&2; exit 1; }
+          echo "tags<<EOF" >> "$GITHUB_OUTPUT"
+          echo "msmbox/msm:agent-$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+          echo "msmbox/msm:$MOVING_TAG" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and publish Agent image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./msm-source
+          file: ./msm-source/Dockerfile.agent
+          target: agent-runtime
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          build-args: |
+            VERSION=${{ inputs.version }}
+          labels: |
+            org.opencontainers.image.title=MSM Docker Agent
+            org.opencontainers.image.version=${{ inputs.version }}
+            org.opencontainers.image.revision=${{ inputs.source_commit }}
+            org.opencontainers.image.source=https://github.com/msm9527/msm
+          cache-from: type=gha,scope=msm-docker-agent
+          cache-to: type=gha,mode=max,scope=msm-docker-agent
+          provenance: false
+          sbom: false
+
+      - name: Verify published manifest and runnable version
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          IMAGE="msmbox/msm:agent-$RELEASE_VERSION"
+          docker buildx imagetools inspect --raw "$IMAGE" | jq -e '
+            [.manifests[] | select(.platform.os == "linux") |
+              if .platform.architecture == "arm" then "arm/" + .platform.variant
+              else .platform.architecture end] | sort == ["amd64", "arm/v7", "arm64"]
+          '
+          docker pull --platform linux/amd64 "$IMAGE"
+          test "$(docker run --rm --platform linux/amd64 "$IMAGE" version)" = "$RELEASE_VERSION"
