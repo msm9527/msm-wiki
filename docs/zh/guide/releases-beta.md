@@ -12,55 +12,81 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.0.4" data-release-date="2026-09-26 14:22:55 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.4">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.0.5" data-release-date="2026-09-29 15:00:02 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.5">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.0.4</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.0.5</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.4" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.5" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>5 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>3 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-26 14:22:55 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>17 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-29 15:00:02 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKkRvY2tlciBBZ2VudCDplZzlg4/ni6znq4vlj5HluIMqKu+8mkFnZW50IOmVnOWDj+i/geenu+iHsyBgbXNtYm94L21zbS1hZ2VudGAg54us56uL5LuT5bqT77yM5a6J6KOF5ZG95Luk6buY6K6k5ouJ5Y+WIGBsYXRlc3RgIOagh+etvu+8jOS4jeWGjeW8uuWItue7keWumuS4u+eoi+W6j+eJiOacrOWPt++8jOeugOWMluWNh+e6p+a1geeoi+OAgiIsIi0gKiroioLngrnpmqfpgZPkvJror53kuIDoh7TmgKfkv53pmpwqKu+8muWPjeWQkemap+mBk+i/nuaOpeW8leWFpeS8muivnSBJRCDmoKHpqozkuI7ov57mjqXmsaDph43nva7mnLrliLbvvIxBZ2VudCDph43ov57ml7boh6rliqjmuIXnkIbml6fov57mjqXvvIzpgb/lhY3lpJrkvJror53nirbmgIHlhrLnqoHjgIIiLCItICoq6Zqn6YGT56m66Zey6L+e5o6l56iz5a6a5oCn5o+Q5Y2HKirvvJrosIPmlbTmjqfliLbnq6/pmqfpgZPmnI3liqHnq6/otoXml7bnrZbnlaXvvIznp7vpmaTmv4Dov5vnmoTnqbrpl7LotoXml7borr7nva7vvIzpmLLmraLlnKjosIPluqbliY3mhI/lpJblhbPpl63lt7Llu7rnq4vnmoTlj43lkJHov57mjqXjgIIiXSwibWFqb3IiOltdLCJhZGRlZCI6W10sImNoYW5nZWQiOlsiLSAqKkRvY2tlciBBZ2VudCDplZzlg4/mupDosIPmlbQqKu+8mueLrOeriyBBZ2VudCDplZzlg4/kuI3lho3ku44gYG1zbWJveC9tc21gIOS7k+W6k+WPkeW4g++8jOaUueS4uuS7jiBgbXNtYm94L21zbS1hZ2VudGAg5LuT5bqT5ouJ5Y+W77yb5YmN56uv55Sf5oiQ55qE5a6J6KOF5ZG95Luk5bey5pu05paw5Li65paw55qE6ZWc5YOP5Zyw5Z2A44CCIiwiLSAqKuiKgueCuemap+mBk+azqOWGjOmAu+i+keS8mOWMlioq77ya6Zqn6YGT5rOo5YaM6KGo5aKe5Yqg5Lya6K+dIElEIOi3n+i4qu+8jOW9k+ajgOa1i+WIsOaWsOS8muivnSBJRCDml7boh6rliqjph43nva7ov57mjqXmsaDlubblhbPpl63ml6fov57mjqXvvIznoa7kv53mjqfliLbnq6/kuI7lvZPliY3mtLvot4MgQWdlbnQg5Lya6K+d5LiA6Ie044CCIiwiLSAqKuWuieijheekuuS+i+i3r+W+hOinhOiMg+WMlioq77yaRG9ja2VyIEFnZW50IOWuieijheWRveS7pOS4reeahCBUTFMg6K+B5Lmm5oyC6L296Lev5b6E5LuOIGAvcGF0aC90by9hZ2VudC10bHNgIOiwg+aVtOS4uiBgJFBXRC90bHNg77yM5pu056ym5ZCI5pys5Zyw55u05o6l6L+Q6KGM55qE5pON5L2c5Lmg5oOv44CCIl0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSAqKumap+mBk+epuumXsui/nuaOpeaEj+WkluaWreW8gCoq77ya5L+u5aSN5LqG5o6n5Yi256uv6Zqn6YGT5pyN5Yqh56uv5Zug6buY6K6k6LaF5pe26K6+572u5a+86Ie056m66Zey6L+e5o6l6KKr5o+Q5YmN5YWz6Zet55qE6Zeu6aKY77yM56Gu5L+d6L+e5o6l5rGg5Lit55qE6Zqn6YGT5Zyo6LCD5bqm5YmN5L+d5oyB5Y+v55So44CCIiwiLSAqKuWkmuS8muivnei/nuaOpeeKtuaAgeS4jeS4gOiHtCoq77ya5L+u5aSN5LqGIEFnZW50IOmHjei/nuWQjuaXp+i/nuaOpeacquiiq+WPiuaXtua4heeQhuWPr+iDveWvvOiHtOeahOeKtuaAgeWGsueqgemXrumimO+8jOeOsOWcqOaWsOS8muivneW7uueri+aXtuS8muS4u+WKqOmpsemAkOaXp+i/nuaOpeOAgiJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItICoqRG9ja2VyIEFnZW50IOWNh+e6p+i3r+W+hCoq77ya54us56uLIEFnZW50IOmVnOWDj+W3sui/geenu+iHsyBgbXNtYm94L21zbS1hZ2VudGAg5LuT5bqT77yM546w5pyJ55So5oi35Y2H57qn5oiW6YeN5paw5a6J6KOF5pe26ZyA5L2/55So5paw55qE6ZWc5YOP5Zyw5Z2A77yb5o6n5Yi256uv5Y2H57qn6IezIDIuMC40IOWQjuW7uuiuruaguOWvuSBBZ2VudCDlhbzlrrnmgKfjgIIiLCItICoqVExTIOivgeS5puaMgui9vei3r+W+hCoq77ya5omL5Yqo6L+Q6KGMIERvY2tlciBBZ2VudCDml7bvvIzor7fnoa7kv53or4Hkuabnm67lvZXmjILovb3ot6/lvoTkuI7mlrDnlJ/miJDnmoTlkb3ku6TkuIDoh7TvvIjpu5jorqTmjIflkJHlvZPliY3nm67lvZXnmoQgYHRscy9gIOaWh+S7tuWkue+8ieOAgiIsIi0gKirniYjmnKzlj7fmm7TmlrAqKu+8muacrOasoeWPkeW4g+eJiOacrOWPt+S7jiAyLjAuMyDljYfnuqfoh7MgMi4wLjTvvIzmtrXnm5blkI7nq6/jgIHliY3nq6/lj4rmoYzpnaLnq6/nu4Tku7bjgIIiXX19 -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKuahjOmdouW6lOeUqOS4juacjeWKoeiBlOWKqOabtOaWsCoq77yabWFjT1Mg5qGM6Z2i54mI6ZuG5oiQIFRhdXJpIOiHquWKqOabtOaWsO+8jOWuieijheaWsOWMhemHjeWQr+WQjuiHquWKqOWQjOatpemaj+WMheeahCBNU00g5pyN5Yqh5LqM6L+b5Yi277yb6Iul5qOA5rWL5Yiw5bey5a6J6KOF5pyN5Yqh54mI5pys6auY5LqO5a6J6KOF5YyF77yM5bCG6Zi75q2i6ZmN57qn5Lul5L+d5oqk57O757uf56iz5a6a5oCn44CC55So5oi35peg6ZyA5omL5Yqo5YiG5Yir5pu05paw5bqU55So55WM6Z2i5LiO5ZCO5Y+w5pyN5Yqh77yM6ZmN5L2O54mI5pys6ZSZ6YWN6aOO6Zmp44CCIiwiLSAqKuepuuS7o+eQhue7hOmFjee9ruS/neaKpCoq77ya5b2T5Yig6Zmk5oiW56aB55So5pON5L2c5Lya5a+86Ie0IENsYXNoIOS7o+eQhue7hOWPmOS4uuepuuaXtu+8jOWQjuerr+ebtOaOpeaLkue7neivt+axguW5tui/lOWbniBgTUlIT01PX1BST1hZX0dST1VQX0VNUFRZYCDplJnor6/vvIzphY3nva7mlofku7bkv53mjIHljp/nirbjgILpgb/lhY3nlJ/miJDml6DmlYjphY3nva7lr7zoh7TmoLjlv4PlkK/liqjlpLHotKXmiJbot6/nlLHop4TliJnlpLHmlYjjgIIiLCItICoqU2luZy1ib3gg6K6i6ZiF5ZCv5Yqo57yT5a2YKirvvJrov5znqIvorqLpmIXlkozop4TliJnpm4bkuIvovb3lkI7oh6rliqjnvJPlrZjlnKjmnKzlnLDvvIznvZHnu5zkuI3lj6/nlKjml7blpI3nlKjlt7LmnInnvJPlrZjlkK/liqjmnI3liqHvvJvnvJPlrZjmjIkgVVJMIOWTiOW4jOWMuuWIhu+8jOWGheWuueaXoOaViOaXtuiHquWKqOS4ouW8g+OAguWHj+WwkeWboOiuoumYhea6kOaaguaXtuS4jeWPr+eUqOWvvOiHtOeahOacjeWKoeS4reaWreOAgiIsIi0gKirlu7bov5/mmL7npLrmm7TnqLPlrpoqKu+8muiKgueCueWNoeeJh+WSjOS7o+eQhue7hOmihOiniOmHh+eUqOacgOi/kSAzIOasoeacieaViOa1i+mAn+eahOS4reS9jeaVsO+8jOW5tui/h+a7pOi2hei/hyA2MCDliIbpkp/nmoTov4fmnJ/orrDlvZXvvJvljZXmrKHmtYvpgJ/lsJbls7DkuI3kvJrlr7zoh7Tlu7bov5/popzoibLnqoHlj5jjgILnlKjmiLfnnIvliLDnmoTlu7bov5/mm7Tog73lj43mmKDnnJ/lrp7nvZHnu5znirblhrXjgIIiLCItICoq5pyN5Yqh5pu05paw5Y6f5a2Q5YyWKirvvJptYWNPUyBMYXVuY2hkIOacjeWKoeWuieijheWNh+e6p+S4uuKAnOWGmeWFpeS4tOaXtuaWh+S7tiArIOWOn+WtkOmHjeWRveWQjeKAneaooeW8j++8jOabtOaWsOWksei0peaIluS4reaWreaXtuaXp+S6jOi/m+WItuS/neaMgeWujOaVtOOAgumBv+WFjeacjeWKoeabtOaWsOS4remAlOaWreeUteWvvOiHtOezu+e7n+acjeWKoeaNn+Wdj+aXoOazleWQr+WKqOOAgiIsIi0gKirlkK/liqjor4rmlq3mm7TmuIXmmbAqKu+8muS7o+eQhuaguOW/g+Wwsee7quajgOafpeWMuuWIhui/m+eoi+mHjeWQr+WSjOmXtOath+aAp+aOoua1i+Wksei0pe+8jOi2heaXtumUmeivr+WMheWQq+acgOi/keS4gOasoeWksei0peWOn+WboOWPiui/nue7reeos+WumuaXtumXtOimgeaxguOAguW4ruWKqeeUqOaIt+W/q+mAn+WumuS9jeaYr+mFjee9rumXrumimOi/mOaYr+e9kee7nOazouWKqOOAgiJdLCJtYWpvciI6W10sImFkZGVkIjpbIi0gKirmoYzpnaLmm7TmlrDlhaXlj6MqKu+8muW6lOeUqOiuvue9rumhteWSjOWQr+WKqOWQkeWvvOaWsOWinuahjOmdouabtOaWsOajgOafpeOAgeWuieijheWSjOacjeWKoeWQjOatpeaMiemSru+8jOWMuuWIhuacquWPkeW4g+a4heWNleWSjOW3suaYr+acgOaWsOeKtuaAge+8m+abtOaWsOi/m+W6puWcqOeVjOmdouWunuaXtuaYvuekuuOAgiIsIi0gKipTaW5nLWJveCDop4TliJnpm4bnvJPlrZgqKu+8mui/nOeoi+inhOWImembhuaUr+aMgSBgaW5pdGlhbF9wYXRoYCDmnKzlnLDnvJPlrZjvvIzmoLzlvI/oh6rliqjor4bliKvkuLogU1JTIOS6jOi/m+WItuaIliBKU09OIOa6kOaWh+S7tu+8m+e8k+WtmOaWh+S7tuadg+mZkOS4peagvOmZkOWItuS4uiBgMDYwMGDjgIIiLCItICoq5om56YeP5rWL6YCf5bm25Y+R5o6n5Yi2KirvvJrku6PnkIbnu4TmtYvor5XlkozorqLpmIXlgaXlurfmo4Dmn6XlvJXlhaXlubblj5HmlbDpmZDliLbvvIjpu5jorqQgM++8ie+8jOmBv+WFjeWkp+mHj+W5tuWPkeivt+axguWvvOiHtOe9kee7nOaLpeWhnuaIliBBUEkg6ZmQ5rWB44CCIiwiLSAqKuahjOmdouabtOaWsOaehOW7uuW3peWFt+mTvioq77ya5paw5aKe5Y+M5p625p6E562+5ZCN5Y+R5biD6ISa5pys77yM5pSv5oyBIGFybTY0IOWSjCB4ODZfNjQg5p6E5bu644CB562+5ZCN6aqM6K+B5Y+KIFJlbGVhc2Ug6LWE5Lqn5LiK5Lyg44CCIl0sImNoYW5nZWQiOlsiLSAqKkNsYXNoIOmFjee9ruihpeS4geS/neeVmemUmueCueWSjOazqOmHiioq77ya5pu05pawIGBwcm94aWVzYCDmrrXml7bmmbrog73kv53nlZkgWUFNTCDplJrngrkgKGAmYCkg5ZKM6KGM5bC+5rOo6YeK77yM6YG/5YWN5omL5Yqo57yW6L6R55qE6YWN572u57uG6IqC6KKr6KaG55uW44CCIiwiLSAqKnJvb3Qg57yT5a2Y6Lev5b6E54us56uLKirvvJpVbml4IOS4iuS7pSByb290IOi6q+S7vei/kOihjOaXtu+8jOe8k+WtmOebruW9leW8uuWItuS9v+eUqCByb290IOi0puaIt+eahCBob21l77yM5LiN5Y+XIGBzdWRvYCDnu6fmib/nmoQgYEhPTUVgIOaIliBgWERHX0NBQ0hFX0hPTUVgIOeOr+Wig+WPmOmHj+W9seWTjeOAgiIsIi0gKirov5vnqIvnrqHnkIbkuI3liqDovb3nmbvlvZXphY3nva4qKu+8muaJmOeuoei/m+eoi+WQr+WKqOWRveS7pOeUsSBgL2Jpbi9zaCAtbGNgIOiwg+aVtOS4uiBgL2Jpbi9zaCAtY2DvvIzpgb/lhY3mhI/lpJbliqDovb0gYC5wcm9maWxlYCDnrYnnmbvlvZUgU2hlbGwg6YWN572u5paH5Lu25a+86Ie0546v5aKD5byC5bi444CCIiwiLSAqKkRvY2tlciBBZ2VudCDplZzlg4/moIfnrb7mm7TmlrAqKu+8muWJjeerr+aWh+aho+S4rSBEb2NrZXIgQWdlbnQg6ZWc5YOP5byV55So5LuOIGBtc21ib3gvbXNtOmFnZW50LWAg6KeE6IyD5Li6IGBtc21ib3gvbXNtLWFnZW50OmxhdGVzdGDjgIIiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItICoq56m65Luj55CG57uE5a+86Ie06YWN572u5o2f5Z2PKirvvJrkv67lpI3liKDpmaTnu4TlhoXmnIDlkI7kuIDkuKroioLngrnmiJborqLpmIXml7blhpnlhaXnqbrphY3nva7nmoTpgLvovpHvvIznjrDmlLnkuLrmi5Lnu53mk43kvZzlubbov5Tlm57mmI7noa7plJnor6/noIHvvIznoa7kv53phY3nva7mlofku7blrozmlbTmgKfjgIIiLCItICoq5pyN5Yqh5pu05paw5o2f5Z2P5LqM6L+b5Yi2KirvvJrkv67lpI3ml6fniYjmnKznm7TmjqXopobnm5YgYC91c3IvbG9jYWwvYmluL21zbWAg5Y+v6IO95a+86Ie05paH5Lu25oiq5pat55qE6Zeu6aKY77yM546w6YeH55So5Y6f5a2Q5pu/5o2i5py65Yi277yM5aSx6LSl5pe26Ieq5Yqo5Zue5rua44CCIiwiLSAqKuW7tui/n+aYvuekuuWPl+WNleasoeWwluWzsOW9seWTjSoq77ya5L+u5aSN5pen54mI5pys5LuF5Y+W5pyA5ZCO5LiA5qyh5rWL6YCf57uT5p6c5a+86Ie05YG25Y+R6LaF5pe25pi+56S657qi6Imy55qE6Zeu6aKY77yM546w5pS555So5Lit5L2N5pWw566X5rOV5bm25YmU6Zmk6L+H5pyf5pWw5o2u44CCIiwiLSAqKnJvb3Qg6L+Q6KGM5pe257yT5a2Y6Lev5b6E6ZSZ6K+vKirvvJrkv67lpI0gYHN1ZG9gIOeOr+Wig+S4i+mUmeivr+S9v+eUqOiwg+eUqOeUqOaIt+e8k+WtmOebruW9leWvvOiHtOeahOadg+mZkOmXrumimO+8jOeOsOato+ehruino+aekCByb290IOi0puaItyBob21l44CCIiwiLSAqKuWQr+WKqOajgOafpeS4ouWkseWksei0pee7huiKgioq77ya5L+u5aSN6LaF5pe26ZSZ6K+v5L+h5oGv5qih57OK55qE6Zeu6aKY77yM546w5piO56Gu5Yy65YiG6L+b56iL6YeN5ZCv5LqL5Lu25LiO5o6i5rWL5aSx6LSl5Y6f5Zug44CCIiwiLSAqKua1i+mAn+W5tuWPkeaXoOmZkOWItioq77ya5L+u5aSN5Luj55CG57uE5rWL6K+V5Y+v6IO95ZCM5pe25Y+R6LW35aSn6YeP6K+35rGC55qE6Zeu6aKY77yM546w6ZmQ5Yi25bm25Y+R5pWw5Lul5L+d5oqk572R57uc5ZKMIEFQSSDnqLPlrprmgKfjgIIiLCItICoq5qGM6Z2i5bqU55So5LiO5pyN5Yqh54mI5pys6ZSZ6YWNKirvvJrkv67lpI3moYzpnaLlupTnlKjmm7TmlrDlkI7mnI3liqHku43kuLrml6fniYjmnKznmoTpl67popjvvIznjrDlupTnlKjph43lkK/lkI7oh6rliqjmoKHpqozlubblkIzmraXpmo/ljIXmnI3liqHjgIIiXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbIi0gKiptYWNPUyDmoYzpnaLmm7TmlrDpnIDph43mlrDlronoo4UqKu+8muW3suWuieijheeahOaXp+ahjOmdoueJiOacrOS4jeWMheWQqyBUYXVyaSB1cGRhdGVyIOe7hOS7tu+8jOmcgOaJi+WKqOS4i+i9veWuieijheS4gOasoeaWsOeJiOahjOmdouWMhe+8m+S5i+WQjuaWueWPr+mAmui/h+eVjOmdouWujOaIkOWQjue7reiHquWKqOabtOaWsOOAgiIsIi0gKipEb2NrZXIgQWdlbnQg6ZWc5YOP5qCH562+5Y+Y5pu0KirvvJpEb2NrZXIg6IqC54K56aG16Z2i5pi+56S655qEIEFnZW50IOmVnOWDj+agh+etvuW3suWPmOabtO+8jOeOsOaciemDqOe9suS4jeWPl+W9seWTje+8jOaWsOmDqOe9suW7uuiuruS9v+eUqOaWsOagh+etviBgbXNtYm94L21zbS1hZ2VudDpsYXRlc3Rg44CCIl0sIm5vdGVzIjpbIi0gKiptYWNPUyBHYXRla2VlcGVyIOaPkOekuioq77ya5b2T5YmN5qGM6Z2i5bqU55So5L2/55SoIGFkLWhvYyDnrb7lkI3vvIzpppbmrKHku47mtY/op4jlmajkuIvovb0gRE1HIOWQjumcgOWkjeWItuWIsCBgL0FwcGxpY2F0aW9uc2Ag5YaN5ZCv5Yqo77yb5aaC6KKr57O757uf5oum5oiq77yM6K+35Zyo4oCc6ZqQ56eB5LiO5a6J5YWo5oCn4oCd5Lit5YWB6K645omT5byA44CC5bqU55So5YaF5pu05paw6Jm957uP562+5ZCN6aqM6K+B77yM5L2G6IulIG1hY09TIOWGjeasoeaLpuaIquabtOaWsOWQjueahOW6lOeUqO+8jOS7jemcgOeUqOaIt+aJi+WKqOWFgeiuuOOAgiIsIi0gKirmoYzpnaLmm7TmlrDmuIXljZXkvp3otZYqKu+8muahjOmdouabtOaWsOajgOafpeS+nei1liBHaXRIdWIgUmVsZWFzZSDkuK3nmoQgYG1zbS1kZXNrdG9wLWxhdGVzdC5qc29uYCDmuIXljZXmlofku7bvvIzoi6Xor6Xmlofku7bmnKrlj5HluIPmiJblhoXlrrnml6DmlYjvvIznlYzpnaLlsIbmj5DnpLrigJzmoYzpnaLmm7TmlrDmuIXljZXkuI3lj6/nlKjigJ3jgIIiLCItICoqU2luZy1ib3gg57yT5a2Y55uu5b2VKirvvJrmlrDlop4gYC5tc20tYm9vdHN0cmFwYCDnvJPlrZjnm67lvZXkvY3kuo7phY3nva7nm67lvZXkuIvnmoQgYHNpbmdib3hgIOWtkOebruW9le+8jOaJi+WKqOa4heeQhumFjee9ruaXtuWmgumcgOS/neeVmeWQr+WKqOe8k+WtmOivt+WLv+ivr+WIoOivpeebruW9leOAgiIsIi0gKirniYjmnKzlkIzmraUqKu+8muWJjeerr+OAgVRhdXJp44CB5ZCO56uv5bWM5YWl54mI5pys5bey5ZCM5q2l6IezIDIuMC4177yMT3BlbkFQSSDmlofmoaPniYjmnKzlt7Lnm7jlupTmm7TmlrDjgIIiXX19 -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p><strong>Docker Agent 镜像独立发布：</strong>Agent 镜像迁移至 <code>msmbox/msm-agent</code> 独立仓库，安装命令默认拉取 <code>latest</code> 标签，不再强制绑定主程序版本号，简化升级流程。</p>
+    <p><strong>桌面应用与服务联动更新：</strong>macOS 桌面版集成 Tauri 自动更新，安装新包重启后自动同步随包的 MSM 服务二进制；若检测到已安装服务版本高于安装包，将阻止降级以保护系统稳定性。用户无需手动分别更新应用界面与后台服务，降低版本错配风险。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p><strong>节点隧道会话一致性保障：</strong>反向隧道连接引入会话 ID 校验与连接池重置机制，Agent 重连时自动清理旧连接，避免多会话状态冲突。</p>
+    <p><strong>空代理组配置保护：</strong>当删除或禁用操作会导致 Clash 代理组变为空时，后端直接拒绝请求并返回 <code>MIHOMO_PROXY_GROUP_EMPTY</code> 错误，配置文件保持原状。避免生成无效配置导致核心启动失败或路由规则失效。</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p><strong>隧道空闲连接稳定性提升：</strong>调整控制端隧道服务端超时策略，移除激进的空闲超时设置，防止在调度前意外关闭已建立的反向连接。</p>
+    <p><strong>Sing-box 订阅启动缓存：</strong>远程订阅和规则集下载后自动缓存在本地，网络不可用时复用已有缓存启动服务；缓存按 URL 哈希区分，内容无效时自动丢弃。减少因订阅源暂时不可用导致的服务中断。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">04</span>
+    <p><strong>延迟显示更稳定：</strong>节点卡片和代理组预览采用最近 3 次有效测速的中位数，并过滤超过 60 分钟的过期记录；单次测速尖峰不会导致延迟颜色突变。用户看到的延迟更能反映真实网络状况。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">05</span>
+    <p><strong>服务更新原子化：</strong>macOS Launchd 服务安装升级为“写入临时文件 + 原子重命名”模式，更新失败或中断时旧二进制保持完整。避免服务更新中途断电导致系统服务损坏无法启动。</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">06</span>
+    <p><strong>启动诊断更清晰：</strong>代理核心就绪检查区分进程重启和间歇性探测失败，超时错误包含最近一次失败原因及连续稳定时间要求。帮助用户快速定位是配置问题还是网络波动。</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-changed">✨ 功能增强 <span>3</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>2</span></a>
-  <a href="#release-notes">📌 升级提醒 <span>3</span></a>
+  <a href="#release-added">🆕 新增功能 <span>4</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>4</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>7</span></a>
+  <a href="#release-deprecated">⚠️ 兼容性变更 <span>2</span></a>
+  <a href="#release-notes">📌 升级提醒 <span>4</span></a>
 </nav>
+
+<section class="msm-release-section msm-release-section--added">
+
+### 🆕 新增功能 {#release-added}
+
+- **桌面更新入口**：应用设置页和启动向导新增桌面更新检查、安装和服务同步按钮，区分未发布清单和已是最新状态；更新进度在界面实时显示。
+- **Sing-box 规则集缓存**：远程规则集支持 `initial_path` 本地缓存，格式自动识别为 SRS 二进制或 JSON 源文件；缓存文件权限严格限制为 `0600`。
+- **批量测速并发控制**：代理组测试和订阅健康检查引入并发数限制（默认 3），避免大量并发请求导致网络拥塞或 API 限流。
+- **桌面更新构建工具链**：新增双架构签名发布脚本，支持 arm64 和 x86_64 构建、签名验证及 Release 资产上传。
+
+</section>
 
 <section class="msm-release-section msm-release-section--changed">
 
 ### ✨ 功能增强 {#release-changed}
 
-- **Docker Agent 镜像源调整**：独立 Agent 镜像不再从 `msmbox/msm` 仓库发布，改为从 `msmbox/msm-agent` 仓库拉取；前端生成的安装命令已更新为新的镜像地址。
-- **节点隧道注册逻辑优化**：隧道注册表增加会话 ID 跟踪，当检测到新会话 ID 时自动重置连接池并关闭旧连接，确保控制端与当前活跃 Agent 会话一致。
-- **安装示例路径规范化**：Docker Agent 安装命令中的 TLS 证书挂载路径从 `/path/to/agent-tls` 调整为 `$PWD/tls`，更符合本地直接运行的操作习惯。
+- **Clash 配置补丁保留锚点和注释**：更新 `proxies` 段时智能保留 YAML 锚点 (`&`) 和行尾注释，避免手动编辑的配置细节被覆盖。
+- **root 缓存路径独立**：Unix 上以 root 身份运行时，缓存目录强制使用 root 账户的 home，不受 `sudo` 继承的 `HOME` 或 `XDG_CACHE_HOME` 环境变量影响。
+- **进程管理不加载登录配置**：托管进程启动命令由 `/bin/sh -lc` 调整为 `/bin/sh -c`，避免意外加载 `.profile` 等登录 Shell 配置文件导致环境异常。
+- **Docker Agent 镜像标签更新**：前端文档中 Docker Agent 镜像引用从 `msmbox/msm:agent-` 规范为 `msmbox/msm-agent:latest`。
 
 </section>
 
@@ -68,8 +94,22 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🐛 问题修复 {#release-fixed}
 
-- **隧道空闲连接意外断开**：修复了控制端隧道服务端因默认超时设置导致空闲连接被提前关闭的问题，确保连接池中的隧道在调度前保持可用。
-- **多会话连接状态不一致**：修复了 Agent 重连后旧连接未被及时清理可能导致的状态冲突问题，现在新会话建立时会主动驱逐旧连接。
+- **空代理组导致配置损坏**：修复删除组内最后一个节点或订阅时写入空配置的逻辑，现改为拒绝操作并返回明确错误码，确保配置文件完整性。
+- **服务更新损坏二进制**：修复旧版本直接覆盖 `/usr/local/bin/msm` 可能导致文件截断的问题，现采用原子替换机制，失败时自动回滚。
+- **延迟显示受单次尖峰影响**：修复旧版本仅取最后一次测速结果导致偶发超时显示红色的问题，现改用中位数算法并剔除过期数据。
+- **root 运行时缓存路径错误**：修复 `sudo` 环境下错误使用调用用户缓存目录导致的权限问题，现正确解析 root 账户 home。
+- **启动检查丢失失败细节**：修复超时错误信息模糊的问题，现明确区分进程重启事件与探测失败原因。
+- **测速并发无限制**：修复代理组测试可能同时发起大量请求的问题，现限制并发数以保护网络和 API 稳定性。
+- **桌面应用与服务版本错配**：修复桌面应用更新后服务仍为旧版本的问题，现应用重启后自动校验并同步随包服务。
+
+</section>
+
+<section class="msm-release-section msm-release-section--deprecated">
+
+### ⚠️ 兼容性变更 {#release-deprecated}
+
+- **macOS 桌面更新需重新安装**：已安装的旧桌面版本不包含 Tauri updater 组件，需手动下载安装一次新版桌面包；之后方可通过界面完成后续自动更新。
+- **Docker Agent 镜像标签变更**：Docker 节点页面显示的 Agent 镜像标签已变更，现有部署不受影响，新部署建议使用新标签 `msmbox/msm-agent:latest`。
 
 </section>
 
@@ -77,18 +117,19 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- **Docker Agent 升级路径**：独立 Agent 镜像已迁移至 `msmbox/msm-agent` 仓库，现有用户升级或重新安装时需使用新的镜像地址；控制端升级至 2.0.4 后建议核对 Agent 兼容性。
-- **TLS 证书挂载路径**：手动运行 Docker Agent 时，请确保证书目录挂载路径与新生成的命令一致（默认指向当前目录的 `tls/` 文件夹）。
-- **版本号更新**：本次发布版本号从 2.0.3 升级至 2.0.4，涵盖后端、前端及桌面端组件。
+- **macOS Gatekeeper 提示**：当前桌面应用使用 ad-hoc 签名，首次从浏览器下载 DMG 后需复制到 `/Applications` 再启动；如被系统拦截，请在“隐私与安全性”中允许打开。应用内更新虽经签名验证，但若 macOS 再次拦截更新后的应用，仍需用户手动允许。
+- **桌面更新清单依赖**：桌面更新检查依赖 GitHub Release 中的 `msm-desktop-latest.json` 清单文件，若该文件未发布或内容无效，界面将提示“桌面更新清单不可用”。
+- **Sing-box 缓存目录**：新增 `.msm-bootstrap` 缓存目录位于配置目录下的 `singbox` 子目录，手动清理配置时如需保留启动缓存请勿误删该目录。
+- **版本同步**：前端、Tauri、后端嵌入版本已同步至 2.0.5，OpenAPI 文档版本已相应更新。
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`b61a15d`](https://github.com/msm9527/msm/commit/b61a15dd3fcd5df17831dc1e62ba605f9473ea29)
-- **提交信息**：chore: bump MSM version to 2.0.4 / 升级 MSM 版本至 2.0.4
+- **源提交**： [`fd34ca5`](https://github.com/msm9527/msm/commit/fd34ca5541afec8b8b4334362e4f13a8664b28b1)
+- **提交信息**：docs: 完善 Docker Center 对照设计与开发验收 / document Docker Center design and validation
 - **提交作者**：root
-- **提交时间**：2026-09-26 14:22:55 CST
+- **提交时间**：2026-09-29 15:00:02 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -97,6 +138,35 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.0.4 · 2026-09-26 14:22 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.4" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- **Docker Agent 镜像独立发布**：Agent 镜像迁移至 `msmbox/msm-agent` 独立仓库，安装命令默认拉取 `latest` 标签，不再强制绑定主程序版本号，简化升级流程。
+- **节点隧道会话一致性保障**：反向隧道连接引入会话 ID 校验与连接池重置机制，Agent 重连时自动清理旧连接，避免多会话状态冲突。
+- **隧道空闲连接稳定性提升**：调整控制端隧道服务端超时策略，移除激进的空闲超时设置，防止在调度前意外关闭已建立的反向连接。
+
+**✨ 功能增强**
+
+- **Docker Agent 镜像源调整**：独立 Agent 镜像不再从 `msmbox/msm` 仓库发布，改为从 `msmbox/msm-agent` 仓库拉取；前端生成的安装命令已更新为新的镜像地址。
+- **节点隧道注册逻辑优化**：隧道注册表增加会话 ID 跟踪，当检测到新会话 ID 时自动重置连接池并关闭旧连接，确保控制端与当前活跃 Agent 会话一致。
+- **安装示例路径规范化**：Docker Agent 安装命令中的 TLS 证书挂载路径从 `/path/to/agent-tls` 调整为 `$PWD/tls`，更符合本地直接运行的操作习惯。
+
+**🐛 问题修复**
+
+- **隧道空闲连接意外断开**：修复了控制端隧道服务端因默认超时设置导致空闲连接被提前关闭的问题，确保连接池中的隧道在调度前保持可用。
+- **多会话连接状态不一致**：修复了 Agent 重连后旧连接未被及时清理可能导致的状态冲突问题，现在新会话建立时会主动驱逐旧连接。
+
+**📌 升级提醒**
+
+- **Docker Agent 升级路径**：独立 Agent 镜像已迁移至 `msmbox/msm-agent` 仓库，现有用户升级或重新安装时需使用新的镜像地址；控制端升级至 2.0.4 后建议核对 Agent 兼容性。
+- **TLS 证书挂载路径**：手动运行 Docker Agent 时，请确保证书目录挂载路径与新生成的命令一致（默认指向当前目录的 `tls/` 文件夹）。
+- **版本号更新**：本次发布版本号从 2.0.3 升级至 2.0.4，涵盖后端、前端及桌面端组件。
+
+:::
 
 ::: details beta-2.0.3 · 2026-09-25 21:16 · Beta 版
 
