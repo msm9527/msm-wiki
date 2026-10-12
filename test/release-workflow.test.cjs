@@ -526,3 +526,23 @@ test('forced releases update existing assets and fail if any attachment cannot b
     assert.doesNotMatch(source, /removeArtifacts: true|skipIfReleaseExists: true|updateOnlyUnreleased: true/)
   }
 })
+
+test('DMG publishing keeps updater artifacts and trust settings separate', () => {
+  for (const workflow of [...workflows, '.github/workflows/publish-desktop-dmg.yml']) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+    assert.match(source, /--config '\{"bundle":\{"createUpdaterArtifacts":false\}\}'/)
+    assert.doesNotMatch(source, /TAURI_SIGNING_PRIVATE_KEY|"pubkey"\s*:/)
+    assert.match(source, /codesign --verify --strict --verbose=4 "\$BUNDLED_MSM"/)
+    assert.match(source, /gh release upload[\s\S]*?\.dmg/)
+  }
+})
+
+test('DMG repair pins source to the published release and verifies CLI checksums', () => {
+  const source = fs.readFileSync(path.join(root, '.github/workflows/publish-desktop-dmg.yml'), 'utf8')
+  assert.match(source, /ref: \$\{\{ inputs\.source_commit \}\}/)
+  assert.match(source, /grep -Fq "https:\/\/github\.com\/msm9527\/msm\/commit\/\$\{SOURCE_COMMIT\}\)"/)
+  assert.match(source, /source version does not match release/)
+  assert.match(source, /found != 1/)
+  assert.match(source, /shasum -a 256 -c expected\.sha256/)
+  assert.doesNotMatch(source, /force_update|gh release create|git push/)
+})

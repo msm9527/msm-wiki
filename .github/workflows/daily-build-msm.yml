@@ -1283,7 +1283,9 @@ jobs:
           # Build only the .app with Tauri (no DMG): tauri's bundle_dmg.sh invokes
           # Finder via AppleScript to style the window, which times out (-1712) on
           # headless CI runners. We build the DMG ourselves below via hdiutil.
-          npm run tauri build -- --target "$TAURI_TARGET" --bundles app
+          # This workflow publishes a DMG; signed updater archives use the
+          # dedicated desktop update publisher and its existing private key.
+          npm run tauri build -- --config '{"bundle":{"createUpdaterArtifacts":false}}' --target "$TAURI_TARGET" --bundles app
 
           # 恢复原始配置
           restore_tauri_conf

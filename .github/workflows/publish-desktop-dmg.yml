@@ -1,0 +1,330 @@
+name: 补发已发布版本的 macOS DMG
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Existing release tag, e.g. beta-2.0.6'
+        required: true
+        type: string
+      source_commit:
+        description: 'Exact source SHA recorded in the release'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: desktop-dmg-${{ inputs.release_tag }}
+  cancel-in-progress: false
+
+jobs:
+  desktop:
+    name: 补发 macOS DMG
+    runs-on: ${{ matrix.runs_on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: darwin-amd64
+            runs_on: macos-15-intel
+            goos: darwin
+            goarch: amd64
+            rust_target: x86_64-apple-darwin
+            macho_arch: x86_64
+          - target: darwin-arm64
+            runs_on: macos-15
+            goos: darwin
+            goarch: arm64
+            rust_target: aarch64-apple-darwin
+            macho_arch: arm64
+    steps:
+      - name: 验证发布版本和源提交
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          SOURCE_COMMIT: ${{ inputs.source_commit }}
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_TAG" =~ ^(beta-)?[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "invalid release tag" >&2; exit 1; }
+          [[ "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]] || { echo "source commit must be a full SHA" >&2; exit 1; }
+          gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${RELEASE_TAG}" --jq '.body' > "$RUNNER_TEMP/msm-release-body.md"
+          grep -F "**源提交**" "$RUNNER_TEMP/msm-release-body.md" | grep -Fq "https://github.com/msm9527/msm/commit/${SOURCE_COMMIT})"
+
+      - name: Checkout MSM 仓库
+        uses: actions/checkout@v4
+        with:
+          repository: msm9527/msm
+          ref: ${{ inputs.source_commit }}
+          token: ${{ secrets.MSM_REPO_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: 缓存前端依赖
+        uses: actions/cache@v4
+        with:
+          path: frontend/node_modules
+          key: npm-frontend-desktop-${{ runner.os }}-${{ matrix.target }}-${{ hashFiles('frontend/package-lock.json') }}
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.rust_target }}
+
+      - name: 缓存 Cargo 依赖与构建
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            frontend/src-tauri/target
+          key: cargo-tauri-${{ runner.os }}-${{ matrix.target }}-${{ hashFiles('frontend/src-tauri/Cargo.lock') }}
+
+      - name: 安装前端依赖并构建（Tauri 桌面）
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd frontend
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - name: 下载并校验已发布的 macOS CLI
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          RELEASE_TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          SOURCE_VERSION="$(tr -d '[:space:]' < .version)"
+          [[ "$SOURCE_VERSION" == "${RELEASE_TAG#beta-}" ]] || { echo "source version does not match release" >&2; exit 1; }
+          ARCHIVE="msm-${RELEASE_TAG}-${RELEASE_TARGET}.tar.gz"
+          mkdir -p dist
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern "$ARCHIVE" --pattern SHA256SUMS --dir dist
+          cd dist
+          awk -v archive="$ARCHIVE" '$2 == archive { print; found++ } END { exit(found != 1) }' SHA256SUMS > expected.sha256
+          shasum -a 256 -c expected.sha256
+
+      - name: 解压 CLI 二进制供 Tauri 使用
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${{ inputs.release_tag }}"
+          mkdir -p dist
+          # 解压出合并后的单一 msm 可执行文件。
+          tar -xzf "dist/msm-${VERSION}-${{ matrix.target }}.tar.gz" -C dist
+          ls -l dist
+
+          CLI_ARCHS="$(lipo -archs dist/msm)"
+          if [ "${CLI_ARCHS}" != "${{ matrix.macho_arch }}" ]; then
+            echo "error: CLI 架构不匹配，期望 ${{ matrix.macho_arch }}，实际 ${CLI_ARCHS}" >&2
+            exit 1
+          fi
+          echo "CLI 架构验证通过: ${CLI_ARCHS}"
+
+      - name: 构建 Tauri 桌面应用
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${{ inputs.release_tag }}"
+          TAURI_TARGET="${{ matrix.rust_target }}"
+          EXPECTED_ARCH="${{ matrix.macho_arch }}"
+
+          export TAURI_APP_VERSION="${VERSION}"
+          export TAURI_BUILD_VERSION="${VERSION}"
+
+          cd frontend
+
+          WORKSPACE="$PWD"
+          SRC_TAURI_DIR="$WORKSPACE/src-tauri"
+          DIST_ROOT="$WORKSPACE/../dist"
+
+          # 确保目录存在；如存在开发用的内置二进制，先移除。
+          mkdir -p "$SRC_TAURI_DIR"
+          rm -f "$SRC_TAURI_DIR/msm"
+
+          # 复制已解压好的合并后端到 Tauri 资源目录。
+          cp "$DIST_ROOT/msm" "$SRC_TAURI_DIR/msm"
+          chmod +x "$SRC_TAURI_DIR/msm"
+
+          # 复制必要的资源文件（存在才复制）
+          cp about.html dist/ || true
+          cp icon.png dist/ || true
+
+          # 跳过重复的前端构建
+          TAURI_CONF="$SRC_TAURI_DIR/tauri.conf.json"
+          cp "$TAURI_CONF" "$TAURI_CONF.backup"
+          restore_tauri_conf() {
+            if [ -f "$TAURI_CONF.backup" ]; then
+              mv "$TAURI_CONF.backup" "$TAURI_CONF"
+            fi
+            rm -f "$TAURI_CONF.tmp"
+          }
+          trap restore_tauri_conf EXIT
+
+          sed -i.tmp 's/"beforeBuildCommand":[^,]*,/"beforeBuildCommand": "echo Skipping frontend build",/' "$TAURI_CONF"
+
+          # 仅用 Tauri 构建 .app（不打 DMG）：headless CI runner 上 tauri 自带的
+          # bundle_dmg.sh 会调用 Finder AppleScript 给窗口排版并超时失败(-1712)。
+          # Build only the .app with Tauri (no DMG): tauri's bundle_dmg.sh invokes
+          # Finder via AppleScript to style the window, which times out (-1712) on
+          # headless CI runners. We build the DMG ourselves below via hdiutil.
+          # This workflow publishes a DMG; signed updater archives use the
+          # dedicated desktop update publisher and its existing private key.
+          npm run tauri build -- --config '{"bundle":{"createUpdaterArtifacts":false}}' --target "$TAURI_TARGET" --bundles app
+
+          # 恢复原始配置
+          restore_tauri_conf
+          trap - EXIT
+
+          BUNDLE_ROOT="$SRC_TAURI_DIR/target/$TAURI_TARGET/release/bundle"
+          APP_PATH=""
+          for candidate in "$BUNDLE_ROOT/macos"/*.app; do
+            if [ -d "$candidate" ]; then
+              APP_PATH="$candidate"
+              break
+            fi
+          done
+
+          if [ -z "$APP_PATH" ]; then
+            echo "error: 未找到 Tauri .app 产物: $BUNDLE_ROOT/macos" >&2
+            exit 1
+          fi
+
+          APP_EXECUTABLE="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP_PATH/Contents/Info.plist")"
+          APP_ARCHS="$(lipo -archs "$APP_PATH/Contents/MacOS/$APP_EXECUTABLE")"
+          if [ "$APP_ARCHS" != "$EXPECTED_ARCH" ]; then
+            echo "error: Tauri App 架构不匹配，期望 ${EXPECTED_ARCH}，实际 ${APP_ARCHS}" >&2
+            exit 1
+          fi
+          echo "Tauri App 架构验证通过: ${APP_ARCHS}"
+
+          BUNDLED_MSM="$APP_PATH/Contents/Resources/msm"
+          if [ ! -x "$BUNDLED_MSM" ]; then
+            echo "error: Tauri App 缺少可执行内置后端: $BUNDLED_MSM" >&2
+            exit 1
+          fi
+          BUNDLED_MSM_ARCHS="$(lipo -archs "$BUNDLED_MSM")"
+          if [ "$BUNDLED_MSM_ARCHS" != "$EXPECTED_ARCH" ]; then
+            echo "error: 内置后端架构不匹配，期望 ${EXPECTED_ARCH}，实际 ${BUNDLED_MSM_ARCHS}" >&2
+            exit 1
+          fi
+          codesign --verify --strict --verbose=4 "$BUNDLED_MSM"
+          "$BUNDLED_MSM" --version >/dev/null
+          echo "内置后端签名和可执行性验证通过: ${BUNDLED_MSM_ARCHS}"
+
+          # 自建无样式 DMG（绕过 tauri 的 Finder 排版步骤）
+          # Build a plain DMG ourselves (bypassing tauri's Finder styling step).
+          mkdir -p "$DIST_ROOT"
+          OUTPUT_DMG="$DIST_ROOT/msm-desktop-${VERSION}-${{ matrix.target }}.dmg"
+
+          DMG_STAGE="$(mktemp -d)"
+          DMG_WORK="$(mktemp -d)"
+          DMG_TEMP="$DMG_WORK/msm-desktop.dmg"
+          cleanup_dmg_files() {
+            rm -rf "$DMG_STAGE" "$DMG_WORK"
+          }
+          trap cleanup_dmg_files EXIT
+
+          cp -R "$APP_PATH" "$DMG_STAGE/"
+          ln -s /Applications "$DMG_STAGE/Applications"
+
+          VOL_NAME="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleName' "$APP_PATH/Contents/Info.plist" 2>/dev/null || echo "msm-desktop")"
+          DMG_CREATED="false"
+          for attempt in 1 2 3; do
+            if hdiutil create \
+              -volname "$VOL_NAME" \
+              -srcfolder "$DMG_STAGE" \
+              -fs HFS+ \
+              -format UDZO \
+              -ov \
+              "$DMG_TEMP"; then
+              DMG_CREATED="true"
+              break
+            fi
+            rm -f "$DMG_TEMP"
+            if [ "$attempt" -lt 3 ]; then
+              echo "hdiutil create 第 ${attempt} 次失败，等待后重试"
+              sleep "$attempt"
+            fi
+          done
+          if [ "$DMG_CREATED" != "true" ]; then
+            echo "error: hdiutil create 重试 3 次仍失败" >&2
+            exit 1
+          fi
+          rm -f "$OUTPUT_DMG"
+          mv "$DMG_TEMP" "$OUTPUT_DMG"
+
+          MOUNT_DIR="$(mktemp -d)"
+          cleanup_dmg_mount() {
+            hdiutil detach "$MOUNT_DIR" >/dev/null 2>&1 || true
+            rmdir "$MOUNT_DIR" >/dev/null 2>&1 || true
+            cleanup_dmg_files
+          }
+          trap cleanup_dmg_mount EXIT
+
+          hdiutil attach -nobrowse -readonly -mountpoint "$MOUNT_DIR" "$OUTPUT_DMG" >/dev/null
+          APP_IN_DMG=""
+          for candidate in "$MOUNT_DIR"/*.app; do
+            if [ -d "$candidate" ]; then
+              APP_IN_DMG="$candidate"
+              break
+            fi
+          done
+
+          if [ -z "$APP_IN_DMG" ]; then
+            echo "error: DMG 中未找到 .app: $OUTPUT_DMG" >&2
+            exit 1
+          fi
+
+          DMG_APP_EXECUTABLE="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP_IN_DMG/Contents/Info.plist")"
+          DMG_APP_ARCHS="$(lipo -archs "$APP_IN_DMG/Contents/MacOS/$DMG_APP_EXECUTABLE")"
+          if [ "$DMG_APP_ARCHS" != "$EXPECTED_ARCH" ]; then
+            echo "error: DMG App 架构不匹配，期望 ${EXPECTED_ARCH}，实际 ${DMG_APP_ARCHS}" >&2
+            exit 1
+          fi
+          echo "DMG 架构验证通过: ${DMG_APP_ARCHS}"
+
+          DMG_BUNDLED_MSM="$APP_IN_DMG/Contents/Resources/msm"
+          if [ ! -x "$DMG_BUNDLED_MSM" ]; then
+            echo "error: DMG 中缺少可执行内置后端: $DMG_BUNDLED_MSM" >&2
+            exit 1
+          fi
+          DMG_BUNDLED_MSM_ARCHS="$(lipo -archs "$DMG_BUNDLED_MSM")"
+          if [ "$DMG_BUNDLED_MSM_ARCHS" != "$EXPECTED_ARCH" ]; then
+            echo "error: DMG 内置后端架构不匹配，期望 ${EXPECTED_ARCH}，实际 ${DMG_BUNDLED_MSM_ARCHS}" >&2
+            exit 1
+          fi
+          codesign --verify --strict --verbose=4 "$DMG_BUNDLED_MSM"
+          "$DMG_BUNDLED_MSM" --version >/dev/null
+          echo "DMG 内置后端签名和可执行性验证通过: ${DMG_BUNDLED_MSM_ARCHS}"
+
+          cleanup_dmg_mount
+          trap - EXIT
+
+      - name: 上传桌面应用 DMG 产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: msm-desktop-${{ inputs.release_tag }}-${{ matrix.target }}
+          path: dist/msm-desktop-${{ inputs.release_tag }}-${{ matrix.target }}.dmg
+          if-no-files-found: ignore
+
+      - name: 将 DMG 附加到已有 Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: sh
+        run: |
+          set -eu
+          gh release upload "${{ inputs.release_tag }}" \
+            "dist/msm-desktop-${{ inputs.release_tag }}-${{ matrix.target }}.dmg" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --clobber
+
