@@ -179,7 +179,7 @@ test('all MSM build checkouts use the exact source commit selected during prepar
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
     const checkouts = [...source.matchAll(/repository: msm9527\/msm\n\s+ref: ([^\n]+)/g)]
 
-    assert.equal(checkouts.length, 3, `${workflow}: prepare, server build and desktop build`)
+    assert.equal(checkouts.length, 4, `${workflow}: prepare, server build, image runtime and desktop build`)
     assert.equal(checkouts[0][1], workflow === stableWorkflow ? 'main' : 'dev')
     for (const checkout of checkouts.slice(1)) {
       assert.equal(checkout[1], '${{ needs.prepare.outputs.commit_sha }}')

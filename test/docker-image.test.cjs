@@ -43,3 +43,19 @@ test('release image jobs enable QEMU before Buildx', () => {
     assert.doesNotMatch(source, /platforms: [^\n]*linux\/arm\/v6/)
   }
 })
+
+// Compose and container exec use the Docker CLI inside the manager image.
+test('release images include executable Docker CLI and Compose from the source pin', () => {
+  const dockerfile = fs.readFileSync(path.join(root, 'Dockerfile.binary'), 'utf8')
+  assert.match(dockerfile, /FROM \$\{MSM_DOCKER_CLI_IMAGE\} AS docker-cli/)
+  assert.match(dockerfile, /COPY --from=docker-cli \/usr\/local\/bin\/docker \/usr\/local\/bin\/docker/)
+  assert.match(dockerfile, /COPY --from=docker-cli [^\n]*cli-plugins\/docker-compose/)
+  assert.match(dockerfile, /RUN docker --version && docker compose version/)
+  for (const workflow of workflows) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+    const docker = source.slice(source.indexOf('\n  docker:\n'), source.indexOf('\n  upload:\n'))
+    assert.match(docker, /name: Checkout 镜像运行依赖的源版本[\s\S]*?ref: \$\{\{ needs\.prepare\.outputs\.commit_sha \}\}/)
+    assert.match(docker, /MSM_DOCKER_CLI_IMAGE=\$\{\{ steps\.docker_cli\.outputs\.image/)
+    assert.match(docker, /docker --version\n\s+docker compose version/)
+  }
+})

@@ -1015,6 +1015,27 @@ jobs:
       - name: Checkout 当前仓库
         uses: actions/checkout@v4
 
+      - name: Checkout 镜像运行依赖的源版本
+        uses: actions/checkout@v4
+        with:
+          repository: msm9527/msm
+          ref: ${{ needs.prepare.outputs.commit_sha }}
+          token: ${{ secrets.MSM_REPO_TOKEN }}
+          path: msm-source
+          persist-credentials: false
+
+      - name: 读取源码锁定的 Docker CLI 镜像
+        id: docker_cli
+        shell: bash
+        run: |
+          set -euo pipefail
+          CLI_IMAGE="$(awk '$1 == "FROM" && $3 == "AS" && $4 == "docker-cli" && $2 ~ /^docker:/ { print $2; exit }' msm-source/Dockerfile)"
+          if [ -n "$CLI_IMAGE" ]; then
+            echo "image=$CLI_IMAGE" >> "$GITHUB_OUTPUT"
+          else
+            echo "source has no pinned Docker CLI stage; using Dockerfile.binary default"
+          fi
+
       - name: 下载构建产物
         uses: actions/download-artifact@v4
         with:
@@ -1061,6 +1082,8 @@ jobs:
         with:
           context: .
           file: ./Dockerfile.binary
+          build-args: |
+            MSM_DOCKER_CLI_IMAGE=${{ steps.docker_cli.outputs.image || 'docker:29.6.2-cli@sha256:be132a9f282288de4afaf63379dff75711fda0147c6b72a9df44e51841402144' }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: msmbox/msm:${{ needs.prepare.outputs.version }},msmbox/msm:${{ needs.prepare.outputs.docker_channel_tag }}
@@ -1084,6 +1107,8 @@ jobs:
           docker pull --platform linux/amd64 "$IMAGE"
           docker run --rm --platform linux/amd64 --entrypoint sh "$IMAGE" -ec '
             msm --version
+            docker --version
+            docker compose version
             if [ -f /usr/share/doc/msm/THIRD_PARTY_NOTICES.md ] &&
                grep -q "GORM local compatibility patch" /usr/share/doc/msm/THIRD_PARTY_NOTICES.md; then
               test -s /usr/share/doc/msm/licenses/GORM-MIT.txt
