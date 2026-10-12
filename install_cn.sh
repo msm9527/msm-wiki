@@ -79,7 +79,7 @@ validate_archive_entries() {
             msm)
                 found_binary="true"
                 ;;
-            msm-edge|THIRD_PARTY_NOTICES.md|OSS_PROVENANCE.md|licenses/CADDY-APACHE-2.0.txt)
+            msm-edge|THIRD_PARTY_NOTICES.md|OSS_PROVENANCE.md|licenses/CADDY-APACHE-2.0.txt|licenses/GORM-MIT.txt)
                 ;;
             "")
                 ;;

@@ -68,6 +68,7 @@ test('installers accept the current single-binary archive and legacy Edge compan
     'THIRD_PARTY_NOTICES.md',
     'OSS_PROVENANCE.md',
     'licenses/CADDY-APACHE-2.0.txt',
+    'licenses/GORM-MIT.txt',
   ].join('\n');
 
   for (const script of scripts) {

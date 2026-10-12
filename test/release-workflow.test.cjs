@@ -429,7 +429,7 @@ test('CLI packaging supports pre-Caddy sources and requires complete notices for
   ])
   for (const workflow of workflows) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
-    for (const scenario of ['legacy', 'optional notice', 'caddy', 'caddy single-line', ...notices.keys()]) {
+    for (const scenario of ['legacy', 'optional notice', 'caddy', 'caddy single-line', 'gorm patched', 'gorm license missing', ...notices.keys()]) {
       withReleaseFixture(workflow, (fixture) => {
         fs.mkdirSync(path.join(fixture.temp, 'scripts'))
         fs.mkdirSync(path.join(fixture.temp, 'backend'))
@@ -439,6 +439,14 @@ test('CLI packaging supports pre-Caddy sources and requires complete notices for
         const hasCaddy = scenario !== 'legacy' && scenario !== 'optional notice'
         fs.writeFileSync(path.join(fixture.temp, 'backend', 'go.mod'),
           `module msm\n${hasCaddy ? (scenario === 'caddy single-line' ? 'require github.com/caddyserver/caddy/v2 v2.11.4\n' : 'require (\n\tgithub.com/caddyserver/caddy/v2 v2.11.4\n)\n') : ''}`)
+        const patchedGorm = scenario.startsWith('gorm ')
+        if (patchedGorm) {
+          fs.appendFileSync(path.join(fixture.temp, 'backend', 'go.mod'), 'replace gorm.io/gorm => ./third_party/gorm\n')
+          if (scenario !== 'gorm license missing') {
+            fs.mkdirSync(path.join(fixture.temp, 'licenses'), { recursive: true })
+            fs.writeFileSync(path.join(fixture.temp, 'licenses/GORM-MIT.txt'), 'GORM upstream MIT fixture\n')
+          }
+        }
         const included = []
         for (const [notice, destination] of notices) {
           if (scenario === 'legacy' || scenario === notice) continue
@@ -448,6 +456,12 @@ test('CLI packaging supports pre-Caddy sources and requires complete notices for
           included.push(destination)
         }
         const packaged = runWorkflowScript(source, '编译 MSM（发布加固版）', fixture)
+        if (scenario === 'gorm license missing') {
+          assert.notEqual(packaged.status, 0)
+          assert.match(packaged.stderr, /local GORM source requires licenses\/GORM-MIT.txt/)
+          return
+        }
+        if (patchedGorm) included.push('licenses/GORM-MIT.txt')
         if (notices.has(scenario)) {
           assert.notEqual(packaged.status, 0, `Caddy build must reject missing ${scenario}`)
           assert.ok(packaged.stderr.includes(`含 Caddy 的发布版本缺少开源声明: ${scenario}`), packaged.stderr)
@@ -457,6 +471,9 @@ test('CLI packaging supports pre-Caddy sources and requires complete notices for
         const archive = path.join(fixture.temp, 'dist', `msm-${fixture.version}-linux-amd64.tar.gz`)
         const entries = execFileSync('tar', ['-tzf', archive], { encoding: 'utf8' }).trim().split('\n')
         assert.deepEqual(entries, ['msm', ...included], `${workflow}: ${scenario}`)
+        if (patchedGorm) {
+          assert.equal(execFileSync('tar', ['-xOzf', archive, 'licenses/GORM-MIT.txt'], { encoding: 'utf8' }), 'GORM upstream MIT fixture\n')
+        }
         for (const [notice, destination] of notices) {
           if (!included.includes(destination)) continue
           assert.equal(execFileSync('tar', ['-xOzf', archive, destination], { encoding: 'utf8' }), `${notice} original contents\n`)

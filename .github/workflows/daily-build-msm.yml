@@ -442,6 +442,17 @@ jobs:
               fi
             done
           fi
+          # Local GORM sources require their complete upstream MIT license.
+          # Older source revisions without the patch remain packageable.
+          if grep -Eq '^replace[[:space:]]+gorm\.io/gorm[[:space:]]+=>[[:space:]]+\./third_party/gorm([[:space:]]|$)' backend/go.mod; then
+            if [ ! -f licenses/GORM-MIT.txt ]; then
+              echo "error: local GORM source requires licenses/GORM-MIT.txt" >&2
+              exit 1
+            fi
+          fi
+          if [ -f licenses/GORM-MIT.txt ]; then
+            NOTICE_SOURCES+=(licenses/GORM-MIT.txt)
+          fi
           for source in "${NOTICE_SOURCES[@]}"; do
             [ -f "${source}" ] || continue
             destination="${source#docs/}"
@@ -964,6 +975,21 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           outputs: type=image,push=true
+
+      - name: 验证发布镜像中的主程序和开源声明
+        shell: bash
+        run: |
+          set -euo pipefail
+          IMAGE="msmbox/msm:${{ needs.prepare.outputs.version }}"
+          docker pull --platform linux/amd64 "$IMAGE"
+          docker run --rm --platform linux/amd64 --entrypoint sh "$IMAGE" -ec '
+            msm --version
+            if [ -f /usr/share/doc/msm/THIRD_PARTY_NOTICES.md ] &&
+               grep -q "GORM local compatibility patch" /usr/share/doc/msm/THIRD_PARTY_NOTICES.md; then
+              test -s /usr/share/doc/msm/licenses/GORM-MIT.txt
+              test -s /usr/share/doc/msm/licenses/CADDY-APACHE-2.0.txt
+            fi
+          '
 
       - name: 显示镜像信息
         shell: bash

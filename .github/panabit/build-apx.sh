@@ -36,6 +36,15 @@ fi
 
 cp -R "${TEMPLATE_DIR}/." "${STAGE_DIR}/"
 install -m 0755 "${PKG_DIR}/msm" "${STAGE_DIR}/bin/msm"
+mkdir -p "${STAGE_DIR}/share/doc/msm"
+for notice in THIRD_PARTY_NOTICES.md OSS_PROVENANCE.md; do
+  if [[ -f "${PKG_DIR}/${notice}" ]]; then
+    install -m 0644 "${PKG_DIR}/${notice}" "${STAGE_DIR}/share/doc/msm/${notice}"
+  fi
+done
+if [[ -d "${PKG_DIR}/licenses" ]]; then
+  cp -R "${PKG_DIR}/licenses" "${STAGE_DIR}/share/doc/msm/"
+fi
 rm -f "${STAGE_DIR}/bin/.gitkeep"
 
 sed \

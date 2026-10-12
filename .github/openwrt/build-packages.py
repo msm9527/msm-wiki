@@ -30,7 +30,7 @@ ARCHITECTURES = {
     "linux-armv6": (40, 1, ["arm_arm1176jzf-s_vfp"]),
 }
 APK_IMAGE = "alpine:3.23"
-RELEASE_DOCUMENTS = ("THIRD_PARTY_NOTICES.md", "OSS_PROVENANCE.md", "licenses/CADDY-APACHE-2.0.txt")
+RELEASE_DOCUMENTS = ("THIRD_PARTY_NOTICES.md", "OSS_PROVENANCE.md", "licenses/CADDY-APACHE-2.0.txt", "licenses/GORM-MIT.txt")
 
 
 def package_version(version, release):

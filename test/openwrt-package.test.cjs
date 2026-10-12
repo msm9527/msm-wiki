@@ -9,7 +9,7 @@ const root = path.resolve(__dirname, '..');
 const builder = path.join(root, '.github/openwrt/build-packages.py');
 const templates = path.join(root, '.github/openwrt');
 const python = process.env.PYTHON || 'python3';
-const documents = ['THIRD_PARTY_NOTICES.md', 'OSS_PROVENANCE.md', 'licenses/CADDY-APACHE-2.0.txt'];
+const documents = ['THIRD_PARTY_NOTICES.md', 'OSS_PROVENANCE.md', 'licenses/CADDY-APACHE-2.0.txt', 'licenses/GORM-MIT.txt'];
 
 function run(command, args, options = {}) {
   return spawnSync(command, args, { encoding: 'utf8', timeout: 60_000, ...options });

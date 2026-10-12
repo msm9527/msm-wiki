@@ -33,8 +33,19 @@ RUN mkdir -p /opt/msm /var/log/msm
 
 # 复制对应架构的二进制文件
 # TARGETPLATFORM 格式: linux/amd64, linux/arm64, linux/arm/v7
-COPY binaries/${TARGETPLATFORM}/msm /usr/local/bin/msm
-RUN chmod +x /usr/local/bin/msm
+COPY binaries/${TARGETPLATFORM}/ /tmp/msm-release/
+RUN set -eu; \
+    install -m 0755 /tmp/msm-release/msm /usr/local/bin/msm; \
+    mkdir -p /usr/share/doc/msm; \
+    for notice in THIRD_PARTY_NOTICES.md OSS_PROVENANCE.md; do \
+      if [ -f "/tmp/msm-release/$notice" ]; then \
+        install -m 0644 "/tmp/msm-release/$notice" "/usr/share/doc/msm/$notice"; \
+      fi; \
+    done; \
+    if [ -d /tmp/msm-release/licenses ]; then \
+      cp -R /tmp/msm-release/licenses /usr/share/doc/msm/; \
+    fi; \
+    rm -rf /tmp/msm-release
 
 # 以 root 用户运行以支持透明代理、TUN 设备等高级网络功能
 WORKDIR /opt/msm

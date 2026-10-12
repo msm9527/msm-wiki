@@ -29,7 +29,7 @@ struct.pack_into('<Q', b, 32, 64)
 struct.pack_into('<HH', b, 54, 56, 1)
 struct.pack_into('<I', b, 64, 1)
 with tarfile.open(sys.argv[1], 'w:gz') as tar:
- for name in ['msm', 'THIRD_PARTY_NOTICES.md', 'OSS_PROVENANCE.md', 'licenses/CADDY-APACHE-2.0.txt']:
+ for name in ['msm', 'THIRD_PARTY_NOTICES.md', 'OSS_PROVENANCE.md', 'licenses/CADDY-APACHE-2.0.txt', 'licenses/GORM-MIT.txt']:
   contents = bytes(b) if name == 'msm' else b'license fixture\\n'
   member = tarfile.TarInfo(name)
   member.size = len(contents)
@@ -63,6 +63,7 @@ test -x /tmp/root/usr/bin/msm
 test -x /tmp/root/etc/init.d/msm
 test -f /tmp/root/usr/share/luci/menu.d/luci-app-msm.json
 test -f /tmp/root/usr/share/doc/msm/licenses/CADDY-APACHE-2.0.txt
+test -f /tmp/root/usr/share/doc/msm/licenses/GORM-MIT.txt
 printf '\\n# keep upgraded configuration\\n' >> /tmp/root/etc/config/msm
 mkdir -p /tmp/root/etc/msm/database
 printf 'keep database\\n' > /tmp/root/etc/msm/database/sentinel
