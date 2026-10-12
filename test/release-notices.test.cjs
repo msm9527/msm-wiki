@@ -45,6 +45,8 @@ test('APX packages preserve upstream notices and remain compatible with old arch
 test('binary image installation preserves packaged notices and its executable', (t) => {
   const dockerfile = fs.readFileSync(path.join(root, 'Dockerfile.binary'), 'utf8')
   assert.match(dockerfile, /COPY binaries\/\$\{TARGETPLATFORM\}\/ \/tmp\/msm-release\//)
+  assert.match(dockerfile, /COPY --from=release-payload \/usr\/local\/bin\/msm \/usr\/local\/bin\/msm/)
+  assert.match(dockerfile, /COPY --from=release-payload \/usr\/share\/doc\/msm\//)
   const install = dockerfile.match(/RUN set -eu; \\\n\s+install -m 0755 \/tmp\/msm-release\/msm [\s\S]*?(?=\n\n)/)[0]
     .replace(/^RUN /, '').replaceAll('\\\n', '\n')
   for (const notices of [true, false]) {
