@@ -21,11 +21,14 @@ test('release brief applies only to its exact source range', () => {
   assert.equal(loadReleaseBrief(previous, 'HEAD', () => `${'a'.repeat(40)}\n`), null);
 });
 
-test('exact stable range uses the reviewed complete summary without calling inference', async () => {
+test('exact stable range uses reviewed facts but still requires successful AI inference', async () => {
   const previous = 'dd17a5502c662932df341cfbd58271d38bab77bf';
   const current = '8ef0fd2051a869331ac0068adba9d8259476c83e';
+  const brief = loadReleaseBrief(previous, 'HEAD', () => current);
+  let calls = 0;
   const result = await generateReleaseSummary({
     env: {
+      MODELSCOPE_API_KEY: 'secret-key',
       RELEASE_CURRENT_REF: current,
       RELEASE_PREVIOUS_COMMIT: previous,
       RELEASE_CHANNEL: 'stable',
@@ -40,14 +43,35 @@ test('exact stable range uses the reviewed complete summary without calling infe
           releaseBaseline: { files: [], previousCommit: previous, currentRef: current },
         };
       },
-      requestModelScopeSummary() { assert.fail('reviewed summary should not use inference'); },
+      requestModelScopeSummary({ requiredTopics }) {
+        calls += 1;
+        assert.deepEqual(requiredTopics, brief.requiredTopics);
+        return { summary: brief.editorialSummary, modelName: 'Strong/Selected' };
+      },
     }),
   });
-  assert.equal(result.status, 'editorial');
+  assert.equal(calls, 1);
+  assert.equal(result.status, 'ai');
+  assert.equal(result.modelName, 'Strong/Selected');
   assert.equal(result.itemCount, 58);
   assert.equal(result.highlightCount, 6);
   assert.match(result.summary, /\*\*图标库工作区\*\*/u);
   assert.match(result.summary, /\*\*可选 systemd 进程托管\*\*/u);
+});
+
+test('reviewed notes cannot bypass the AI requirement when credentials are missing', async () => {
+  const previous = 'dd17a5502c662932df341cfbd58271d38bab77bf';
+  const current = '8ef0fd2051a869331ac0068adba9d8259476c83e';
+  await assert.rejects(generateReleaseSummary({
+    env: { RELEASE_CURRENT_REF: current, RELEASE_PREVIOUS_COMMIT: previous, RELEASE_CHANNEL: 'stable', RELEASE_REQUIRE_AI: 'true' },
+    git: () => current,
+    summaryModule: makeModule({
+      collectReleaseCommits() {
+        return { commits: [{}], source: 'previous-source-commit', releaseBaseline: { files: [], previousCommit: previous, currentRef: current } };
+      },
+      requestModelScopeSummary() { assert.fail('missing credentials must not call inference'); },
+    }),
+  }), /健康检查失败（missing-api-key）/u);
 });
 
 test('reviewed stable text is not substituted into a beta preview', async () => {
@@ -464,8 +488,8 @@ test('real core multi-model errors become safe diagnostic metadata through the s
   });
   assert.equal(result.status, 'fallback');
   assert.deepEqual(result.modelAttempts, [
-    { model: 'Strong/Quota', status: 'failed', reasonCode: 'quota-exhausted' },
-    { model: 'Strong/NoProvider', status: 'failed', reasonCode: 'unsupported-model' },
+    { model: 'Strong/Quota', status: 'failed', reasonCode: 'quota-exhausted', httpStatus: 429 },
+    { model: 'Strong/NoProvider', status: 'failed', reasonCode: 'unsupported-model', httpStatus: 400 },
   ]);
   assert.doesNotMatch(JSON.stringify({ result, core }), new RegExp(`secret-key|${privateContext}|insufficient balance|has no provider supported`));
 });

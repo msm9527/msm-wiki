@@ -1,0 +1,29 @@
+name: ModelScope 真实 AI 健康检查
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inference:
+    name: 验证真实模型调用与发布摘要格式
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Wiki
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: 真实 AI 推理与安全诊断
+        env:
+          MODELSCOPE_API_KEY: ${{ secrets.MODELSCOPE_API_KEY }}
+          MODELSCOPE_MODELS: ${{ vars.MODELSCOPE_MODELS || '' }}
+        run: node test-modelscope-api.js

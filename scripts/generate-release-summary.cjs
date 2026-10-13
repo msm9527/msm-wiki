@@ -105,6 +105,7 @@ function redactSecrets(value, env) {
   for (const [name, secret] of Object.entries(env)) {
     if (/(?:TOKEN|KEY|SECRET|PASSWORD)$/u.test(name) && typeof secret === 'string' && secret.length >= 4) {
       result = result.split(secret).join('[REDACTED]');
+      if (secret.trim().length >= 4) result = result.split(secret.trim()).join('[REDACTED]');
     }
   }
   return result;
@@ -121,7 +122,9 @@ function publicModelAttempts(attempts, env) {
         : failureCode(attempt.error);
     // Explicit projection: never retain provider messages, headers, prompts or other fields.
     const checks = status === 'failed' ? OUTPUT_CHECKS.filter(([, pattern]) => pattern.test(String(attempt.error || ''))).map(([code]) => code) : [];
-    return { model, status, reasonCode, ...(checks.length ? { checks } : {}) };
+    const httpStatus = Number.isInteger(attempt.httpStatus) && attempt.httpStatus >= 400 && attempt.httpStatus <= 599
+      ? attempt.httpStatus : undefined;
+    return { model, status, reasonCode, ...(httpStatus ? { httpStatus } : {}), ...(checks.length ? { checks } : {}) };
   });
 }
 
@@ -178,7 +181,7 @@ function loadReleaseBrief(previousCommit, currentRef, git) {
 }
 
 function formatJobSummary(result) {
-  const state = { ai: '✅ AI 生成', editorial: '✅ 编辑审定', fallback: '⚠️ 规则回退（非 AI）', 'no-changes': 'ℹ️ 无新增提交' }[result.status];
+  const state = { ai: '✅ AI 生成', fallback: '⚠️ 规则回退（非 AI）', 'no-changes': 'ℹ️ 无新增提交' }[result.status];
   const reason = result.fallbackReason ? `\n> ${FAILURE_LABELS[result.fallbackReason]}；已保留规则摘要，请检查模型配置或账户额度。\n` : '';
   const attempts = result.modelAttempts.length
     ? `\n### 模型尝试结果\n\n| 次序 | 模型 | 状态 | 原因码 | 阶段 |\n| --- | --- | --- | --- | --- |\n${result.modelAttempts.map((attempt, index) => `| ${index + 1} | ${attempt.model} | ${attempt.status} | ${attempt.reasonCode} | ${attempt.phase || 'draft'} |`).join('\n')}\n`
@@ -203,7 +206,7 @@ function formatJobSummary(result) {
  * RELEASE_CURRENT_REF, RELEASE_PREVIOUS_COMMIT, RELEASE_CHANNEL,
  * RELEASE_LOG_SINCE_EPOCH, RELEASE_LOG_UNTIL_EPOCH, RELEASE_PREVIOUS_PUBLISHED_AT,
  * RELEASE_REQUIRE_EXACT_RANGE (preview: reject an invalid/missing ancestor),
- * RELEASE_REQUIRE_AI (health check: fail after writing diagnostics unless AI succeeds).
+ * RELEASE_REQUIRE_AI (fail after writing diagnostics unless AI succeeds).
  * Returns only the public summary and non-sensitive generation metadata.
  * modelAttempts projects core attempts into { model, status, reasonCode } only;
  * provider error text is classified in memory and never included in reports.
@@ -276,20 +279,8 @@ async function generateReleaseSummary({
   let status = commits.length ? 'fallback' : 'no-changes';
   let fallbackReason = '';
   let modelCatalog;
-  const editorialSummary = commits.length && inputs.channel === 'stable'
-    ? context.releaseBaseline?.editorialBrief?.editorialSummary : '';
-  if (editorialSummary) {
-    summary = redactSecrets(editorialSummary, env);
-    const { validateSummary } = require('./ai-release-summary.cjs');
-    const validation = validateSummary(summary, {
-      requiredTopics: context.releaseBaseline.editorialBrief.requiredTopics,
-      forbiddenClaims: context.releaseBaseline.editorialBrief.forbiddenClaims,
-    });
-    if (!isPublicSummary(summary) || !validation.valid) {
-      throw new Error(`发布编辑稿未通过检查: ${validation.errors.join('；') || '包含非公开上下文'}`);
-    }
-    status = 'editorial';
-  } else if (commits.length && !env.MODELSCOPE_API_KEY) {
+  // Reviewed briefs constrain the model's facts; they never replace inference.
+  if (commits.length && !String(env.MODELSCOPE_API_KEY || '').trim()) {
     fallbackReason = 'missing-api-key';
   } else if (commits.length) {
     try {
@@ -362,7 +353,7 @@ async function generateReleaseSummary({
       fallbackReason ||= (Object.hasOwn(FAILURE_LABELS, structuredFailure) && structuredFailure) || lastFailure || failureCode(error);
     }
   }
-  if (status !== 'ai' && status !== 'editorial') {
+  if (status !== 'ai') {
     try {
       summary = redactSecrets(summaryModule.buildFallbackSummary(commits, env.RELEASE_PREVIOUS_PUBLISHED_AT || ''), env);
     } catch {
@@ -445,7 +436,7 @@ async function generateReleaseSummary({
     core.setOutput('item_count', result.itemCount);
     core.info(`发布日志：${result.status}；模型=${result.modelName || '无'}；发布线上下文提交=${result.commitCount}；条目=${result.itemCount}；亮点=${result.highlightCount}`);
     result.modelAttempts.forEach((attempt, index) => {
-      core.info(`模型尝试 ${index + 1}：${attempt.model}；status=${attempt.status}；reasonCode=${attempt.reasonCode}${attempt.phase ? '；phase=' + attempt.phase : ''}${attempt.checks?.length ? '；checks=' + attempt.checks.join(',') : ''}`);
+      core.info(`模型尝试 ${index + 1}：${attempt.model}；status=${attempt.status}；reasonCode=${attempt.reasonCode}${attempt.httpStatus ? '；httpStatus=' + attempt.httpStatus : ''}${attempt.phase ? '；phase=' + attempt.phase : ''}${attempt.checks?.length ? '；checks=' + attempt.checks.join(',') : ''}`);
     });
     if (modelCatalog) {
       core.info(`模型目录：status=${modelCatalog.status}${modelCatalog.reasonCode ? '；reasonCode=' + modelCatalog.reasonCode : ''}${modelCatalog.candidateCount != null ? '；candidates=' + modelCatalog.candidateCount + '；skipped=' + modelCatalog.skippedCount + '；discovered=' + modelCatalog.discoveredCount : ''}`);
@@ -462,10 +453,10 @@ async function generateReleaseSummary({
     const { summary: _summary, ...metadata } = result;
     fs.writeFileSync(path.join(artifactDirectory, 'metadata.json'), `${JSON.stringify(metadata, null, 2)}\n`);
   }
-  if (env.RELEASE_REQUIRE_AI === 'true' && commits.length && !['ai', 'editorial'].includes(status)) {
+  if (env.RELEASE_REQUIRE_AI === 'true' && commits.length && status !== 'ai') {
     throw new Error(`AI 发布日志健康检查失败（${fallbackReason || 'request-failed'}）`);
   }
   return result;
 }
 
-module.exports = { generateReleaseSummary, validateReleaseSummaryInputs, countSummaryItems, loadReleaseBrief };
+module.exports = { generateReleaseSummary, validateReleaseSummaryInputs, countSummaryItems, loadReleaseBrief, publicModelAttempts };

@@ -2,11 +2,12 @@
 
 稳定版、Beta 版与“发布日志预览（不构建、不发布）”共用 `generate-release-summary.cjs`。内容提取、模型链、提示词和输出校验由 `ai-release-summary.cjs` 维护；Wiki 排版和历史归档由 `update-release-page.cjs` 维护。
 
-跨度过大的发布可以在 `scripts/release-briefs/` 中保存与“上一稳定版源 SHA-当前源 SHA”同名的 `.json` 事实提纲及 `.md` 编辑审定稿。只有两个提交都精确匹配时才读取；审定稿通过分类、重点覆盖、禁止断言和公开内容检查后标记为 `editorial`，不调用或冒充 AI。没有审定稿时仍走原有模型与规则回退流程。更新审定稿后须通过页面生成器重建 Wiki，保持可见文案和 `msm-release-data` 归档一致。
+跨度过大的发布可以在 `scripts/release-briefs/` 中保存与“上一稳定版源 SHA-当前源 SHA”同名的 `.json` 事实提纲及历史 `.md` 编辑稿。只有两个提交都精确匹配时才读取；事实提纲约束 AI 的重点覆盖与禁止断言，历史编辑稿供维护者参考，不能替代真实 AI 推理。稳定版、Beta 和预览均要求 AI 成功；模型失败时保留脱敏诊断与规则摘要供排查，并阻止发布。
 
 ## 模型与密钥
 
 - GitHub Actions Secret `MODELSCOPE_API_KEY`：仅保存密钥，不在代码、日志或预览产物中写入。
+- 密钥在发送前清理首尾空白。401/403 等 HTTP 状态只以数字和固定原因码记录，不公开服务端原始响应。GitHub 不提供已有 Secret 的明文读取；凭据失效时须由账户持有人在仓库 Settings → Secrets and variables → Actions 更新。
 - 每次有提交需要总结且已配置密钥时，只请求一次 `https://api-inference.modelscope.cn/v1/models`，再将候选链与当前目录取交集。目录结果由初稿和后续审稿共用，不会为审稿重复请求目录。
 - 可选 Repository Variable `MODELSCOPE_MODELS`：逗号分隔的模型 ID，按顺序尝试。显式配置时只保留目录中存在的模型，不会用其他模型补位；全部不在目录中时不发送 Chat 请求，直接生成规则摘要并记录 `unsupported-model`。
 - 留空 `MODELSCOPE_MODELS` 时采用代码中的默认候选链。默认候选经目录过滤后不足上限时，可从目录中按受控规则补入兼容的 Qwen3.x 文本模型，不会选择图像、音频、向量、重排、SQL、代码专用或其他模型家族。
@@ -19,7 +20,7 @@
 ## 调整后如何验证
 
 1. 运行 `npm test`、`npm run docs:build`，并用 actionlint 检查相关 workflow。
-2. 在 Actions 手动运行“发布日志预览（不构建、不发布）”。`source_ref` 填本次版本的源提交 SHA，`previous_commit` 填上一版源 SHA，选择对应通道。该预览启用严格健康检查：精确范围不合法，或既无审定稿也无成功 AI 结果时任务会失败，但仍上传脱敏后的摘要与元数据供排查。
+2. 先在 Actions 手动运行“ModelScope 真实 AI 健康检查”，确认现有 Secret 能完成真实模型推理与摘要格式检查，再运行“发布日志预览（不构建、不发布）”。`source_ref` 填本次版本的源提交 SHA，`previous_commit` 填上一版源 SHA，选择对应通道。精确范围不合法或无成功 AI 结果时预览失败，但仍上传脱敏后的摘要与元数据供排查。
 3. 检查任务摘要中的成功模型、回退状态、提交与采样计数，再阅读 `summary.md`。采样计数不代表模型已经完整覆盖每一项功能，应对照实际发布范围审阅。
 4. 确认亮点不替代完整分类，重大功能有实现依据，兼容变化及必要升级操作没有遗漏。预览不会修改 GitHub Release、Wiki 或安装包。
 

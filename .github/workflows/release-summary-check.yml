@@ -9,11 +9,13 @@ on:
       - 'test-modelscope-api.js'
       - 'test/ai-release-summary.test.cjs'
       - 'test/generate-release-summary.test.cjs'
+      - 'test/modelscope-diagnostics.test.cjs'
       - 'test/release-workflow.test.cjs'
       - '.github/workflows/daily-build-msm.yml'
       - '.github/workflows/daily-build-msm-beta.yml'
       - '.github/workflows/release-summary-preview.yml'
       - '.github/workflows/release-summary-check.yml'
+      - '.github/workflows/modelscope-health-check.yml'
       - '.github/docs/MODELSCOPE_API_GUIDE.md'
       - '.github/docs/RELEASE_WORKFLOW_GUIDE.md'
       - '.github/docs/TEST_API_README.md'
@@ -26,11 +28,13 @@ on:
       - 'test-modelscope-api.js'
       - 'test/ai-release-summary.test.cjs'
       - 'test/generate-release-summary.test.cjs'
+      - 'test/modelscope-diagnostics.test.cjs'
       - 'test/release-workflow.test.cjs'
       - '.github/workflows/daily-build-msm.yml'
       - '.github/workflows/daily-build-msm-beta.yml'
       - '.github/workflows/release-summary-preview.yml'
       - '.github/workflows/release-summary-check.yml'
+      - '.github/workflows/modelscope-health-check.yml'
       - '.github/docs/MODELSCOPE_API_GUIDE.md'
       - '.github/docs/RELEASE_WORKFLOW_GUIDE.md'
       - '.github/docs/TEST_API_README.md'
@@ -68,4 +72,5 @@ jobs:
           node --test \
             test/ai-release-summary.test.cjs \
             test/generate-release-summary.test.cjs \
+            test/modelscope-diagnostics.test.cjs \
             test/release-workflow.test.cjs

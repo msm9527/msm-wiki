@@ -239,6 +239,7 @@ jobs:
           RELEASE_LOG_SINCE_EPOCH: ${{ steps.meta.outputs.log_since_epoch }}
           RELEASE_LOG_UNTIL_EPOCH: ${{ steps.meta.outputs.log_until_epoch }}
           RELEASE_CHANNEL: ${{ steps.meta.outputs.channel }}
+          RELEASE_REQUIRE_AI: 'true'
         with:
           script: |
             const { generateReleaseSummary } = require('./msm-wiki/scripts/generate-release-summary.cjs');

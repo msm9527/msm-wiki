@@ -169,9 +169,22 @@ test('release workflows share the summary runner and defer model defaults to the
     assert.match(summaryStep, /await generateReleaseSummary\(\{ core \}\)/)
     assert.match(summaryStep, /RELEASE_CURRENT_REF: \$\{\{ steps\.meta\.outputs\.commit_sha \}\}/)
     assert.match(summaryStep, /RELEASE_PREVIOUS_COMMIT: \$\{\{ steps\.meta\.outputs\.previous_version_commit \}\}/)
+    assert.match(summaryStep, /RELEASE_REQUIRE_AI: 'true'/)
     assert.doesNotMatch(summaryStep, /Qwen\/|requestModelScopeSummary|buildFallbackSummary|console\.(?:log|error)/)
     assert.doesNotMatch(summaryStep.slice(summaryStep.indexOf('script: |')), /\$\{\{/)
   }
+})
+
+test('ModelScope health check exercises real inference without publishing or exposing provider errors', () => {
+  const source = fs.readFileSync(path.join(root, '.github/workflows/modelscope-health-check.yml'), 'utf8')
+  assert.match(source, /workflow_dispatch:/)
+  assert.match(source, /permissions:\n\s+contents: read/)
+  assert.match(source, /MODELSCOPE_API_KEY: \$\{\{ secrets\.MODELSCOPE_API_KEY \}\}/)
+  assert.match(source, /run: node test-modelscope-api\.js/)
+  assert.doesNotMatch(source, /contents: write|gh release|git push|schedule:/)
+  const script = fs.readFileSync(path.join(root, 'test-modelscope-api.js'), 'utf8')
+  assert.match(script, /publicModelAttempts\(error\?\.attempts, process\.env\)/)
+  assert.doesNotMatch(script, /console\.error\([^\n]*error\?\.message/)
 })
 
 test('all MSM build checkouts use the exact source commit selected during prepare', () => {

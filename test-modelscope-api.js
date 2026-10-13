@@ -9,8 +9,9 @@ const {
   requestModelScopeSummary,
   resolveAvailableModelCandidates,
 } = require('./scripts/ai-release-summary.cjs');
+const { publicModelAttempts } = require('./scripts/generate-release-summary.cjs');
 
-const apiKey = process.env.MODELSCOPE_API_KEY || '';
+const apiKey = String(process.env.MODELSCOPE_API_KEY || '').trim();
 
 if (!apiKey) {
   console.error('错误: 未设置 MODELSCOPE_API_KEY 环境变量');
@@ -73,6 +74,9 @@ async function testModelScopeAPI() {
 }
 
 testModelScopeAPI().catch(error => {
-  console.error(`测试失败: ${error?.message || '未知错误'}`);
+  // Project fixed codes and numeric HTTP status only, never provider bodies.
+  const attempts = publicModelAttempts(error?.attempts, process.env);
+  attempts.forEach(attempt => console.error(JSON.stringify(attempt)));
+  console.error('真实 AI 调用失败，请根据上述原因码检查模型配置和 MODELSCOPE_API_KEY Secret。');
   process.exitCode = 1;
 });

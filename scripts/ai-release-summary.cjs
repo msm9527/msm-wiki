@@ -1606,6 +1606,7 @@ async function requestModelScopeSummary({
   allowClaimCorrection = true,
   allowOutputCorrection,
 } = {}) {
+  apiKey = String(apiKey || '').trim();
   if (!apiKey) {
     throw new Error('未配置 MODELSCOPE_API_KEY');
   }
@@ -1663,7 +1664,9 @@ async function requestModelScopeSummary({
           } catch {
             // Do not log arbitrary provider HTML, request echoes, or headers.
           }
-          throw new Error(`API 请求失败: ${response.status}${message ? ` - ${message}` : ''}`);
+          const error = new Error(`API 请求失败: ${response.status}${message ? ` - ${message}` : ''}`);
+          error.httpStatus = response.status;
+          throw error;
         }
         return response.json();
       }, timeoutMs);
@@ -1701,7 +1704,9 @@ async function requestModelScopeSummary({
     } catch (error) {
       const message = sanitizeModelError(error, apiKey);
       lastError = new Error(message);
-      attempts.push({ modelName, status: 'failed', error: message });
+      const httpStatus = Number.isInteger(error?.httpStatus) && error.httpStatus >= 400 && error.httpStatus <= 599
+        ? error.httpStatus : undefined;
+      attempts.push({ modelName, status: 'failed', error: message, ...(httpStatus ? { httpStatus } : {}) });
       logger?.error?.(`模型 ${modelName} 调用失败:`, message);
     }
     if (retryPrompt) {
