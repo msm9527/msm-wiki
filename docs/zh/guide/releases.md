@@ -12,92 +12,44 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 
 ## 🚀 最新稳定版本
 
-<div class="msm-release-hero msm-release-hero--stable" data-version="2.0.4" data-release-date="2026-09-26 14:23:57 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/2.0.4">
+<div class="msm-release-hero msm-release-hero--stable" data-version="2.0.7" data-release-date="2026-10-13 10:04:08 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/2.0.7">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>稳定版</span> <code>v2.0.4</code></h3>
+    <h3 class="msm-release-version"><span>稳定版</span> <code>v2.0.7</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/2.0.4" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/2.0.7" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/install.html">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>7 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>3 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-09-26 14:23:57 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>0 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>0 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-13 10:04:08 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKkFnZW50IOmVnOWDj+eLrOeri+WPkeW4gyoq77yaRG9ja2VyIEFnZW50IOmVnOWDj+i/geenu+iHs+eLrOeri+S7k+W6kyBgbXNtYm94L21zbS1hZ2VudGDvvIzlronoo4Xlkb3ku6Tpu5jorqTmi4nlj5YgYGxhdGVzdGAg5qCH562+77yM5LiN5YaN5by65Yi257uR5a6aIE1TTSDkuLvnqIvluo/lhbfkvZPniYjmnKzlj7fvvIznroDljJboioLngrnljYfnuqfkuI7niYjmnKzljLnphY3mtYHnqIvjgIIiLCItICoq6Zqn6YGT5Lya6K+d6Ieq5Yqo5Yi35pawKirvvJroioLngrnph43ov57ml7blvJXlhaXllK/kuIDkvJror50gSUQg5qCh6aqM77yM5paw6L+e5o6l5bu656uL5ZCO6Ieq5Yqo5YWz6Zet5pen55qE56m66Zey6L+e5o6l77yM6YG/5YWNIHN0YWxlIOeKtuaAgeWvvOiHtOmAmuS/oeW8guW4uO+8jOaPkOWNh+mVv+i/nuaOpeeos+WumuaAp+OAgiIsIi0gKirlronoo4Xot6/lvoTphY3nva7nroDljJYqKu+8mkRvY2tlciDov5DooYznpLrkvovkuK3nmoQgVExTIOivgeS5puWNt+aMgui9vei3r+W+hOe7n+S4gOiwg+aVtOS4uuW9k+WJjeebruW9leeahCBgLi90bHNg77yM5YeP5bCR5omL5Yqo5L+u5pS557ud5a+56Lev5b6E5pe255qE6YWN572u6ZSZ6K+v44CCIl0sIm1ham9yIjpbXSwiYWRkZWQiOltdLCJjaGFuZ2VkIjpbIi0gKirpmqfpgZPmj6HmiYvljY/orq7lop7lvLoqKu+8muW7uueri+WPjeWQkemap+mBk+aXtuWinuWKoCBgWC1Nc20tQWdlbnQtU2Vzc2lvbmAg6K+35rGC5aS077yM5o6n5Yi256uv5Lya5a+55Lya6K+dIElEIOi/m+ihjCBVVUlEIOagvOW8j+agoemqjO+8jOaXoOaViOS8muivneWwhuiiq+aLkue7nei/nuaOpeOAgiIsIi0gKirov57mjqXmsaDlrrnph4/nrqHnkIYqKu+8muW9k+WNleS4quiKgueCueeahOa0u+i3g+i/nuaOpeaVsOi+vuWIsOS4iumZkOaXtu+8jOezu+e7n+S8muiHquWKqOmpsemAkOacgOaXqeeahOepuumXsui/nuaOpeS7peaOpee6s+aWsOivt+axgu+8jOmYsuatoui1hOa6kOiAl+WwveOAgiIsIi0gKirmlofmoaPmnoTlu7rmtYHnqIvmm7TmlrAqKu+8muato+W8j+eJiOS4jiBCZXRhIOeJiOaehOW7uuaOqOmAgemAu+i+keenu+iHsyB3aWtpIOS7k+W6k++8jOa6kOeggeS7k+W6k+S4jeWGjeebtOaOpeaJp+ihjCBEb2NrZXIg6ZWc5YOP5Y+R5biD5Lu75Yqh77yM5piO56Gu5YiG5bel6L6555WM44CCIl0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSAqKuaXp+i/nuaOpea4heeQhuacuuWItioq77ya5L+u5aSN5LqG6IqC54K55Lya6K+d5YiH5o2i5pe25pen6L+e5o6l5Y+v6IO95pyq6KKr5Y+K5pe25YWz6Zet55qE6Zeu6aKY77yM546w5Zyo5qOA5rWL5Yiw5paw5Lya6K+dIElEIOWQjuS8mueri+WNs+e7iOatouWQjOS4gOiKgueCueS4i+eahOaXp+i/nuaOpeW5tumHiuaUvui1hOa6kOOAgiIsIi0gKirmtYvor5XnlKjkvovotoXml7bosIPmlbQqKu+8muW7tumVv+S6huerr+WIsOerr+a1i+ivleS4reaLieWPlumVnOWDj+WSjOWuueWZqOWQr+WKqOeahOetieW+hei2heaXtuaXtumXtO+8jOmBv+WFjeWboOe9kee7nOazouWKqOWvvOiHtOeahOWBtuWPkeaAp+a1i+ivleWksei0peOAgiJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOlsiLSAqKuaXp+mVnOWDj+agh+etvuWBnOatouabtOaWsCoq77ya5q2j5byPIERvY2tlciBBZ2VudCDplZzlg4/lt7Lnp7voh7MgYG1zbWJveC9tc20tYWdlbnRgIOS7k+W6k++8jOaXp+eJiCBgbXNtYm94L21zbTphZ2VudC0qYCDmoIfnrb7kuI3lho3mm7TmlrDvvIzmiYvliqjohJrmnKzpnIDosIPmlbTmi4nlj5bmupDjgIIiLCItICoq5a6J6KOF5ZG95Luk5Y+C5pWw5Y+Y5YyWKirvvJrnlJ/miJDnmoQgRG9ja2VyIHJ1biDlkb3ku6TkuK0gVExTIOaMgui9veWPguaVsOeUsSBgL3BhdGgvdG8vYWdlbnQtdGxzYCDlj5jmm7TkuLogYCRQV0QvdGxzYO+8jOaXp+eJiOiHquWKqOWMluiEmuacrOWPr+iDvemcgOimgemAgumFjeOAgiJdLCJub3RlcyI6WyItICoq6ZWc5YOP5LuT5bqT6L+B56e7KirvvJror7fmo4Dmn6XnjrDmnInnmoToioLngrnpg6jnvbLohJrmnKzvvIzlsIbplZzlg4/mnaXmupDku44gYG1zbWJveC9tc206YWdlbnQtPHZlcnNpb24+YCDmm7TmlrDkuLogYG1zbWJveC9tc20tYWdlbnQ6bGF0ZXN0YCDmiJbmjIflrprmlrDniYjmnKzmoIfnrb7jgIIiLCItICoqVExTIOebruW9leWHhuWkhyoq77ya5L2/55So54us56uL5a6J6KOF5ZG95Luk5pe277yM6ZyA56Gu5L+dIGBhZ2VudC5jcnRgIOS4jiBgYWdlbnQua2V5YCDlt7LmlL7lhaXlvZPliY3miafooYznm67lvZXkuIvnmoQgYHRscy9gIOaWh+S7tuWkueS4reOAgiJdfX0= -->
-
-### 🎉 本次亮点 {#release-highlights}
-
-<ol class="msm-release-highlights">
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p><strong>Agent 镜像独立发布：</strong>Docker Agent 镜像迁移至独立仓库 <code>msmbox/msm-agent</code>，安装命令默认拉取 <code>latest</code> 标签，不再强制绑定 MSM 主程序具体版本号，简化节点升级与版本匹配流程。</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p><strong>隧道会话自动刷新：</strong>节点重连时引入唯一会话 ID 校验，新连接建立后自动关闭旧的空闲连接，避免 stale 状态导致通信异常，提升长连接稳定性。</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p><strong>安装路径配置简化：</strong>Docker 运行示例中的 TLS 证书卷挂载路径统一调整为当前目录的 <code>./tls</code>，减少手动修改绝对路径时的配置错误。</p>
-  </li>
-</ol>
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOltdLCJtYWpvciI6W10sImFkZGVkIjpbXSwiY2hhbmdlZCI6W10sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOltdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS4pOS4quWPkeW4g+eJiOacrOS5i+mXtOWtmOWcqOWHgOWPmOWMlu+8jOS9huWPkeW4g+e6v+aPkOS6pOivtOaYjuS4jei2s+S7peWPr+mdoOW9kue6s++8m+ivt+aguOWvueWujOaVtOeJiOacrOW3ruW8gu+8jOacquWwhumHjeaWsOWQiOW5tueahOaXp+WIhuaUr+WKn+iDveinhuS4uuacrOasoeaWsOWiniIsIi0g6KeE5YiZ5pGY6KaB5pyq6YeH55So5Y+v6IO96YeN5pS+5Y6G5Y+y55qE5ZCI5bm25o+Q5Lqk6K+05piO77yb6L+Z6YOo5YiG5Y+Y5YyW6ZyA6KaB57uT5ZCI5Lik5Liq5Y+R5biD54mI5pys55qE5YeA5beu5byC5qC45a+5Il19fQ== -->
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-changed">✨ 功能增强 <span>3</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>2</span></a>
-  <a href="#release-deprecated">⚠️ 兼容性变更 <span>2</span></a>
   <a href="#release-notes">📌 升级提醒 <span>2</span></a>
 </nav>
-
-<section class="msm-release-section msm-release-section--changed">
-
-### ✨ 功能增强 {#release-changed}
-
-- **隧道握手协议增强**：建立反向隧道时增加 `X-Msm-Agent-Session` 请求头，控制端会对会话 ID 进行 UUID 格式校验，无效会话将被拒绝连接。
-- **连接池容量管理**：当单个节点的活跃连接数达到上限时，系统会自动驱逐最早的空闲连接以接纳新请求，防止资源耗尽。
-- **文档构建流程更新**：正式版与 Beta 版构建推送逻辑移至 wiki 仓库，源码仓库不再直接执行 Docker 镜像发布任务，明确分工边界。
-
-</section>
-
-<section class="msm-release-section msm-release-section--fixed">
-
-### 🐛 问题修复 {#release-fixed}
-
-- **旧连接清理机制**：修复了节点会话切换时旧连接可能未被及时关闭的问题，现在检测到新会话 ID 后会立即终止同一节点下的旧连接并释放资源。
-- **测试用例超时调整**：延长了端到端测试中拉取镜像和容器启动的等待超时时间，避免因网络波动导致的偶发性测试失败。
-
-</section>
-
-<section class="msm-release-section msm-release-section--deprecated">
-
-### ⚠️ 兼容性变更 {#release-deprecated}
-
-- **旧镜像标签停止更新**：正式 Docker Agent 镜像已移至 `msmbox/msm-agent` 仓库，旧版 `msmbox/msm:agent-*` 标签不再更新，手动脚本需调整拉取源。
-- **安装命令参数变化**：生成的 Docker run 命令中 TLS 挂载参数由 `/path/to/agent-tls` 变更为 `$PWD/tls`，旧版自动化脚本可能需要适配。
-
-</section>
 
 <section class="msm-release-section msm-release-section--notes">
 
 ### 📌 升级提醒 {#release-notes}
 
-- **镜像仓库迁移**：请检查现有的节点部署脚本，将镜像来源从 `msmbox/msm:agent-&lt;version&gt;` 更新为 `msmbox/msm-agent:latest` 或指定新版本标签。
-- **TLS 目录准备**：使用独立安装命令时，需确保 `agent.crt` 与 `agent.key` 已放入当前执行目录下的 `tls/` 文件夹中。
+- 两个发布版本之间存在净变化，但发布线提交说明不足以可靠归纳；请核对完整版本差异，未将重新合并的旧分支功能视为本次新增
+- 规则摘要未采用可能重放历史的合并提交说明；这部分变化需要结合两个发布版本的净差异核对
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：stable（稳定版）
-- **源提交**： [`85d32a0`](https://github.com/msm9527/msm/commit/85d32a0c9e4fc7e71ebaa770e409bd2da033fdbf)
-- **提交信息**：merge: promote MSM 2.0.4 from dev / 合并 dev 发布 MSM 2.0.4
-- **提交作者**：root
-- **提交时间**：2026-09-26 14:23:57 CST
+- **源提交**： [`3bff8b4`](https://github.com/msm9527/msm/commit/3bff8b446df7d2a15a5804dd30f79a508e83e903)
+- **提交信息**：merge: 将 dev 2.0.7 合并到 main / Merge dev 2.0.7 into main
+- **提交作者**：msm
+- **提交时间**：2026-10-13 10:04:08 CST
 - **下载说明**：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 :::
 
@@ -106,6 +58,39 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 ## 📚 历史版本
 
 > 下面仅列出最近几个版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details 2.0.4 · 2026-09-26 14:23 · 稳定版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/2.0.4" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- **Agent 镜像独立发布**：Docker Agent 镜像迁移至独立仓库 `msmbox/msm-agent`，安装命令默认拉取 `latest` 标签，不再强制绑定 MSM 主程序具体版本号，简化节点升级与版本匹配流程。
+- **隧道会话自动刷新**：节点重连时引入唯一会话 ID 校验，新连接建立后自动关闭旧的空闲连接，避免 stale 状态导致通信异常，提升长连接稳定性。
+- **安装路径配置简化**：Docker 运行示例中的 TLS 证书卷挂载路径统一调整为当前目录的 `./tls`，减少手动修改绝对路径时的配置错误。
+
+**✨ 功能增强**
+
+- **隧道握手协议增强**：建立反向隧道时增加 `X-Msm-Agent-Session` 请求头，控制端会对会话 ID 进行 UUID 格式校验，无效会话将被拒绝连接。
+- **连接池容量管理**：当单个节点的活跃连接数达到上限时，系统会自动驱逐最早的空闲连接以接纳新请求，防止资源耗尽。
+- **文档构建流程更新**：正式版与 Beta 版构建推送逻辑移至 wiki 仓库，源码仓库不再直接执行 Docker 镜像发布任务，明确分工边界。
+
+**🐛 问题修复**
+
+- **旧连接清理机制**：修复了节点会话切换时旧连接可能未被及时关闭的问题，现在检测到新会话 ID 后会立即终止同一节点下的旧连接并释放资源。
+- **测试用例超时调整**：延长了端到端测试中拉取镜像和容器启动的等待超时时间，避免因网络波动导致的偶发性测试失败。
+
+**⚠️ 兼容性变更**
+
+- **旧镜像标签停止更新**：正式 Docker Agent 镜像已移至 `msmbox/msm-agent` 仓库，旧版 `msmbox/msm:agent-*` 标签不再更新，手动脚本需调整拉取源。
+- **安装命令参数变化**：生成的 Docker run 命令中 TLS 挂载参数由 `/path/to/agent-tls` 变更为 `$PWD/tls`，旧版自动化脚本可能需要适配。
+
+**📌 升级提醒**
+
+- **镜像仓库迁移**：请检查现有的节点部署脚本，将镜像来源从 `msmbox/msm:agent-&lt;version&gt;` 更新为 `msmbox/msm-agent:latest` 或指定新版本标签。
+- **TLS 目录准备**：使用独立安装命令时，需确保 `agent.crt` 与 `agent.key` 已放入当前执行目录下的 `tls/` 文件夹中。
+
+:::
 
 ::: details 2.0.3 · 2026-09-25 21:38 · 稳定版
 
