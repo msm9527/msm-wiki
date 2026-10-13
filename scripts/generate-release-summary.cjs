@@ -181,7 +181,7 @@ function loadReleaseBrief(previousCommit, currentRef, git) {
 }
 
 function formatJobSummary(result) {
-  const state = { ai: '✅ AI 生成', fallback: '⚠️ 规则回退（非 AI）', 'no-changes': 'ℹ️ 无新增提交' }[result.status];
+  const state = { ai: '✅ AI 生成', rules: '✅ 提交规则摘要（非 AI）', fallback: '⚠️ 规则回退（非 AI）', 'no-changes': 'ℹ️ 无新增提交' }[result.status];
   const reason = result.fallbackReason ? `\n> ${FAILURE_LABELS[result.fallbackReason]}；已保留规则摘要，请检查模型配置或账户额度。\n` : '';
   const attempts = result.modelAttempts.length
     ? `\n### 模型尝试结果\n\n| 次序 | 模型 | 状态 | 原因码 | 阶段 |\n| --- | --- | --- | --- | --- |\n${result.modelAttempts.map((attempt, index) => `| ${index + 1} | ${attempt.model} | ${attempt.status} | ${attempt.reasonCode} | ${attempt.phase || 'draft'} |`).join('\n')}\n`
@@ -207,6 +207,7 @@ function formatJobSummary(result) {
  * RELEASE_LOG_SINCE_EPOCH, RELEASE_LOG_UNTIL_EPOCH, RELEASE_PREVIOUS_PUBLISHED_AT,
  * RELEASE_REQUIRE_EXACT_RANGE (preview: reject an invalid/missing ancestor),
  * RELEASE_REQUIRE_AI (fail after writing diagnostics unless AI succeeds).
+ * RELEASE_SUMMARY_MODE (ai by default; rules skips all model API requests).
  * Returns only the public summary and non-sensitive generation metadata.
  * modelAttempts projects core attempts into { model, status, reasonCode } only;
  * provider error text is classified in memory and never included in reports.
@@ -226,6 +227,11 @@ async function generateReleaseSummary({
     previousCommit: env.RELEASE_PREVIOUS_COMMIT || '',
     channel: env.RELEASE_CHANNEL || 'beta',
   });
+  const summaryMode = env.RELEASE_SUMMARY_MODE || 'ai';
+  if (!['ai', 'rules'].includes(summaryMode)) throw new Error('RELEASE_SUMMARY_MODE 仅支持 ai 或 rules');
+  if (summaryMode === 'rules' && env.RELEASE_REQUIRE_AI === 'true') {
+    throw new Error('rules 模式不能同时要求 AI 成功');
+  }
   if (env.RELEASE_REQUIRE_EXACT_RANGE === 'true' && inputs.previousCommit) {
     try {
       git(['cat-file', '-e', `${inputs.previousCommit}^{commit}`]);
@@ -276,13 +282,13 @@ async function generateReleaseSummary({
   let summary = '';
   let modelName = '';
   let reportedAttempts = 0;
-  let status = commits.length ? 'fallback' : 'no-changes';
+  let status = commits.length ? (summaryMode === 'rules' ? 'rules' : 'fallback') : 'no-changes';
   let fallbackReason = '';
   let modelCatalog;
   // Reviewed briefs constrain the model's facts; they never replace inference.
-  if (commits.length && !String(env.MODELSCOPE_API_KEY || '').trim()) {
+  if (summaryMode === 'ai' && commits.length && !String(env.MODELSCOPE_API_KEY || '').trim()) {
     fallbackReason = 'missing-api-key';
-  } else if (commits.length) {
+  } else if (summaryMode === 'ai' && commits.length) {
     try {
       const configuredModels = String(env.MODELSCOPE_MODELS || '').split(',').map(value => value.trim()).filter(Boolean);
       if (configuredModels.some(value => !safeModelName(value))) throw new Error('Invalid model configuration');

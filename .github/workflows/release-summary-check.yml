@@ -10,6 +10,7 @@ on:
       - 'test-modelscope-api.js'
       - 'test/ai-release-summary.test.cjs'
       - 'test/generate-release-summary.test.cjs'
+      - 'test/release-rule-summary.test.cjs'
       - 'test/modelscope-diagnostics.test.cjs'
       - 'test/release-workflow.test.cjs'
       - '.github/workflows/daily-build-msm.yml'
@@ -30,6 +31,7 @@ on:
       - 'test-modelscope-api.js'
       - 'test/ai-release-summary.test.cjs'
       - 'test/generate-release-summary.test.cjs'
+      - 'test/release-rule-summary.test.cjs'
       - 'test/modelscope-diagnostics.test.cjs'
       - 'test/release-workflow.test.cjs'
       - '.github/workflows/daily-build-msm.yml'
@@ -74,5 +76,6 @@ jobs:
           node --test \
             test/ai-release-summary.test.cjs \
             test/generate-release-summary.test.cjs \
+            test/release-rule-summary.test.cjs \
             test/modelscope-diagnostics.test.cjs \
             test/release-workflow.test.cjs

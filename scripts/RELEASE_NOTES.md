@@ -2,7 +2,11 @@
 
 稳定版、Beta 版与“发布日志预览（不构建、不发布）”共用 `generate-release-summary.cjs`。内容提取、模型链、提示词和输出校验由 `ai-release-summary.cjs` 维护；Wiki 排版和历史归档由 `update-release-page.cjs` 维护。
 
-跨度过大的发布可以在 `scripts/release-briefs/` 中保存与“上一稳定版源 SHA-当前源 SHA”同名的 `.json` 事实提纲及历史 `.md` 编辑稿。只有两个提交都精确匹配时才读取；事实提纲约束 AI 的重点覆盖与禁止断言，历史编辑稿供维护者参考，不能替代真实 AI 推理。稳定版、Beta 和预览均要求 AI 成功；模型失败时保留脱敏诊断与规则摘要供排查，并阻止发布。
+稳定版与 Beta 发布目前使用 `RELEASE_SUMMARY_MODE=rules`，根据提交标题与正文生成明确标记为“非 AI”的规则摘要，不请求模型目录、推理或审稿接口，不依赖 ModelScope 密钥。发布仍检查源码版本、编译、打包与产物；规则摘要不会声称完成 AI 语义归纳或运行验证。
+
+AI 预览与健康检查保留为手动诊断入口，仍要求真实 AI 成功。恢复 AI 发布时，将正式 workflow 的模式改为 `ai`，重新传入模型密钥并按需设置 `RELEASE_REQUIRE_AI=true`。两个配置不能与 `rules` 模式同时启用。
+
+跨度过大的发布可以在 `scripts/release-briefs/` 中保存与“上一稳定版源 SHA-当前源 SHA”同名的 `.json` 事实提纲及历史 `.md` 编辑稿。只有两个提交都精确匹配时才读取；事实提纲约束 AI 的重点覆盖与禁止断言，历史编辑稿供维护者参考。
 
 ## 模型与密钥
 

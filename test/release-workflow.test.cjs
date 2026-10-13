@@ -159,17 +159,17 @@ test('all Pages workflows run Wiki regression tests before building', () => {
   }
 })
 
-test('release workflows share the summary runner and defer model defaults to the core', () => {
+test('stable and Beta releases explicitly use rule summaries without model credentials or an AI gate', () => {
   for (const workflow of workflows) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
-    const summaryStep = source.slice(source.indexOf('      - name: 使用 AI 生成版本总结'), source.indexOf('\n  build:\n'))
+    const summaryStep = source.slice(source.indexOf('      - name: 生成提交规则版本总结'), source.indexOf('\n  build:\n'))
 
-    assert.match(summaryStep, /MODELSCOPE_MODELS: \$\{\{ vars\.MODELSCOPE_MODELS \|\| '' \}\}/)
+    assert.match(summaryStep, /RELEASE_SUMMARY_MODE: 'rules'/)
+    assert.doesNotMatch(summaryStep, /MODELSCOPE_API_KEY|MODELSCOPE_MODELS|RELEASE_REQUIRE_AI/)
     assert.match(summaryStep, /require\('\.\/msm-wiki\/scripts\/generate-release-summary\.cjs'\)/)
     assert.match(summaryStep, /await generateReleaseSummary\(\{ core \}\)/)
     assert.match(summaryStep, /RELEASE_CURRENT_REF: \$\{\{ steps\.meta\.outputs\.commit_sha \}\}/)
     assert.match(summaryStep, /RELEASE_PREVIOUS_COMMIT: \$\{\{ steps\.meta\.outputs\.previous_version_commit \}\}/)
-    assert.match(summaryStep, /RELEASE_REQUIRE_AI: 'true'/)
     assert.doesNotMatch(summaryStep, /Qwen\/|requestModelScopeSummary|buildFallbackSummary|console\.(?:log|error)/)
     assert.doesNotMatch(summaryStep.slice(summaryStep.indexOf('script: |')), /\$\{\{/)
   }
