@@ -6,6 +6,7 @@ const require = createRequire(import.meta.url);
 const {
   buildSummaryPrompt,
   fetchModelScopeModels,
+  MODELSCOPE_CHAT_COMPLETIONS_URL,
   requestModelScopeSummary,
   resolveAvailableModelCandidates,
 } = require('./scripts/ai-release-summary.cjs');
@@ -55,9 +56,30 @@ async function selectModels() {
 async function testModelScopeAPI() {
   console.log(`开始测试 ModelScope API；提交样本: ${testCommits.length}`);
   const modelCandidates = await selectModels();
+  // A dummy token should produce 401. A 403 here means the request may have
+  // been blocked before account authentication; never send the real secret.
+  const control = await fetch(MODELSCOPE_CHAT_COMPLETIONS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer invalid-diagnostic-token' },
+    body: JSON.stringify({ model: modelCandidates?.[0], messages: [{ role: 'user', content: 'Reply OK.' }], max_tokens: 32, enable_thinking: false }),
+    signal: AbortSignal.timeout(15000),
+  });
+  console.log(`无效 Token 对照: HTTP=${control.status}；预期=401`);
+  await control.body?.cancel();
   const result = await requestModelScopeSummary({
     apiKey,
     prompt: buildSummaryPrompt(testCommits),
+    async fetchImpl(url, options) {
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        const contentType = response.headers.get('content-type') || '';
+        const format = /json/iu.test(contentType) ? 'json' : /html/iu.test(contentType) ? 'html' : 'other';
+        // Only a fixed label derived from the private body can leave this scope.
+        const providerReason = providerFailureReason((await response.clone().text()).slice(0, 16000));
+        console.error(`接口拒绝诊断: HTTP=${response.status}；format=${format}；providerReason=${providerReason}`);
+      }
+      return response;
+    },
     ...(modelCandidates?.length ? { modelCandidates } : {}),
     logger: {
       log(message) { console.log(message); },
