@@ -2,6 +2,23 @@ const assert = require('node:assert/strict');
 const test = require('node:test');
 const { requestModelScopeSummary } = require('../scripts/ai-release-summary.cjs');
 const { publicModelAttempts } = require('../scripts/generate-release-summary.cjs');
+const { providerFailureReason } = require('../scripts/modelscope-diagnostics.cjs');
+
+test('provider diagnostics distinguish account, quota and permission failures using fixed labels only', () => {
+  const cases = [
+    ['Authentication failed, invalid token PRIVATE_KEY', 'invalid-token'],
+    ['Quota exceeded for PRIVATE_ACCOUNT', 'quota-exhausted'],
+    ['实名认证 required PRIVATE_ACCOUNT', 'account-verification-required'],
+    ['Forbidden: permission denied PRIVATE_ACCOUNT', 'access-denied'],
+    ['API unavailable due to unsupported region PRIVATE_ACCOUNT', 'unknown'],
+    ['Region restricted PRIVATE_ACCOUNT', 'regional-restriction'],
+    ['PRIVATE_MESSAGE_BODY_WITH_NO_KNOWN_ERROR', 'unknown'],
+  ];
+  for (const [message, expected] of cases) {
+    assert.equal(providerFailureReason(message), expected);
+    assert.doesNotMatch(providerFailureReason(message), /PRIVATE/u);
+  }
+});
 
 test('real request errors retain HTTP status while public diagnostics omit provider bodies and credentials', async () => {
   const apiKey = ' \nprivate-modelscope-key\r\n';

@@ -10,6 +10,7 @@ const {
   resolveAvailableModelCandidates,
 } = require('./scripts/ai-release-summary.cjs');
 const { publicModelAttempts } = require('./scripts/generate-release-summary.cjs');
+const { providerFailureReason } = require('./scripts/modelscope-diagnostics.cjs');
 
 const apiKey = String(process.env.MODELSCOPE_API_KEY || '').trim();
 
@@ -76,7 +77,10 @@ async function testModelScopeAPI() {
 testModelScopeAPI().catch(error => {
   // Project fixed codes and numeric HTTP status only, never provider bodies.
   const attempts = publicModelAttempts(error?.attempts, process.env);
-  attempts.forEach(attempt => console.error(JSON.stringify(attempt)));
+  attempts.forEach((attempt, index) => console.error(JSON.stringify({
+    ...attempt,
+    providerReason: providerFailureReason(error.attempts[index]?.error),
+  })));
   console.error('真实 AI 调用失败，请根据上述原因码检查模型配置和 MODELSCOPE_API_KEY Secret。');
   process.exitCode = 1;
 });

@@ -5,6 +5,7 @@ on:
     paths:
       - 'scripts/ai-release-summary.cjs'
       - 'scripts/generate-release-summary.cjs'
+      - 'scripts/modelscope-diagnostics.cjs'
       - 'scripts/RELEASE_NOTES.md'
       - 'test-modelscope-api.js'
       - 'test/ai-release-summary.test.cjs'
@@ -24,6 +25,7 @@ on:
     paths:
       - 'scripts/ai-release-summary.cjs'
       - 'scripts/generate-release-summary.cjs'
+      - 'scripts/modelscope-diagnostics.cjs'
       - 'scripts/RELEASE_NOTES.md'
       - 'test-modelscope-api.js'
       - 'test/ai-release-summary.test.cjs'

@@ -1660,7 +1660,9 @@ async function requestModelScopeSummary({
           let message = '';
           try {
             const body = JSON.parse(await response.text());
-            message = typeof body?.error?.message === 'string' ? body.error.message : '';
+            const providerMessage = [body?.error?.message, body?.message, body?.Message]
+              .find(value => typeof value === 'string');
+            message = providerMessage || '';
           } catch {
             // Do not log arbitrary provider HTML, request echoes, or headers.
           }
