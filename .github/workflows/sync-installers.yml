@@ -1,0 +1,44 @@
+name: 同步国内安装脚本
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'install_cn.sh'
+      - 'install_beta_cn.sh'
+      - '.github/scripts/sync-installers.sh'
+      - '.github/workflows/sync-installers.yml'
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: '同步通道'
+        type: choice
+        options: [all, stable, beta]
+        default: all
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mirror-installers
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: 校验并同步安装脚本
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: 验证安装与同步脚本
+        run: node --test test/install-scripts.test.cjs test/sync-installers.test.cjs
+      - name: 安装传输工具
+        run: sudo apt-get update -y && sudo apt-get install -y sshpass rsync
+      - name: 同步到现有下载目录
+        env:
+          EXTRA_SERVERS: ${{ secrets.DEPLOY_SERVERS }}
+          CHANNEL: ${{ inputs.channel || 'all' }}
+        run: bash .github/scripts/sync-installers.sh "$CHANNEL"

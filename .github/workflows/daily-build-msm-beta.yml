@@ -1235,7 +1235,7 @@ jobs:
 
             sshpass -p "${pass}" ssh "${SSH_ARGS[@]}" "${user}@${host}" "mkdir -p -- ${target_quoted} ${target_version_quoted}"
 
-            sshpass -p "${pass}" rsync -avz --no-perms --no-owner --no-group -e "${RSYNC_SSH}" --rsync-path="mkdir -p \"${TARGET}\" && rsync" upload/.version "${user}@${host}:${TARGET}/"
+            sshpass -p "${pass}" rsync -avz --no-perms --no-owner --no-group -e "${RSYNC_SSH}" --rsync-path="mkdir -p \"${TARGET}\" && rsync" upload/.version upload/install.sh "${user}@${host}:${TARGET}/"
             sshpass -p "${pass}" rsync -avz --no-perms --no-owner --no-group -e "${RSYNC_SSH}" --rsync-path="mkdir -p \"${TARGET_VERSION}\" && rsync" upload/${VERSION}/ "${user}@${host}:${TARGET_VERSION}/"
 
             sshpass -p "${pass}" ssh "${SSH_ARGS[@]}" "${user}@${host}" \
@@ -1243,7 +1243,7 @@ jobs:
               < .github/scripts/prune-remote-versions.sh
           done
 
-          echo "✅ 已将 .version 和打包产物上传至所有服务器，每个通道仅保留最近 ${RETENTION_COUNT} 个版本"
+          echo "✅ 已将 .version、install.sh 和打包产物上传至所有服务器，每个通道仅保留最近 ${RETENTION_COUNT} 个版本"
           echo "使用方式:"
           echo "  docker pull msmbox/msm:${{ needs.prepare.outputs.docker_channel_tag }}"
           echo "  docker run -d -p 7777:7777 msmbox/msm:${{ needs.prepare.outputs.docker_channel_tag }}"
