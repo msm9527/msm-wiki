@@ -12,41 +12,57 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.0.7" data-release-date="2026-10-13 09:40:39 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.7">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.0.8" data-release-date="2026-10-18 22:59:15 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.8">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.0.7</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.0.8</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.7" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.8" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>2 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>2 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-13 09:40:39 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>14 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-18 22:59:15 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDniYjmnKzljYfnuqfoh7MgMi4wLjciLCItIOWFvOWuueaXp+ivgeS5puepuuWtl+auteeahOWQr+WKqOi/geenuyAvIFByZXNlcnZlIGxlZ2FjeSBOVUxMIGZpZWxkcyBkdXJpbmcgY2VydGlmaWNhdGUgc2VjcmV0IG1pZ3JhdGlvbiJdLCJtYWpvciI6W10sImFkZGVkIjpbXSwiY2hhbmdlZCI6WyItIOeJiOacrOWNh+e6p+iHsyAyLjAuNyJdLCJwZXJmb3JtYW5jZSI6W10sImZpeGVkIjpbIi0g5YW85a655pen6K+B5Lmm56m65a2X5q6155qE5ZCv5Yqo6L+B56e7IC8gUHJlc2VydmUgbGVnYWN5IE5VTEwgZmllbGRzIGR1cmluZyBjZXJ0aWZpY2F0ZSBzZWNyZXQgbWlncmF0aW9uIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMTAtMTJUMTQ6MjU6NTNaIOS5i+WQjueahCAyIOS4quaPkOS6pOS4reaVtOeQhu+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiXX19 -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSB0ZXN0KGJhY2tlbmQpOiDlnKjlrozmiJDpgJrnn6XliY3ph4rmlL7pg6jnvbLplIEgLyBzaWduYWwgY29tcGxldGlvbiBhZnRlciByZWxlYXNpbmcgdGhlIGRlcGxveW1lbnQgbG9jayIsIi0g57uf5LiA5YWo5bGA572R57uc6K6+572u5LiO5aSx6LSl5oGi5aSNIC8gc3luY2hyb25pemUgZ2xvYmFsIG5ldHdvcmsgc2V0dGluZ3MgYW5kIHJlY292ZXJ5IiwiLSDlrozlloTlhoXmoLjnrqHnkIbkuI7nvZHnu5zkv67lpI3lubbljYfnuqfoh7MgMi4wLjgiLCItIOS/ruWkjSBtYWNPUyDmm7TmlrDkuI7mnI3liqHnlJ/lkb3lkajmnJ8gLyByZXBhaXIgbWFjT1MgdXBkYXRlcyBhbmQgc2VydmljZSBsaWZlY3ljbGUiLCItIOS/ruWkjSBETlMg54q25oCB5LiO5pyN5Yqh5a6J6KOF6Lev5b6EIiwiLSDlvLrljJYgVFVOIOWwsee7quS4jiBQRCDlm57nqIsgLyBoYXJkZW4gVFVOIHJlYWRpbmVzcyBhbmQgUEQgcmV0dXJuIHBhdGhzIl0sIm1ham9yIjpbXSwiYWRkZWQiOltdLCJjaGFuZ2VkIjpbIi0gdGVzdChiYWNrZW5kKTog5Zyo5a6M5oiQ6YCa55+l5YmN6YeK5pS+6YOo572y6ZSBIC8gc2lnbmFsIGNvbXBsZXRpb24gYWZ0ZXIgcmVsZWFzaW5nIHRoZSBkZXBsb3ltZW50IGxvY2siLCItIHRlc3QoZnJvbnRlbmQpOiDpmpTnprvlm77moIfpobXpnaLliJ3lp4vljJYgLyBpc29sYXRlIGljb24gcGFnZSBoeWRyYXRpb24gZml4dHVyZXMiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOe7n+S4gOWFqOWxgOe9kee7nOiuvue9ruS4juWksei0peaBouWkjSAvIHN5bmNocm9uaXplIGdsb2JhbCBuZXR3b3JrIHNldHRpbmdzIGFuZCByZWNvdmVyeSIsIi0g5a6M5ZaE5YaF5qC4566h55CG5LiO572R57uc5L+u5aSN5bm25Y2H57qn6IezIDIuMC44IiwiLSDkv67lpI0gbWFjT1Mg5pu05paw5LiO5pyN5Yqh55Sf5ZG95ZGo5pyfIC8gcmVwYWlyIG1hY09TIHVwZGF0ZXMgYW5kIHNlcnZpY2UgbGlmZWN5Y2xlIiwiLSDkv67lpI0gRE5TIOeKtuaAgeS4juacjeWKoeWuieijhei3r+W+hCIsIi0g5by65YyWIFRVTiDlsLHnu6rkuI4gUEQg5Zue56iLIC8gaGFyZGVuIFRVTiByZWFkaW5lc3MgYW5kIFBEIHJldHVybiBwYXRocyIsIi0g5oGi5aSN5aSH5Lu95pe25bqU55SoIFRVTiDlhbzlrrnkv67lpI0iLCItIOS/ruWkjSBUVU4g6Lev55Sx5Yay56qB5LiOIExBTiBJUHY2IOWbnueoiyIsIi0g6KGl6b2QRE5TIFRDUOerr+WPo+aYoOWwhCAvIHB1Ymxpc2ggVENQIHBvcnRzIGZvciBETlMgZmFsbGJhY2siLCItIOmBv+WFjeWQr+WKqOimhuebluiHquWumuS5ieS4iua4uCAvIHByZXNlcnZlIGN1c3RvbSBETlMgdXBzdHJlYW1zIGR1cmluZyBzdGFydHVwIHJlY292ZXJ5IiwiLSDkv53nlZnov57nu63ljYfnuqfnmoToh6rlrprkuYnliIbmtYHop4TliJkgLyBwcmVzZXJ2ZSBjdXN0b20gcnVsZXMgYWNyb3NzIGNvbnNlY3V0aXZlIHVwZ3JhZGVzIiwiLSDlkIzmraUgQXBwbGUg6LWE5rqQ55m95ZCN5Y2VIC8gc3luYyBBcHBsZSBhc3NldCB3aGl0ZWxpc3QgZm9yIHVwZ3JhZGVzIiwiLSB0ZXN0KGZyb250ZW5kKTog5L+u5aSNIE5vZGUgMjYg5Zu+5qCH5rWL6K+V5YW85a655oCnIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMTAtMTNUMDI6MTg6NDdaIOS5i+WQjueahCAxNCDkuKrmj5DkuqTkuK3mlbTnkIbvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>版本升级至 2.0.7</p>
+    <p>test(backend): 在完成通知前释放部署锁 / signal completion after releasing the deployment lock</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>兼容旧证书空字段的启动迁移 / Preserve legacy NULL fields during certificate secret migration</p>
+    <p>统一全局网络设置与失败恢复 / synchronize global network settings and recovery</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">03</span>
+    <p>完善内核管理与网络修复并升级至 2.0.8</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">04</span>
+    <p>修复 macOS 更新与服务生命周期 / repair macOS updates and service lifecycle</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">05</span>
+    <p>修复 DNS 状态与服务安装路径</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">06</span>
+    <p>强化 TUN 就绪与 PD 回程 / harden TUN readiness and PD return paths</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-changed">✨ 功能增强 <span>1</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>1</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>2</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>12</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
 
@@ -54,7 +70,8 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### ✨ 功能增强 {#release-changed}
 
-- 版本升级至 2.0.7
+- test(backend): 在完成通知前释放部署锁 / signal completion after releasing the deployment lock
+- test(frontend): 隔离图标页面初始化 / isolate icon page hydration fixtures
 
 </section>
 
@@ -62,7 +79,18 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🐛 问题修复 {#release-fixed}
 
-- 兼容旧证书空字段的启动迁移 / Preserve legacy NULL fields during certificate secret migration
+- 统一全局网络设置与失败恢复 / synchronize global network settings and recovery
+- 完善内核管理与网络修复并升级至 2.0.8
+- 修复 macOS 更新与服务生命周期 / repair macOS updates and service lifecycle
+- 修复 DNS 状态与服务安装路径
+- 强化 TUN 就绪与 PD 回程 / harden TUN readiness and PD return paths
+- 恢复备份时应用 TUN 兼容修复
+- 修复 TUN 路由冲突与 LAN IPv6 回程
+- 补齐DNS TCP端口映射 / publish TCP ports for DNS fallback
+- 避免启动覆盖自定义上游 / preserve custom DNS upstreams during startup recovery
+- 保留连续升级的自定义分流规则 / preserve custom rules across consecutive upgrades
+- 同步 Apple 资源白名单 / sync Apple asset whitelist for upgrades
+- test(frontend): 修复 Node 26 图标测试兼容性
 
 </section>
 
@@ -70,16 +98,16 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-10-12T14:25:53Z 之后的 2 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 从 2026-10-13T02:18:47Z 之后的 14 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`71727ae`](https://github.com/msm9527/msm/commit/71727ae473c1b6811833fc04ecab8f5fdbc905f1)
-- **提交信息**：chore: 版本升级至 2.0.7 / Bump version to 2.0.7
+- **源提交**： [`3e9daf0`](https://github.com/msm9527/msm/commit/3e9daf08602faa748c0e10d8c459cc95ae46fbbf)
+- **提交信息**：test(backend): 在完成通知前释放部署锁 / signal completion after releasing the deployment lock
 - **提交作者**：root
-- **提交时间**：2026-10-13 09:40:39 CST
+- **提交时间**：2026-10-18 22:59:15 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -88,6 +116,29 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.0.7 · 2026-10-13 09:40 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.7" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 版本升级至 2.0.7
+- 兼容旧证书空字段的启动迁移 / Preserve legacy NULL fields during certificate secret migration
+
+**✨ 功能增强**
+
+- 版本升级至 2.0.7
+
+**🐛 问题修复**
+
+- 兼容旧证书空字段的启动迁移 / Preserve legacy NULL fields during certificate secret migration
+
+**📌 升级提醒**
+
+- 从 2026-10-12T14:25:53Z 之后的 2 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+:::
 
 ::: details beta-2.0.6 · 2026-10-12 21:44 · Beta 版
 
