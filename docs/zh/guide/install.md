@@ -44,8 +44,8 @@ MSM 是自托管管理平台。请仅用于自有或已获明确授权的设备�
    - 检查本机 IPv4 / IPv6 设置
 3. 进入 [路由器集成](/zh/guide/router-integration)
    - 配置 DHCP DNS（通常只填 MSM 的 IPv4 地址）
-   - 配置 `28.0.0.0/8`
-   - 配置 `f2b0::/18`
+   - 按 MSM 设置页当前值配置 FakeIP IPv4 网段
+   - 启用 IPv6 时，按 MSM 设置页当前值配置 FakeIP IPv6 网段
 4. 回到 MSM
    - 设置 DNS 分流规则
    - 设置设备白/黑名单
@@ -67,8 +67,10 @@ MSM 是自托管管理平台。请仅用于自有或已获明确授权的设备�
 - 能打开 `http://<MSM-IP>:7777`
 - `msm status` 正常
 - 主路由已经把 DHCP DNS 指向 MSM
-- 主路由已经同时添加 `28.0.0.0/8` 和 `f2b0::/18`
-- 客户端 `nslookup google.com` 和 `dig AAAA google.com` 都能拿到 FakeIP
+- 主路由已经添加与 MSM 当前配置一致的 FakeIP 路由
+- 客户端 `nslookup google.com` 和 `dig AAAA google.com` 按已启用地址族拿到 FakeIP
+
+历史文档常见的 `28.0.0.0/8`、`f2b0::/18` 只是默认模板示例，不能代替当前配置值。
 
 ## 读到这里后应该去哪
 

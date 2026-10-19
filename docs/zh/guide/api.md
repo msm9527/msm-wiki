@@ -68,6 +68,7 @@ curl -H "Authorization: Bearer $TOKEN" \
 | `/edge` | 域名服务、DDNS、证书、反向代理和发布工作流 |
 | `/cloudflare/tunnel` | Cloudflare Tunnel 多域名 Web 服务发布 |
 | `/networking` | EasyTier、Tailscale、WireGuard 自建私网 |
+| `/network` | FakeIP、本机受管网络诊断与规则恢复 |
 | `/docker-center` | Docker 资源与节点控制 |
 | `/nettools` | 网络诊断与实时任务 |
 | `/config`、`/history` | 全局配置树、校验、历史与回滚 |
@@ -174,6 +175,21 @@ DELETE  /api/v1/networking/peers/:id
 `/docker-agent` 是 Agent 注册、回连与控制端代理协议，不是面向普通第三方客户端的公共 API。
 
 ## 网络工具
+
+### FakeIP 与外部网关诊断
+
+```text
+GET  /api/v1/network/diagnostics
+POST /api/v1/network/plan
+POST /api/v1/network/reconcile
+```
+
+三个接口分别读取本机一致性、预览拟议配置和恢复 MSM 自己创建的网络规则。读取
+结果中的 `checks[]` 以 `code/status/scope/expected/actual` 描述检查；UniFi 的
+DHCP/RA、静态路由、防火墙和客户端回程无法由 MSM 观察，会明确返回
+`status=unknown`。`reconcile` 不会修改 UniFi，也不会接管未知的 nftables 或策略
+路由资源。`via_gateway` 当前保持 fail-closed，请使用 `system` 模式并按
+[UniFi 配置](/zh/guide/unifi) 完成外部网关设置。
 
 常用 REST 路径：
 

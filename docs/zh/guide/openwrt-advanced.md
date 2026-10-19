@@ -2,6 +2,10 @@
 
 本文档介绍 OpenWrt 的高级配置方法，包括自动化脚本、批量路由管理等。
 
+::: warning 地址池必须以 MSM 当前配置为准
+脚本中的 FakeIP 地址池、网关地址和接口名都使用 `REPLACE_WITH_...` 占位符。运行前必须替换为 MSM 设置页显示的实际 FakeIP 地址池、MSM LAN 地址和 OpenWrt 接口；修改地址池后不要继续使用旧路由。
+:::
+
 ## 自动化路由配置脚本
 
 手动添加大量静态路由比较繁琐，可以使用自动化脚本批量配置。
@@ -32,16 +36,18 @@ NC='\033[0m'  # No Color
 
 # 默认值
 DEFAULT_BACKUP_DNS="223.5.5.5"
-DEFAULT_IPV4_GATEWAY="192.168.1.2"
-DEFAULT_IPV6_GATEWAY="fd00::2"
-DEFAULT_INTERFACE="lan"
-HIGH_PRIORITY_NET="28.0.0.0/8"
+DEFAULT_IPV4_GATEWAY="REPLACE_WITH_MSM_LAN_IPV4"
+DEFAULT_IPV6_GATEWAY="REPLACE_WITH_MSM_LAN_IPV6"
+DEFAULT_INTERFACE="REPLACE_WITH_OPENWRT_INTERFACE"
+FAKEIP_V4_ROUTE="REPLACE_WITH_MSM_FAKEIP_V4_CIDR"
+FAKEIP_V6_ROUTE="REPLACE_WITH_MSM_FAKEIP_V6_CIDR"
+HIGH_PRIORITY_NET="$FAKEIP_V4_ROUTE"
 CHECK_HOST="https://8.8.8.8"
 
 # IPv4 路由地址集 - 按分类定义
-read -r -d '' IPV4_FAKEIP_ROUTES << 'EOF' || true
+read -r -d '' IPV4_FAKEIP_ROUTES << EOF || true
 # MosDNS 和 Clash FakeIP 路由
-28.0.0.0/8
+$FAKEIP_V4_ROUTE
 8.8.8.8/32
 1.1.1.1/32
 EOF
@@ -71,9 +77,9 @@ read -r -d '' IPV4_NETFLIX_ROUTES << 'EOF' || true
 EOF
 
 # IPv6 路由地址集 - 按分类定义
-read -r -d '' IPV6_FAKEIP_ROUTES << 'EOF' || true
+read -r -d '' IPV6_FAKEIP_ROUTES << EOF || true
 # IPv6 FakeIP 路由
-f2b0::/18
+$FAKEIP_V6_ROUTE
 EOF
 
 read -r -d '' IPV6_TELEGRAM_ROUTES << 'EOF' || true
@@ -750,7 +756,7 @@ chmod +x /root/setup-msm.sh
 # 运行脚本
 /root/setup-msm.sh
 
-# 按提示输入 MSM 主机 IP（如 192.168.1.2）
+# 按提示输入 MSM 设置页显示的实际主机 IP
 # 或直接回车使用默认值
 ```
 
@@ -758,7 +764,7 @@ chmod +x /root/setup-msm.sh
 
 ```bash
 # 查看路由表
-ip route | grep 28.0.0.0
+ip route | grep "<MSM当前FakeIPv4网段的网络地址>"
 
 # 查看 UCI 配置
 uci show network | grep route
@@ -807,7 +813,7 @@ ip route
 ip -6 route
 
 # 查看特定路由
-ip route | grep 28.0.0.0
+ip route | grep "<MSM当前FakeIPv4网段的网络地址>"
 ```
 
 ### 查看 DNS 配置

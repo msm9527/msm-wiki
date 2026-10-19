@@ -16,12 +16,14 @@ MSM 文档默认假设 **MosDNS 与当前活动代理核心（Clash 或 Sing-Box
 
 - `{MSM主机IPv4}`：MSM 在局域网中的 IPv4 地址
 - `{MSM主机IPv6}`：MSM 在局域网中的 IPv6 地址，推荐使用 ULA 或 GUA，例如 `fd00::2`
-- 默认 FakeIP v4 网段：`28.0.0.0/8`
-- 默认 FakeIP v6 网段：`f2b0::/18`
+- `{MSM当前FakeIPv4网段}`：MSM 设置页当前显示的 FakeIP IPv4 地址池
+- `{MSM当前FakeIPv6网段}`：MSM 设置页当前显示的 FakeIP IPv6 地址池（启用 IPv6 时）
 
 ::: tip 重要
-`28.0.0.0/8` 与 `f2b0::/18` 必须和 MSM 中 MosDNS / 当前活动代理核心实际启用的 FakeIP 网段一致。主路由只负责把这些网段送到 MSM，不负责还原域名。
+FakeIP 地址池必须和 MSM 中 MosDNS / 当前活动代理核心实际启用的地址池一致。主路由只负责把这些网段送到 MSM，不负责还原域名。
 :::
+
+> 这些是旧安装的兼容示例，不是每台 MSM 的固定值。保存自定义地址池后，以 MSM 设置页显示的实际 IPv4/IPv6 网段为准，并同步修改主路由静态路由。UniFi 的 DHCP/RA、防火墙、IPv6 ICMPv6 和回程边界请继续参阅 [UniFi + MSM FakeIP 配置](/zh/guide/unifi)。真实 LAN 前缀也不能从 FakeIP 前缀推导。
 
 ## 必要配置
 
@@ -40,8 +42,8 @@ MSM 文档默认假设 **MosDNS 与当前活动代理核心（Clash 或 Sing-Box
 
 | 类型 | 目标地址 | 下一跳 |
 | --- | --- | --- |
-| FakeIP v4 | `28.0.0.0/8` | `{MSM主机IPv4}` |
-| FakeIP v6 | `f2b0::/18` | `{MSM主机IPv6}` |
+| FakeIP v4 | `{MSM当前FakeIPv4网段}` | `{MSM主机IPv4}` |
+| FakeIP v6 | `{MSM当前FakeIPv6网段}` | `{MSM主机IPv6}` |
 
 ### 3. 可选的补充路由
 
@@ -107,8 +109,8 @@ MSM 文档统一按“主路由直接添加静态路由”来写：
 
 ## 验证方式
 
-1. 客户端执行 `nslookup google.com` 或 `dig A google.com`，结果应落在 `28.0.0.0/8`。
-2. 再执行 `dig AAAA google.com`，结果应落在 `f2b0::/18`。
+1. 客户端执行 `nslookup google.com` 或 `dig A google.com`，结果应落在 `{MSM当前FakeIPv4网段}`。
+2. 启用 IPv6 时，再执行 `dig AAAA google.com`，结果应落在 `{MSM当前FakeIPv6网段}`。
 3. 白名单设备可以访问国外站点，非白名单设备保持原有直连策略。
 4. 如果是分体部署，确认“DNS 指向 MosDNS 主机，路由指向代理主机”没有配反。
 
@@ -116,15 +118,15 @@ MSM 文档统一按“主路由直接添加静态路由”来写：
 
 ### 为什么只改 DNS 还不够？
 
-因为 FakeIP 是虚拟地址。没有静态路由时，客户端访问 `28.0.0.0/8` 或 `f2b0::/18` 会被主路由按默认路由处理，结果要么丢包，要么直接出 WAN，无法回到 MSM 还原域名。
+因为 FakeIP 是虚拟地址。没有对应静态路由时，客户端访问当前 FakeIP 地址池会被主路由按默认路由处理，结果要么丢包，要么直接出 WAN，无法回到 MSM 还原域名。
 
 ### 为什么开了 IPv6 还访问不了 AAAA 目标？
 
 通常是以下几种原因：
 
-- 主路由没有添加 `f2b0::/18`
+- 主路由没有添加 MSM 设置页显示的 FakeIP IPv6 地址池
 - MSM 主机没有稳定可达的 IPv6 地址
-- 路由器把 `f2b0::/18` 指到了 DNS 主机，而不是真正做透明代理的主机
+- 路由器把 FakeIP 地址池指到了 DNS 主机，而不是真正做透明代理的主机
 - 当前活动代理核心的 FakeIP v6 网段与路由器配置不一致
 
 ## 选择你的路由器系统
