@@ -12,66 +12,65 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.0.9" data-release-date="2026-10-21 10:05:47 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.9">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.1.0" data-release-date="2026-10-21 15:12:59 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.0">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.0.9</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.1.0</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.9" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.0" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
   <div class="msm-release-metric"><span>更新</span><strong>8 项</strong></div>
   <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-21 10:05:47 CST</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-21 15:12:59 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDlrozlloQgRmFrZUlQIOaOpeWPo+agoemqjOS4jiBVbmlGaSDor4rmlq0gLyBDb21wbGV0ZSBGYWtlSVAgaW50ZXJmYWNlIHZhbGlkYXRpb24gYW5kIFVuaUZpIGRpYWdub3N0aWNzIiwiLSDkv67lpI3moYzpnaLlkK/liqjml7boh6rliqjlkIzmraUgTVNNIOacjeWKoSAvIFN5bmMgYnVuZGxlZCBNU00gc2VydmljZSBvbiBkZXNrdG9wIHN0YXJ0dXAiLCItIOS/ruWkjSBiZXRhIOacjeWKoeeJiOacrOino+aekOS4juahjOmdouabtOaWsOi2heaXtiIsIi0g5L+u5aSNIEZha2VJUCDph43lkK/lm57mlL7lubblrozlloQgVW5pRmkg5paH5qGjIC8gUmVwbGF5IEZha2VJUCBvbiByZXN0YXJ0IGFuZCBkb2N1bWVudCBVbmlGaSBzZXR1cCIsIi0g5L+u5aSN5aSH5Lu956m66Ze06ZSZ6K+v5pys5Zyw5YyWIC8gTG9jYWxpemUgYmFja3VwIGNhcGFjaXR5IGZhaWx1cmVzIiwiLSDkv67lpI0gRmFrZUlQL1VuaUZpIOe9kee7nOS4gOiHtOaAp+S4juiviuaWrSJdLCJtYWpvciI6W10sImFkZGVkIjpbXSwiY2hhbmdlZCI6WyItIOWujOWWhCBGYWtlSVAg5o6l5Y+j5qCh6aqM5LiOIFVuaUZpIOiviuaWrSAvIENvbXBsZXRlIEZha2VJUCBpbnRlcmZhY2UgdmFsaWRhdGlvbiBhbmQgVW5pRmkgZGlhZ25vc3RpY3MiLCItIOS/ruato+m7mOiupCBJUHY2IEZha2VJUCDlubblrozlloQgVW5pRmkg5paH5qGjIC8gVXNlIGNvbXBsaWFudCBkZWZhdWx0IElQdjYgRmFrZUlQIGFuZCB1cGRhdGUgVW5pRmkgZG9jcyJdLCJwZXJmb3JtYW5jZSI6W10sImZpeGVkIjpbIi0g5L+u5aSN5qGM6Z2i5ZCv5Yqo5pe26Ieq5Yqo5ZCM5q2lIE1TTSDmnI3liqEgLyBTeW5jIGJ1bmRsZWQgTVNNIHNlcnZpY2Ugb24gZGVza3RvcCBzdGFydHVwIiwiLSDkv67lpI0gYmV0YSDmnI3liqHniYjmnKzop6PmnpDkuI7moYzpnaLmm7TmlrDotoXml7YiLCItIOS/ruWkjSBGYWtlSVAg6YeN5ZCv5Zue5pS+5bm25a6M5ZaEIFVuaUZpIOaWh+ahoyAvIFJlcGxheSBGYWtlSVAgb24gcmVzdGFydCBhbmQgZG9jdW1lbnQgVW5pRmkgc2V0dXAiLCItIOS/ruWkjeWkh+S7veepuumXtOmUmeivr+acrOWcsOWMliAvIExvY2FsaXplIGJhY2t1cCBjYXBhY2l0eSBmYWlsdXJlcyIsIi0g5L+u5aSNIEZha2VJUC9VbmlGaSDnvZHnu5zkuIDoh7TmgKfkuI7or4rmlq0iLCItIOWujOaIkOaXoOetvuWQjSBtYWNPUyDlnKjnur/mm7TmlrDpk77ot68gLyBjb21wbGV0ZSB1bnNpZ25lZCBtYWNPUyBkZXNrdG9wIHVwZGF0ZXMiXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSDku44gMjAyNi0xMC0xOFQyMjo0NjowN1og5LmL5ZCO55qEIDEwIOS4quaPkOS6pOS4reaVtOeQhu+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiLCItIOinhOWImeaRmOimgeacqumHh+eUqOWPr+iDvemHjeaUvuWOhuWPsueahOWQiOW5tuaPkOS6pOivtOaYju+8m+i/memDqOWIhuWPmOWMlumcgOimgee7k+WQiOS4pOS4quWPkeW4g+eJiOacrOeahOWHgOW3ruW8guaguOWvuSJdfX0= -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDooaXlhYUgU2V0dXAgRmFrZS1JUCDliJ3lp4vljJblm57lvZLmtYvor5UiLCItIOS/ruWkjSBTZXR1cCBGYWtlLUlQIOm7mOiupOWAvOS4juaPkOS6pCIsIi0g5L+u5aSNIFRVTiBGYWtlLUlQIOWksei0peWbnua7miIsIi0g5L+u5aSNIEVhc3lUaWVyIG1hY09TIOaetuaehOabtOaWsCIsIi0g5L+u5aSNIG1hY3ZsYW4g5Zyw5Z2A6Kej5p6Q6K+v6L+H5rukIC8gUHJlc2VydmUgcmVhbCBtYWN2bGFuIGFkZHJlc3NlcyBpbiByZXNvbHZlciIsIi0g5L+u5aSN5peg5pu05paw5pe255qE5riF5Y2V6K+v5oqlIl0sIm1ham9yIjpbXSwiYWRkZWQiOltdLCJjaGFuZ2VkIjpbIi0g6KGl5YWFIFNldHVwIEZha2UtSVAg5Yid5aeL5YyW5Zue5b2S5rWL6K+VIl0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSDkv67lpI0gU2V0dXAgRmFrZS1JUCDpu5jorqTlgLzkuI7mj5DkuqQiLCItIOS/ruWkjSBUVU4gRmFrZS1JUCDlpLHotKXlm57mu5oiLCItIOS/ruWkjSBFYXN5VGllciBtYWNPUyDmnrbmnoTmm7TmlrAiLCItIOS/ruWkjSBtYWN2bGFuIOWcsOWdgOino+aekOivr+i/h+a7pCAvIFByZXNlcnZlIHJlYWwgbWFjdmxhbiBhZGRyZXNzZXMgaW4gcmVzb2x2ZXIiLCItIOS/ruWkjeaXoOabtOaWsOaXtueahOa4heWNleivr+aKpSIsIi0g5L+u5aSN5aSa5o6l5Y+jIEZha2UtSVAg5LiO6Z2Z5oCB5a655Zmo5Zyw5Z2AIiwiLSDpmLvmraIgbWFjT1Mg5LiL6L296ZSZ6K+v55qEIFRhaWxzY2FsZSDmnrbmnoQgLyBCbG9jayBpbmNvbXBhdGlibGUgVGFpbHNjYWxlIGRvd25sb2FkcyBvbiBtYWNPUyJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS7jiAyMDI2LTEwLTIxVDAyOjQ4OjE0WiDkuYvlkI7nmoQgOSDkuKrmj5DkuqTkuK3mlbTnkIbvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>完善 FakeIP 接口校验与 UniFi 诊断 / Complete FakeIP interface validation and UniFi diagnostics</p>
+    <p>补充 Setup Fake-IP 初始化回归测试</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>修复桌面启动时自动同步 MSM 服务 / Sync bundled MSM service on desktop startup</p>
+    <p>修复 Setup Fake-IP 默认值与提交</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>修复 beta 服务版本解析与桌面更新超时</p>
+    <p>修复 TUN Fake-IP 失败回滚</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>修复 FakeIP 重启回放并完善 UniFi 文档 / Replay FakeIP on restart and document UniFi setup</p>
+    <p>修复 EasyTier macOS 架构更新</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>修复备份空间错误本地化 / Localize backup capacity failures</p>
+    <p>修复 macvlan 地址解析误过滤 / Preserve real macvlan addresses in resolver</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">06</span>
-    <p>修复 FakeIP/UniFi 网络一致性与诊断</p>
+    <p>修复无更新时的清单误报</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-changed">✨ 功能增强 <span>2</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>6</span></a>
-  <a href="#release-notes">📌 升级提醒 <span>2</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>1</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>7</span></a>
+  <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
 
 <section class="msm-release-section msm-release-section--changed">
 
 ### ✨ 功能增强 {#release-changed}
 
-- 完善 FakeIP 接口校验与 UniFi 诊断 / Complete FakeIP interface validation and UniFi diagnostics
-- 修正默认 IPv6 FakeIP 并完善 UniFi 文档 / Use compliant default IPv6 FakeIP and update UniFi docs
+- 补充 Setup Fake-IP 初始化回归测试
 
 </section>
 
@@ -79,12 +78,13 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🐛 问题修复 {#release-fixed}
 
-- 修复桌面启动时自动同步 MSM 服务 / Sync bundled MSM service on desktop startup
-- 修复 beta 服务版本解析与桌面更新超时
-- 修复 FakeIP 重启回放并完善 UniFi 文档 / Replay FakeIP on restart and document UniFi setup
-- 修复备份空间错误本地化 / Localize backup capacity failures
-- 修复 FakeIP/UniFi 网络一致性与诊断
-- 完成无签名 macOS 在线更新链路 / complete unsigned macOS desktop updates
+- 修复 Setup Fake-IP 默认值与提交
+- 修复 TUN Fake-IP 失败回滚
+- 修复 EasyTier macOS 架构更新
+- 修复 macvlan 地址解析误过滤 / Preserve real macvlan addresses in resolver
+- 修复无更新时的清单误报
+- 修复多接口 Fake-IP 与静态容器地址
+- 阻止 macOS 下载错误的 Tailscale 架构 / Block incompatible Tailscale downloads on macOS
 
 </section>
 
@@ -92,17 +92,16 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-10-18T22:46:07Z 之后的 10 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
-- 规则摘要未采用可能重放历史的合并提交说明；这部分变化需要结合两个发布版本的净差异核对
+- 从 2026-10-21T02:48:14Z 之后的 9 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`61271c9`](https://github.com/msm9527/msm/commit/61271c94d215866d07ca365bccb1ebf01a838003)
-- **提交信息**：修复桌面启动时自动同步 MSM 服务 / Sync bundled MSM service on desktop startup
-- **提交作者**：msm
-- **提交时间**：2026-10-21 10:05:47 CST
+- **源提交**： [`4c076cf`](https://github.com/msm9527/msm/commit/4c076cfb9461d3dadda514d2274508a9d8c7759e)
+- **提交信息**：chore: 升级版本至 2.1.0 / Bump version to 2.1.0
+- **提交作者**：root
+- **提交时间**：2026-10-21 15:12:59 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -111,6 +110,40 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.0.9 · 2026-10-21 10:05 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.9" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 完善 FakeIP 接口校验与 UniFi 诊断 / Complete FakeIP interface validation and UniFi diagnostics
+- 修复桌面启动时自动同步 MSM 服务 / Sync bundled MSM service on desktop startup
+- 修复 beta 服务版本解析与桌面更新超时
+- 修复 FakeIP 重启回放并完善 UniFi 文档 / Replay FakeIP on restart and document UniFi setup
+- 修复备份空间错误本地化 / Localize backup capacity failures
+- 修复 FakeIP/UniFi 网络一致性与诊断
+
+**✨ 功能增强**
+
+- 完善 FakeIP 接口校验与 UniFi 诊断 / Complete FakeIP interface validation and UniFi diagnostics
+- 修正默认 IPv6 FakeIP 并完善 UniFi 文档 / Use compliant default IPv6 FakeIP and update UniFi docs
+
+**🐛 问题修复**
+
+- 修复桌面启动时自动同步 MSM 服务 / Sync bundled MSM service on desktop startup
+- 修复 beta 服务版本解析与桌面更新超时
+- 修复 FakeIP 重启回放并完善 UniFi 文档 / Replay FakeIP on restart and document UniFi setup
+- 修复备份空间错误本地化 / Localize backup capacity failures
+- 修复 FakeIP/UniFi 网络一致性与诊断
+- 完成无签名 macOS 在线更新链路 / complete unsigned macOS desktop updates
+
+**📌 升级提醒**
+
+- 从 2026-10-18T22:46:07Z 之后的 10 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 规则摘要未采用可能重放历史的合并提交说明；这部分变化需要结合两个发布版本的净差异核对
+
+:::
 
 ::: details beta-2.0.8 · 2026-10-18 22:59 · Beta 版
 
