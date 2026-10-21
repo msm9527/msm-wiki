@@ -12,49 +12,49 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.0.8" data-release-date="2026-10-18 22:59:15 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.8">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.0.9" data-release-date="2026-10-21 10:05:47 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.9">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.0.8</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.0.9</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.8" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.9" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>14 项</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>8 项</strong></div>
   <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-18 22:59:15 CST</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-21 10:05:47 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSB0ZXN0KGJhY2tlbmQpOiDlnKjlrozmiJDpgJrnn6XliY3ph4rmlL7pg6jnvbLplIEgLyBzaWduYWwgY29tcGxldGlvbiBhZnRlciByZWxlYXNpbmcgdGhlIGRlcGxveW1lbnQgbG9jayIsIi0g57uf5LiA5YWo5bGA572R57uc6K6+572u5LiO5aSx6LSl5oGi5aSNIC8gc3luY2hyb25pemUgZ2xvYmFsIG5ldHdvcmsgc2V0dGluZ3MgYW5kIHJlY292ZXJ5IiwiLSDlrozlloTlhoXmoLjnrqHnkIbkuI7nvZHnu5zkv67lpI3lubbljYfnuqfoh7MgMi4wLjgiLCItIOS/ruWkjSBtYWNPUyDmm7TmlrDkuI7mnI3liqHnlJ/lkb3lkajmnJ8gLyByZXBhaXIgbWFjT1MgdXBkYXRlcyBhbmQgc2VydmljZSBsaWZlY3ljbGUiLCItIOS/ruWkjSBETlMg54q25oCB5LiO5pyN5Yqh5a6J6KOF6Lev5b6EIiwiLSDlvLrljJYgVFVOIOWwsee7quS4jiBQRCDlm57nqIsgLyBoYXJkZW4gVFVOIHJlYWRpbmVzcyBhbmQgUEQgcmV0dXJuIHBhdGhzIl0sIm1ham9yIjpbXSwiYWRkZWQiOltdLCJjaGFuZ2VkIjpbIi0gdGVzdChiYWNrZW5kKTog5Zyo5a6M5oiQ6YCa55+l5YmN6YeK5pS+6YOo572y6ZSBIC8gc2lnbmFsIGNvbXBsZXRpb24gYWZ0ZXIgcmVsZWFzaW5nIHRoZSBkZXBsb3ltZW50IGxvY2siLCItIHRlc3QoZnJvbnRlbmQpOiDpmpTnprvlm77moIfpobXpnaLliJ3lp4vljJYgLyBpc29sYXRlIGljb24gcGFnZSBoeWRyYXRpb24gZml4dHVyZXMiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOe7n+S4gOWFqOWxgOe9kee7nOiuvue9ruS4juWksei0peaBouWkjSAvIHN5bmNocm9uaXplIGdsb2JhbCBuZXR3b3JrIHNldHRpbmdzIGFuZCByZWNvdmVyeSIsIi0g5a6M5ZaE5YaF5qC4566h55CG5LiO572R57uc5L+u5aSN5bm25Y2H57qn6IezIDIuMC44IiwiLSDkv67lpI0gbWFjT1Mg5pu05paw5LiO5pyN5Yqh55Sf5ZG95ZGo5pyfIC8gcmVwYWlyIG1hY09TIHVwZGF0ZXMgYW5kIHNlcnZpY2UgbGlmZWN5Y2xlIiwiLSDkv67lpI0gRE5TIOeKtuaAgeS4juacjeWKoeWuieijhei3r+W+hCIsIi0g5by65YyWIFRVTiDlsLHnu6rkuI4gUEQg5Zue56iLIC8gaGFyZGVuIFRVTiByZWFkaW5lc3MgYW5kIFBEIHJldHVybiBwYXRocyIsIi0g5oGi5aSN5aSH5Lu95pe25bqU55SoIFRVTiDlhbzlrrnkv67lpI0iLCItIOS/ruWkjSBUVU4g6Lev55Sx5Yay56qB5LiOIExBTiBJUHY2IOWbnueoiyIsIi0g6KGl6b2QRE5TIFRDUOerr+WPo+aYoOWwhCAvIHB1Ymxpc2ggVENQIHBvcnRzIGZvciBETlMgZmFsbGJhY2siLCItIOmBv+WFjeWQr+WKqOimhuebluiHquWumuS5ieS4iua4uCAvIHByZXNlcnZlIGN1c3RvbSBETlMgdXBzdHJlYW1zIGR1cmluZyBzdGFydHVwIHJlY292ZXJ5IiwiLSDkv53nlZnov57nu63ljYfnuqfnmoToh6rlrprkuYnliIbmtYHop4TliJkgLyBwcmVzZXJ2ZSBjdXN0b20gcnVsZXMgYWNyb3NzIGNvbnNlY3V0aXZlIHVwZ3JhZGVzIiwiLSDlkIzmraUgQXBwbGUg6LWE5rqQ55m95ZCN5Y2VIC8gc3luYyBBcHBsZSBhc3NldCB3aGl0ZWxpc3QgZm9yIHVwZ3JhZGVzIiwiLSB0ZXN0KGZyb250ZW5kKTog5L+u5aSNIE5vZGUgMjYg5Zu+5qCH5rWL6K+V5YW85a655oCnIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMTAtMTNUMDI6MTg6NDdaIOS5i+WQjueahCAxNCDkuKrmj5DkuqTkuK3mlbTnkIbvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDlrozlloQgRmFrZUlQIOaOpeWPo+agoemqjOS4jiBVbmlGaSDor4rmlq0gLyBDb21wbGV0ZSBGYWtlSVAgaW50ZXJmYWNlIHZhbGlkYXRpb24gYW5kIFVuaUZpIGRpYWdub3N0aWNzIiwiLSDkv67lpI3moYzpnaLlkK/liqjml7boh6rliqjlkIzmraUgTVNNIOacjeWKoSAvIFN5bmMgYnVuZGxlZCBNU00gc2VydmljZSBvbiBkZXNrdG9wIHN0YXJ0dXAiLCItIOS/ruWkjSBiZXRhIOacjeWKoeeJiOacrOino+aekOS4juahjOmdouabtOaWsOi2heaXtiIsIi0g5L+u5aSNIEZha2VJUCDph43lkK/lm57mlL7lubblrozlloQgVW5pRmkg5paH5qGjIC8gUmVwbGF5IEZha2VJUCBvbiByZXN0YXJ0IGFuZCBkb2N1bWVudCBVbmlGaSBzZXR1cCIsIi0g5L+u5aSN5aSH5Lu956m66Ze06ZSZ6K+v5pys5Zyw5YyWIC8gTG9jYWxpemUgYmFja3VwIGNhcGFjaXR5IGZhaWx1cmVzIiwiLSDkv67lpI0gRmFrZUlQL1VuaUZpIOe9kee7nOS4gOiHtOaAp+S4juiviuaWrSJdLCJtYWpvciI6W10sImFkZGVkIjpbXSwiY2hhbmdlZCI6WyItIOWujOWWhCBGYWtlSVAg5o6l5Y+j5qCh6aqM5LiOIFVuaUZpIOiviuaWrSAvIENvbXBsZXRlIEZha2VJUCBpbnRlcmZhY2UgdmFsaWRhdGlvbiBhbmQgVW5pRmkgZGlhZ25vc3RpY3MiLCItIOS/ruato+m7mOiupCBJUHY2IEZha2VJUCDlubblrozlloQgVW5pRmkg5paH5qGjIC8gVXNlIGNvbXBsaWFudCBkZWZhdWx0IElQdjYgRmFrZUlQIGFuZCB1cGRhdGUgVW5pRmkgZG9jcyJdLCJwZXJmb3JtYW5jZSI6W10sImZpeGVkIjpbIi0g5L+u5aSN5qGM6Z2i5ZCv5Yqo5pe26Ieq5Yqo5ZCM5q2lIE1TTSDmnI3liqEgLyBTeW5jIGJ1bmRsZWQgTVNNIHNlcnZpY2Ugb24gZGVza3RvcCBzdGFydHVwIiwiLSDkv67lpI0gYmV0YSDmnI3liqHniYjmnKzop6PmnpDkuI7moYzpnaLmm7TmlrDotoXml7YiLCItIOS/ruWkjSBGYWtlSVAg6YeN5ZCv5Zue5pS+5bm25a6M5ZaEIFVuaUZpIOaWh+ahoyAvIFJlcGxheSBGYWtlSVAgb24gcmVzdGFydCBhbmQgZG9jdW1lbnQgVW5pRmkgc2V0dXAiLCItIOS/ruWkjeWkh+S7veepuumXtOmUmeivr+acrOWcsOWMliAvIExvY2FsaXplIGJhY2t1cCBjYXBhY2l0eSBmYWlsdXJlcyIsIi0g5L+u5aSNIEZha2VJUC9VbmlGaSDnvZHnu5zkuIDoh7TmgKfkuI7or4rmlq0iLCItIOWujOaIkOaXoOetvuWQjSBtYWNPUyDlnKjnur/mm7TmlrDpk77ot68gLyBjb21wbGV0ZSB1bnNpZ25lZCBtYWNPUyBkZXNrdG9wIHVwZGF0ZXMiXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSDku44gMjAyNi0xMC0xOFQyMjo0NjowN1og5LmL5ZCO55qEIDEwIOS4quaPkOS6pOS4reaVtOeQhu+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiLCItIOinhOWImeaRmOimgeacqumHh+eUqOWPr+iDvemHjeaUvuWOhuWPsueahOWQiOW5tuaPkOS6pOivtOaYju+8m+i/memDqOWIhuWPmOWMlumcgOimgee7k+WQiOS4pOS4quWPkeW4g+eJiOacrOeahOWHgOW3ruW8guaguOWvuSJdfX0= -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>test(backend): 在完成通知前释放部署锁 / signal completion after releasing the deployment lock</p>
+    <p>完善 FakeIP 接口校验与 UniFi 诊断 / Complete FakeIP interface validation and UniFi diagnostics</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>统一全局网络设置与失败恢复 / synchronize global network settings and recovery</p>
+    <p>修复桌面启动时自动同步 MSM 服务 / Sync bundled MSM service on desktop startup</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>完善内核管理与网络修复并升级至 2.0.8</p>
+    <p>修复 beta 服务版本解析与桌面更新超时</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>修复 macOS 更新与服务生命周期 / repair macOS updates and service lifecycle</p>
+    <p>修复 FakeIP 重启回放并完善 UniFi 文档 / Replay FakeIP on restart and document UniFi setup</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>修复 DNS 状态与服务安装路径</p>
+    <p>修复备份空间错误本地化 / Localize backup capacity failures</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">06</span>
-    <p>强化 TUN 就绪与 PD 回程 / harden TUN readiness and PD return paths</p>
+    <p>修复 FakeIP/UniFi 网络一致性与诊断</p>
   </li>
 </ol>
 
@@ -62,22 +62,75 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
   <a href="#release-changed">✨ 功能增强 <span>2</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>12</span></a>
-  <a href="#release-notes">📌 升级提醒 <span>1</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>6</span></a>
+  <a href="#release-notes">📌 升级提醒 <span>2</span></a>
 </nav>
 
 <section class="msm-release-section msm-release-section--changed">
 
 ### ✨ 功能增强 {#release-changed}
 
-- test(backend): 在完成通知前释放部署锁 / signal completion after releasing the deployment lock
-- test(frontend): 隔离图标页面初始化 / isolate icon page hydration fixtures
+- 完善 FakeIP 接口校验与 UniFi 诊断 / Complete FakeIP interface validation and UniFi diagnostics
+- 修正默认 IPv6 FakeIP 并完善 UniFi 文档 / Use compliant default IPv6 FakeIP and update UniFi docs
 
 </section>
 
 <section class="msm-release-section msm-release-section--fixed">
 
 ### 🐛 问题修复 {#release-fixed}
+
+- 修复桌面启动时自动同步 MSM 服务 / Sync bundled MSM service on desktop startup
+- 修复 beta 服务版本解析与桌面更新超时
+- 修复 FakeIP 重启回放并完善 UniFi 文档 / Replay FakeIP on restart and document UniFi setup
+- 修复备份空间错误本地化 / Localize backup capacity failures
+- 修复 FakeIP/UniFi 网络一致性与诊断
+- 完成无签名 macOS 在线更新链路 / complete unsigned macOS desktop updates
+
+</section>
+
+<section class="msm-release-section msm-release-section--notes">
+
+### 📌 升级提醒 {#release-notes}
+
+- 从 2026-10-18T22:46:07Z 之后的 10 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 规则摘要未采用可能重放历史的合并提交说明；这部分变化需要结合两个发布版本的净差异核对
+
+</section>
+
+::: details 📋 构建信息
+- **发布通道**：beta（Beta 版）
+- **源提交**： [`61271c9`](https://github.com/msm9527/msm/commit/61271c94d215866d07ca365bccb1ebf01a838003)
+- **提交信息**：修复桌面启动时自动同步 MSM 服务 / Sync bundled MSM service on desktop startup
+- **提交作者**：msm
+- **提交时间**：2026-10-21 10:05:47 CST
+- **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
+:::
+
+---
+
+## 📚 历史 Beta 版本
+
+> 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.0.8 · 2026-10-18 22:59 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.0.8" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- test(backend): 在完成通知前释放部署锁 / signal completion after releasing the deployment lock
+- 统一全局网络设置与失败恢复 / synchronize global network settings and recovery
+- 完善内核管理与网络修复并升级至 2.0.8
+- 修复 macOS 更新与服务生命周期 / repair macOS updates and service lifecycle
+- 修复 DNS 状态与服务安装路径
+- 强化 TUN 就绪与 PD 回程 / harden TUN readiness and PD return paths
+
+**✨ 功能增强**
+
+- test(backend): 在完成通知前释放部署锁 / signal completion after releasing the deployment lock
+- test(frontend): 隔离图标页面初始化 / isolate icon page hydration fixtures
+
+**🐛 问题修复**
 
 - 统一全局网络设置与失败恢复 / synchronize global network settings and recovery
 - 完善内核管理与网络修复并升级至 2.0.8
@@ -92,30 +145,11 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 - 同步 Apple 资源白名单 / sync Apple asset whitelist for upgrades
 - test(frontend): 修复 Node 26 图标测试兼容性
 
-</section>
-
-<section class="msm-release-section msm-release-section--notes">
-
-### 📌 升级提醒 {#release-notes}
+**📌 升级提醒**
 
 - 从 2026-10-13T02:18:47Z 之后的 14 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
-</section>
-
-::: details 📋 构建信息
-- **发布通道**：beta（Beta 版）
-- **源提交**： [`3e9daf0`](https://github.com/msm9527/msm/commit/3e9daf08602faa748c0e10d8c459cc95ae46fbbf)
-- **提交信息**：test(backend): 在完成通知前释放部署锁 / signal completion after releasing the deployment lock
-- **提交作者**：root
-- **提交时间**：2026-10-18 22:59:15 CST
-- **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
-
----
-
-## 📚 历史 Beta 版本
-
-> 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
 
 ::: details beta-2.0.7 · 2026-10-13 09:40 · Beta 版
 
