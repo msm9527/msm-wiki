@@ -23,7 +23,7 @@ concurrency:
 
 env:
   TZ: Asia/Shanghai
-  GO_VERSION: "1.26.6"
+  GO_VERSION: "1.27.3"
   REMOTE_VERSION_RETENTION: "3"
 
 jobs:
