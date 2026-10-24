@@ -12,67 +12,49 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.1.2" data-release-date="2026-10-24 13:25:44 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.2">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.1.3" data-release-date="2026-10-24 18:20:23 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.3">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.1.2</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.1.3</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.2" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.3" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>4 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>4 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-24 13:25:44 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>2 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>2 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-24 18:20:23 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDkv67mraPnvZHnu5zmtYvor5XlpLnlhbfmoLzlvI8iLCItIOS/ruWkjeWkmue9keWNoeaguOW/g+WIh+aNouW5tuWNh+e6p+eJiOacrCIsIi0g5L+u5aSNIENsYXNoIOiuoumYheWIh+aNouW0qea6gyIsIi0g5L+u5aSN6YWN572u5pWw5o2u5bqT5ZCM5q2l5LiO5ZCv5Yqo6KaG55uW6Zeu6aKYIl0sIm1ham9yIjpbXSwiYWRkZWQiOltdLCJjaGFuZ2VkIjpbIi0g5L+u5q2j572R57uc5rWL6K+V5aS55YW35qC85byPIl0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSDkv67lpI3lpJrnvZHljaHmoLjlv4PliIfmjaLlubbljYfnuqfniYjmnKwiLCItIOS/ruWkjSBDbGFzaCDorqLpmIXliIfmjaLltKnmuoMiLCItIOS/ruWkjemFjee9ruaVsOaNruW6k+WQjOatpeS4juWQr+WKqOimhueblumXrumimCJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS7jiAyMDI2LTEwLTIyVDIzOjM4OjQ0WiDkuYvlkI7nmoQgNCDkuKrmj5DkuqTkuK3mlbTnkIbvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDkv67lpI0gQ2xhc2gg54q25oCB5q276ZSB5LiO54Ot6YeN6L295ZON5bqUIiwiLSDkv67lpI0gQ2xhc2gg6K6i6ZiF5YiH5o2i5pyN5Yqh5Lit5patIl0sIm1ham9yIjpbXSwiYWRkZWQiOltdLCJjaGFuZ2VkIjpbXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOS/ruWkjSBDbGFzaCDnirbmgIHmrbvplIHkuI7ng63ph43ovb3lk43lupQiLCItIOS/ruWkjSBDbGFzaCDorqLpmIXliIfmjaLmnI3liqHkuK3mlq0iXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSDku44gMjAyNi0xMC0yNFQwNjoyODoxNVog5LmL5ZCO55qEIDMg5Liq5o+Q5Lqk5Lit5pW055CG77yb5b2T5YmN5L2/55So5o+Q5Lqk5qCH6aKY5LiO5q2j5paH6KaB54K555Sf5oiQ6KeE5YiZ5pGY6KaB77yM5pyq57uP6L+HIEFJIOivreS5ieW9kue6s+aIlui/kOihjOmqjOivgSJdfX0= -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>修正网络测试夹具格式</p>
+    <p>修复 Clash 状态死锁与热重载响应</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>修复多网卡核心切换并升级版本</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>修复 Clash 订阅切换崩溃</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>修复配置数据库同步与启动覆盖问题</p>
+    <p>修复 Clash 订阅切换服务中断</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-changed">✨ 功能增强 <span>1</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>3</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>2</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
-
-<section class="msm-release-section msm-release-section--changed">
-
-### ✨ 功能增强 {#release-changed}
-
-- 修正网络测试夹具格式
-
-</section>
 
 <section class="msm-release-section msm-release-section--fixed">
 
 ### 🐛 问题修复 {#release-fixed}
 
-- 修复多网卡核心切换并升级版本
-- 修复 Clash 订阅切换崩溃
-- 修复配置数据库同步与启动覆盖问题
+- 修复 Clash 状态死锁与热重载响应
+- 修复 Clash 订阅切换服务中断
 
 </section>
 
@@ -80,16 +62,16 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-10-22T23:38:44Z 之后的 4 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 从 2026-10-24T06:28:15Z 之后的 3 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`ea71079`](https://github.com/msm9527/msm/commit/ea71079453869ab72038498f54b2c3b7d0139b91)
-- **提交信息**：修正网络测试夹具格式 / Fix network test fixture formatting
+- **源提交**： [`8478a1c`](https://github.com/msm9527/msm/commit/8478a1c536f9238c3007ef7c3ca107b1be4e022a)
+- **提交信息**：升级版本至 2.1.3 / Bump version to 2.1.3
 - **提交作者**：root
-- **提交时间**：2026-10-24 13:25:44 CST
+- **提交时间**：2026-10-24 18:20:23 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -98,6 +80,33 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.1.2 · 2026-10-24 13:25 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.2" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 修正网络测试夹具格式
+- 修复多网卡核心切换并升级版本
+- 修复 Clash 订阅切换崩溃
+- 修复配置数据库同步与启动覆盖问题
+
+**✨ 功能增强**
+
+- 修正网络测试夹具格式
+
+**🐛 问题修复**
+
+- 修复多网卡核心切换并升级版本
+- 修复 Clash 订阅切换崩溃
+- 修复配置数据库同步与启动覆盖问题
+
+**📌 升级提醒**
+
+- 从 2026-10-22T23:38:44Z 之后的 4 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+:::
 
 ::: details beta-2.1.1 · 2026-10-22 16:54 · Beta 版
 
