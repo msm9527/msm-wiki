@@ -12,19 +12,19 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 
 ## 🚀 最新稳定版本
 
-<div class="msm-release-hero msm-release-hero--stable" data-version="2.1.3" data-release-date="2026-10-24 18:31:42 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/2.1.3">
+<div class="msm-release-hero msm-release-hero--stable" data-version="2.1.5" data-release-date="2026-10-25 03:11:26 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/2.1.5">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>稳定版</span> <code>v2.1.3</code></h3>
+    <h3 class="msm-release-version"><span>稳定版</span> <code>v2.1.5</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/2.1.3" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/2.1.5" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/install.html">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
   <div class="msm-release-metric"><span>更新</span><strong>0 项</strong></div>
   <div class="msm-release-metric"><span>亮点</span><strong>0 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-24 18:31:42 CST</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-25 03:11:26 CST</strong></div>
 </div>
 
 <!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOltdLCJtYWpvciI6W10sImFkZGVkIjpbXSwiY2hhbmdlZCI6W10sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOltdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS4pOS4quWPkeW4g+eJiOacrOS5i+mXtOWtmOWcqOWHgOWPmOWMlu+8jOS9huWPkeW4g+e6v+aPkOS6pOivtOaYjuS4jei2s+S7peWPr+mdoOW9kue6s++8m+ivt+aguOWvueWujOaVtOeJiOacrOW3ruW8gu+8jOacquWwhumHjeaWsOWQiOW5tueahOaXp+WIhuaUr+WKn+iDveinhuS4uuacrOasoeaWsOWiniIsIi0g6KeE5YiZ5pGY6KaB5pyq6YeH55So5Y+v6IO96YeN5pS+5Y6G5Y+y55qE5ZCI5bm25o+Q5Lqk6K+05piO77yb6L+Z6YOo5YiG5Y+Y5YyW6ZyA6KaB57uT5ZCI5Lik5Liq5Y+R5biD54mI5pys55qE5YeA5beu5byC5qC45a+5Il19fQ== -->
@@ -46,10 +46,10 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 
 ::: details 📋 构建信息
 - **发布通道**：stable（稳定版）
-- **源提交**： [`9ed21e7`](https://github.com/msm9527/msm/commit/9ed21e7b33b21cf23087946ee33fd62d667fcedd)
-- **提交信息**：Merge pull request #100 from msm9527/dev
+- **源提交**： [`3d140fc`](https://github.com/msm9527/msm/commit/3d140fcf55ef094015b5ddcaea9e0fe9c1fe77f0)
+- **提交信息**：Merge pull request #101 from msm9527/dev
 - **提交作者**：msm
-- **提交时间**：2026-10-24 18:31:42 CST
+- **提交时间**：2026-10-25 03:11:26 CST
 - **下载说明**：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 :::
 
@@ -58,6 +58,17 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 ## 📚 历史版本
 
 > 下面仅列出最近几个版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details 2.1.3 · 2026-10-24 18:31 · 稳定版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/2.1.3" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**📌 升级提醒**
+
+- 两个发布版本之间存在净变化，但发布线提交说明不足以可靠归纳；请核对完整版本差异，未将重新合并的旧分支功能视为本次新增
+- 规则摘要未采用可能重放历史的合并提交说明；这部分变化需要结合两个发布版本的净差异核对
+
+:::
 
 ::: details 2.1.1 · 2026-10-22 16:41 · 稳定版
 
