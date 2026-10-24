@@ -1,18 +1,19 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
+const { DEFAULT_AI_BASE_URL, DEFAULT_AI_MODEL } = require('./ai-release-summary.cjs');
 
 const SHA_PATTERN = /^[0-9a-f]{40}$/iu;
 const MODEL_PATTERN = /^[a-z0-9][a-z0-9._/-]{0,159}$/iu;
 const SOURCES = new Set(['previous-source-commit', 'release-time-window', 'fallback-recent-commits']);
 const FAILURE_LABELS = {
-  'missing-api-key': '未配置 MODELSCOPE_API_KEY',
+  'missing-api-key': '未配置 AI_API_KEY（旧配置使用 MODELSCOPE_API_KEY）',
   'quota-exhausted': '模型余额或配额不足',
   'rate-limited': '模型请求受到限流',
   'unsupported-model': '候选模型暂无可用提供商',
   'authentication-failed': '模型凭据无效或无访问权限',
-  'network-error': 'ModelScope 接口网络连接失败',
-  'provider-unavailable': 'ModelScope 推理服务暂时不可用',
+  'network-error': 'AI 接口网络连接失败',
+  'provider-unavailable': 'AI 推理服务暂时不可用',
   'timeout': '模型请求超时',
   'request-failed': '模型请求失败',
   'invalid-output': '模型输出未通过公开摘要检查',
@@ -202,7 +203,9 @@ function formatJobSummary(result) {
 
 /**
  * Shared Actions runner. Inputs are read from env (never interpolated into JS):
- * MODELSCOPE_API_KEY, MODELSCOPE_MODELS (optional comma-separated override),
+ * AI_API_KEY (or OPENAI_API_KEY / AI_BEARER_TOKEN), AI_BASE_URL,
+ * AI_WIRE_API, AI_MODEL and AI_REQUIRES_OPENAI_AUTH,
+ * MODELSCOPE_API_KEY/MODELSCOPE_MODELS remain accepted for legacy callers,
  * RELEASE_CURRENT_REF, RELEASE_PREVIOUS_COMMIT, RELEASE_CHANNEL,
  * RELEASE_LOG_SINCE_EPOCH, RELEASE_LOG_UNTIL_EPOCH, RELEASE_PREVIOUS_PUBLISHED_AT,
  * RELEASE_REQUIRE_EXACT_RANGE (preview: reject an invalid/missing ancestor),
@@ -285,15 +288,31 @@ async function generateReleaseSummary({
   let status = commits.length ? (summaryMode === 'rules' ? 'rules' : 'fallback') : 'no-changes';
   let fallbackReason = '';
   let modelCatalog;
+  // AI_* is the generic OpenAI-compatible provider configuration. Keep the
+  // ModelScope names as a backwards-compatible fallback for existing callers.
+  const genericAI = Boolean(env.AI_BASE_URL || env.OPENAI_BASE_URL || env.AI_API_KEY || env.OPENAI_API_KEY
+    || env.AI_MODEL || env.OPENAI_MODEL || env.AI_WIRE_API || env.OPENAI_WIRE_API || env.AI_REQUIRES_OPENAI_AUTH);
+  const aiBaseUrl = genericAI
+    ? String(env.AI_BASE_URL || env.OPENAI_BASE_URL || DEFAULT_AI_BASE_URL).trim()
+    : '';
+  const aiWireApi = String(env.AI_WIRE_API || env.OPENAI_WIRE_API || (genericAI ? 'responses' : 'chat_completions')).trim();
+  const aiApiKey = String(env.AI_API_KEY || env.AI_BEARER_TOKEN || env.OPENAI_API_KEY || env.MODELSCOPE_API_KEY || '').trim();
+  const requiresOpenAiAuth = String(env.AI_REQUIRES_OPENAI_AUTH || 'true').toLowerCase() !== 'false';
+  const configuredModelText = genericAI
+    ? String(env.AI_MODEL || env.OPENAI_MODEL || '').trim()
+    : String(env.MODELSCOPE_MODELS || '').trim();
+  const requestSummary = genericAI && typeof summaryModule.requestAiSummary === 'function'
+    ? summaryModule.requestAiSummary
+    : summaryModule.requestModelScopeSummary;
   // Reviewed briefs constrain the model's facts; they never replace inference.
-  if (summaryMode === 'ai' && commits.length && !String(env.MODELSCOPE_API_KEY || '').trim()) {
+  if (summaryMode === 'ai' && commits.length && !aiApiKey) {
     fallbackReason = 'missing-api-key';
   } else if (summaryMode === 'ai' && commits.length) {
     try {
-      const configuredModels = String(env.MODELSCOPE_MODELS || '').split(',').map(value => value.trim()).filter(Boolean);
+      const configuredModels = configuredModelText.split(',').map(value => value.trim()).filter(Boolean);
       if (configuredModels.some(value => !safeModelName(value))) throw new Error('Invalid model configuration');
       let selectedModelCandidates = configuredModels.length ? configuredModels : undefined;
-      if (typeof summaryModule.fetchModelScopeModels === 'function'
+      if (!genericAI && typeof summaryModule.fetchModelScopeModels === 'function'
           && typeof summaryModule.resolveAvailableModelCandidates === 'function') {
         try {
           const availableModels = await summaryModule.fetchModelScopeModels({
@@ -324,10 +343,36 @@ async function generateReleaseSummary({
           // The catalog is a preflight optimization. Keep the configured/static
           // candidates so a catalog outage cannot block a healthy inference API.
         }
+      } else if (genericAI && !selectedModelCandidates?.length && typeof summaryModule.fetchAIModels === 'function') {
+        try {
+          const availableModels = await summaryModule.fetchAIModels({
+            baseUrl: aiBaseUrl,
+            apiKey: aiApiKey,
+            requiresOpenAiAuth,
+            fetchImpl,
+          });
+          const preferred = availableModels.includes(DEFAULT_AI_MODEL)
+            ? DEFAULT_AI_MODEL
+            : availableModels.find(model => safeModelName(model));
+          if (preferred) selectedModelCandidates = [preferred];
+          modelCatalog = {
+            status: 'available',
+            modelCount: availableModels.length,
+            candidateCount: selectedModelCandidates?.length || 0,
+            skippedCount: 0,
+            discoveredCount: selectedModelCandidates?.length ? 1 : 0,
+          };
+        } catch (error) {
+          modelCatalog = { status: 'unavailable', reasonCode: failureCode(error) };
+          // Discovery is a convenience; continue with the provider default
+          // when the catalog is private or unavailable.
+        }
       }
       let reportedModel = '';
-      const result = await summaryModule.requestModelScopeSummary({
-        apiKey: env.MODELSCOPE_API_KEY,
+      const result = await requestSummary({
+        apiKey: aiApiKey,
+        ...(aiBaseUrl ? { baseUrl: aiBaseUrl, wireApi: aiWireApi } : {}),
+        requiresOpenAiAuth,
         prompt: summaryModule.buildSummaryPrompt(commits),
         requiredTopics: context.releaseBaseline?.editorialBrief?.requiredTopics || [],
         forbiddenClaims: context.releaseBaseline?.editorialBrief?.forbiddenClaims || [],
@@ -392,8 +437,10 @@ async function generateReleaseSummary({
     try {
       const reviewPrompt = summaryModule.buildReviewPrompt(commits, summary);
       reviewRequested = true;
-      const reviewed = await summaryModule.requestModelScopeSummary({
-        apiKey: env.MODELSCOPE_API_KEY,
+      const reviewed = await requestSummary({
+        apiKey: aiApiKey,
+        ...(aiBaseUrl ? { baseUrl: aiBaseUrl, wireApi: aiWireApi } : {}),
+        requiresOpenAiAuth,
         prompt: reviewPrompt,
         requiredTopics: context.releaseBaseline?.editorialBrief?.requiredTopics || [],
         forbiddenClaims: context.releaseBaseline?.editorialBrief?.forbiddenClaims || [],

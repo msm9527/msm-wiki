@@ -6,7 +6,7 @@
 
 ### 1. AI 智能总结 ✨
 
-工作流会自动收集上一版源提交到当前提交之间的完整变更，使用 ModelScope Qwen3 生成结构化版本发布总结；AI 不可用时由本地规则生成同样的多分类摘要。
+工作流会自动收集上一版源提交到当前提交之间的完整变更，使用兼容 OpenAI Responses API 的 AI 网关生成结构化版本发布总结；AI 不可用时由本地规则生成同样的多分类摘要。
 
 **特点：**
 - 优先分析上一版源提交到当前提交的完整范围
@@ -14,10 +14,10 @@
 - 输出“本次亮点 / 新增 / 变更 / 修复 / 备注”分类
 - 每次发布保留多模块功能，不只取第一条提交
 - 自动合并相似的提交
-- 每次运行只读取一次 ModelScope 模型目录，并由初稿与审稿复用选择结果
-- 默认候选会过滤掉目录中不存在的模型，并可受控补入兼容的 Qwen3.x 文本模型
-- 显式 `MODELSCOPE_MODELS` 只过滤、不补位；目录有效但无交集时不发送 Chat 请求
-- 目录请求失败时回退静态候选链，避免目录服务异常阻断可用的 Chat 接口
+- `AI_WIRE_API=responses` 使用 Responses API 的 `instructions`、`input` 和 `max_output_tokens` 字段
+- 可用 `AI_MODEL` 固定模型；留空时尝试从网关的模型目录选择候选
+- `AI_BASE_URL` 只保存服务地址，`AI_API_KEY` 只保存 Bearer token，`AI_REQUIRES_OPENAI_AUTH` 控制是否发送 Authorization
+- 目录请求失败时继续尝试服务默认模型，避免目录服务异常阻断可用的推理接口
 - 所有模型失败时使用本地规则兜底，不丢失功能项
 
 **示例输出：**
@@ -77,31 +77,32 @@
 
 ## 配置步骤
 
-### 1. 配置 ModelScope API Key
+### 1. 配置 AI 网关
 
-AI 总结功能使用 `MODELSCOPE_API_KEY`。可选 Repository Variable `MODELSCOPE_MODELS` 用逗号分隔模型 ID，并决定显式候选顺序。
+AI 总结功能使用一个兼容 OpenAI Responses API 的网关。将密钥放在 Secret，将地址和协议放在 Variables。
 
 **步骤：**
 
-1. 获取 API Key：
-   - 访问 [ModelScope 魔塔社区](https://www.modelscope.cn/)
-   - 登录后进入 Access Token 管理
-   - 创建并复制 Access Token
+1. 准备网关配置：
+   - `AI_BASE_URL`：例如 `https://aiiii.ddsrem.in:998`；如果网关只提供 `/v1/responses`，填写带 `/v1` 的地址
+   - `AI_WIRE_API`：填写 `responses`
+   - `AI_MODEL`：网关支持的模型 ID；不确定时可先留空（工作流默认尝试 `gpt-6.1-sol`）
+   - `AI_REQUIRES_OPENAI_AUTH`：填写 `true`
 
 2. 添加到 GitHub Secrets：
    - 进入仓库 Settings → Secrets and variables → Actions
    - 点击 "New repository secret"
-   - Name: `MODELSCOPE_API_KEY`
-   - Value: 粘贴你的 API Key
+   - Name: `AI_API_KEY`
+   - Value: 粘贴网关的 Bearer token
    - 点击 "Add secret"
 
+3. 非敏感配置推荐在同一页面的 `Variables` 中新建 `AI_BASE_URL`、`AI_WIRE_API`、`AI_MODEL`、`AI_REQUIRES_OPENAI_AUTH`。如果已经误放在 `Secrets` 也能工作，工作流会优先读取 Secret；这些值不要包含 token 以外的额外内容。
+
 **注意：**
-- 如果不配置 API Key，工作流会使用本地规则摘要（不会失败）
-- API Key 需要有余额或可用额度；`429 insufficient balance` 会触发模型降级
-- 每次生成只请求一次模型目录。留空 `MODELSCOPE_MODELS` 时，默认候选可在目录过滤后受控补入兼容的 Qwen3.x 文本模型；显式配置时只取交集，不会补入未配置模型
-- 目录请求失败时继续使用静态候选；目录请求成功但候选无交集时不会发送 Chat 请求，而是直接使用规则摘要
-- 模型列在目录中不代表当前账户有余额、额度、访问权限或可用提供方，最终以 Chat 请求结果为准
-- 建议使用项目专用的 API Key
+- 如果不配置 `AI_API_KEY`，工作流会使用本地规则摘要（不会失败）
+- 网关返回 401/403/429 或输出格式不符合发布日志要求时会自动降级规则摘要
+- `AI_BASE_URL` 必须能被 GitHub Actions runner 访问；本地回环地址不能用于云端工作流
+- 建议使用项目专用、可轮换的 token
 
 ### 2. 验证工作流权限
 
@@ -137,8 +138,8 @@ AI 总结功能使用 `MODELSCOPE_API_KEY`。可选 Repository Variable `MODELSC
 │  准备构建信息    │
 │  - 读取版本号    │
 │  - 获取提交记录  │
-│  - 发现可用模型  │ ← 每次运行一次
-│  - AI 生成总结   │ ← 使用 ModelScope Qwen3
+│  - 发现可用模型  │ ← 按网关配置
+│  - AI 生成总结   │ ← 使用 OpenAI Responses 兼容网关
 └────────┬────────┘
          │
          ▼
@@ -172,18 +173,18 @@ AI 总结功能使用 `MODELSCOPE_API_KEY`。可选 Repository Variable `MODELSC
 **症状：** Release 页面显示默认总结而不是 AI 生成的总结
 
 **可能原因：**
-1. 未配置 `MODELSCOPE_API_KEY`
-2. API Key 无效或过期
-3. 显式候选与当前模型目录没有交集
+1. 未配置 `AI_API_KEY`
+2. token 无效或过期
+3. `AI_BASE_URL`、`AI_WIRE_API` 或 `AI_MODEL` 配置错误
 4. API 额度不足、模型没有可用提供方或当前账户无访问权限
-5. 模型目录或 Chat 接口网络连接问题
+5. 网关或 Responses 接口网络连接问题
 
 **解决方法：**
-1. 检查 `MODELSCOPE_API_KEY` Secret 是否正确配置
-2. 查看工作流日志中的模型目录状态、候选数量和固定错误码
-3. 如果设置了 `MODELSCOPE_MODELS`，确认至少一个显式模型仍在当前目录中；显式配置不会自动补位
-4. 目录状态为不可用时，工作流会回退静态候选继续请求 Chat；目录状态正常但无交集时不会发送 Chat 请求
-5. 如果目录中存在模型但 Chat 仍失败，检查账户额度、权限、限流和提供方状态
+1. 检查 `AI_API_KEY` Secret、`AI_BASE_URL` 和 `AI_WIRE_API` Variables 是否正确
+2. 查看工作流日志中的模型状态、候选数量和固定错误码
+3. 确认 `AI_MODEL` 是网关支持的模型；不确定时先留空让网关目录选择，或把工作流默认的 `gpt-6.1-sol` 改成服务支持的模型
+4. 如果网关路径为 `/v1/responses`，确认 `AI_BASE_URL` 已包含 `/v1`
+5. 检查账户额度、权限、限流和提供方状态
 6. 如果全部模型不可用，确认页面是否已经生成“本次亮点”等本地兜底分类
 
 ### Wiki 更新失败
@@ -218,11 +219,11 @@ AI 总结功能使用 `MODELSCOPE_API_KEY`。可选 Repository Variable `MODELSC
 
 ## 自定义配置
 
-### 配置模型候选
+### 配置模型
 
-在仓库 `Settings` → `Secrets and variables` → `Actions` → `Variables` 中设置 `MODELSCOPE_MODELS`，值为按优先级排列的逗号分隔模型 ID。显式列表是严格边界：运行时只保留目录中存在的配置项，不会从目录补入其他模型。留空该变量则使用核心维护的默认候选，并允许在默认候选不足时受控补入兼容的 Qwen3.x 文本模型。
+在仓库 `Settings` → `Secrets and variables` → `Actions` → `Variables` 中设置 `AI_MODEL`。当前实现以一个模型 ID 作为首选；留空时由网关模型目录选择，工作流未发现可用目录时使用 `gpt-6.1-sol`。
 
-一次发布日志生成只请求一次目录。初稿成功后，审稿继续使用同一次发现结果和成功模型，不重新发现目录，也不切换到另一条候选链。
+一次发布日志生成会复用初稿选中的模型进行审稿，不把 token 或服务端原始错误写入任务摘要。
 
 ### 修改 AI 提示词
 
@@ -252,22 +253,20 @@ ${commits.map(c => `- ${c.subject} (${c.author}, ${c.date})`).join('\n')}
 
 ## 成本估算
 
-### ModelScope 配额与成本
+### AI 网关配额与成本
 
-工作流使用 Qwen3 模型；模型目录成员资格只表示服务当前声明该模型，实际可用性仍取决于 ModelScope 账号余额、免费额度、访问权限和提供方状态：
+工作流使用 `AI_MODEL` 指定的模型；模型目录成员资格只表示服务当前声明该模型，实际可用性仍取决于网关账户余额、额度、访问权限和提供方状态。成本和限流策略由网关服务提供方决定：
 
 - 输入：约 500 tokens（提交记录）
 - 输出：约 200 tokens（总结）
 - 每次构建成本：约 $0.003 USD
 
-**每月成本估算：**
-- 每日构建：30 次/月 × $0.003 = $0.09 USD/月
-- 非常经济实惠
+**每月成本估算：** 请以网关服务商的用量页面为准。
 
 ## 最佳实践
 
 1. **定期检查 API 额度**
-   - 监控 ModelScope 账户额度和模型状态
+   - 监控 AI 网关账户额度和模型状态
    - 设置低额度告警
 
 2. **优化提交信息**
@@ -285,7 +284,7 @@ ${commits.map(c => `- ${c.subject} (${c.author}, ${c.date})`).join('\n')}
 
 ## 相关链接
 
-- [ModelScope API 文档](https://www.modelscope.cn/docs/model-service/API-Inference/intro)
+- [OpenAI Responses API 文档](https://platform.openai.com/docs/api-reference/responses)
 - [GitHub Actions 文档](https://docs.github.com/en/actions)
 - [MSM 项目文档](https://doc.msmbox.net/)
 

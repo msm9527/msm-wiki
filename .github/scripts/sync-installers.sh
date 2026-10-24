@@ -76,7 +76,9 @@ expected="$3"
 trap 'rm -f -- "$staged"' EXIT
 actual="$(sha256sum -- "$staged")"
 [[ "${actual%% *}" = "$expected" ]] || { echo 'error: installer SHA256 mismatch' >&2; exit 1; }
-chmod 0755 -- "$staged"
+# BSD chmod (used by the macOS regression runner) treats `--` as a path;
+# staged is constructed from the validated target and cannot begin with `-`.
+chmod 0755 "$staged"
 mv -f -- "$staged" "$target/install.sh"
 REMOTE
   echo "Synced ${channel}: $(basename -- "$source") -> ${channel}/install.sh (SHA256 verified)"

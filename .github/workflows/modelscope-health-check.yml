@@ -1,10 +1,10 @@
-name: ModelScope 真实 AI 健康检查
+name: AI 真实健康检查
 
 on:
   workflow_dispatch:
     inputs:
-      models:
-        description: '可选：本次检查的模型 ID，逗号分隔，不修改正式发布配置'
+      model:
+        description: '可选：本次检查使用的模型 ID，不修改正式发布配置'
         required: false
         default: ''
         type: string
@@ -30,6 +30,9 @@ jobs:
 
       - name: 真实 AI 推理与安全诊断
         env:
-          MODELSCOPE_API_KEY: ${{ secrets.MODELSCOPE_API_KEY }}
-          MODELSCOPE_MODELS: ${{ inputs.models || vars.MODELSCOPE_MODELS || '' }}
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_BASE_URL: ${{ secrets.AI_BASE_URL || vars.AI_BASE_URL || '' }}
+          AI_WIRE_API: ${{ secrets.AI_WIRE_API || vars.AI_WIRE_API || 'responses' }}
+          AI_MODEL: ${{ inputs.model || secrets.AI_MODEL || vars.AI_MODEL || '' }}
+          AI_REQUIRES_OPENAI_AUTH: ${{ secrets.AI_REQUIRES_OPENAI_AUTH || vars.AI_REQUIRES_OPENAI_AUTH || 'true' }}
         run: node test-modelscope-api.js

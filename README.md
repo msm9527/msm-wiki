@@ -162,12 +162,11 @@ msm-wiki/
 本项目包含智能化的每日构建工作流，具有以下特性：
 
 ### AI 智能总结
-- 使用 ModelScope Qwen3.5 强模型自动分析提交、正文、文件和 diff
+- 使用兼容 OpenAI Responses API 的 AI 网关自动分析提交、正文、文件和 diff
 - 生成“本次亮点 / 新增 / 变更 / 修复 / 备注”结构化版本总结
-- 每次运行只读取一次 ModelScope 模型目录，初稿和审稿复用同一选择结果
-- 默认候选会按当前目录过滤，并可受控补入兼容的 Qwen3.x 文本模型；显式 `MODELSCOPE_MODELS` 只过滤、不补位
-- 目录不可用时回退静态候选；目录有效但候选无交集时不发送 Chat 请求
-- 模型出现在目录中不代表当前账户有额度、权限或可用提供方，实际调用仍会按候选顺序降级
+- 通过 `AI_BASE_URL`、`AI_WIRE_API`、`AI_MODEL` 和 `AI_REQUIRES_OPENAI_AUTH` 配置服务
+- `AI_API_KEY` 只从 GitHub Actions Secret 读取，不写入代码、日志或发布产物
+- `responses` 协议使用 `output_text` 解析模型结果，网关不可用时回退本地规则摘要
 - AI 全部失败时由本地规则生成完整多分类摘要，不丢失功能项
 
 ### Release UI 优化
@@ -187,7 +186,7 @@ msm-wiki/
 - 无上一版源提交时降级到最近 100 条提交
 
 详细配置和使用说明请查看：
-- [ModelScope API 配置指南](.github/docs/MODELSCOPE_API_GUIDE.md) - 模型、配额和降级策略
+- [AI 网关配置指南](.github/docs/MODELSCOPE_API_GUIDE.md) - Responses API、密钥和降级策略（文件名保留以兼容旧链接）
 - [Release 工作流优化指南](.github/docs/RELEASE_WORKFLOW_GUIDE.md)
 - [AI 技术实现详解](.github/docs/AI_SUMMARY_TECHNICAL_GUIDE.md)
 

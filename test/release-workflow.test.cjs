@@ -159,13 +159,18 @@ test('all Pages workflows run Wiki regression tests before building', () => {
   }
 })
 
-test('stable and Beta releases explicitly use rule summaries without model credentials or an AI gate', () => {
+test('stable and Beta releases use the configured AI gateway without leaking credentials', () => {
   for (const workflow of workflows) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
-    const summaryStep = source.slice(source.indexOf('      - name: 生成提交规则版本总结'), source.indexOf('\n  build:\n'))
+    const summaryStep = source.slice(source.indexOf('      - name: 生成 AI 版本总结'), source.indexOf('\n  build:\n'))
 
-    assert.match(summaryStep, /RELEASE_SUMMARY_MODE: 'rules'/)
-    assert.doesNotMatch(summaryStep, /MODELSCOPE_API_KEY|MODELSCOPE_MODELS|RELEASE_REQUIRE_AI/)
+    assert.match(summaryStep, /RELEASE_SUMMARY_MODE: 'ai'/)
+    assert.match(summaryStep, /AI_API_KEY: \$\{\{ secrets\.AI_API_KEY \}\}/)
+    assert.match(summaryStep, /AI_BASE_URL: \$\{\{ secrets\.AI_BASE_URL \|\| vars\.AI_BASE_URL \|\| 'https:\/\/aiiii\.ddsrem\.in:998' \}\}/)
+    assert.match(summaryStep, /AI_WIRE_API: \$\{\{ secrets\.AI_WIRE_API \|\| vars\.AI_WIRE_API \|\| 'responses' \}\}/)
+    assert.match(summaryStep, /AI_MODEL: \$\{\{ secrets\.AI_MODEL \|\| vars\.AI_MODEL \|\| '[^']+' \}\}/)
+    assert.match(summaryStep, /AI_REQUIRES_OPENAI_AUTH: \$\{\{ secrets\.AI_REQUIRES_OPENAI_AUTH \|\| vars\.AI_REQUIRES_OPENAI_AUTH \|\| 'true' \}\}/)
+    assert.doesNotMatch(summaryStep, /MODELSCOPE_API_KEY|MODELSCOPE_MODELS/)
     assert.match(summaryStep, /require\('\.\/msm-wiki\/scripts\/generate-release-summary\.cjs'\)/)
     assert.match(summaryStep, /await generateReleaseSummary\(\{ core \}\)/)
     assert.match(summaryStep, /RELEASE_CURRENT_REF: \$\{\{ steps\.meta\.outputs\.commit_sha \}\}/)
@@ -175,11 +180,14 @@ test('stable and Beta releases explicitly use rule summaries without model crede
   }
 })
 
-test('ModelScope health check exercises real inference without publishing or exposing provider errors', () => {
+test('AI health check exercises real inference without publishing or exposing provider errors', () => {
   const source = fs.readFileSync(path.join(root, '.github/workflows/modelscope-health-check.yml'), 'utf8')
   assert.match(source, /workflow_dispatch:/)
   assert.match(source, /permissions:\n\s+contents: read/)
-  assert.match(source, /MODELSCOPE_API_KEY: \$\{\{ secrets\.MODELSCOPE_API_KEY \}\}/)
+  assert.match(source, /AI_API_KEY: \$\{\{ secrets\.AI_API_KEY \}\}/)
+  assert.match(source, /AI_BASE_URL: \$\{\{ secrets\.AI_BASE_URL \|\| vars\.AI_BASE_URL \|\| '' \}\}/)
+  assert.match(source, /AI_WIRE_API: \$\{\{ secrets\.AI_WIRE_API \|\| vars\.AI_WIRE_API \|\| 'responses' \}\}/)
+  assert.match(source, /AI_REQUIRES_OPENAI_AUTH: \$\{\{ secrets\.AI_REQUIRES_OPENAI_AUTH \|\| vars\.AI_REQUIRES_OPENAI_AUTH \|\| 'true' \}\}/)
   assert.match(source, /run: node test-modelscope-api\.js/)
   assert.doesNotMatch(source, /contents: write|gh release|git push|schedule:/)
   const script = fs.readFileSync(path.join(root, 'test-modelscope-api.js'), 'utf8')
@@ -213,7 +221,10 @@ test('summary preview validates inputs and uses the same runner without publishi
   assert.match(source, /ref: \$\{\{ steps\.inputs\.outputs\.source_ref \}\}/)
   assert.match(source, /token: \$\{\{ secrets\.MSM_REPO_TOKEN \}\}/)
   assert.match(source, /fetch-depth: 0\n\s+persist-credentials: false/)
-  assert.match(source, /MODELSCOPE_MODELS: \$\{\{ vars\.MODELSCOPE_MODELS \|\| '' \}\}/)
+  assert.match(source, /AI_API_KEY: \$\{\{ secrets\.AI_API_KEY \}\}/)
+  assert.match(source, /AI_BASE_URL: \$\{\{ secrets\.AI_BASE_URL \|\| vars\.AI_BASE_URL \|\| '' \}\}/)
+  assert.match(source, /AI_WIRE_API: \$\{\{ secrets\.AI_WIRE_API \|\| vars\.AI_WIRE_API \|\| 'responses' \}\}/)
+  assert.match(source, /AI_REQUIRES_OPENAI_AUTH: \$\{\{ secrets\.AI_REQUIRES_OPENAI_AUTH \|\| vars\.AI_REQUIRES_OPENAI_AUTH \|\| 'true' \}\}/)
   assert.match(source, /RELEASE_REQUIRE_EXACT_RANGE: 'true'/)
   assert.match(source, /RELEASE_REQUIRE_AI: 'true'/)
   assert.match(source, /await generateReleaseSummary\(\{[\s\S]*?cwd: path\.resolve\('msm-source'\)/)

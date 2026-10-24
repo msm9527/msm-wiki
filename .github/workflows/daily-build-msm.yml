@@ -229,12 +229,17 @@ jobs:
           echo "最新提交: ${COMMIT_MESSAGE}"
           echo "提交数量: ${COMMIT_COUNT}"
 
-      - name: 生成提交规则版本总结
+      - name: 生成 AI 版本总结
         if: steps.meta.outputs.skip != 'true'
         id: ai_summary
         uses: actions/github-script@v7
         env:
-          RELEASE_SUMMARY_MODE: 'rules'
+          RELEASE_SUMMARY_MODE: 'ai'
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_BASE_URL: ${{ secrets.AI_BASE_URL || vars.AI_BASE_URL || 'https://aiiii.ddsrem.in:998' }}
+          AI_WIRE_API: ${{ secrets.AI_WIRE_API || vars.AI_WIRE_API || 'responses' }}
+          AI_MODEL: ${{ secrets.AI_MODEL || vars.AI_MODEL || 'gpt-6.1-sol' }}
+          AI_REQUIRES_OPENAI_AUTH: ${{ secrets.AI_REQUIRES_OPENAI_AUTH || vars.AI_REQUIRES_OPENAI_AUTH || 'true' }}
           RELEASE_CURRENT_REF: ${{ steps.meta.outputs.commit_sha }}
           RELEASE_PREVIOUS_COMMIT: ${{ steps.meta.outputs.previous_version_commit }}
           RELEASE_PREVIOUS_PUBLISHED_AT: ${{ steps.meta.outputs.previous_release_published_at }}

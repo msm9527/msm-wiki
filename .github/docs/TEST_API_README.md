@@ -1,4 +1,6 @@
-# ModelScope API 测试脚本使用说明
+# AI 网关测试脚本使用说明
+
+脚本文件名 `test-modelscope-api.js` 为历史路径，为避免旧工作流和链接失效暂时保留；实际调用使用通用 `AI_*` 配置，不再依赖 ModelScope。
 
 ## 安全说明
 
@@ -11,11 +13,14 @@
 ### 方法 1: 在当前终端安全读取
 
 ```bash
-read -s -p "ModelScope API Key: " MODELSCOPE_API_KEY
+read -s -p "AI Bearer token: " AI_API_KEY
 echo
-export MODELSCOPE_API_KEY
+export AI_API_KEY
+export AI_BASE_URL="https://aiiii.ddsrem.in:998"
+export AI_WIRE_API=responses
+export AI_REQUIRES_OPENAI_AUTH=true
 node test-modelscope-api.js
-unset MODELSCOPE_API_KEY
+unset AI_API_KEY AI_BASE_URL AI_WIRE_API AI_REQUIRES_OPENAI_AUTH
 ```
 
 输入内容不会显示在终端，也不会作为命令参数写入 shell 历史。
@@ -26,41 +31,38 @@ unset MODELSCOPE_API_KEY
 node test-modelscope-api.js
 ```
 
-## 获取 API Key
+## 准备 AI 网关配置
 
-1. 访问 [ModelScope 魔塔社区](https://www.modelscope.cn/)
-2. 登录后进入个人中心
-3. 进入 [Access Token 管理](https://www.modelscope.cn/my/myaccesstoken)
-4. 创建新的 Token
-5. 复制 Token，并只保存到受保护的 Secret 或当前终端环境变量中
+1. 准备一个兼容 OpenAI Responses API 的服务地址
+2. 将地址写入 `AI_BASE_URL`，协议写入 `AI_WIRE_API=responses`
+3. 将服务支持的模型 ID 写入 `AI_MODEL`（不确定时可留空）
+4. 将 Bearer token 写入 `AI_API_KEY`，只保存到受保护的 Secret 或当前终端环境变量中
 
 ## 测试输出
 
 成功运行后，你会看到：
 
 ```
-开始测试 ModelScope API；提交样本: 5
-模型目录: 35；候选: 3；跳过: 0；动态补充: 0
-尝试使用模型: Qwen/Qwen3.5-397B-A17B
-API 调用成功；模型: Qwen/Qwen3.5-397B-A17B
+开始测试 AI 网关；提交样本: 5
+尝试使用模型: <configured-model>
+API 调用成功；模型: <configured-model>
 生成的发布摘要:
 ### ...
 Token: 输入=...；输出=...；总计=...
 ```
 
-该脚本复用正式发布日志的目录发现、候选过滤、提示词、输出校验和模型降级逻辑，用于验证凭据、网络和当前可用模型。可以临时设置 `MODELSCOPE_MODELS` 检查显式候选；不设置时使用默认候选与受控动态补位。
+该脚本复用正式发布日志的提示词、输出校验和降级逻辑，用于验证凭据、网络和当前模型。可以临时设置 `AI_MODEL` 指定模型；不设置时由网关目录或默认模型决定。
 
 正式发布日志工作流采用以下语义：
 
-- 每次运行只请求一次 `/v1/models`，初稿和审稿复用选择结果。
-- 默认候选与目录取交集后不足时，可受控补入兼容的 Qwen3.x 文本模型。
-- 显式 `MODELSCOPE_MODELS` 只过滤配置项，不补入其他模型。
-- 目录请求失败时回退静态候选链；目录成功但无交集时不发送 Chat 请求。
-- 模型出现在目录中不代表当前账户有额度、权限或可用提供方。
+- `AI_WIRE_API=responses` 请求 `${AI_BASE_URL}/responses`（裸地址会自动补 `/v1`），返回内容从 `output_text` 或 `output[].content[].text` 提取。
+- `AI_MODEL` 非空时固定使用该模型；留空时尝试从网关模型目录选择候选。
+- `AI_REQUIRES_OPENAI_AUTH=true` 时通过 `Authorization: Bearer` 发送 `AI_API_KEY`。
+- 网关请求失败或输出不合格时使用本地规则摘要。
 
 ## 故障排查
 
-### 错误: 未设置 MODELSCOPE_API_KEY 环境变量
+### 错误: 未设置 AI_API_KEY 环境变量
 
 **原因**: 没有提供 API Key
 
@@ -71,9 +73,9 @@ Token: 输入=...；输出=...；总计=...
 **原因**: API Key 无效或过期
 
 **解决**:
-1. 检查 API Key 是否正确
-2. 重新生成 API Key
-3. 确认 API Key 已正确设置
+1. 检查 `AI_API_KEY` 是否正确
+2. 重新生成网关 token
+3. 确认 `AI_BASE_URL`、`AI_WIRE_API` 和 `AI_MODEL` 已正确设置
 
 ### 错误: fetch failed
 
@@ -81,7 +83,7 @@ Token: 输入=...；输出=...；总计=...
 
 **解决**:
 1. 检查网络连接
-2. 确认可以访问 api-inference.modelscope.cn
+2. 确认 GitHub runner 或当前终端可以访问 `AI_BASE_URL`
 3. 稍后重试
 
 ## 安全最佳实践
@@ -94,5 +96,5 @@ Token: 输入=...；输出=...；总计=...
 
 ## 相关文档
 
-- [ModelScope API 配置指南](MODELSCOPE_API_GUIDE.md)
+- [AI 网关配置指南](MODELSCOPE_API_GUIDE.md)
 - [Release 工作流优化指南](RELEASE_WORKFLOW_GUIDE.md)

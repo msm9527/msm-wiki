@@ -5,6 +5,10 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const {
   buildSummaryPrompt,
+  buildAIEndpoint,
+  DEFAULT_AI_MODEL,
+  DEFAULT_AI_BASE_URL,
+  fetchAIModels,
   fetchModelScopeModels,
   MODELSCOPE_CHAT_COMPLETIONS_URL,
   requestModelScopeSummary,
@@ -13,11 +17,15 @@ const {
 const { publicModelAttempts } = require('./scripts/generate-release-summary.cjs');
 const { providerFailureReason } = require('./scripts/modelscope-diagnostics.cjs');
 
-const apiKey = String(process.env.MODELSCOPE_API_KEY || '').trim();
+const generic = Boolean(process.env.AI_BASE_URL || process.env.OPENAI_BASE_URL || process.env.AI_API_KEY || process.env.OPENAI_API_KEY
+  || process.env.AI_MODEL || process.env.AI_WIRE_API || process.env.AI_REQUIRES_OPENAI_AUTH);
+const apiKey = String(process.env.AI_API_KEY || process.env.OPENAI_API_KEY || process.env.MODELSCOPE_API_KEY || '').trim();
+const baseUrl = String(process.env.AI_BASE_URL || process.env.OPENAI_BASE_URL || (generic ? DEFAULT_AI_BASE_URL : '')).trim();
+const wireApi = String(process.env.AI_WIRE_API || process.env.OPENAI_WIRE_API || (baseUrl ? 'responses' : 'chat_completions')).trim();
 
 if (!apiKey) {
-  console.error('错误: 未设置 MODELSCOPE_API_KEY 环境变量');
-  console.error('用法: MODELSCOPE_API_KEY=your-api-key node test-modelscope-api.js');
+  console.error('错误: 未设置 AI_API_KEY 环境变量');
+  console.error('用法: AI_API_KEY=your-api-key AI_BASE_URL=https://... node test-modelscope-api.js');
   process.exit(1);
 }
 
@@ -30,12 +38,25 @@ const testCommits = [
 ];
 
 function configuredModels() {
-  const values = String(process.env.MODELSCOPE_MODELS || '').split(',').map(value => value.trim()).filter(Boolean);
+  const values = String(process.env.AI_MODEL || process.env.OPENAI_MODEL || process.env.MODELSCOPE_MODELS || '')
+    .split(',').map(value => value.trim()).filter(Boolean);
   return values.length ? values : undefined;
 }
 
 async function selectModels() {
   const configured = configuredModels();
+  if (generic) {
+    if (configured) return configured;
+    try {
+      const availableModels = await fetchAIModels({ baseUrl, apiKey, requiresOpenAiAuth: true });
+      const selected = availableModels.includes(DEFAULT_AI_MODEL) ? DEFAULT_AI_MODEL : availableModels[0];
+      console.log(`AI 模型目录: ${availableModels.length}；选择: ${selected || '默认模型'}`);
+      return selected ? [selected] : [DEFAULT_AI_MODEL];
+    } catch {
+      console.warn('AI 模型目录暂时不可用，将使用内置默认模型。');
+      return [DEFAULT_AI_MODEL];
+    }
+  }
   try {
     const availableModels = await fetchModelScopeModels();
     const selection = resolveAvailableModelCandidates({
@@ -54,20 +75,25 @@ async function selectModels() {
 }
 
 async function testModelScopeAPI() {
-  console.log(`开始测试 ModelScope API；提交样本: ${testCommits.length}`);
+  console.log(`开始测试 AI 网关 API；提交样本: ${testCommits.length}`);
   const modelCandidates = await selectModels();
   // A dummy token should produce 401. A 403 here means the request may have
   // been blocked before account authentication; never send the real secret.
-  const control = await fetch(MODELSCOPE_CHAT_COMPLETIONS_URL, {
+  const controlUrl = generic ? buildAIEndpoint(baseUrl, wireApi) : MODELSCOPE_CHAT_COMPLETIONS_URL;
+  const controlBody = generic && wireApi.toLowerCase().replace(/[ -]/gu, '_') === 'responses'
+    ? { model: modelCandidates?.[0], input: 'Reply OK.', max_output_tokens: 32, store: false }
+    : { model: modelCandidates?.[0], messages: [{ role: 'user', content: 'Reply OK.' }], max_tokens: 32, enable_thinking: false };
+  const control = await fetch(controlUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: 'Bearer invalid-diagnostic-token' },
-    body: JSON.stringify({ model: modelCandidates?.[0], messages: [{ role: 'user', content: 'Reply OK.' }], max_tokens: 32, enable_thinking: false }),
+    body: JSON.stringify(controlBody),
     signal: AbortSignal.timeout(15000),
   });
   console.log(`无效 Token 对照: HTTP=${control.status}；预期=401`);
   await control.body?.cancel();
   const result = await requestModelScopeSummary({
     apiKey,
+    ...(baseUrl ? { baseUrl, wireApi } : {}),
     prompt: buildSummaryPrompt(testCommits),
     async fetchImpl(url, options) {
       const response = await fetch(url, options);
@@ -101,8 +127,8 @@ testModelScopeAPI().catch(error => {
   const attempts = publicModelAttempts(error?.attempts, process.env);
   attempts.forEach((attempt, index) => console.error(JSON.stringify({
     ...attempt,
-    providerReason: providerFailureReason(error.attempts[index]?.error),
+    providerReason: providerFailureReason(error?.attempts?.[index]?.error),
   })));
-  console.error('真实 AI 调用失败，请根据上述原因码检查模型配置和 MODELSCOPE_API_KEY Secret。');
+  console.error('真实 AI 调用失败，请根据上述原因码检查 AI_API_KEY、AI_BASE_URL、AI_WIRE_API 和 AI_MODEL 配置。');
   process.exitCode = 1;
 });
