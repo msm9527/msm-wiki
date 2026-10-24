@@ -12,74 +12,112 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.1.1" data-release-date="2026-10-22 16:54:32 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.1">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.1.2" data-release-date="2026-10-24 13:25:44 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.2">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.1.1</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.1.2</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.1" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.2" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>17 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-22 16:54:32 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>4 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>4 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-24 13:25:44 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDmlrDlop7nu4Tku7bljbjovb3og73lipsiLCItIOWNh+e6pyBHbyDoh7MgMS4yNy4zIOS/ruWkjeS4remXtOivgeS5puS/oeS7u+a8j+a0niAvIFVwZ3JhZGUgR28gdG8gMS4yNy4zIGZvciBDVkUtMjAyNi0xMTE5NDMiLCItIOS/ruato+acquWuieijhee7hOS7tuWuieijheaTjeS9nOaWh+ahiCIsIi0g5L+u5aSNIG1hY09TIOacrOWcsOaehOW7uuS4jui3r+W+hOWFvOWuuSIsIi0g5paw5aKe5omY566h57uE5Lu25LiL6L296IO95YqbIiwiLSDkv67lpI3mnKrlronoo4Xnu4Tku7bnirbmgIHmmL7npLoiXSwibWFqb3IiOltdLCJhZGRlZCI6WyItIOaWsOWinue7hOS7tuWNuOi9veiDveWKmyIsIi0g5paw5aKe5omY566h57uE5Lu25LiL6L296IO95YqbIl0sImNoYW5nZWQiOlsiLSDkv67mraPmnKrlronoo4Xnu4Tku7blronoo4Xmk43kvZzmlofmoYgiLCItIOWujOWWhCBtYWNPUyBXaXJlR3VhcmQg5ZCO56uv5qCh6aqMIC8gVmFsaWRhdGUgbWFjT1MgV2lyZUd1YXJkIGJhY2tlbmQgaW5zdGFsbHMiLCItIOenu+mZpOe7hOS7tueLrOeri+S4i+i9veWKn+iDvSIsIi0g5a6M5ZaE572R57uc57uE5Lu25Y246L295rWB56iLIC8gQ29tcGxldGUgbmV0d29ya2luZyBjb21wb25lbnQgdW5pbnN0YWxsIGZsb3ciLCItIOaUtue0p+e7hOS7tuS4i+i9veWkp+Wwj+mZkOWItuW5tuWujOWWhOaWh+ahoyAvIEhhcmRlbiBjb21wb25lbnQgZG93bmxvYWQgbGltaXRzIGFuZCBkb2NzIiwiLSDmuIXnkIbliY3nq6/mlofku7bmnKvlsL7nqbrnmb0gLyBDbGVhbiBmcm9udGVuZCB0cmFpbGluZyB3aGl0ZXNwYWNlIl0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSDkv67lpI0gbWFjT1Mg5pys5Zyw5p6E5bu65LiO6Lev5b6E5YW85a65IiwiLSDkv67lpI3mnKrlronoo4Xnu4Tku7bnirbmgIHmmL7npLoiLCItIOS/ruWkjSBtYWNPUyBUYWlsc2NhbGUg5omY566h5pu05pawIiwiLSDkv67lpI0gbWFjdmxhbiDlnLDlnYDlm57mlL7kuI7moaXmjqXnvZHljaHnrZvpgIkiLCItIOS/ruWkjSBXaXJlR3VhcmQg5L+u5aSN6L+b5bqm5LiO5peg5YyF566h55CG5Zmo5aSE55CGIiwiLSDkv67lpI0gbWFjT1MgV2lyZUd1YXJkIOaMiemcgOWuieijheS+nei1liAvIEluc3RhbGwgb25seSBtaXNzaW5nIG1hY09TIFdpcmVHdWFyZCBwYWNrYWdlcyIsIi0g5L+u5aSNIG1hY09TIFdpcmVHdWFyZCDkvp3otZbkv67lpI0iXSwic2VjdXJpdHkiOlsiLSDljYfnuqcgR28g6IezIDEuMjcuMyDkv67lpI3kuK3pl7Tor4Hkuabkv6Hku7vmvI/mtJ4gLyBVcGdyYWRlIEdvIHRvIDEuMjcuMyBmb3IgQ1ZFLTIwMjYtMTExOTQzIiwiLSDkv67lpI0gR28g5Lit6Ze06K+B5Lmm5L+h5Lu75ryP5rSeIC8gVXBncmFkZSBHbyBmb3IgQ1ZFLTIwMjYtMTExOTQzIl0sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS7jiAyMDI2LTEwLTIxVDA3OjMyOjI1WiDkuYvlkI7nmoQgMTgg5Liq5o+Q5Lqk5Lit5pW055CG77yb5b2T5YmN5L2/55So5o+Q5Lqk5qCH6aKY5LiO5q2j5paH6KaB54K555Sf5oiQ6KeE5YiZ5pGY6KaB77yM5pyq57uP6L+HIEFJIOivreS5ieW9kue6s+aIlui/kOihjOmqjOivgSJdfX0= -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDkv67mraPnvZHnu5zmtYvor5XlpLnlhbfmoLzlvI8iLCItIOS/ruWkjeWkmue9keWNoeaguOW/g+WIh+aNouW5tuWNh+e6p+eJiOacrCIsIi0g5L+u5aSNIENsYXNoIOiuoumYheWIh+aNouW0qea6gyIsIi0g5L+u5aSN6YWN572u5pWw5o2u5bqT5ZCM5q2l5LiO5ZCv5Yqo6KaG55uW6Zeu6aKYIl0sIm1ham9yIjpbXSwiYWRkZWQiOltdLCJjaGFuZ2VkIjpbIi0g5L+u5q2j572R57uc5rWL6K+V5aS55YW35qC85byPIl0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSDkv67lpI3lpJrnvZHljaHmoLjlv4PliIfmjaLlubbljYfnuqfniYjmnKwiLCItIOS/ruWkjSBDbGFzaCDorqLpmIXliIfmjaLltKnmuoMiLCItIOS/ruWkjemFjee9ruaVsOaNruW6k+WQjOatpeS4juWQr+WKqOimhueblumXrumimCJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS7jiAyMDI2LTEwLTIyVDIzOjM4OjQ0WiDkuYvlkI7nmoQgNCDkuKrmj5DkuqTkuK3mlbTnkIbvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>新增组件卸载能力</p>
+    <p>修正网络测试夹具格式</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>升级 Go 至 1.27.3 修复中间证书信任漏洞 / Upgrade Go to 1.27.3 for CVE-2026-111943</p>
+    <p>修复多网卡核心切换并升级版本</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>修正未安装组件安装操作文案</p>
+    <p>修复 Clash 订阅切换崩溃</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>修复 macOS 本地构建与路径兼容</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>新增托管组件下载能力</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">06</span>
-    <p>修复未安装组件状态显示</p>
+    <p>修复配置数据库同步与启动覆盖问题</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-added">🆕 新增功能 <span>2</span></a>
-  <a href="#release-changed">✨ 功能增强 <span>6</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>7</span></a>
-  <a href="#release-security">🛡️ 安全加固 <span>2</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>1</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>3</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
-
-<section class="msm-release-section msm-release-section--added">
-
-### 🆕 新增功能 {#release-added}
-
-- 新增组件卸载能力
-- 新增托管组件下载能力
-
-</section>
 
 <section class="msm-release-section msm-release-section--changed">
 
 ### ✨ 功能增强 {#release-changed}
+
+- 修正网络测试夹具格式
+
+</section>
+
+<section class="msm-release-section msm-release-section--fixed">
+
+### 🐛 问题修复 {#release-fixed}
+
+- 修复多网卡核心切换并升级版本
+- 修复 Clash 订阅切换崩溃
+- 修复配置数据库同步与启动覆盖问题
+
+</section>
+
+<section class="msm-release-section msm-release-section--notes">
+
+### 📌 升级提醒 {#release-notes}
+
+- 从 2026-10-22T23:38:44Z 之后的 4 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+</section>
+
+::: details 📋 构建信息
+- **发布通道**：beta（Beta 版）
+- **源提交**： [`ea71079`](https://github.com/msm9527/msm/commit/ea71079453869ab72038498f54b2c3b7d0139b91)
+- **提交信息**：修正网络测试夹具格式 / Fix network test fixture formatting
+- **提交作者**：root
+- **提交时间**：2026-10-24 13:25:44 CST
+- **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
+:::
+
+---
+
+## 📚 历史 Beta 版本
+
+> 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.1.1 · 2026-10-22 16:54 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.1" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 新增组件卸载能力
+- 升级 Go 至 1.27.3 修复中间证书信任漏洞 / Upgrade Go to 1.27.3 for CVE-2026-111943
+- 修正未安装组件安装操作文案
+- 修复 macOS 本地构建与路径兼容
+- 新增托管组件下载能力
+- 修复未安装组件状态显示
+
+**🆕 新增功能**
+
+- 新增组件卸载能力
+- 新增托管组件下载能力
+
+**✨ 功能增强**
 
 - 修正未安装组件安装操作文案
 - 完善 macOS WireGuard 后端校验 / Validate macOS WireGuard backend installs
@@ -88,11 +126,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 - 收紧组件下载大小限制并完善文档 / Harden component download limits and docs
 - 清理前端文件末尾空白 / Clean frontend trailing whitespace
 
-</section>
-
-<section class="msm-release-section msm-release-section--fixed">
-
-### 🐛 问题修复 {#release-fixed}
+**🐛 问题修复**
 
 - 修复 macOS 本地构建与路径兼容
 - 修复未安装组件状态显示
@@ -102,39 +136,16 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 - 修复 macOS WireGuard 按需安装依赖 / Install only missing macOS WireGuard packages
 - 修复 macOS WireGuard 依赖修复
 
-</section>
-
-<section class="msm-release-section msm-release-section--security">
-
-### 🛡️ 安全加固 {#release-security}
+**🛡️ 安全加固**
 
 - 升级 Go 至 1.27.3 修复中间证书信任漏洞 / Upgrade Go to 1.27.3 for CVE-2026-111943
 - 修复 Go 中间证书信任漏洞 / Upgrade Go for CVE-2026-111943
 
-</section>
-
-<section class="msm-release-section msm-release-section--notes">
-
-### 📌 升级提醒 {#release-notes}
+**📌 升级提醒**
 
 - 从 2026-10-21T07:32:25Z 之后的 18 个提交中整理；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
-</section>
-
-::: details 📋 构建信息
-- **发布通道**：beta（Beta 版）
-- **源提交**： [`dc602d5`](https://github.com/msm9527/msm/commit/dc602d55f2ba3fdd633df7687fd161ed114834f1)
-- **提交信息**：修复 macOS 本地构建与路径兼容 / Fix macOS local build and path compatibility
-- **提交作者**：msm
-- **提交时间**：2026-10-22 16:54:32 CST
-- **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
-
----
-
-## 📚 历史 Beta 版本
-
-> 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
 
 ::: details beta-2.1.0 · 2026-10-21 15:12 · Beta 版
 
