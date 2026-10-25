@@ -90,7 +90,7 @@ test('release workflows update tags through the GitHub API', () => {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
 
     assert.match(source, /name: 创建\/更新版本 tag[\s\S]*?GH_TOKEN: \$\{\{ secrets\.GITHUB_TOKEN \}\}/)
-    assert.match(source, /gh api --method PATCH "repos\/\$\{GITHUB_REPOSITORY\}\/git\/refs\/tags\/\$\{VERSION\}"[\s\S]*?-F force=true/)
+    assert.match(source, /if ! gh api --method PATCH "repos\/\$\{GITHUB_REPOSITORY\}\/git\/refs\/tags\/\$\{VERSION\}"[\s\S]*?-F force=true[\s\S]*?无法更新已有 \$\{VERSION\} tag[\s\S]*?继续更新 Release/)
     assert.match(source, /gh api --method POST "repos\/\$\{GITHUB_REPOSITORY\}\/git\/refs"[\s\S]*?-f ref="refs\/tags\/\$\{VERSION\}"/)
     assert.doesNotMatch(source, /git push (?:--force )?origin "refs\/tags\/\$\{VERSION\}"/)
   }

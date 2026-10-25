@@ -717,9 +717,13 @@ jobs:
           # 使用 GitHub Git Database API 更新 tag。GITHUB_TOKEN 具备 contents:write，
           # 但通过 git push 推送包含 workflow 文件的提交会额外要求 workflows 权限。
           if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${VERSION}" >/dev/null 2>&1; then
-            gh api --method PATCH "repos/${GITHUB_REPOSITORY}/git/refs/tags/${VERSION}" \
-              -f sha="${SHA}" \
-              -F force=true >/dev/null
+            # 已发布版本的 tag 可能受保护，GITHUB_TOKEN 无法强制改指向。
+            # 保留原 tag 仍可安全更新 Release 正文和附件；只有新 tag 才创建。
+            if ! gh api --method PATCH "repos/${GITHUB_REPOSITORY}/git/refs/tags/${VERSION}" \
+                -f sha="${SHA}" \
+                -F force=true >/dev/null; then
+              echo "::warning::无法更新已有 ${VERSION} tag，保留原指向并继续更新 Release"
+            fi
           else
             gh api --method POST "repos/${GITHUB_REPOSITORY}/git/refs" \
               -f ref="refs/tags/${VERSION}" \
