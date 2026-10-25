@@ -57,6 +57,7 @@ jobs:
       previous_version_commit: ${{ steps.meta.outputs.previous_version_commit }}
       commit_count: ${{ steps.meta.outputs.commit_count }}
       ai_summary: ${{ steps.ai_summary.outputs.summary }}
+      ai_summary_base64: ${{ steps.ai_summary.outputs.summary_base64 }}
       skip: ${{ steps.meta.outputs.skip }}
     steps:
       - name: Checkout MSM 仓库
@@ -693,7 +694,7 @@ jobs:
 
             ## ✨ 本次更新
 
-            ${{ needs.prepare.outputs.ai_summary }}
+            __MSM_AI_SUMMARY_PLACEHOLDER__
 
             ---
 
@@ -853,12 +854,37 @@ jobs:
             [![Docker](https://img.shields.io/badge/docker-msmbox%2Fmsm-blue?logo=docker)](https://hub.docker.com/r/msmbox/msm)
 
             </div>
+
           makeLatest: true
           prerelease: false
           allowUpdates: true
           replacesArtifacts: true
           artifactErrorsFailBuild: true
           artifacts: ${{ steps.release_assets.outputs.paths }}
+
+      - name: 写入完整发布说明
+        uses: actions/github-script@v7
+        env:
+          AI_SUMMARY_BASE64: ${{ needs.prepare.outputs.ai_summary_base64 }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const marker = '__MSM_AI_SUMMARY_PLACEHOLDER__';
+            const summary = Buffer.from(process.env.AI_SUMMARY_BASE64 || '', 'base64').toString('utf8').trim();
+            if (!summary) throw new Error('跨任务发布说明为空；未写入不完整 Release');
+            const release = await github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: '${{ needs.prepare.outputs.version }}',
+            });
+            const body = String(release.data.body || '');
+            if (!body.includes(marker)) throw new Error('Release 正文缺少 AI 摘要占位符');
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: release.data.id,
+              body: body.replace(marker, summary),
+            });
 
       - name: 校正 GitHub Release 发布状态
         uses: actions/github-script@v7
@@ -896,6 +922,8 @@ jobs:
 
       - name: 更新并提交 Wiki 版本发布页面
         uses: actions/github-script@v7
+        env:
+          AI_SUMMARY_BASE64: ${{ needs.prepare.outputs.ai_summary_base64 }}
         with:
           script: |
             const { publishReleasePage } = require('./wiki-publisher/scripts/publish-release-page.cjs');
@@ -908,7 +936,7 @@ jobs:
                 baseVersion: '${{ needs.prepare.outputs.base_version }}',
                 channel: '${{ needs.prepare.outputs.channel }}',
                 channelName: '${{ needs.prepare.outputs.channel_name }}',
-                aiSummary: ${{ toJSON(needs.prepare.outputs.ai_summary) }},
+                aiSummary: Buffer.from(process.env.AI_SUMMARY_BASE64 || '', 'base64').toString('utf8'),
                 commitSha: '${{ needs.prepare.outputs.commit_sha_short }}',
                 commitShaFull: '${{ needs.prepare.outputs.commit_sha }}',
                 commitMessage: ${{ toJSON(needs.prepare.outputs.commit_message) }},

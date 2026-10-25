@@ -177,6 +177,7 @@ test('runner leaves an empty model override undefined, reports model and only pu
   assert.equal(result.itemCount, 3);
   assert.equal(result.highlightCount, 1);
   assert.equal(core.outputs.summary, publicSummary);
+  assert.equal(Buffer.from(core.outputs.summary_base64, 'base64').toString('utf8'), publicSummary);
   assert.equal(core.outputs.status, 'ai');
   assert.match(core.jobSummary, /Strong\/Model/);
   assert.match(core.jobSummary, /公开发布日志/);

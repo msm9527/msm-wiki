@@ -173,6 +173,7 @@ test('stable and Beta releases use the configured AI gateway without leaking cre
     assert.doesNotMatch(summaryStep, /MODELSCOPE_API_KEY|MODELSCOPE_MODELS/)
     assert.match(summaryStep, /require\('\.\/msm-wiki\/scripts\/generate-release-summary\.cjs'\)/)
     assert.match(summaryStep, /await generateReleaseSummary\(\{ core \}\)/)
+    assert.match(source, /ai_summary_base64: \$\{\{ steps\.ai_summary\.outputs\.summary_base64 \}\}/)
     assert.match(summaryStep, /RELEASE_CURRENT_REF: \$\{\{ steps\.meta\.outputs\.commit_sha \}\}/)
     assert.match(summaryStep, /RELEASE_PREVIOUS_COMMIT: \$\{\{ steps\.meta\.outputs\.previous_version_commit \}\}/)
     assert.doesNotMatch(summaryStep, /Qwen\/|requestModelScopeSummary|buildFallbackSummary|console\.(?:log|error)/)

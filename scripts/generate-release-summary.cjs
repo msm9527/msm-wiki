@@ -518,6 +518,11 @@ async function generateReleaseSummary({
   };
   if (core) {
     core.setOutput('summary', result.summary);
+    // Job outputs containing AI text can be redacted by GitHub's secret
+    // detector when provider settings are stored as secrets. Keep the legacy
+    // plain output for callers, and expose an encoded transport value for
+    // cross-job Release/Wiki publication.
+    core.setOutput('summary_base64', Buffer.from(result.summary, 'utf8').toString('base64'));
     core.setOutput('status', result.status);
     core.setOutput('model', result.modelName);
     core.setOutput('commit_count', result.commitCount);
