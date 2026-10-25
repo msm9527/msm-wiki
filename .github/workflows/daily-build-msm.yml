@@ -131,6 +131,39 @@ jobs:
           RELEASES_API="https://api.github.com/repos/msm9527/msm-wiki/releases?per_page=100"
           RELEASES_JSON="$(curl -fsSL "${RELEASES_API}" 2>/dev/null || echo '[]')"
 
+          # A stable merge can have only one first-parent commit even when its
+          # second parent is the exact Beta source that was just reviewed. Keep
+          # that already-published, validated changelog as a narrowly-scoped
+          # fallback for the AI step. The SHA match prevents unrelated Beta
+          # notes from being copied into a stable release.
+          STABLE_FALLBACK_SUMMARY_FILE="${RUNNER_TEMP}/msm-stable-release-fallback.md"
+          rm -f "${STABLE_FALLBACK_SUMMARY_FILE}"
+          if [ "${CHANNEL}" = "stable" ] && command -v jq >/dev/null 2>&1; then
+            SECOND_PARENT="$(git rev-list --parents -n 1 HEAD | awk '{print $3}')"
+            if [ "${#SECOND_PARENT}" -eq 40 ]; then
+              BETA_BODY="$(printf '%s\n' "${RELEASES_JSON}" | jq -r --arg source_sha "${SECOND_PARENT}" '
+                [ .[]
+                  | select(.draft == false and .prerelease == true and .published_at != null
+                    and (.tag_name | startswith("beta-"))
+                    and ((.body // "") | contains($source_sha)))
+                ]
+                | sort_by(.published_at)
+                | last
+                | .body // empty
+              ' 2>/dev/null || true)"
+              if [ -n "${BETA_BODY}" ]; then
+                printf '%s\n' "${BETA_BODY}" | awk '
+                  /^## ✨ 本次更新[[:space:]]*$/ { capture=1; next }
+                  /^## 📋 构建信息[[:space:]]*$/ { capture=0 }
+                  capture { print }
+                ' > "${STABLE_FALLBACK_SUMMARY_FILE}"
+                if [ ! -s "${STABLE_FALLBACK_SUMMARY_FILE}" ]; then
+                  rm -f "${STABLE_FALLBACK_SUMMARY_FILE}"
+                fi
+              fi
+            fi
+          fi
+
           if command -v jq >/dev/null 2>&1; then
             if [ "${CHANNEL}" = "beta" ]; then
               PREVIOUS_RELEASE_JSON="$(echo "${RELEASES_JSON}" | jq -c --arg current_tag "${RELEASE_VERSION}" '[.[] | select(.draft == false and .prerelease == true and (.tag_name | startswith("beta-")) and .tag_name != $current_tag and .published_at != null)] | sort_by(.published_at) | last // {}' || echo '{}')"
@@ -231,6 +264,7 @@ jobs:
           AI_WIRE_API: ${{ secrets.AI_WIRE_API || vars.AI_WIRE_API || 'responses' }}
           AI_MODEL: ${{ secrets.AI_MODEL || vars.AI_MODEL || 'gpt-6.1-sol' }}
           AI_REQUIRES_OPENAI_AUTH: ${{ secrets.AI_REQUIRES_OPENAI_AUTH || vars.AI_REQUIRES_OPENAI_AUTH || 'true' }}
+          RELEASE_FALLBACK_SUMMARY_FILE: ${{ runner.temp }}/msm-stable-release-fallback.md
           RELEASE_CURRENT_REF: ${{ steps.meta.outputs.commit_sha }}
           RELEASE_PREVIOUS_COMMIT: ${{ steps.meta.outputs.previous_version_commit }}
           RELEASE_PREVIOUS_PUBLISHED_AT: ${{ steps.meta.outputs.previous_release_published_at }}

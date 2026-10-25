@@ -95,6 +95,35 @@ test('reviewed stable text is not substituted into a beta preview', async () => 
   assert.equal(result.summary, fallbackSummary);
 });
 
+test('stable AI failures can use a validated same-source Beta summary file', async () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'msm-stable-fallback-'));
+  const summaryPath = path.join(directory, 'beta-summary.md');
+  fs.writeFileSync(summaryPath, publicSummary);
+  try {
+    const result = await generateReleaseSummary({
+      env: {
+        AI_API_KEY: 'secret-key',
+        AI_BASE_URL: 'https://example.invalid',
+        AI_MODEL: 'gpt-6.1-sol',
+        RELEASE_CHANNEL: 'stable',
+        RELEASE_FALLBACK_SUMMARY_FILE: summaryPath,
+      },
+      summaryModule: makeModule({
+        async requestAiSummary() {
+          throw new Error('validation failed');
+        },
+        buildFallbackSummary() { assert.fail('validated Beta fallback should be selected'); },
+      }),
+    });
+    assert.equal(result.status, 'fallback');
+    assert.equal(result.fallbackSource, 'reviewed-beta');
+    assert.equal(result.summary, publicSummary);
+    assert.equal(result.itemCount, 3);
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true });
+  }
+});
+
 function makeCore() {
   const outputs = {};
   const logs = [];

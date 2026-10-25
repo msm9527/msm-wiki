@@ -181,9 +181,34 @@ function loadReleaseBrief(previousCommit, currentRef, git) {
   return brief;
 }
 
+function loadReleaseFallbackSummary(filePath, summaryModule) {
+  const filename = String(filePath || '').trim();
+  if (!filename || !fs.existsSync(filename)) return null;
+  try {
+    const stat = fs.statSync(filename);
+    if (!stat.isFile() || stat.size === 0 || stat.size > 80000) return null;
+    const raw = fs.readFileSync(filename, 'utf8');
+    const normalize = typeof summaryModule.normalizeModelSummary === 'function'
+      ? summaryModule.normalizeModelSummary
+      : value => String(value || '').trim();
+    const summary = normalize(raw);
+    const validation = typeof summaryModule.validateSummary === 'function'
+      ? summaryModule.validateSummary(summary)
+      : { valid: true };
+    return validation.valid && isPublicSummary(summary) ? summary : null;
+  } catch {
+    // A remote release body is untrusted input. Invalid or unreadable fallback
+    // material must never replace the local rules summary or expose diagnostics.
+    return null;
+  }
+}
+
 function formatJobSummary(result) {
   const state = { ai: '✅ AI 生成', rules: '✅ 提交规则摘要（非 AI）', fallback: '⚠️ 规则回退（非 AI）', 'no-changes': 'ℹ️ 无新增提交' }[result.status];
-  const reason = result.fallbackReason ? `\n> ${FAILURE_LABELS[result.fallbackReason]}；已保留规则摘要，请检查模型配置或账户额度。\n` : '';
+  const fallbackDescription = result.fallbackSource === 'reviewed-beta'
+    ? '已采用与稳定源提交精确匹配的 Beta 已发布摘要'
+    : '已保留规则摘要';
+  const reason = result.fallbackReason ? `\n> ${FAILURE_LABELS[result.fallbackReason]}；${fallbackDescription}，请检查模型配置或账户额度。\n` : '';
   const attempts = result.modelAttempts.length
     ? `\n### 模型尝试结果\n\n| 次序 | 模型 | 状态 | 原因码 | 阶段 |\n| --- | --- | --- | --- | --- |\n${result.modelAttempts.map((attempt, index) => `| ${index + 1} | ${attempt.model} | ${attempt.status} | ${attempt.reasonCode} | ${attempt.phase || 'draft'} |`).join('\n')}\n`
     : '';
@@ -287,6 +312,10 @@ async function generateReleaseSummary({
   let reportedAttempts = 0;
   let status = commits.length ? (summaryMode === 'rules' ? 'rules' : 'fallback') : 'no-changes';
   let fallbackReason = '';
+  const reviewedFallbackSummary = inputs.channel === 'stable'
+    ? loadReleaseFallbackSummary(env.RELEASE_FALLBACK_SUMMARY_FILE, summaryModule)
+    : null;
+  let fallbackSource = '';
   let modelCatalog;
   // AI_* is the generic OpenAI-compatible provider configuration. Keep the
   // ModelScope names as a backwards-compatible fallback for existing callers.
@@ -405,10 +434,15 @@ async function generateReleaseSummary({
     }
   }
   if (status !== 'ai') {
-    try {
-      summary = redactSecrets(summaryModule.buildFallbackSummary(commits, env.RELEASE_PREVIOUS_PUBLISHED_AT || ''), env);
-    } catch {
-      throw new Error('规则摘要生成失败，未输出任何私有上下文');
+    if (reviewedFallbackSummary) {
+      summary = redactSecrets(reviewedFallbackSummary, env);
+      fallbackSource = 'reviewed-beta';
+    } else {
+      try {
+        summary = redactSecrets(summaryModule.buildFallbackSummary(commits, env.RELEASE_PREVIOUS_PUBLISHED_AT || ''), env);
+      } catch {
+        throw new Error('规则摘要生成失败，未输出任何私有上下文');
+      }
     }
     if (!isPublicSummary(summary)) throw new Error('规则摘要包含非公开上下文，已停止输出');
   }
@@ -477,6 +511,7 @@ async function generateReleaseSummary({
     modelAttempts,
     ...(review ? { review } : {}),
     ...(modelCatalog ? { modelCatalog } : {}),
+    ...(fallbackSource ? { fallbackSource } : {}),
     fallbackReason,
     source: SOURCES.has(context.source) ? context.source : 'unknown',
     coverage: publicCoverage(context),
@@ -496,7 +531,10 @@ async function generateReleaseSummary({
     }
     if (review?.status === 'failed') core.warning(`二次审稿未完成（${review.reasonCode}）；保留已通过检查的 AI 初稿，请人工核对覆盖度。`);
     if (fallbackReason) {
-      core.warning(`${FAILURE_LABELS[fallbackReason]}；已使用规则回退（非 AI）。上下文提交 ${result.commitCount} 个，日志 ${result.itemCount} 条。`);
+      const fallbackMessage = fallbackSource === 'reviewed-beta'
+        ? '已采用与稳定源提交精确匹配的 Beta 已发布摘要作为安全回退'
+        : '已使用规则回退（非 AI）';
+      core.warning(`${FAILURE_LABELS[fallbackReason]}；${fallbackMessage}。上下文提交 ${result.commitCount} 个，日志 ${result.itemCount} 条。`);
     }
     await core.summary.addRaw(formatJobSummary(result)).write();
   }
