@@ -35,8 +35,6 @@ jobs:
       base_version: ${{ steps.meta.outputs.base_version }}
       channel: ${{ steps.meta.outputs.channel }}
       channel_name: ${{ steps.meta.outputs.channel_name }}
-      is_stable: ${{ steps.meta.outputs.is_stable }}
-      is_beta: ${{ steps.meta.outputs.is_beta }}
       release_notes_path: ${{ steps.meta.outputs.release_notes_path }}
       latest_marker: ${{ steps.meta.outputs.latest_marker }}
       history_marker: ${{ steps.meta.outputs.history_marker }}
@@ -59,7 +57,6 @@ jobs:
       previous_version_commit: ${{ steps.meta.outputs.previous_version_commit }}
       commit_count: ${{ steps.meta.outputs.commit_count }}
       ai_summary: ${{ steps.ai_summary.outputs.summary }}
-      force_update: ${{ steps.meta.outputs.force_update }}
       skip: ${{ steps.meta.outputs.skip }}
     steps:
       - name: Checkout MSM 仓库
@@ -113,12 +110,6 @@ jobs:
           RELEASE_VERSION="${VERSION}"
 
           FORCE_UPDATE="${{ inputs.force_update || 'false' }}"
-          FORCE_UPDATE_FLAG="0"
-          if [ "${FORCE_UPDATE}" = "true" ]; then
-            FORCE_UPDATE_FLAG="1"
-          fi
-          IS_STABLE_FLAG="1"
-          IS_BETA_FLAG="0"
           COMMIT_SHA="$(git rev-parse HEAD)"
           COMMIT_SHA_SHORT="$(git rev-parse --short=7 HEAD)"
 
@@ -185,11 +176,6 @@ jobs:
             echo "base_version=${BASE_VERSION}"
             echo "channel=${CHANNEL}"
             echo "channel_name=${CHANNEL_NAME}"
-            # GitHub masks step/job outputs that equal any secret. Encode
-            # boolean flags as 1/0 so AI_REQUIRES_OPENAI_AUTH=true cannot
-            # erase workflow control outputs.
-            echo "is_stable=${IS_STABLE_FLAG}"
-            echo "is_beta=${IS_BETA_FLAG}"
             echo "release_notes_path=${RELEASE_NOTES_PATH}"
             echo "latest_marker=${LATEST_MARKER}"
             echo "history_marker=${HISTORY_MARKER}"
@@ -210,8 +196,6 @@ jobs:
             echo "previous_version=${PREVIOUS_VERSION}"
             echo "previous_version_commit=${PREVIOUS_VERSION_COMMIT}"
             echo "commit_count=${COMMIT_COUNT}"
-            echo "force_update=${FORCE_UPDATE_FLAG}"
-
             echo "changelog<<EOF"
             echo "${CHANGELOG}"
             echo "EOF"
@@ -831,8 +815,8 @@ jobs:
             [![Docker](https://img.shields.io/badge/docker-msmbox%2Fmsm-blue?logo=docker)](https://hub.docker.com/r/msmbox/msm)
 
             </div>
-          makeLatest: ${{ needs.prepare.outputs.is_stable == '1' }}
-          prerelease: ${{ needs.prepare.outputs.is_beta == '1' }}
+          makeLatest: true
+          prerelease: false
           allowUpdates: true
           replacesArtifacts: true
           artifactErrorsFailBuild: true
@@ -847,8 +831,8 @@ jobs:
               throw new Error(`无效的 release id: ${{ steps.github_release.outputs.id }}`);
             }
 
-            const prerelease = '${{ needs.prepare.outputs.is_beta }}' === '1';
-            const makeLatest = '${{ needs.prepare.outputs.is_stable }}' === '1' ? 'true' : 'false';
+            const prerelease = false;
+            const makeLatest = 'true';
 
             const { data } = await github.rest.repos.updateRelease({
               owner: context.repo.owner,
