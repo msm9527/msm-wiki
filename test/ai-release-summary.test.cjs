@@ -723,6 +723,7 @@ test('real squash-to-merge history does not republish existing branch features',
     assert.equal(context.coverage.excludedHistoricalCommits, 3);
     assert.equal(context.coverage.netChangedFiles, 1);
     assert.deepEqual(context.releaseBaseline.files.map(file => file.path), ['backend/componentupdate/scheduler.go']);
+    assert.deepEqual(context.releaseBaseline.branchCommits.map(commit => commit.subject), ['fix: 组件更新失败后退避重试']);
     assert.equal(context.commits.releaseBaseline, context.releaseBaseline);
     assert.equal(Object.keys(context.commits).includes('releaseBaseline'), false);
     const prompt = buildSummaryPrompt(context.commits);
@@ -733,10 +734,37 @@ test('real squash-to-merge history does not republish existing branch features',
     assert.match(prompt, /重新合并当功能首次上线/);
     const fallback = buildFallbackSummary(context.commits);
     assert.doesNotMatch(fallback, /勋章|WebSocket|仅包含内部构建/);
-    assert.match(fallback, /存在净变化/);
+    assert.match(fallback, /组件更新失败后退避重试/);
     assert.equal(validateSummary(fallback).valid, true);
     const clonedPrompt = buildSummaryPrompt([...context.commits], { releaseBaseline: context.releaseBaseline });
     assert.match(clonedPrompt, /authoritative_release_baseline/);
+  });
+});
+
+test('merge branch fallback ignores a previously squashed commit that reuses a net-change path', () => {
+  withReleaseRepository(({ git, write, commit }) => {
+    git(['checkout', '-b', 'dev']);
+    write('backend/componentupdate/scheduler.go', 'package componentupdate\nconst retryDelaySeconds = 15\nconst retryJitterSeconds = 0\n');
+    commit('feat: 新增旧版调度策略');
+    git(['checkout', 'main']);
+    git(['merge', '--squash', 'dev']);
+    const previousCommit = commit('release: previous squash');
+    git(['checkout', 'dev']);
+    write('backend/componentupdate/scheduler.go', 'package componentupdate\nconst retryDelaySeconds = 15\nconst retryJitterSeconds = 5\n');
+    commit('fix: 修复调度失败后的退避重试');
+    git(['checkout', 'main']);
+    try {
+      git(['merge', '--no-ff', '--no-commit', 'dev']);
+    } catch {
+      write('backend/componentupdate/scheduler.go', 'package componentupdate\nconst retryDelaySeconds = 15\nconst retryJitterSeconds = 5\n');
+      git(['add', 'backend/componentupdate/scheduler.go']);
+      git(['commit', '-m', 'Merge dev']);
+    }
+
+    const context = collectReleaseCommits({ previousCommit, currentRef: 'HEAD', git });
+    assert.deepEqual(context.releaseBaseline.branchCommits.map(commit => commit.subject), ['fix: 修复调度失败后的退避重试']);
+    assert.doesNotMatch(buildFallbackSummary(context.commits), /旧版调度策略/);
+    assert.match(buildFallbackSummary(context.commits), /退避重试/);
   });
 });
 

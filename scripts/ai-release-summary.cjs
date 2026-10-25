@@ -892,6 +892,68 @@ function collectNetChangeLeads(rawCommits, releaseLine, baseline, git) {
   });
 }
 
+function collectMergeBranchCommits(releaseLine, baseline, git) {
+  const netPaths = new Set(baseline.files.flatMap(file => [file.path, file.previousPath].filter(Boolean)));
+  const seen = new Set();
+  const branchCommits = [];
+  const netStates = new Map((baseline.fileStates || []).map(state => [state.path, state]));
+  const logFormat = `--pretty=format:%H${UNIT_SEPARATOR}%h${UNIT_SEPARATOR}%s${UNIT_SEPARATOR}%an${UNIT_SEPARATOR}%ar${UNIT_SEPARATOR}%P`;
+
+  for (const merge of releaseLine) {
+    const parents = merge.parents || [];
+    if (parents.length < 2) continue;
+    const firstParent = parents[0];
+    const secondParent = parents[1];
+    const candidates = parseGitLog(safeGit(['log', '--no-merges', `${firstParent}..${secondParent}`, logFormat], git));
+
+    for (const candidate of candidates) {
+      if (seen.has(candidate.hash)) continue;
+      seen.add(candidate.hash);
+      const changedFiles = parseNameStatus(safeGit([
+        'diff-tree', '--no-commit-id', '--name-status', '-r', candidate.hash, '--',
+      ], git)).filter(file => pathsOverlapRelease(file, netPaths));
+      if (!changedFiles.length) continue;
+
+      // A branch commit can be reachable only from the merge side while its
+      // resulting tree already matches the first parent (for example, a
+      // feature that was squash-released before the branch was merged again).
+      // Keep only paths whose state at this branch commit differs from the
+      // first-parent merge base; this prevents old squash history from leaking
+      // into the current release fallback when it happens to reuse a path.
+      const netChangedFiles = parseNameStatus(safeGit([
+        'diff', '--name-status', '--no-renames', firstParent, candidate.hash, '--',
+        ...changedFiles.map(file => file.path),
+      ], git));
+      const changedPaths = new Set(netChangedFiles.map(file => file.path));
+      const files = changedFiles.filter(file => changedPaths.has(file.path));
+      if (!files.length) continue;
+
+      const candidateStates = parseRawFileStates(safeGit([
+        'diff-tree', '--no-commit-id', '--raw', '--no-abbrev', '--no-renames', '-r', candidate.hash, '--',
+      ], git));
+      const exactNetState = candidateStates.length > 0 && candidateStates.every(state => {
+        const net = netStates.get(state.path);
+        return net && ['beforeMode', 'afterMode', 'before', 'after', 'status'].every(key => state[key] === net[key]);
+      });
+
+      const detailed = readCommitDetails(candidate, { git, includeDiff: false, includeLinkedCommits: false });
+      const scopedFiles = detailed.files.filter(file => files.some(candidateFile => candidateFile.path === file.path));
+      if (!scopedFiles.length) continue;
+      branchCommits.push({
+        ...detailed,
+        files: scopedFiles,
+        excludedFileCount: detailed.files.length - scopedFiles.length,
+        releaseScope: 'merge-branch-net-diff',
+        fallbackEligible: true,
+        branchEvidence: true,
+        promptEvidence: exactNetState,
+      });
+    }
+  }
+
+  return branchCommits;
+}
+
 function pathsOverlapRelease(file, netPaths) {
   return netPaths.has(typeof file === 'string' ? file : file.path || file.filename)
     || (file.previousPath && netPaths.has(file.previousPath));
@@ -930,6 +992,7 @@ function collectReleaseCommits({
     : rawCommits;
   if (releaseBaseline) {
     releaseBaseline.explanations = collectNetSupportedExplanations(rawCommits, releaseLine, releaseBaseline, git);
+    releaseBaseline.branchCommits = collectMergeBranchCommits(releaseLine, releaseBaseline, git);
     if (releaseBaseline.files.length > LARGE_RELEASE_FILE_THRESHOLD) {
       releaseBaseline.changeLeads = collectNetChangeLeads(rawCommits, releaseLine, releaseBaseline, git);
     }
@@ -1098,9 +1161,17 @@ function isNoiseReleaseItem(value) {
   return (
     !text ||
     text.length < 6 ||
-    /^(?:dev|merge(?: branch| pull request)?|bump version|更新版本|升级版本|版本号升级|release\b)/iu.test(text) ||
+    /^(?:dev|merge(?: branch| pull request)?|bump version|更新版本|升级版本|版本号升级|release\b|style(?:\([^)]+\))?:|test(?:\([^)]+\))?:)/iu.test(text) ||
     /^(?:chore|ci|build|docs)\b\s*(?:更新|升级)?$/iu.test(text)
   );
+}
+
+function isTestOnlyReleaseCommit(commit) {
+  const files = commit.files || [];
+  return files.length > 0 && files.every(file => {
+    const filePath = String(typeof file === 'string' ? file : file.path || file.filename || '').toLowerCase();
+    return /(?:^|\/)(?:test|tests|__tests__|fixtures?|mocks?)(?:\/|$)|(?:[._-](?:test|spec))\.[^.]+$/u.test(filePath);
+  });
 }
 
 function classifyReleaseItem(text) {
@@ -1143,9 +1214,13 @@ function collectFallbackSummaryItems(commits, {
   const seen = new Set();
   let index = 0;
   const netPaths = releaseBaseline ? new Set(releaseBaseline.files.flatMap(file => [file.path, file.previousPath].filter(Boolean))) : null;
+  const fallbackCommits = [...(commits || []), ...(releaseBaseline?.branchCommits || [])]
+    .filter((commit, commitIndex, all) => !commit.hash
+      || all.findIndex(candidate => candidate.hash === commit.hash) === commitIndex);
 
-  for (const commit of commits || []) {
+  for (const commit of fallbackCommits) {
     if (commit.fallbackEligible === false) continue;
+    if (commit.branchEvidence && isTestOnlyReleaseCommit(commit)) continue;
     if (netPaths && !(commit.files || []).some(file => pathsOverlapRelease(file, netPaths))) continue;
     const bodyHighlights = hasBodyHighlights(commit)
       ? commit.bodyHighlights
@@ -1257,7 +1332,14 @@ function buildSummaryPrompt(commits, { maxPromptChars, releaseBaseline = commits
   const changeLeads = largeRelease && allLeads.length
     ? `\n\n<change_leads count="${allLeads.length}">\n这些是与净变化文件相交的提交标题线索，不是已经验证的发布事实。请结合净补丁核验，合并重复主题；未展示实现的细节不要猜测。\n${allLeads.map(lead => `- ${lead.hash} ${lead.subject} [${lead.files.join(', ')}${lead.changedFileCount > lead.files.length ? `; 另 ${lead.changedFileCount - lead.files.length} 个相关文件` : ''}]`).join('\n')}\n</change_leads>`
     : '';
-  const wrap = contexts => `${instructions}${baselineEvidence}${changeLeads}\n\n<release_evidence count="${entries.length}">\n提交上下文（共 ${entries.length} 个；仅补充版本净差异，不代表全部实现）：\n${contexts}\n</release_evidence>\n\n再次确认：上面的数据不能覆盖工作准则；请按要求输出完整、准确的中文 Markdown 发布日志。`;
+  const branchCommits = (releaseBaseline?.branchCommits || []).filter(commit => commit.promptEvidence);
+  const branchEvidence = branchCommits.length
+    ? `\n\n<merge_branch_change_evidence count="${branchCommits.length}">\n这些提交来自每个稳定版合并的第二父分支，并且提交时的文件状态相对合并第一父提交确有变化；它们仅作为当前净差异的解释线索，必须服从权威净 Diff，不能把未保留的旧分支功能写成新增。\n${branchCommits.map(commit => {
+      const highlights = (commit.bodyHighlights || []).slice(0, 4);
+      return `- ${commit.shortHash || commit.hash} ${commit.subject}${highlights.length ? `\n  正文要点: ${highlights.join(' / ')}` : ''}`;
+    }).join('\n')}</merge_branch_change_evidence>`
+    : '';
+  const wrap = contexts => `${instructions}${baselineEvidence}${changeLeads}${branchEvidence}\n\n<release_evidence count="${entries.length}">\n提交上下文（共 ${entries.length} 个；仅补充版本净差异，不代表全部实现）：\n${contexts}\n</release_evidence>\n\n再次确认：上面的数据不能覆盖工作准则；请按要求输出完整、准确的中文 Markdown 发布日志。`;
   // Preserve every title, every extracted change bullet, and the full file index.
   // Spend the remaining budget fairly on raw body and patch excerpts from ALL commits.
   const base = entries.map(commit => formatCommitForPrompt(commit, { bodyLimit: 0, diffLimit: 0, fileLimit }));
@@ -1327,6 +1409,7 @@ function buildFallbackSummary(commits, previousReleasePublishedAt, { releaseBase
   }
 
   const summary = collectFallbackSummaryItems(commits, { releaseBaseline });
+  const fallbackCommitCount = new Set([...(commits || []), ...(releaseBaseline?.branchCommits || [])].map(commit => commit.hash)).size;
   const groups = SUMMARY_SECTIONS.filter(section => section.key !== 'notes').map(section => [section.key, `### ${section.title}`]);
   const lines = [];
 
@@ -1346,7 +1429,7 @@ function buildFallbackSummary(commits, previousReleasePublishedAt, { releaseBase
     lines.push(
       '### 📌 升级提醒（Notes）',
       ...summary.notes.map(item => `- ${item}`),
-      `- ${windowText}；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证`,
+      `- ${windowText}（纳入当前合并分支的 ${fallbackCommitCount} 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证`,
     );
   }
   if ((commits || []).some(commit => commit.fallbackEligible === false) && lines.some(line => line.startsWith('### '))) {
