@@ -27,19 +27,20 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
   <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-25 03:11:26 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOltdLCJtYWpvciI6W10sImFkZGVkIjpbXSwiY2hhbmdlZCI6W10sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOltdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOaaguaXoOabtOaWsOivtOaYjiJdfX0= -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOltdLCJtYWpvciI6W10sImFkZGVkIjpbXSwiY2hhbmdlZCI6W10sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOltdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS4pOS4quWPkeW4g+eJiOacrOS5i+mXtOWtmOWcqOWHgOWPmOWMlu+8jOS9huWPkeW4g+e6v+aPkOS6pOivtOaYjuS4jei2s+S7peWPr+mdoOW9kue6s++8m+ivt+aguOWvueWujOaVtOeJiOacrOW3ruW8gu+8jOacquWwhumHjeaWsOWQiOW5tueahOaXp+WIhuaUr+WKn+iDveinhuS4uuacrOasoeaWsOWiniIsIi0g6KeE5YiZ5pGY6KaB5pyq6YeH55So5Y+v6IO96YeN5pS+5Y6G5Y+y55qE5ZCI5bm25o+Q5Lqk6K+05piO77yb6L+Z6YOo5YiG5Y+Y5YyW6ZyA6KaB57uT5ZCI5Lik5Liq5Y+R5biD54mI5pys55qE5YeA5beu5byC5qC45a+5Il19fQ== -->
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-notes">📌 升级提醒 <span>1</span></a>
+  <a href="#release-notes">📌 升级提醒 <span>2</span></a>
 </nav>
 
 <section class="msm-release-section msm-release-section--notes">
 
 ### 📌 升级提醒 {#release-notes}
 
-- 暂无更新说明
+- 两个发布版本之间存在净变化，但发布线提交说明不足以可靠归纳；请核对完整版本差异，未将重新合并的旧分支功能视为本次新增
+- 规则摘要未采用可能重放历史的合并提交说明；这部分变化需要结合两个发布版本的净差异核对
 
 </section>
 
