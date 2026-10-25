@@ -101,8 +101,6 @@ jobs:
           BRANCH="main"
           CHANNEL="stable"
           CHANNEL_NAME="稳定版"
-          IS_STABLE="true"
-          IS_BETA="false"
           DOCKER_CHANNEL_TAG="latest"
           RELEASE_NOTES_PATH="docs/zh/guide/releases.md"
           LATEST_MARKER="## 🚀 最新稳定版本"
@@ -115,6 +113,12 @@ jobs:
           RELEASE_VERSION="${VERSION}"
 
           FORCE_UPDATE="${{ inputs.force_update || 'false' }}"
+          FORCE_UPDATE_FLAG="0"
+          if [ "${FORCE_UPDATE}" = "true" ]; then
+            FORCE_UPDATE_FLAG="1"
+          fi
+          IS_STABLE_FLAG="1"
+          IS_BETA_FLAG="0"
           COMMIT_SHA="$(git rev-parse HEAD)"
           COMMIT_SHA_SHORT="$(git rev-parse --short=7 HEAD)"
 
@@ -181,8 +185,11 @@ jobs:
             echo "base_version=${BASE_VERSION}"
             echo "channel=${CHANNEL}"
             echo "channel_name=${CHANNEL_NAME}"
-            echo "is_stable=${IS_STABLE}"
-            echo "is_beta=${IS_BETA}"
+            # GitHub masks step/job outputs that equal any secret. Encode
+            # boolean flags as 1/0 so AI_REQUIRES_OPENAI_AUTH=true cannot
+            # erase workflow control outputs.
+            echo "is_stable=${IS_STABLE_FLAG}"
+            echo "is_beta=${IS_BETA_FLAG}"
             echo "release_notes_path=${RELEASE_NOTES_PATH}"
             echo "latest_marker=${LATEST_MARKER}"
             echo "history_marker=${HISTORY_MARKER}"
@@ -203,7 +210,7 @@ jobs:
             echo "previous_version=${PREVIOUS_VERSION}"
             echo "previous_version_commit=${PREVIOUS_VERSION_COMMIT}"
             echo "commit_count=${COMMIT_COUNT}"
-            echo "force_update=${FORCE_UPDATE}"
+            echo "force_update=${FORCE_UPDATE_FLAG}"
 
             echo "changelog<<EOF"
             echo "${CHANGELOG}"
@@ -215,12 +222,12 @@ jobs:
             STATUS="$(curl -I -s -o /dev/null -w '%{http_code}' "${RELEASE_URL}")"
             if [ "${STATUS}" -ge 200 ] && [ "${STATUS}" -lt 400 ]; then
               echo "检测到版本 ${RELEASE_VERSION} 已存在于 Release 页面 (${RELEASE_URL})，跳过后续任务"
-              echo "skip=true" >> "$GITHUB_OUTPUT"
+              echo "skip=1" >> "$GITHUB_OUTPUT"
               exit 0
             fi
           fi
 
-          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "skip=0" >> "$GITHUB_OUTPUT"
 
           echo "构建通道: ${CHANNEL} (${CHANNEL_NAME})"
           echo "构建版本: ${RELEASE_VERSION} (源版本: ${BASE_VERSION})"
@@ -230,7 +237,7 @@ jobs:
           echo "提交数量: ${COMMIT_COUNT}"
 
       - name: 生成 AI 版本总结
-        if: steps.meta.outputs.skip != 'true'
+        if: steps.meta.outputs.skip == '0'
         id: ai_summary
         uses: actions/github-script@v7
         env:
@@ -254,7 +261,7 @@ jobs:
   build:
     name: 打包编译
     needs: prepare
-    if: needs.prepare.outputs.skip != 'true'
+    if: needs.prepare.outputs.skip == '0'
     strategy:
       fail-fast: false
       matrix:
@@ -518,7 +525,7 @@ jobs:
   release:
     name: 发布构建产物（${{ needs.prepare.outputs.channel_name }}）
     needs: [prepare, build, docker-agent]
-    if: needs.prepare.outputs.skip != 'true'
+    if: needs.prepare.outputs.skip == '0'
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout 当前仓库（msm-wiki）
@@ -824,8 +831,8 @@ jobs:
             [![Docker](https://img.shields.io/badge/docker-msmbox%2Fmsm-blue?logo=docker)](https://hub.docker.com/r/msmbox/msm)
 
             </div>
-          makeLatest: ${{ needs.prepare.outputs.is_stable }}
-          prerelease: ${{ needs.prepare.outputs.is_beta }}
+          makeLatest: ${{ needs.prepare.outputs.is_stable == '1' }}
+          prerelease: ${{ needs.prepare.outputs.is_beta == '1' }}
           allowUpdates: true
           replacesArtifacts: true
           artifactErrorsFailBuild: true
@@ -840,8 +847,8 @@ jobs:
               throw new Error(`无效的 release id: ${{ steps.github_release.outputs.id }}`);
             }
 
-            const prerelease = '${{ needs.prepare.outputs.is_beta }}' === 'true';
-            const makeLatest = '${{ needs.prepare.outputs.is_stable }}' === 'true' ? 'true' : 'false';
+            const prerelease = '${{ needs.prepare.outputs.is_beta }}' === '1';
+            const makeLatest = '${{ needs.prepare.outputs.is_stable }}' === '1' ? 'true' : 'false';
 
             const { data } = await github.rest.repos.updateRelease({
               owner: context.repo.owner,
@@ -900,7 +907,7 @@ jobs:
   docker-agent:
     name: 发布独立 Docker 子节点镜像
     needs: [prepare, build]
-    if: needs.prepare.outputs.skip != 'true'
+    if: needs.prepare.outputs.skip == '0'
     uses: ./.github/workflows/publish-docker-agent.yml
     with:
       source_commit: ${{ needs.prepare.outputs.commit_sha }}
@@ -911,7 +918,7 @@ jobs:
   docker:
     name: 构建并推送 Docker 镜像
     needs: [prepare, release]
-    if: needs.prepare.outputs.skip != 'true'
+    if: needs.prepare.outputs.skip == '0'
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout 当前仓库
@@ -1040,7 +1047,7 @@ jobs:
   upload:
     name: 上传每日构建到自定义服务器
     needs: [prepare, release]
-    if: needs.prepare.outputs.skip != 'true'
+    if: needs.prepare.outputs.skip == '0'
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout 当前仓库（msm-wiki）用于部署脚本

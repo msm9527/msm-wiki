@@ -545,7 +545,13 @@ test('OpenWrt pull request checks are path-scoped, read-only and exercise real A
 test('forced releases update existing assets and fail if any attachment cannot be published', () => {
   for (const workflow of workflows) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
-    assert.match(source, /if \[ "\$\{FORCE_UPDATE\}" != "true" \]; then[\s\S]*?echo "skip=true"/)
+    assert.match(source, /if \[ "\$\{FORCE_UPDATE\}" != "true" \]; then[\s\S]*?echo "skip=1"/)
+    assert.match(source, /echo "skip=0"/)
+    assert.match(source, /is_stable=.*FLAG/)
+    assert.match(source, /is_beta=.*FLAG/)
+    assert.match(source, /needs\.prepare\.outputs\.skip == '0'/)
+    assert.match(source, /needs\.prepare\.outputs\.is_stable == '1'/)
+    assert.match(source, /needs\.prepare\.outputs\.is_beta == '1'/)
     assert.match(source, /uses: ncipollo\/release-action@v1[\s\S]*?allowUpdates: true\n\s+replacesArtifacts: true\n\s+artifactErrorsFailBuild: true\n\s+artifacts: \$\{\{ steps\.release_assets\.outputs\.paths \}\}/)
     assert.doesNotMatch(source, /removeArtifacts: true|skipIfReleaseExists: true|updateOnlyUnreleased: true/)
   }
