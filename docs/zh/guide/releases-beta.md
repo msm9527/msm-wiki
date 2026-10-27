@@ -12,58 +12,80 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.1.6" data-release-date="2026-10-25 11:56:16 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.6">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.1.7" data-release-date="2026-10-27 17:11:41 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.7">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.1.6</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.1.7</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.6" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.7" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>7 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>4 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-25 11:56:16 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>18 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-10-27 17:11:41 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKuiuvuWkh+WcsOWdgOWxleekuuabtOa4heaZsCoq77ya5ZCN5Y2V5Lit55qE5ZCM5LiA6K6+5aSH6Iul5ZCM5pe25oul5pyJIElQdjQg5ZKMIElQdjYg5Zyw5Z2A77yM5Lya5oyJ6KeE6IyD5YyWIE1BQyDlnLDlnYDlkIjlubbkuLrkuIDpobnvvIzlubbkvJjlhYjkvb/nlKggSVB2NCDkvZzkuLrkuLvlnLDlnYDvvIzlh4/lsJHph43lpI3orr7lpIfmnaHnm67jgIIiLCItICoq56e76Zmk6K6+5aSH5pu05a6M5pW0KirvvJrku47nmb3lkI3ljZXmiJbpu5HlkI3ljZXnp7vpmaTlkIjlubblkI7nmoTorr7lpIfml7bvvIzkvJrlkIzml7bnp7vpmaTlhbbkuLvlnLDlnYDlkozlhbPogZTlnLDlnYDvvJvnp7vpmaTmjInpkq7kuZ/kuI3kvJrlho3or6/op6blj5HlpIfms6jnvJbovpHjgIIiLCItICoq6L+H5pyf5Zyw5Z2A5LiN5YaN5re35YWl5Zyo57q/5riF5Y2VKirvvJpMaW51eCDpgrvlsYXnvJPlrZjkuK3nmoTpnZ7mlrDpspwgSVB2NCDlnLDlnYDkuI3lho3nm7TmjqXop4bkuLrlvZPliY3orr7lpIfvvJvkuLvliqjmiavmj4/noa7orqTnmoQgSVB2NCDkvZzkuLrlvZPliY3nu5PmnpzvvIzpmY3kvY7ljoblj7IgREhDUCDlnLDlnYDpgKDmiJDor6/liKTnmoTlj6/og73jgIIiLCItICoqSVB2NiDova7mjaLml7blh4/lsJHljoblj7LlnLDlnYDlubLmibAqKu+8muetlueVpeWIt+aWsOS8mui3n+maj+W9k+WJjemCu+WxheW/q+eFp++8jOiuvuWkh+S7heWRiOeOsCBJUHY2IOaXtuacgOWkmuS/neeVmeS4gOS4quacgOi/keS9v+eUqOeahCBJUHY0IOWFs+iBlOWcsOWdgO+8jOS4jeWGjeaBouWkjeWQjOS4gCBNQUMg5LiL55qE5YWo6YOo5Y6G5Y+yIElQdjTjgIIiXSwibWFqb3IiOltdLCJhZGRlZCI6W10sImNoYW5nZWQiOlsiLSAqKuWQjOiuvuWkhyBJUHY0L0lQdjYg5Zyw5Z2A5ZCI5bm2KirvvJrlkI3ljZXlrqLmiLfnq6/kvJrmjInop4TojIPljJblkI7nmoQgTUFDIOWcsOWdgOWQiOW5tuWkmuS4quWcsOWdgO+8jOS/neeVmeWFs+iBlOWcsOWdgOOAgeWIq+WQjeWSjOWkh+azqOetieS/oeaBr++8m+WQiOW5tue7k+aenOS8mOWFiOS9v+eUqCBJUHY0IOS9nOS4uuS4u+WcsOWdgO+8jOayoeacieacieaViOS4u+acuuWQjeaXtuS9v+eUqCBJUHY0IOWxleekuuOAgiIsIi0gKirnp7vpmaTmk43kvZzopobnm5blhbPogZTlnLDlnYAqKu+8mueZveWQjeWNleWSjOm7keWQjeWNleenu+mZpOWQiOW5tuiuvuWkh+aXtu+8jOS8muS7juWQjeWNleS4reS4gOW5tuWIoOmZpOivpeiuvuWkh+eahOS4u+WcsOWdgOWPiuWFtuS7luWFs+iBlOWcsOWdgO+8jOW5tuiHquWKqOS/neWtmOabtOaWsOWQjueahOWQjeWNleOAgiIsIi0gKirnp7vpmaTmjInpkq7kuI3lho3miZPlvIDnvJbovpHnlYzpnaIqKu+8mueCueWHu+WQjeWNleWNoeeJh+S4reeahOenu+mZpOaMiemSruaXtu+8jOS8mumYu+atouS6i+S7tue7p+e7reinpuWPkeWNoeeJh+e8lui+keaTjeS9nO+8jOmBv+WFjeenu+mZpOiuvuWkh+eahOWQjOaXtuaJk+W8gOWkh+azqOe8lui+keOAgiJdLCJwZXJmb3JtYW5jZSI6W10sImZpeGVkIjpbIi0gKirov4fmu6Tov4fmnJ/nmoQgSVB2NCDpgrvlsYXnvJPlrZgqKu+8mkxpbnV4IOmCu+WxhemhueWkhOS6jumdnuaWsOmynOeKtuaAgeaXtuS4jeWGjeS9nOS4uuacieaViCBJUHY0IOWuouaIt+err++8m+S4u+WKqOaJq+aPj+aIkOWKn+WQju+8jOe8k+WtmOS4reeahCBJUHY0IOS5n+S4jeS8muihpeWbnuaJq+aPj+acquehruiupOeahOWcsOWdgO+8jOWQjOaXtuS7jeWPr+S9v+eUqCBJUHY2IOmCu+WxheS/oeaBr+ihpeWFhea4heWNleOAgiIsIi0gKirpgb/lhY3mgaLlpI3mlbTnu4Tljoblj7IgSVB2NCDlnLDlnYAqKu+8mumCu+WxheWIt+aWsOehruiupOafkOS4qiBNQUMg5LuN5a2Y5Zyo44CB5L2G5b2T5YmN5rKh5pyJIElQdjQg5pe277yM5LuF5L+d55WZ6K+l6K6+5aSH5pyA6L+R5L2/55So55qE5LiA5Liq5Y+v55SoIElQdjQg5L2c5Li6562W55Wl5YWz6IGU6ZSa54K577yb6ZO+6Lev5pys5ZywIElQdjYg5Y+q55So5LqO56Gu6K6k6K6+5aSH5a2Y5Zyo77yM5LiN5Lya5L2c5Li65bGV56S65Zyw5Z2A44CCIiwiLSAqKklQdjYg5Zyw5Z2A6L2u5o2i6Lef6ZqP5b2T5YmN6YK75bGF5b+r54WnKirvvJrnrZbnlaXliLfmlrDkuI3lho3mgaLlpI3lvZPliY3lv6vnhafkuK3nvLrlpLHnmoTljoblj7IgSVB2NiDlnLDlnYDvvIzorr7lpIfmm7TmjaIgSVB2NiDpmpDnp4HlnLDlnYDlkI7vvIzmuIXljZXmjInmnIDmlrDop4Llr5/liLDnmoTlnLDlnYDmm7TmlrDjgIIiLCItICoq5L+u5q2j6YK75bGF5Yi35paw5ZCO55qE5omr5o+P5om55qyh5qCH6K6wKirvvJrmr4/mrKHpgrvlsYXliLfmlrDpg73kvJrmm7TmlrDlrqLmiLfnq6/nmoTmnIDov5Hmiavmj4/ml7bpl7TvvJvku4XnlLEgQVJQIOWPkeeOsOeahOWuouaIt+err+S5n+S8muiusOW9leW9k+WJjeaJq+aPj+aJueasoe+8jOS9v+ebruW9leafpeivouiDveWkn+mAieaLqeacrOasoeWIt+aWsOe7k+aenOOAgiJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6W119fQ== -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDnu5/kuIDlm57lrrbkuI7nu4TnvZHlhaXlj6MiLCItIOWujOWWhOezu+e7n+mHjee9ruW5tuaWsOWinumhtemdouWujOWFqOWNuOi9vSAvIENvbXBsZXRlIGZhY3RvcnkgcmVzZXQgYW5kIGFkZCB3ZWIgdW5pbnN0YWxsIiwiLSDlm73lhoXmo4DmtYvmupDkuI7lj4zmoIjlh7rlj6Pnu5HlrpogLyB1c2UgZG9tZXN0aWMgc291cmNlcyBhbmQgcGluIGR1YWwtc3RhY2sgZWdyZXNzIiwiLSDmlrDlop4gbXNtIHNlcnZpY2UgdW5pbnN0YWxsIC0tcHVyZ2XvvIzlronlhajlgZzmraLmiYDmnInns7vnu5/miZjnrqHlkozlhoXnva7mnI3liqHvvIzmgaLlpI0gRE5TL+e9kee7nOeKtuaAgeWQjua4heeQhumFjee9ruOAgee7hOS7tuOAgei/kOihjOaWh+S7tuWPiiBNU00g5pys5L2T44CCT3BlbldydCDljIXmlofku7bkuqTnlLHljIXnrqHnkIblmajlpITnkIbvvIzlubblkIzmraXmoYzpnaLnq6/ljbjovb3lhaXlj6MiLCItIOS/ruWkjSBJUHY2IOi+k+WFpeW5tuWujOWWhOWbnuW9kumqjOivgSIsIi0g5YW85a655pen54mI5pyN5Yqh5a6J6KOF5LiO5Y246L29Il0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSDnu5/kuIDlm57lrrbkuI7nu4TnvZHlhaXlj6MiLCItIOaWsOWiniBtc20gc2VydmljZSB1bmluc3RhbGwgLS1wdXJnZe+8jOWuieWFqOWBnOatouaJgOacieezu+e7n+aJmOeuoeWSjOWGhee9ruacjeWKoe+8jOaBouWkjSBETlMv572R57uc54q25oCB5ZCO5riF55CG6YWN572u44CB57uE5Lu244CB6L+Q6KGM5paH5Lu25Y+KIE1TTSDmnKzkvZPjgIJPcGVuV3J0IOWMheaWh+S7tuS6pOeUseWMheeuoeeQhuWZqOWkhOeQhu+8jOW5tuWQjOatpeahjOmdouerr+WNuOi9veWFpeWPoyJdLCJjaGFuZ2VkIjpbIi0g5a6M5ZaE57O757uf6YeN572u5bm25paw5aKe6aG16Z2i5a6M5YWo5Y246L29IC8gQ29tcGxldGUgZmFjdG9yeSByZXNldCBhbmQgYWRkIHdlYiB1bmluc3RhbGwiLCItIOWNh+e6p+iHsyAyLjEuNyIsIi0gcmV2ZXJ0KG5hdmlnYXRpb24pOiDmkqTlm57ov5znqIvorr/pl67oj5zljZXph43nu4QiLCItIOWinuWKoOWujOWFqOWNuOi9vea1geeoiyIsIi0g5a6M5ZaE6YeN572u5LiO5pyN5Yqh5Y246L295riF55CGIC8gSGFyZGVuIHJlc2V0IGFuZCBzZXJ2aWNlIHVuaW5zdGFsbCBjbGVhbnVwIiwiLSDkv67mraMgRmFrZUlQIOm7mOiupOWAvOivtOaYjuS4jue8lui+keWZqOaPkOekuiAvIEFsaWduIEZha2VJUCBkZWZhdWx0cyBhbmQgZWRpdG9yIGhpbnRzIl0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSDlm73lhoXmo4DmtYvmupDkuI7lj4zmoIjlh7rlj6Pnu5HlrpogLyB1c2UgZG9tZXN0aWMgc291cmNlcyBhbmQgcGluIGR1YWwtc3RhY2sgZWdyZXNzIiwiLSDkv67lpI0gSVB2NiDovpPlhaXlubblrozlloTlm57lvZLpqozor4EiLCItIOWFvOWuueaXp+eJiOacjeWKoeWuieijheS4juWNuOi9vSIsIi0g5a6M5ZaE5L6d6LWW5L+u5aSN5LiOIFVEUCDmmKDlsITmj5DnpLogLyBjb21wbGV0ZSBkZXBlbmRlbmN5IHJlcGFpciBhbmQgVURQIHBvcnQgZ3VpZGFuY2UiLCItIOS/ruWkjee9keWFs+Wbnueoi+WPiuWFqOermeS4reiLseaWh+aWh+ahiCAvIGNvcnJlY3QgZ2F0ZXdheSByZXR1cm4gYW5kIGFwcGxpY2F0aW9uIHRyYW5zbGF0aW9ucyIsIi0g6YeN572u5L+d55WZ5o6I5p2D5bm25a6M5ZaE5Y246L295Y+N5r+A5rS7IC8gcHJlc2VydmUgbGljZW5zZXMgb24gcmVzZXQgYW5kIGd1YXJkIHVuaW5zdGFsbCBkZWFjdGl2YXRpb24iLCItIOWNh+e6p+S/neeVmeWbnuWutuS4juiHquWumuS5iemFjee9riAvIHByZXNlcnZlIGhvbWUgYWNjZXNzIGFuZCB1c2VyIGNvbmZpZ3VyYXRpb24gZHVyaW5nIHVwZ3JhZGVzIiwiLSDkv67lpI3ph43nva7lkI7ml6fphY3nva7lm57mtYHlubblrozlloTmuIXnkIbnlYzpnaIiLCItIOS/ruWkjeezu+e7n+mHjee9ruaXtue8uuWksSBXaXJlR3VhcmQg5bel5YW3IiwiLSDkv67lpI0gTW9zRE5TIOWuouaIt+err+mHjeWkjeWIm+W7uiJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS7jiAyMDI2LTEwLTI1VDA0OjExOjE0WiDkuYvlkI7nmoQgMTcg5Liq5o+Q5Lqk5Lit5pW055CG77yI57qz5YWl5b2T5YmN5ZCI5bm25YiG5pSv55qEIDE4IOS4quWOu+mHjeaPkOS6pO+8ie+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiXX19 -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p><strong>设备地址展示更清晰：</strong>名单中的同一设备若同时拥有 IPv4 和 IPv6 地址，会按规范化 MAC 地址合并为一项，并优先使用 IPv4 作为主地址，减少重复设备条目。</p>
+    <p>统一回家与组网入口</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p><strong>移除设备更完整：</strong>从白名单或黑名单移除合并后的设备时，会同时移除其主地址和关联地址；移除按钮也不会再误触发备注编辑。</p>
+    <p>完善系统重置并新增页面完全卸载 / Complete factory reset and add web uninstall</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p><strong>过期地址不再混入在线清单：</strong>Linux 邻居缓存中的非新鲜 IPv4 地址不再直接视为当前设备；主动扫描确认的 IPv4 作为当前结果，降低历史 DHCP 地址造成误判的可能。</p>
+    <p>国内检测源与双栈出口绑定 / use domestic sources and pin dual-stack egress</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p><strong>IPv6 轮换时减少历史地址干扰：</strong>策略刷新会跟随当前邻居快照，设备仅呈现 IPv6 时最多保留一个最近使用的 IPv4 关联地址，不再恢复同一 MAC 下的全部历史 IPv4。</p>
+    <p>新增 msm service uninstall --purge，安全停止所有系统托管和内置服务，恢复 DNS/网络状态后清理配置、组件、运行文件及 MSM 本体。OpenWrt 包文件交由包管理器处理，并同步桌面端卸载入口</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">05</span>
+    <p>修复 IPv6 输入并完善回归验证</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">06</span>
+    <p>兼容旧版服务安装与卸载</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-changed">✨ 功能增强 <span>3</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>4</span></a>
+  <a href="#release-added">🆕 新增功能 <span>2</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>6</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>10</span></a>
+  <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
+
+<section class="msm-release-section msm-release-section--added">
+
+### 🆕 新增功能 {#release-added}
+
+- 统一回家与组网入口
+- 新增 msm service uninstall --purge，安全停止所有系统托管和内置服务，恢复 DNS/网络状态后清理配置、组件、运行文件及 MSM 本体。OpenWrt 包文件交由包管理器处理，并同步桌面端卸载入口
+
+</section>
 
 <section class="msm-release-section msm-release-section--changed">
 
 ### ✨ 功能增强 {#release-changed}
 
-- **同设备 IPv4/IPv6 地址合并**：名单客户端会按规范化后的 MAC 地址合并多个地址，保留关联地址、别名和备注等信息；合并结果优先使用 IPv4 作为主地址，没有有效主机名时使用 IPv4 展示。
-- **移除操作覆盖关联地址**：白名单和黑名单移除合并设备时，会从名单中一并删除该设备的主地址及其他关联地址，并自动保存更新后的名单。
-- **移除按钮不再打开编辑界面**：点击名单卡片中的移除按钮时，会阻止事件继续触发卡片编辑操作，避免移除设备的同时打开备注编辑。
+- 完善系统重置并新增页面完全卸载 / Complete factory reset and add web uninstall
+- 升级至 2.1.7
+- revert(navigation): 撤回远程访问菜单重组
+- 增加完全卸载流程
+- 完善重置与服务卸载清理 / Harden reset and service uninstall cleanup
+- 修正 FakeIP 默认值说明与编辑器提示 / Align FakeIP defaults and editor hints
 
 </section>
 
@@ -71,19 +93,33 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🐛 问题修复 {#release-fixed}
 
-- **过滤过期的 IPv4 邻居缓存**：Linux 邻居项处于非新鲜状态时不再作为有效 IPv4 客户端；主动扫描成功后，缓存中的 IPv4 也不会补回扫描未确认的地址，同时仍可使用 IPv6 邻居信息补充清单。
-- **避免恢复整组历史 IPv4 地址**：邻居刷新确认某个 MAC 仍存在、但当前没有 IPv4 时，仅保留该设备最近使用的一个可用 IPv4 作为策略关联锚点；链路本地 IPv6 只用于确认设备存在，不会作为展示地址。
-- **IPv6 地址轮换跟随当前邻居快照**：策略刷新不再恢复当前快照中缺失的历史 IPv6 地址，设备更换 IPv6 隐私地址后，清单按最新观察到的地址更新。
-- **修正邻居刷新后的扫描批次标记**：每次邻居刷新都会更新客户端的最近扫描时间；仅由 ARP 发现的客户端也会记录当前扫描批次，使目录查询能够选择本次刷新结果。
+- 国内检测源与双栈出口绑定 / use domestic sources and pin dual-stack egress
+- 修复 IPv6 输入并完善回归验证
+- 兼容旧版服务安装与卸载
+- 完善依赖修复与 UDP 映射提示 / complete dependency repair and UDP port guidance
+- 修复网关回程及全站中英文文案 / correct gateway return and application translations
+- 重置保留授权并完善卸载反激活 / preserve licenses on reset and guard uninstall deactivation
+- 升级保留回家与自定义配置 / preserve home access and user configuration during upgrades
+- 修复重置后旧配置回流并完善清理界面
+- 修复系统重置时缺失 WireGuard 工具
+- 修复 MosDNS 客户端重复创建
+
+</section>
+
+<section class="msm-release-section msm-release-section--notes">
+
+### 📌 升级提醒 {#release-notes}
+
+- 从 2026-10-25T04:11:14Z 之后的 17 个提交中整理（纳入当前合并分支的 18 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`c234d3e`](https://github.com/msm9527/msm/commit/c234d3ed0a572c1877512fe6fcfa1560f2aa1424)
-- **提交信息**：升级版本至 2.1.6 / Bump version to 2.1.6
+- **源提交**： [`2d7087d`](https://github.com/msm9527/msm/commit/2d7087d50b6cee8250837b454bf14ac909f0ebcd)
+- **提交信息**：chore(version): 升级至 2.1.7 / Bump version to 2.1.7
 - **提交作者**：root
-- **提交时间**：2026-10-25 11:56:16 CST
+- **提交时间**：2026-10-27 17:11:41 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -92,6 +128,32 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.1.6 · 2026-10-25 11:56 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.1.6" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- **设备地址展示更清晰**：名单中的同一设备若同时拥有 IPv4 和 IPv6 地址，会按规范化 MAC 地址合并为一项，并优先使用 IPv4 作为主地址，减少重复设备条目。
+- **移除设备更完整**：从白名单或黑名单移除合并后的设备时，会同时移除其主地址和关联地址；移除按钮也不会再误触发备注编辑。
+- **过期地址不再混入在线清单**：Linux 邻居缓存中的非新鲜 IPv4 地址不再直接视为当前设备；主动扫描确认的 IPv4 作为当前结果，降低历史 DHCP 地址造成误判的可能。
+- **IPv6 轮换时减少历史地址干扰**：策略刷新会跟随当前邻居快照，设备仅呈现 IPv6 时最多保留一个最近使用的 IPv4 关联地址，不再恢复同一 MAC 下的全部历史 IPv4。
+
+**✨ 功能增强**
+
+- **同设备 IPv4/IPv6 地址合并**：名单客户端会按规范化后的 MAC 地址合并多个地址，保留关联地址、别名和备注等信息；合并结果优先使用 IPv4 作为主地址，没有有效主机名时使用 IPv4 展示。
+- **移除操作覆盖关联地址**：白名单和黑名单移除合并设备时，会从名单中一并删除该设备的主地址及其他关联地址，并自动保存更新后的名单。
+- **移除按钮不再打开编辑界面**：点击名单卡片中的移除按钮时，会阻止事件继续触发卡片编辑操作，避免移除设备的同时打开备注编辑。
+
+**🐛 问题修复**
+
+- **过滤过期的 IPv4 邻居缓存**：Linux 邻居项处于非新鲜状态时不再作为有效 IPv4 客户端；主动扫描成功后，缓存中的 IPv4 也不会补回扫描未确认的地址，同时仍可使用 IPv6 邻居信息补充清单。
+- **避免恢复整组历史 IPv4 地址**：邻居刷新确认某个 MAC 仍存在、但当前没有 IPv4 时，仅保留该设备最近使用的一个可用 IPv4 作为策略关联锚点；链路本地 IPv6 只用于确认设备存在，不会作为展示地址。
+- **IPv6 地址轮换跟随当前邻居快照**：策略刷新不再恢复当前快照中缺失的历史 IPv6 地址，设备更换 IPv6 隐私地址后，清单按最新观察到的地址更新。
+- **修正邻居刷新后的扫描批次标记**：每次邻居刷新都会更新客户端的最近扫描时间；仅由 ARP 发现的客户端也会记录当前扫描批次，使目录查询能够选择本次刷新结果。
+
+:::
 
 ::: details beta-2.1.5 · 2026-10-25 03:11 · Beta 版
 
