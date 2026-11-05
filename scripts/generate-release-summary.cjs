@@ -271,7 +271,11 @@ async function generateReleaseSummary({
 
   let context;
   try {
-    context = summaryModule.collectReleaseCommits({
+    const collector = env.RELEASE_SUMMARY_STRATEGY === 'simple'
+      && typeof summaryModule.collectReleaseCommitsSimple === 'function'
+      ? summaryModule.collectReleaseCommitsSimple
+      : summaryModule.collectReleaseCommits;
+    context = collector({
       currentRef: inputs.sourceRef,
       previousCommit: inputs.previousCommit,
       logSinceEpoch: env.RELEASE_LOG_SINCE_EPOCH || '',

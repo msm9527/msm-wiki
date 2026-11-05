@@ -223,6 +223,7 @@ jobs:
         uses: actions/github-script@v7
         env:
           RELEASE_SUMMARY_MODE: 'ai'
+          RELEASE_SUMMARY_STRATEGY: 'simple'
           AI_API_KEY: ${{ secrets.AI_API_KEY }}
           AI_BASE_URL: ${{ secrets.AI_BASE_URL || vars.AI_BASE_URL || 'https://aiiii.ddsrem.in:998' }}
           AI_WIRE_API: ${{ secrets.AI_WIRE_API || vars.AI_WIRE_API || 'responses' }}

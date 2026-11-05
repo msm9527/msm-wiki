@@ -14,6 +14,7 @@ const {
   buildGitLogArgs,
   collectFallbackSummaryItems,
   collectReleaseCommits,
+  collectReleaseCommitsSimple,
   cleanDiff,
   classifyReleaseItem,
   extractChangeHighlights,
@@ -395,6 +396,24 @@ test('all commits receive details and a fair diff share beyond the former 30-com
   assert.equal(limited.coverage.commitsWithDiff, 1);
 });
 
+test('simple collector keeps the exact range and all commit details for AI summarization', () => {
+  const shas = Array.from({ length: 3 }, (_, index) => (index + 1).toString(16).padStart(40, '0'));
+  const git = args => {
+    if (args[0] === 'cat-file' || args[0] === 'merge-base') throw new Error('unknown ref');
+    if (args[0] === 'log') return shas.map((sha, index) => [sha, sha.slice(-7), `fix: 修复模块 ${index}`, 'dev', 'yesterday'].join('\x1f')).join('\n');
+    if (args.includes('--format=%b')) return '修复用户可见问题';
+    if (args.includes('--name-status')) return 'M\tfrontend/src/Module.tsx';
+    if (args.includes('--no-ext-diff')) return 'diff --git a/frontend/src/Module.tsx b/frontend/src/Module.tsx\n@@ -1 +1 @@\n-old\n+new';
+    return '';
+  };
+  const result = collectReleaseCommitsSimple({ previousCommit: '1'.repeat(40), currentRef: '2'.repeat(40), git });
+  assert.equal(result.commits.length, 3);
+  assert.equal(result.source, 'fallback-recent-commits');
+  assert.equal(result.commits[2].subject, 'fix: 修复模块 2');
+  assert.match(result.commits[2].diff, /\+new/);
+  assert.equal(result.releaseBaseline, undefined);
+});
+
 test('diff sampling covers later directories and excludes generated API specs', () => {
   const files = [
     '.version', 'backend/docs/openapi.json', 'vendor/generated.go',
@@ -426,6 +445,16 @@ test('body extraction retains over 80 meaningful bullets, numbered entries, and 
   assert.equal(result.length, 102);
   assert.ok(result.includes('支持导出授权状态'));
   assert.ok(result.includes('新增网络状态快捷入口'));
+});
+
+test('body extraction tolerates file names that match Object prototype keys', () => {
+  const result = extractChangeHighlights('fix: 修复构造器文件解析', {
+    changedFiles: [
+      { path: 'backend/internal/api/handler/constructor_helpers_test.go' },
+      { path: 'frontend/src/__proto__/settings.tsx' },
+    ],
+  });
+  assert.deepEqual(result, ['fix: 修复构造器文件解析']);
 });
 
 test('fallback keeps every squash item and classifies by individual bullet rather than merge subject', () => {

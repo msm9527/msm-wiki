@@ -604,7 +604,10 @@ function addTermWithSynonyms(terms, term) {
     'yaml',
     'yml',
   ]);
-  const synonyms = {
+  // File names can contain Object.prototype keys such as `constructor` or
+  // `__proto__`. A null-prototype dictionary keeps those tokens as ordinary
+  // unknown terms instead of exposing inherited non-iterable values.
+  const synonyms = Object.assign(Object.create(null), {
     activation: ['activation', '激活', '授权', 'license', 'pro'],
     heartbeat: ['heartbeat', '心跳', '租约', 'license', 'pro'],
     connectivity: ['connectivity', '连接', '兜底', 'socks5', '223.5.5.5'],
@@ -634,7 +637,7 @@ function addTermWithSynonyms(terms, term) {
     grid: ['grid', 'layout', '布局', 'react-grid-layout'],
     layout: ['grid', 'layout', '布局', 'react-grid-layout'],
     telemetry: ['telemetry', '上报', '遥测', 'license'],
-  };
+  });
 
   if (!synonyms[normalized] && genericTerms.has(normalized)) {
     return;
@@ -1052,6 +1055,89 @@ function collectReleaseCommits({
         netChangedFiles: releaseBaseline.files.length,
         netSampledFiles: releaseBaseline.diffFiles.length,
       } : {}),
+    },
+    source: usablePreviousCommit
+      ? 'previous-source-commit'
+      : hasValidTimeWindow(logSinceEpoch, logUntilEpoch)
+        ? 'release-time-window'
+        : 'fallback-recent-commits',
+  };
+}
+
+// Simple release path for channels that want the model to do the editorial
+// grouping itself. It keeps the exact source range and sends every commit's
+// title, body, file list and sampled diff to the prompt without trying to
+// reconstruct a first-parent/net-diff history graph first.
+function collectReleaseCommitsSimple({
+  previousCommit,
+  logSinceEpoch,
+  logUntilEpoch,
+  currentRef = 'HEAD',
+  maxFallbackCommits = DEFAULT_MAX_FALLBACK_COMMITS,
+  detailLimit = DEFAULT_DETAIL_LIMIT,
+  totalDiffCharLimit = DEFAULT_TOTAL_DIFF_CHAR_LIMIT,
+  git = defaultGit,
+} = {}) {
+  const normalizedPreviousCommit = String(previousCommit || '').trim();
+  const usablePreviousCommit =
+    isValidCommitSha(normalizedPreviousCommit) &&
+    commitExists(normalizedPreviousCommit, git) &&
+    isAncestorOfHead(normalizedPreviousCommit, currentRef, git)
+      ? normalizedPreviousCommit
+      : '';
+  const rangeArgs = buildGitLogArgs({
+    previousCommit: usablePreviousCommit,
+    logSinceEpoch,
+    logUntilEpoch,
+    currentRef,
+    maxFallbackCommits,
+  });
+  const logFormat = `--pretty=format:%H${UNIT_SEPARATOR}%h${UNIT_SEPARATOR}%s${UNIT_SEPARATOR}%an${UNIT_SEPARATOR}%ar${UNIT_SEPARATOR}%P`;
+  let rawCommits;
+  try {
+    rawCommits = parseGitLog(git(['log', ...rangeArgs, logFormat]));
+  } catch {
+    throw new Error('无法读取发布范围内的提交列表');
+  }
+
+  const detailedCommits = rawCommits.map(commit => {
+    try {
+      return readCommitDetails(commit, { git, includeDiff: false, includeLinkedCommits: false });
+    } catch {
+      // One malformed or unreadable commit must not discard the whole release.
+      return {
+        ...commit,
+        body: '',
+        bodyHighlights: [],
+        files: [],
+        diff: '',
+        diffFiles: [],
+        linkedCommits: [],
+        detailIncomplete: true,
+      };
+    }
+  });
+  const patchCandidates = detailedCommits
+    .filter(commit => selectDiffFiles(commit.files, 1).length > 0)
+    .slice(0, detailLimit);
+  const diffBudgets = allocateBudgets(patchCandidates.map(commit =>
+    Math.min(DEFAULT_DIFF_CHAR_LIMIT, Math.max(4000, selectDiffFiles(commit.files, Infinity).length * 1200))),
+  Math.max(0, totalDiffCharLimit));
+  for (const [index, commit] of patchCandidates.entries()) {
+    Object.assign(commit, readCommitDiff(commit, { git, diffCharLimit: diffBudgets[index] }));
+  }
+
+  return {
+    commits: detailedCommits,
+    rangeArgs,
+    rawCommitCount: rawCommits.length,
+    coverage: {
+      totalCommits: detailedCommits.length,
+      detailedCommits: detailedCommits.length,
+      totalFiles: detailedCommits.reduce((sum, commit) => sum + commit.files.length, 0),
+      sampledFiles: detailedCommits.reduce((sum, commit) => sum + (commit.diffFiles || []).length, 0),
+      commitsWithDiff: detailedCommits.filter(commit => commit.diff).length,
+      incompleteDiffs: detailedCommits.filter(commit => commit.diffIncomplete).length,
     },
     source: usablePreviousCommit
       ? 'previous-source-commit'
@@ -1929,6 +2015,7 @@ module.exports = {
   buildNetDiffEvidence,
   collectFallbackSummaryItems,
   collectReleaseCommits,
+  collectReleaseCommitsSimple,
   extractCommitShas,
   extractChangeHighlights,
   fetchModelScopeModels,

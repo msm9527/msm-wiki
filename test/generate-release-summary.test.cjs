@@ -357,6 +357,23 @@ test('runner passes the exact release range and git adapter into the shared coll
   assert.deepEqual(gitCalls, [['cat-file', '-e', `${previousCommit}^{commit}`], ['merge-base', '--is-ancestor', previousCommit, currentRef]]);
 });
 
+test('simple strategy selects the full commit collector for AI summaries', async () => {
+  let selected = false;
+  const result = await generateReleaseSummary({
+    env: { RELEASE_SUMMARY_STRATEGY: 'simple' },
+    summaryModule: makeModule({
+      collectReleaseCommits() { assert.fail('simple strategy must not use the strict collector'); },
+      collectReleaseCommitsSimple() {
+        selected = true;
+        return { commits: [{ subject: 'simple collector' }], source: 'previous-source-commit' };
+      },
+    }),
+  });
+  assert.equal(selected, true);
+  assert.equal(result.commitCount, 1);
+  assert.equal(result.status, 'fallback');
+});
+
 test('collector failures never expose raw child-process output', async () => {
   await assert.rejects(generateReleaseSummary({
     env: {},
