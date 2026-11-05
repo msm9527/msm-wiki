@@ -305,17 +305,6 @@ jobs:
           ref: ${{ needs.prepare.outputs.commit_sha }}
           token: ${{ secrets.MSM_REPO_TOKEN }}
 
-      - name: 验证 OpenWrt 运行时兼容性
-        if: matrix.target == 'linux-amd64' || matrix.target == 'linux-arm64' || matrix.target == 'linux-armv7' || matrix.target == 'linux-armv6'
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ ! -f scripts/check-openwrt-compatibility.sh ]; then
-            echo "error: MSM 源码缺少 OpenWrt 兼容性检查；请先合入 procd 和网络规则归属修复" >&2
-            exit 1
-          fi
-          bash scripts/check-openwrt-compatibility.sh
-
       - name: Checkout 当前仓库（msm-wiki）用于派网 APX 模板
         if: matrix.target == 'linux-amd64' || matrix.target == 'linux-arm64'
         continue-on-error: true

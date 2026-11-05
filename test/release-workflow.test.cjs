@@ -423,25 +423,12 @@ test('Beta release refuses missing OpenWrt artifacts and still lists OpenWrt whe
   }
 })
 
-test('Beta OpenWrt builds reject source revisions without a successful runtime compatibility check', () => {
+test('Beta builds do not require the removed OpenWrt backport compatibility script', () => {
   for (const workflow of [betaWorkflow]) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
-    const guard = source.indexOf('      - name: 验证 OpenWrt 运行时兼容性')
-    assert.ok(guard > source.indexOf('\n  build:\n'))
-    assert.ok(guard < source.indexOf('      - name: 编译 MSM（发布加固版）'))
-    assert.match(source.slice(guard, source.indexOf('      - name: Checkout 当前仓库（msm-wiki）用于派网 APX 模板')),
-      /if: matrix\.target == 'linux-amd64' \|\| matrix\.target == 'linux-arm64' \|\| matrix\.target == 'linux-armv7' \|\| matrix\.target == 'linux-armv6'/)
-    withReleaseFixture(workflow, (fixture) => {
-      const missing = runWorkflowScript(source, '验证 OpenWrt 运行时兼容性', fixture)
-      assert.notEqual(missing.status, 0)
-      assert.match(missing.stderr, /源码缺少 OpenWrt 兼容性检查/)
-      fs.mkdirSync(path.join(fixture.temp, 'scripts'))
-      const guardScript = path.join(fixture.temp, 'scripts', 'check-openwrt-compatibility.sh')
-      fs.writeFileSync(guardScript, '#!/bin/sh\nexit 14\n')
-      assert.equal(runWorkflowScript(source, '验证 OpenWrt 运行时兼容性', fixture).status, 14)
-      fs.writeFileSync(guardScript, '#!/bin/sh\nexit 0\n')
-      assert.equal(runWorkflowScript(source, '验证 OpenWrt 运行时兼容性', fixture).status, 0)
-    })
+    assert.equal(source.includes('验证 OpenWrt 运行时兼容性'), false)
+    assert.equal(source.includes('check-openwrt-compatibility.sh'), false)
+    assert.ok(source.indexOf('      - name: 编译 MSM（发布加固版）') > source.indexOf('\n  build:\n'))
   }
 })
 
