@@ -38,9 +38,18 @@ EasyTier 支持公共中继和自定义 Peer：
 - 可填写一个或多个域名、IP 形式的初始 Peer。
 - Peer 使用域名时，MSM 会把域名同步到 MosDNS 直连名单，避免代理 DNS 改写连接目标。
 - 可发布家庭 LAN 路由，让远端访问局域网。
+- 虚拟地址可选 DHCP 自动分配或固定本机地址，二者互斥：**开启 DHCP 时填写的本机地址不会生效**，详见下方说明。
 - 接入资料包含网络名称、节点信息和共享密钥。
 
 公共节点适合快速验证；生产环境应评估可用性、隐私与延迟，并按需部署自己的 EasyTier Peer。共享密钥可让设备加入整个网络，只能通过可信渠道传递。
+
+### DHCP 与固定本机地址
+
+开启 DHCP 后，MSM 生成的 EasyTier 配置只包含 `dhcp = true`，不会写入弹窗中的本机地址。EasyTier 每次启动都会重新挑选空闲地址；对端仍保留旧实例的路由记录时，原地址会被视为已占用，因此在 EasyTier 或 MSM 重启、自动更新后，虚拟 IP 可能变化（例如从 `10.10.0.1` 变为 `10.10.0.4`）。
+
+如果需要通过固定虚拟 IP 访问 MSM 或家庭 LAN（SSH 跳板、路由规则、远端设备配置等），请 **关闭 DHCP** 并填写本机地址。此时 MSM 生成 `ipv4 = "<本机地址>"` 与 `dhcp = false`，重启后地址保持不变。网络内每个节点的地址必须唯一，建议所有长期在线节点都使用固定地址。
+
+可在 `~/.msm/configs/networking/easytier.toml` 中确认实际生效的配置，在 EasyTier 日志中搜索 `dhcp ip changed` 查看历次分配结果。
 
 ## Tailscale / Headscale
 
@@ -108,6 +117,10 @@ WireGuard 需要一个远端可达的 Endpoint。设置弹窗支持：
 ### Tailscale 保存后无法注册
 
 控制服务器必须是有效 HTTPS 地址；Auth Key 必须属于该控制面。Headscale 用户还需检查预授权、用户和路由批准。
+
+### EasyTier 虚拟 IP 重启后变化
+
+检查是否开启了 DHCP。开启 DHCP 时本机地址不生效，地址由 EasyTier 动态分配。需要固定地址时请关闭 DHCP，参见 [DHCP 与固定本机地址](#dhcp-与固定本机地址)。
 
 ### EasyTier Peer 域名无法连接
 
