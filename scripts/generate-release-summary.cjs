@@ -41,6 +41,9 @@ const OUTPUT_CHECKS = [
   ['empty-category', /分类 .* 没有实际条目/u],
   ['missing-details', /缺少详细变更分类/u],
   ['too-many-highlights', /亮点超过 6 条/u],
+  ['missing-topic', /缺少重点主题/u],
+  ['duplicate-topic', /重复发布主题|详细分类出现重复/u],
+  ['repeated-overview', /重复概览/u],
   ['unverified-claims', /未经单独验证的绝对化或量化宣传/u],
   ['credential-echo', /模型输出包含敏感凭据/u],
 ];
@@ -171,7 +174,9 @@ function loadReleaseBrief(previousCommit, currentRef, git) {
   if (!Array.isArray(brief.topics) || !brief.topics.every(topic => typeof topic === 'string')
       || !Array.isArray(brief.requiredTopics)
       || !brief.requiredTopics.every(topic => typeof topic.name === 'string'
-        && Array.isArray(topic.terms) && topic.terms.every(term => typeof term === 'string' && term))
+        && Array.isArray(topic.terms) && topic.terms.length > 0
+        && topic.terms.every(term => typeof term === 'string' && term)
+        && (topic.unique === undefined || typeof topic.unique === 'boolean'))
       || !Array.isArray(brief.forbiddenClaims)
       || !brief.forbiddenClaims.every(claim => typeof claim.name === 'string'
         && typeof claim.pattern === 'string' && claim.pattern)) {
@@ -224,10 +229,12 @@ function formatJobSummary(result) {
     ? '\n> 图记录数不是新增功能数；未单列的记录不等于没有新代码，侧分支变化由版本间净差异统一提供证据。\n'
     : '';
   const reviewNote = result.review ? `\n> 二次审稿：${result.review.status === 'passed' ? '已生成审校稿，并通过输出检查（仍不等同于人工验证）' : '未完成，保留通过检查的 AI 初稿'}。\n` : '';
+  const topicRows = result.contentChecks
+    ? `| 已覆盖 / 必需编辑主题 | ${result.contentChecks.coveredTopics} / ${result.contentChecks.requiredTopics} |\n| 主题及重复正文检查 | ${result.contentChecks.duplicateChecks} |\n` : '';
   const catalogRows = result.modelCatalog
     ? `| 模型目录状态 | ${result.modelCatalog.status}${result.modelCatalog.reasonCode ? ` (${result.modelCatalog.reasonCode})` : ''} |\n| 目录候选 / 跳过 / 动态补充 | ${result.modelCatalog.candidateCount ?? '—'} / ${result.modelCatalog.skippedCount ?? '—'} / ${result.modelCatalog.discoveredCount ?? '—'} |\n`
     : '';
-  return `## 发布日志生成结果\n\n| 项目 | 结果 |\n| --- | --- |\n| 通道 | ${result.channel} |\n| 生成状态 | ${state} |\n| 成功模型 | ${result.modelName || '—'} |\n| 模型尝试次数 | ${result.attemptCount} |\n${catalogRows}| 发布线上下文提交数 | ${result.commitCount} |\n${baselineRows}| 日志条目数（含亮点） | ${result.itemCount} |\n| 亮点条目数 | ${result.highlightCount} |\n| 已读取正文与文件列表的上下文提交 | ${result.coverage.detailedCommits ?? '—'} |\n| 已采样 Diff 的上下文提交 | ${result.coverage.commitsWithDiff ?? '—'} |\n| 逐提交累计已采样文件 / 变更文件（非唯一） | ${result.coverage.sampledFiles ?? '—'} / ${result.coverage.totalFiles ?? '—'} |\n| Diff 未完整展开的上下文提交 | ${result.coverage.incompleteDiffs ?? '—'} |\n| 范围来源 | ${result.source} |\n\n> 上述覆盖计数反映输入上下文的采样，不代表模型已逐项覆盖全部功能。\n${baselineNote}${reason}${reviewNote}${attempts}\n### 公开发布日志\n\n${result.summary}\n`;
+  return `## 发布日志生成结果\n\n| 项目 | 结果 |\n| --- | --- |\n| 通道 | ${result.channel} |\n| 生成状态 | ${state} |\n| 成功模型 | ${result.modelName || '—'} |\n| 模型尝试次数 | ${result.attemptCount} |\n${catalogRows}${topicRows}| 发布线上下文提交数 | ${result.commitCount} |\n${baselineRows}| 日志条目数（含亮点） | ${result.itemCount} |\n| 亮点条目数 | ${result.highlightCount} |\n| 已读取正文与文件列表的上下文提交 | ${result.coverage.detailedCommits ?? '—'} |\n| 已采样 Diff 的上下文提交 | ${result.coverage.commitsWithDiff ?? '—'} |\n| 逐提交累计已采样文件 / 变更文件（非唯一） | ${result.coverage.sampledFiles ?? '—'} / ${result.coverage.totalFiles ?? '—'} |\n| Diff 未完整展开的上下文提交 | ${result.coverage.incompleteDiffs ?? '—'} |\n| 范围来源 | ${result.source} |\n\n> 上述覆盖计数反映输入上下文的采样，不代表模型已逐项覆盖全部功能。\n${baselineNote}${reason}${reviewNote}${attempts}\n### 公开发布日志\n\n${result.summary}\n`;
 }
 
 /**
@@ -411,6 +418,7 @@ async function generateReleaseSummary({
         ...(aiBaseUrl ? { baseUrl: aiBaseUrl, wireApi: aiWireApi } : {}),
         requiresOpenAiAuth,
         prompt: summaryModule.buildSummaryPrompt(commits),
+        omitHighlights: true,
         requiredTopics: context.releaseBaseline?.editorialBrief?.requiredTopics || [],
         forbiddenClaims: context.releaseBaseline?.editorialBrief?.forbiddenClaims || [],
         fetchImpl,
@@ -484,6 +492,7 @@ async function generateReleaseSummary({
         ...(aiBaseUrl ? { baseUrl: aiBaseUrl, wireApi: aiWireApi } : {}),
         requiresOpenAiAuth,
         prompt: reviewPrompt,
+        omitHighlights: true,
         requiredTopics: context.releaseBaseline?.editorialBrief?.requiredTopics || [],
         forbiddenClaims: context.releaseBaseline?.editorialBrief?.forbiddenClaims || [],
         thinking: false,
@@ -508,6 +517,13 @@ async function generateReleaseSummary({
     }
     modelAttempts.push(...reviewAttempts.map(attempt => ({ ...attempt, phase: 'review' })));
   }
+  const contentValidation = status === 'ai' && typeof summaryModule.validateSummary === 'function'
+    ? summaryModule.validateSummary(summary, {
+      requiredTopics: context.releaseBaseline?.editorialBrief?.requiredTopics || [],
+      forbiddenClaims: context.releaseBaseline?.editorialBrief?.forbiddenClaims || [],
+      omitHighlights: true,
+    }) : null;
+  if (contentValidation && !contentValidation.valid) throw new Error('最终 AI 摘要未通过内容检查，已停止输出');
   const result = {
     summary,
     status,
@@ -518,6 +534,12 @@ async function generateReleaseSummary({
     attemptCount: Math.max(loggedAttempts.length, modelAttempts.length, reportedAttempts, status === 'ai' ? 1 : 0),
     modelAttempts,
     ...(review ? { review } : {}),
+    ...(contentValidation ? { contentChecks: {
+      requiredTopics: contentValidation.topicCoverage.required,
+      coveredTopics: contentValidation.topicCoverage.covered,
+      duplicateChecks: 'passed',
+      highlights: 'omitted',
+    } } : {}),
     ...(modelCatalog ? { modelCatalog } : {}),
     ...(fallbackSource ? { fallbackSource } : {}),
     fallbackReason,

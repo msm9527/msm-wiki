@@ -76,6 +76,8 @@ jobs:
       - name: 读取版本信息
         id: meta
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
 
@@ -129,8 +131,9 @@ jobs:
           LOG_UNTIL_EPOCH="${COMMIT_EPOCH}"
           CURRENT_RELEASE_TIME="$(date -d "@${LOG_UNTIL_EPOCH}" +'%Y-%m-%d %H:%M:%S CST')"
 
-          RELEASES_API="https://api.github.com/repos/msm9527/msm-wiki/releases?per_page=100"
-          RELEASES_JSON="$(curl -fsSL "${RELEASES_API}" 2>/dev/null || echo '[]')"
+          # Authenticated, paginated lookup: an API error must not look like a
+          # first release and silently broaden the notes to the last 100 commits.
+          RELEASES_JSON="$(gh api --paginate 'repos/msm9527/msm-wiki/releases?per_page=100' | jq -sce 'add | arrays')"
 
           if command -v jq >/dev/null 2>&1; then
             PREVIOUS_RELEASE_JSON="$(echo "${RELEASES_JSON}" | jq -c --arg current_tag "${RELEASE_VERSION}" '[.[] | select(.draft == false and .prerelease == true and (.tag_name | startswith("beta-")) and .tag_name != $current_tag and .published_at != null)] | sort_by(.published_at) | last // {}' || echo '{}')"

@@ -5,12 +5,15 @@ on:
     paths:
       - 'scripts/ai-release-summary.cjs'
       - 'scripts/release-prompt-budget.cjs'
+      - 'scripts/release-summary-quality.cjs'
+      - 'scripts/release-briefs/**'
       - 'scripts/generate-release-summary.cjs'
       - 'scripts/modelscope-diagnostics.cjs'
       - 'scripts/RELEASE_NOTES.md'
       - 'test-modelscope-api.js'
       - 'test/ai-release-summary.test.cjs'
       - 'test/release-prompt-budget.test.cjs'
+      - 'test/release-summary-quality.test.cjs'
       - 'test/generate-release-summary.test.cjs'
       - 'test/release-rule-summary.test.cjs'
       - 'test/modelscope-diagnostics.test.cjs'
@@ -28,12 +31,15 @@ on:
     paths:
       - 'scripts/ai-release-summary.cjs'
       - 'scripts/release-prompt-budget.cjs'
+      - 'scripts/release-summary-quality.cjs'
+      - 'scripts/release-briefs/**'
       - 'scripts/generate-release-summary.cjs'
       - 'scripts/modelscope-diagnostics.cjs'
       - 'scripts/RELEASE_NOTES.md'
       - 'test-modelscope-api.js'
       - 'test/ai-release-summary.test.cjs'
       - 'test/release-prompt-budget.test.cjs'
+      - 'test/release-summary-quality.test.cjs'
       - 'test/generate-release-summary.test.cjs'
       - 'test/release-rule-summary.test.cjs'
       - 'test/modelscope-diagnostics.test.cjs'
@@ -80,6 +86,7 @@ jobs:
           node --test \
             test/ai-release-summary.test.cjs \
             test/release-prompt-budget.test.cjs \
+            test/release-summary-quality.test.cjs \
             test/generate-release-summary.test.cjs \
             test/release-rule-summary.test.cjs \
             test/modelscope-diagnostics.test.cjs \
