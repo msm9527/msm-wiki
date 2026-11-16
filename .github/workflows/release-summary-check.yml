@@ -4,11 +4,13 @@ on:
   pull_request:
     paths:
       - 'scripts/ai-release-summary.cjs'
+      - 'scripts/release-prompt-budget.cjs'
       - 'scripts/generate-release-summary.cjs'
       - 'scripts/modelscope-diagnostics.cjs'
       - 'scripts/RELEASE_NOTES.md'
       - 'test-modelscope-api.js'
       - 'test/ai-release-summary.test.cjs'
+      - 'test/release-prompt-budget.test.cjs'
       - 'test/generate-release-summary.test.cjs'
       - 'test/release-rule-summary.test.cjs'
       - 'test/modelscope-diagnostics.test.cjs'
@@ -25,11 +27,13 @@ on:
     branches: [main]
     paths:
       - 'scripts/ai-release-summary.cjs'
+      - 'scripts/release-prompt-budget.cjs'
       - 'scripts/generate-release-summary.cjs'
       - 'scripts/modelscope-diagnostics.cjs'
       - 'scripts/RELEASE_NOTES.md'
       - 'test-modelscope-api.js'
       - 'test/ai-release-summary.test.cjs'
+      - 'test/release-prompt-budget.test.cjs'
       - 'test/generate-release-summary.test.cjs'
       - 'test/release-rule-summary.test.cjs'
       - 'test/modelscope-diagnostics.test.cjs'
@@ -75,6 +79,7 @@ jobs:
         run: |
           node --test \
             test/ai-release-summary.test.cjs \
+            test/release-prompt-budget.test.cjs \
             test/generate-release-summary.test.cjs \
             test/release-rule-summary.test.cjs \
             test/modelscope-diagnostics.test.cjs \

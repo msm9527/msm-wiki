@@ -239,8 +239,10 @@ test('release summary code has a dedicated pull request validation workflow', ()
   const source = fs.readFileSync(path.join(root, '.github/workflows/release-summary-check.yml'), 'utf8')
   for (const watched of [
     "'scripts/ai-release-summary.cjs'",
+    "'scripts/release-prompt-budget.cjs'",
     "'scripts/generate-release-summary.cjs'",
     "'test/ai-release-summary.test.cjs'",
+    "'test/release-prompt-budget.test.cjs'",
     "'test/generate-release-summary.test.cjs'",
     "'.github/workflows/release-summary-preview.yml'",
   ]) assert.match(source, new RegExp(watched.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))

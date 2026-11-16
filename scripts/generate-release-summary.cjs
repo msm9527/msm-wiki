@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { DEFAULT_AI_BASE_URL, DEFAULT_AI_MODEL } = require('./ai-release-summary.cjs');
+const { PROMPT_BUDGET_EXCEEDED } = require('./release-prompt-budget.cjs');
 
 const SHA_PATTERN = /^[0-9a-f]{40}$/iu;
 const MODEL_PATTERN = /^[a-z0-9][a-z0-9._/-]{0,159}$/iu;
@@ -16,6 +17,7 @@ const FAILURE_LABELS = {
   'provider-unavailable': 'AI 推理服务暂时不可用',
   'timeout': '模型请求超时',
   'request-failed': '模型请求失败',
+  'prompt-too-large': '变更上下文超过输入预算，尚未调用模型',
   'invalid-output': '模型输出未通过公开摘要检查',
 };
 const ATTEMPT_STATUSES = new Set(['success', 'failed', 'unknown']);
@@ -74,6 +76,7 @@ function countSummaryItems(summary) {
 }
 
 function failureCode(error) {
+  if (error?.code === PROMPT_BUDGET_EXCEEDED) return 'prompt-too-large';
   if (Object.hasOwn(FAILURE_LABELS, error?.reasonCode)) return error.reasonCode;
   const message = String(error?.message || error || '');
   if (/insufficient balance|quota|余额|配额/iu.test(message)) return 'quota-exhausted';
@@ -208,7 +211,8 @@ function formatJobSummary(result) {
   const fallbackDescription = result.fallbackSource === 'reviewed-beta'
     ? '已采用与稳定源提交精确匹配的 Beta 已发布摘要'
     : '已保留规则摘要';
-  const reason = result.fallbackReason ? `\n> ${FAILURE_LABELS[result.fallbackReason]}；${fallbackDescription}，请检查模型配置或账户额度。\n` : '';
+  const advice = result.fallbackReason === 'prompt-too-large' ? '请缩小发布范围或分批生成' : '请检查模型配置或账户额度';
+  const reason = result.fallbackReason ? `\n> ${FAILURE_LABELS[result.fallbackReason]}；${fallbackDescription}，${advice}。\n` : '';
   const attempts = result.modelAttempts.length
     ? `\n### 模型尝试结果\n\n| 次序 | 模型 | 状态 | 原因码 | 阶段 |\n| --- | --- | --- | --- | --- |\n${result.modelAttempts.map((attempt, index) => `| ${index + 1} | ${attempt.model} | ${attempt.status} | ${attempt.reasonCode} | ${attempt.phase || 'draft'} |`).join('\n')}\n`
     : '';

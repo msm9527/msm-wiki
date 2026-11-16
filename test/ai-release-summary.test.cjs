@@ -516,7 +516,7 @@ test('prompt reserves room for every commit and all body highlights before shari
 });
 
 test('a complete evidence index that exceeds budget is rejected instead of silently dropping later commits', () => {
-  assert.throws(() => buildSummaryPrompt([{ subject: 'feat: 支持新功能', bodyHighlights: ['新增功能 '.repeat(40000)] }]), /不能静默丢弃提交/);
+  assert.throws(() => buildSummaryPrompt([{ subject: 'feat: 支持新功能', bodyHighlights: ['新增功能 '.repeat(60000)] }]), /不能静默丢弃提交/);
 });
 
 test('summary validator supports both current categories and old headings', () => {
@@ -999,7 +999,7 @@ test('review prompt keeps the authoritative evidence and treats a draft as mater
   assert.match(prompt, /时间\/时区处理、权限与角色边界、输入校验/);
   assert.match(prompt, /删除同义重复/);
   assert.ok(prompt.length <= 180000);
-  assert.throws(() => buildReviewPrompt(commits, 'x'.repeat(180000)), /超过输入预算/);
+  assert.throws(() => buildReviewPrompt(commits, 'x'.repeat(260000)), /超过输入预算/);
 });
 
 const overstatedDraft = '### 🐛 问题修复（Fixed）\n- **网络修复**：彻底解决所有网络问题，内部草稿标记不应进入错误日志';

@@ -1,6 +1,7 @@
 'use strict';
 
 const { execFileSync } = require('child_process');
+const { promptBudgetError, withPromptBudget } = require('./release-prompt-budget.cjs');
 
 const UNIT_SEPARATOR = '\x1F';
 const DEFAULT_MAX_FALLBACK_COMMITS = 100;
@@ -16,7 +17,6 @@ const LARGE_RELEASE_DIFF_CHAR_LIMIT = 90000;
 const DEFAULT_BODY_CHAR_LIMIT = 6000;
 const DEFAULT_BODY_HIGHLIGHT_LIMIT = Infinity;
 const DEFAULT_BODY_HIGHLIGHT_CHAR_LIMIT = Infinity;
-const DEFAULT_PROMPT_CHAR_LIMIT = 180000;
 const MODELSCOPE_MODELS_URL = 'https://api-inference.modelscope.cn/v1/models';
 const MODELSCOPE_CHAT_COMPLETIONS_URL = 'https://api-inference.modelscope.cn/v1/chat/completions';
 // The generic provider is configured by the workflow. These defaults match the
@@ -1359,12 +1359,19 @@ function collectFallbackSummaryItems(commits, {
   };
 }
 
-function buildSummaryPrompt(commits, { maxPromptChars, releaseBaseline = commits?.releaseBaseline } = {}) {
-  const effectiveMaxPromptChars = maxPromptChars ?? (releaseBaseline?.diffIncomplete ? 260000 : DEFAULT_PROMPT_CHAR_LIMIT);
+function buildSummaryPrompt(commits, options = {}) {
+  const { releaseBaseline = commits?.releaseBaseline } = options;
+  return withPromptBudget(maxPromptChars => buildSummaryPromptWithinBudget(commits, { ...options, maxPromptChars }), {
+    maxPromptChars: options.maxPromptChars,
+    largeContext: Boolean(releaseBaseline?.diffIncomplete),
+  });
+}
+
+function buildSummaryPromptWithinBudget(commits, { maxPromptChars: effectiveMaxPromptChars, releaseBaseline = commits?.releaseBaseline }) {
   if (releaseBaseline?.editorialBrief?.topics?.length) {
     const brief = releaseBaseline.editorialBrief;
     const prompt = `你是 MSM 的中文发布编辑。以下提纲根据已发布 Beta 版本说明与 ${releaseBaseline.previousCommit} 到 ${releaseBaseline.currentRef} 的源码提交整理；完整净变化为 ${releaseBaseline.files.length} 个文件。提纲是本次文案的事实边界，不代表模型逐文件审核代码。你的任务是准确、完整地整理用户可见变化，不增加提纲之外的功能、效果、指标、验证结论或升级操作。\n\n<release_editorial_brief>\n${brief.topics.map((topic, index) => `${index + 1}. ${topic}`).join('\n')}\n</release_editorial_brief>\n\n写作要求：\n1. 每个提纲主题都要在详细分类中有对应条目；同一主题的互相关联变化可合并成一条，不同主题不要笼统合并。先列完整更新，再从中挑 3–6 条跨模块亮点。\n2. 方括号类型决定详细分类：[新增] 归新增功能、[增强] 归功能增强、[修复] 归问题修复、[安全] 归安全加固、[性能] 归性能优化；不得把已有功能的重构、恢复校验或兼容修复写成首次新增。每个提纲主题只能落一个详细分类，亮点可提炼但不重复整段。\n3. 只写用户能感知的行为和影响，不写内部类名、函数名、源码路径、文件迁移、测试或文档清理。不要把提纲中的“不能”“不要”“核对”等编辑约束当作发布事实。升级提醒只写必须采取的操作或真实兼容边界，不要重复正文，也不要保证跨版本升级绝对无损。\n4. systemd 模式是有环境条件的能力，并非所有服务默认统一切换；网卡告警不会自动切换网卡；DNS 关闭须保持关闭。已存在的 Docker Center、反向代理与 macvlan 校验不能写成首次新增。\n5. 每条以“- **短标题**：具体变化和用户收益”呈现。不要输出总标题、解释、覆盖清单、HTML、代码围栏或思考过程；空分类省略。避免“全面”“彻底解决”“零故障”等绝对化用语和未经实测的性能数字。\n可用分类：### 🎉 本次亮点（Highlights）、### 🎉 重磅功能（Major）、### 🆕 新增功能（Added）、### ✨ 功能增强（Changed）、### ⚡ 性能优化（Performance）、### 🐛 问题修复（Fixed）、### 🛡️ 安全加固（Security）、### ⚠️ 兼容性变更（Deprecated）、### 📌 升级提醒（Notes）。\n\n特别核对手机 WireGuard、进程恢复、初始化 DNS 关闭、多网卡健康提示、自定义节点批量删除、Sing-Box 兼容升级、Docker Compose 和 IPv6 透明代理是否各有具体详项。只输出完整中文 Markdown 发布日志。`;
-    if (prompt.length > effectiveMaxPromptChars) throw new Error('发布编辑提纲超过输入预算');
+    if (prompt.length > effectiveMaxPromptChars) throw promptBudgetError('发布编辑提纲超过输入预算', prompt.length, effectiveMaxPromptChars);
     return prompt;
   }
   const largeRelease = (releaseBaseline?.files.length || 0) > LARGE_RELEASE_FILE_THRESHOLD;
@@ -1432,7 +1439,7 @@ function buildSummaryPrompt(commits, { maxPromptChars, releaseBaseline = commits
   const baselineLength = wrap(base.join('\n\n')).length;
   if (!Number.isFinite(effectiveMaxPromptChars) || effectiveMaxPromptChars < 1) throw new Error('发布日志输入预算必须是正整数');
   if (baselineLength > effectiveMaxPromptChars) {
-    throw new Error(`完整变更索引需要 ${baselineLength} 字符，超过输入预算 ${effectiveMaxPromptChars}；请分批生成或提高 maxPromptChars，不能静默丢弃提交`);
+    throw promptBudgetError(`完整变更索引需要 ${baselineLength} 字符，超过输入预算 ${effectiveMaxPromptChars}；请分批生成或提高 maxPromptChars，不能静默丢弃提交`, baselineLength, effectiveMaxPromptChars);
   }
   const desired = entries.map(commit => formatCommitForPrompt(commit, { fileLimit }).length);
   const allocations = base.map(() => 0);
@@ -1463,9 +1470,16 @@ function buildSummaryPrompt(commits, { maxPromptChars, releaseBaseline = commits
   return wrap(contexts.join('\n\n'));
 }
 
-function buildReviewPrompt(commits, draft, { maxPromptChars, releaseBaseline = commits?.releaseBaseline } = {}) {
+function buildReviewPrompt(commits, draft, options = {}) {
+  const { releaseBaseline = commits?.releaseBaseline } = options;
+  return withPromptBudget(maxPromptChars => buildReviewPromptWithinBudget(commits, draft, { ...options, maxPromptChars }), {
+    maxPromptChars: options.maxPromptChars,
+    largeContext: Boolean(releaseBaseline?.diffIncomplete),
+  });
+}
+
+function buildReviewPromptWithinBudget(commits, draft, { maxPromptChars: effectiveMaxPromptChars, releaseBaseline = commits?.releaseBaseline }) {
   if (!normalizeText(draft)) throw new Error('待审稿发布日志不能为空');
-  const effectiveMaxPromptChars = maxPromptChars ?? (releaseBaseline?.diffIncomplete ? 260000 : DEFAULT_PROMPT_CHAR_LIMIT);
   const review = `
 
 <release_editorial_review>
@@ -1481,7 +1495,7 @@ function buildReviewPrompt(commits, draft, { maxPromptChars, releaseBaseline = c
 ${JSON.stringify(String(draft))}
 </release_editorial_review>
 请输出已经逐项补漏、语义去重并纠正假新增的完整中文发布日志。`;
-  if (review.length >= effectiveMaxPromptChars) throw new Error('审稿草稿超过输入预算');
+  if (review.length >= effectiveMaxPromptChars) throw promptBudgetError('审稿草稿超过输入预算', review.length, effectiveMaxPromptChars);
   return buildSummaryPrompt(commits, { releaseBaseline, maxPromptChars: effectiveMaxPromptChars - review.length }) + review;
 }
 
