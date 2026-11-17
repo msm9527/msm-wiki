@@ -12,63 +12,131 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.2.2" data-release-date="2026-11-16 15:01:09 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.2">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.2.3" data-release-date="2026-11-17 15:02:41 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.3">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.2.2</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.2.3</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.2" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.3" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>33 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>5 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-16 15:01:09 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>13 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-17 15:02:41 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSAqKuejgeebmOWNoOeUqOWPr+afpe+8jOa4heeQhuWJjeWPr+mihOiniCoq77ya5aSH5Lu96aG16Z2i5aKe5Yqg5YiG57G75Y2g55So5LiO5Y6G5Y+y5pel5b+X5riF55CG5YWl5Y+j77yM5YWI5p+l55yL5YCZ6YCJ5paH5Lu244CB5YaN56Gu6K6k5omn6KGM77yM5biu5Yqp5Yik5pat5Y+v6YeK5pS+56m66Ze077yM5ZCM5pe26YG/5byA5q2j5Zyo5L2/55So55qE5pWw5o2u44CCIiwiLSAqKuWkh+S7veaMieaBouWkjeebrueahOmAieaLqSoq77ya5aKe5Yqg6YWN572u5aSH5Lu944CB56a757q/6L+B56e75YyF77yM5bm257uG5YyW6Ieq5Yqo5aSH5Lu955qE5pWw6YeP44CB5aSp5pWw5ZKM5a656YeP6ZmQ5Yi277yM5YW86aG+5pel5bi46YWN572u5L+d5oqk44CB6L+B56e75LiO5Y2H57qn5oGi5aSN44CCIiwiLSAqKuaXgei3r+eUseWbnueoi+abtOWPr+aOpyoq77ya5a6e546w5bm25a6M5ZaEIExpbnV4IOmAj+aYjuS7o+eQhueahOWPjOagiOe9keWFs+Wbnueoi++8jOihpeWFheWunumZhemAiei3r+iviuaWreOAgeWksei0peWbnua7mu+8jOW5tuS/ruWkjei/nuaOpei3n+i4qui/h+acn+WQjueahCBVRFAg5Zue56iL5LiO5Lya6K+d57ut5Lyg6Zeu6aKY44CCIiwiLSAqKkRvY2tlciDlsZXnpLrmm7TotLTlkIjkvb/nlKjkuaDmg68qKu+8muWNoeeJh+S4juWIl+ihqOWPr+eLrOeri+mAieaLqeWxleekuuWtl+aute+8jOWNoeeJh+aPkOS+m+S4ieaho+Wkp+Wwj++8m+WQjOaXtuS/ruWkjeWbvuagh+iNieeov+iiq+i9ruivouimhuebluOAgeinhuWbvumHjeWkjeaYvuekuuWSjOiKgueCueWIm+W7uuWQjuWIt+aWsOmYu+WhnuOAgiIsIi0gKirlj43ku6PlvILluLjlkI7nu6fnu63lsJ3or5XmgaLlpI0qKu+8muWinuWKoOeLrOeri+WQr+WKqOmHjeivleS4jui/m+eoi+aBouWkje+8jOmHjeWQr+Wksei0peaXtuaBouWkjeWPjeS7o+WPiuiwg+W6puWZqO+8jOaUueWWhOS4tOaXtuerr+WPo+WGsueqgeOAgei/m+eoi+W8guW4uOWQjueahOacjeWKoeaBouWkjeihjOS4uuOAgiJdLCJtYWpvciI6W10sImFkZGVkIjpbIi0gKirliIbnsbvmn6XnnIvlrZjlgqjljaDnlKgqKu+8mueuoeeQhuWRmOWPr+WcqOKAnOezu+e7n+iuvue9riDihpIg5aSH5Lu95LiO5oGi5aSN4oCd5p+l55yL6YWN572u44CB57uE5Lu244CB5aSH5Lu944CB5pel5b+X5ZKM5pWw5o2u5bqT5Y2g55So77yM5Lul5Y+K5a+55bqU56OB55uY5Ymp5L2Z56m66Ze044CC5omr5o+P5pyJ5pe26Ze05LiO5paH5Lu25pWw5LiK6ZmQ77yM57uf6K6h5LiN5a6M5pW05pe25Lya5piO56Gu5qCH6K6w44CCIiwiLSAqKuWOhuWPsuaXpeW/l+WFiOmihOiniOWGjea4heeQhioq77ya5pSv5oyB5omL5Yqo6aKE6KeI44CB56Gu6K6k5omn6KGM5Y+K5a6a5pyf5riF55CG5Y6G5Y+y5pel5b+X44CC5riF55CG6K6h5YiS57uR5a6a566h55CG5ZGY44CB5LqU5YiG6ZKf5YaF5pyJ5pWI77yM5omn6KGM5YmN6YeN5paw5qOA5p+l77yb5q2j5Zyo5YaZ5YWl44CB6KKr5pu/5o2i5oiW5LiN5YaN56ym5ZCI5p2h5Lu255qE5paH5Lu25Lya6Lez6L+H77yM5LiN6YCa6L+H5q2k5YWl5Y+j5Yig6Zmk5aSH5Lu944CB5qC45b+D5ZKM5pWw5o2u5bqT44CCIiwiLSAqKuaMieaBouWkjeebrueahOmAieaLqeWkh+S7vSoq77ya5o+Q5L6b6YWN572u5aSH5Lu944CB56a757q/6L+B56e75YyF77yM5L+d55WZ5Y6f5pyJ6Ieq5a6a5LmJ5a6M5pW06IyD5Zu044CC5omL5bel5Yib5bu65LuN6buY6K6k6YeH55So6Ieq5a6a5LmJ5a6M5pW06IyD5Zu077yM5Y+v5qC55o2u5pel5bi45oGi5aSN5oiW6L+B56e76ZyA5rGC6YCJ5oup5YaF5a6544CCIiwiLSAqKkRvY2tlciDlsZXnpLrlrZfmrrXni6znq4vkv53lrZgqKu+8muWNoeeJh+S4juWIl+ihqOWPr+WIhuWIq+mAieaLqemVnOWDj+OAgeivtOaYjuWPiui1hOa6kOaMh+agh+etieWtl+aute+8jOaBouWkjem7mOiupOS7heW9seWTjeW9k+WJjeinhuWbvu+8m+makOiXj+aMh+agh+WQjuS7jeS/neeVmeWuueWZqOWQjeensOWSjOaTjeS9nOWFpeWPo+OAgiIsIi0gKipEb2NrZXIg5Y2h54mH5aSn5bCP5Y+v6YCJKirvvJrlop7liqDntKflh5HjgIHmoIflh4bjgIHlrr3mnb7kuInmoaPljaHniYflpKflsI/vvIzlubbkv53lrZjpgInmi6nvvIzliLfmlrDlkI7ku43lj6/msr/nlKjvvIzkvr/kuo7mjInlsY/luZXnqbrpl7TosIPmlbTkv6Hmga/lr4bluqbjgIIiLCItICoqTGludXgg5peB6Lev55Sx5pSv5oyB57uP5Li76Lev55Sx5Zue56iLKirvvJrlnKggbmZ0L+mAj+aYjuS7o+eQhuaooeW8j+S4i++8jOWPr+aMieaMh+WumuaOpeWPo+OAgeS4i+S4gOi3s+S4juWuouaIt+err+e9keaute+8jOiuqeWPl+euoSBGYWtlLUlQIFRDUC9VRFAg5Zue5YyF57uP5Li76Lev55Sx6L+U5Zue77yM5pSv5oyBIElQdjQg5LiOIElQdjbvvJvmnKzmnLrmo4DmtYvlgLzlj6/nlKjkuo7loavlhpnojYnnqL/vvIznoa7orqTkv53lrZjlkI7lupTnlKjjgIIiXSwiY2hhbmdlZCI6WyItICoq6Ieq5Yqo5aSH5Lu95L+d55WZ6KeE5YiZ5pu057uG6Ie0KirvvJrmlK/mjIHmjInmlbDph4/jgIHlpKnmlbDlkozlrrnph4/nrqHnkIboh6rliqjlpIfku73vvIzlubbkuLrlkITljYfnuqfnm67moIfni6znq4vkv53nlZnmgaLlpI3ngrnjgILmr4/nu4TmnIDov5HnmoTlt7Lpqozor4HmoaPmoYjlj4rlvoXmgaLlpI3moaPmoYjlj5fkv53miqTvvJvmiYvlt6XkuI7lr7zlhaXlpIfku73ku43nlLHnlKjmiLfliKDpmaTjgIIiLCItICoq5aSH5Lu95oGi5aSN5YmN5piO56Gu5qOA5p+l5p2h5Lu2KirvvJrmgaLlpI3liY3mo4Dmn6XmiYDpnIDmoLjlv4Plj4rouqvku73vvIzpooTmo4DpgJrov4flkI7miY3lj5jmm7TphY3nva7jgILmoLjlv4PnvLrlpLHmiJbmlLnlj5jjgIHnlKjpgJTmiJbmoLzlvI/kuI3mlK/mjIHjgIHnqbrpl7TkuI3otrPliIbliKvmj5DkvpvmmI7noa7plJnor6/vvJvnqbrpl7TkuI3otrPml7blj6/ov5Tlm57miYDpnIDkuI7lj6/nlKjnqbrpl7TjgIIiLCItICoq5pen57uE5Lu254mI5pys5riF55CG5L+d55WZ5Zue5rua5L2Z5ZywKirvvJrooaXlhYUgU2luZy1Cb3gg562J5Y+X566h57uE5Lu255qE54mI5pys5L+d55WZ566h55CG77yb57uE5Lu25pu05paw5oiQ5Yqf5ZCO5omN5YWB6K645riF55CG5Y+v6K+B5piO5b2S5bGe55qE5pen54mI5pys77yM5L+d55WZ5b2T5YmN5qC45b+D44CB5Zue5rua5qC45b+D44CB6Ieq5a6a5LmJ5Y+K5pyq55+l5paH5Lu244CCIiwiLSAqKuaXpeW/l+S4juWPjeS7o+WOhuWPsue6s+WFpeS/neeVmeeuoeeQhioq77ya6KGl5YWF5Y+X566h6L+b56iL5pel5b+X44CB5Y+N5Luj6L+Q6KGM5LiO6K6/6Zeu5pel5b+X77yM5Lul5Y+K5Y+N5Luj6YWN572u5Y6G5Y+y55qE5L+d55WZ5aSE55CG77yM6K6p55u45YWz5Y6G5Y+y5pWw5o2u5pyJ5a+55bqU55qE5Zue5pS25py65Yi277yM6ICM6Z2e5LuF5L6d6LWW6YCa55So5riF55CG5YWl5Y+j44CCIiwiLSAqKuWbnueoi+iviuaWreaguOWvueWunumZhemAiei3ryoq77ya5qOA5p+l6KeE5YiZ6KGo6L6+5byP44CB5Zyw5Z2A6ZuG5ZCI44CB5a6e6ZmF6Lev55Sx5LiO6LWE5rqQ5b2S5bGe77yM5L+d55WZ5bey5pyJ5qCH6K6w5ZKM55So5oi36KeE5YiZ77yM5bm26YG/6K6p5pu05pep55qE5Li75py6562W55Wl77yb5YW25LuW5a6e5L6L5Y2g55So5ZCM5ZCN6LWE5rqQ5pe25oql5ZGK5Yay56qB77yM5LiN6KaG55uW5Y6f6KeE5YiZ44CCIiwiLSAqKuWbnueoi+WQr+WBnOWinuWKoOaBouWkjeS/neaKpCoq77ya5a6M5ZaE6KeE5YiZ5bqU55So5aSx6LSl5Zue5rua5LiO55Sf5ZG95ZGo5pyf5oGi5aSN77yb5ZCv55So5pe2566h55CG55u45YWz6YeN5a6a5ZCR5YaF5qC45Y+C5pWw77yM5YWz6Zet5pe25oGi5aSN5Y6f5YC844CC5Y+C5pWw5Y+R55Sf5ryC56e75pe277yM6K+K5pat5LiN5YaN5LuF5Yet6KeE5YiZ5a2Y5Zyo5bCx5oql5ZGK5bey5bqU55So44CCIiwiLSAqKuWbnueoi+iuvue9ruaYjuehruW+heS/neWtmOeKtuaAgSoq77ya5YWz6Zet5Zue56iL5byA5YWz5pe25pS26LW36YWN572u5Yy65Z+f77yM5bm25piO56Gu5L+u5pS55bCa6ZyA5L+d5a2Y77yM5YeP5bCR5oqK55WM6Z2i6I2J56i/6K+v6K6k5Li65bey55Sf5pWI6YWN572u55qE5oOF5Ya144CCIiwiLSAqKuS7quihqOebmOiBmueEpumcgOimgeWkhOeQhueahOacjeWKoSoq77ya57uG5YiG5ZCv5Yqo5Lit44CB5YGc5q2i5Lit44CB5bey6YCA5Ye644CB5pqC5YGc5ZKM54q25oCB5b6F56Gu6K6k562J54q25oCB77yM5o+Q5L6b5pyN5Yqh6K+m5oOF5LiO55u45YWz5pON5L2c5YWl5Y+j44CC57Sn5YeR5o+Q6YaS6IGa54Sm5byC5bi45oiW6ZyA55WZ5oSP54q25oCB77yM5ZCM5pe25pi+56S66L+Q6KGM5pWw6YeP77yM5YeP5bCR5q2j5bi454q25oCB5bim5p2l55qE5bmy5omw44CCIl0sInBlcmZvcm1hbmNlIjpbIi0gKipEb2NrZXIg5riF5Y2V5LiO57uf6K6h5aSN55So5b+r54WnKirvvJrosIPmlbTlvLrliLbliLfmlrDliqDovb3mtYHnqIvvvIzlnKggRG9ja2VyIOi3r+eUsemXtOWkjeeUqOWuueWZqOa4heWNleS4jue7n+iuoe+8jOW5tuWinuWKoOWQjuerr+e7n+iuoee8k+WtmO+8jOWHj+WwkemHjeWkjeiOt+WPlu+8m+ebuOWFs+W8ueeql+aMiemcgOWKoOi9veW5tuaPkOS+m+etieW+heWPjemmiOOAgiIsIi0gKipEb2NrZXIg5re75Yqg6IqC54K556qX5Y+j5YeP5bCR5bGV56S65byA6ZSAKirvvJrosIPmlbTmir3lsYnjgIHnjrvnkoPmlYjmnpzkuI7og4zmma/liqjnlLvnmoTljY/kvZzvvIzmlLnlloTph43lpI3miZPlvIDlkozovpPlhaXml7bnmoTlk43lupTvvIzlubblhbzpob7lh4/lsJHliqjmgIHmlYjmnpzorr7nva7vvJvoioLngrnliJfooajmiJbmpoLop4jor7fmsYLmjILotbfml7bvvIzooajljZXku43lj6/miZPlvIDlkozovpPlhaXjgIIiXSwiZml4ZWQiOlsiLSAqKuWIh+mhteetieW+heeri+WNs+WPr+ingSoq77ya5L+u5aSN5byx572R5oiW6aG16Z2i5qih5Z2X5bCa5pyq5Yqg6L295pe25YiH6aG157y65bCR5Y+N6aaI55qE6Zeu6aKY77yM5Yqg5YWl5Yqg6L295Yqo55S75LiO6aG16Z2i6L+H5rih44CC5pyA57uI5Yqg6L295oCB5LuF5pi+56S65peL6L2s5Yqo55S777yM5LiN5YaN5Y+g5Yqg5oWi5Yqg6L2944CB56a757q/5o+Q56S65ZKM5Yqg6L295oCB5Yi35paw5oyJ6ZKu44CCIiwiLSAqKlVEUCDnqbrpl7LlkI7kv53mjIHpooTmnJ/lm57nqIsqKu+8muS/ruWkjei/nuaOpei3n+i4qui/h+acn+WQjui/n+WIsCBVRFAg5Zue5YyF55qE6YCJ6Lev77yM5Lul5Y+K5ZCM5LiA5Lya6K+d5ZCO57ut6K+35rGC55qE5o6l566h6Zeu6aKY44CC5aSE55CG6ZmQ5a6a5Zyo5Y+X566h6IyD5Zu05YaF77yM5LiN5bCG5YWo6YOoIFVEUCDml6DmnaHku7bpgIHlvoDkuLvot6/nlLHjgIIiLCItICoqRG9ja2VyIOiKgueCueWIm+W7uuS4jeWGjeiiq+WIt+aWsOaLluS9jyoq77ya5pys5py65oiW5a2Q6IqC54K55Yib5bu65oiQ5Yqf5ZCO77yM5YWI5pi+56S65bm26YCJ5Lit5paw6IqC54K577yM5YaN5aSE55CG5YiX6KGo5Yi35paw5ZKM6L+e5o6l5qOA5p+l77yb5YiX6KGo5oyC6LW344CB5aSx6LSl5oiW5pen5ZON5bqU5pma5Yiw5pe277yM5LiN5YaN6Zi75aGe5oiQ5Yqf56qX5Y+j5YWz6Zet5oiW6KaG55uW5paw6IqC54K554q25oCB77yM5bm25L+u5q2j5pys5py66L+e5o6l54q25oCB5Yi35paw44CCIiwiLSAqKkRvY2tlciDljaHniYfkuI7liJfooajpgb/lhY3ph43lpI3mmL7npLoqKu+8muS/ruWkjeWTjeW6lOW8j+agt+W8j+S8mOWFiOe6p+WvvOiHtOS4pOenjeW4g+WxgOWQjOaXtuWHuueOsOeahOmXrumimO+8jOS/neaMgeW3suacieinhuWbvumAieaLqeS4jueqhOWxj+W4g+WxgOWIh+aNouS6kuaWpeOAgiIsIi0gKipEb2NrZXIg5Zu+5qCH57yW6L6R5L+d55WZ5b2T5YmN6I2J56i/KirvvJrlkI7lj7Dnu5/orqHova7or6LkuI3lho3opobnm5bmraPlnKjnvJbovpHnmoTlm77moIflnLDlnYDjgIHmoLflvI/lkozpopzoibLvvJvlkIzml7bkv67mraPplZzlg4/oh6rluKblm77moIfkv53lrZjjgIHlkIzlkI3lrrnlmajph43lu7rjgIHmgaLlpI3pu5jorqTjgIHnprvpobXkuKLlvIPojYnnqL/lj4roioLngrnpl7TpooTorr7pmpTnprvnrYnovrnnlYzjgIIiLCItICoqRG9ja2VyIOaMh+agh+S4jumVv+WQjeensOaYvuekuuabtOaVtOm9kCoq77ya57uf5LiA5Y2h54mH5YaFIENQVeOAgVJBTSDov5vluqbmnaHnmoTotbfngrnkuI7ovajpgZPlrr3luqbvvIzpgb/lhY3mlbDlgLzplb/luqbkuI3lkIzpgKDmiJDplJnkvY3vvIzlubbosIPmlbTplb/lrrnlmajlkI3nmoTmjaLooYzlsZXnpLrjgIIiLCItICoq5qC45b+D5p2l5rqQ5LiO5ZCv5Yqo5qOA5p+l5YiG5byA5Yik5patKirvvJrkv67mraMgQ2xhc2jjgIFNb3NETlMg55qE5qC45b+D5p2l5rqQ6K+G5Yir77yM5bCG5p2l5rqQ5Yik5a6a5LiO6L+Q6KGM44CB6YWN572u5YW85a655oCn5qOA5p+l5YiG56a777yM5YeP5bCR5qC45b+D5L2N572u5Y+Y5YyW5oiW5YW85a656YWN572u6KKr6K+v5Yik5ZCO5b2x5ZON5pu05paw5LiO5oGi5aSN55qE5oOF5Ya144CCIiwiLSAqKkNsYXNoIOmFjee9rui/geenu+Wksei0peaBouWkjeWOn+mFjee9rioq77ya6K6i6ZiF5pig5bCE5pS55Li657uT5p6E5YyW5pu05paw77yM5L+d5a2Y5YmN5qCh6aqMIFlBTUzvvIzov4Hnp7vlpLHotKXml7bmgaLlpI3ljp/phY3nva7vvIzpgb/lhY3plJnor6/ov4Hnp7vnlZnkuIvkuI3lj6/nlKjphY3nva7jgIIiLCItICoqU21hcnQg5qC45b+D5qOA5p+l5a6e6ZmF5Zue5a626Lev55Sx6IO95YqbKirvvJrlronoo4XkuI7mm7TmlrDkvb/nlKggTVNNIOWFvOWuueeahCBTbWFydCDlj5HluIPvvIzlubblnKjlronoo4XliY3pqozor4Hlm57lrrbot6/nlLHog73lipvvvIzlh4/lsJHniYjmnKzlkI3np7DnrKblkIjpooTmnJ/jgIHlrp7pmYXog73lipvljbTkuI3ljLnphY3nmoTmg4XlhrXjgIIiLCItICoq5Y+N5Luj6YeN5ZCv5aSx6LSl5ZCO57un57ut5oGi5aSNKirvvJrlop7liqDni6znq4vkuo4gREROU+OAgUFDTUUg55qE5ZCv5Yqo6YeN6K+V5LiO6L+b56iL5oGi5aSN77yM6YeN5ZCv5YeG5aSH5pS55Li65Y+v5oGi5aSN5pqC5YGc77yM5aSx6LSl5pe25oGi5aSN5Y+N5Luj5Y+K6LCD5bqm5Zmo77yb566h55CG5o6l5Y+j5pqC5pe25byC5bi45pe25L+d55WZ5pei5pyJ6L+b56iL6Lqr5Lu977yM6Ieq5pyJ6L+b56iL5oyB57ut5peg5ZON5bqU5pe25Zue5pS25ZCO6YeN6K+V44CCIiwiLSAqKuaBouWkjeWPkeW4g+S4jeimhuebluWImumAieivgeS5pioq77ya5oGi5aSN5Y+N5Luj5Y+R5biD5rWB56iL5pe277yM5Zyo6KGo5Y2V5Y+v5Lqk5LqS5YmN5ZCM5q2l5bey5pyJ5pWw5o2u77yM6YG/5YWN55So5oi35Yia6YCJ5oup55qE6K+B5Lmm6KKr56iN5ZCO5omn6KGM55qE5Yid5aeL5YyW6KaG55uW44CCIiwiLSAqKuWPjeS7o+WPkeW4g+S4jiBIVFRQUyDorr/pl67kv67mraMqKu+8muS/ruWkjeWPjeS7o+WPkeW4g+a1geeoi+WPiiBIVFRQUyDorr/pl67nm7jlhbPlvILluLjvvIzosIPmlbTljY/orq7kuI7lgaXlurfmo4Dmn6Xnm7jlhbPlpITnkIbvvIzmlLnlloTlj5HluIPlkozorr/pl67lpLHotKXml7bnmoTlj43ppojjgIIiLCItICoq5o6I5p2D5b+D6Lez6K+G5Yir5rWP6KeI5Zmo5oyR5oiY5ZON5bqUKirvvJrlsIblhbfmnInmtY/op4jlmajmjJHmiJjnibnlvoHnmoQgNDAzIOWTjeW6lOaMieS4tOaXtue9kee7nOW8guW4uOWkhOeQhu+8jOWFgeiuuOa/gOa0u+acjeWKoeWZqOaVhemanOWIh+aNou+8jOmBv+WFjeebtOaOpeivr+WIpOaOiOadg+eKtuaAge+8m+ebuOWFs+aXpeW/l+S9v+eUqOabtOeugOa0geeahOaPkOekuuOAgiIsIi0gKirmiYvmnLrnq68gRE5TIOabsue6v+S/neaMgeWPr+ivu+W4g+WxgCoq77ya5Li6IE1vc0ROUyDmpoLov7Dotovlir/lm77orr7nva7mnInmlYjnu5jlm77ljLrpq5jluqbvvIzpgb/lhY3lnZDmoIfjgIHmm7Lnur/kuI7ml7bpl7TmoIfnrb7mjKTlnKjkuIDotbfvvJvlm77kvovlkozph4fmoLfmjInpkq7lj6/mjaLooYzvvIzlh4/lsJHnqoTlsY/muqLlh7rjgIIiLCItICoq5omL5py66aG26YOo5b+r5o235YWl5Y+j5oGi5aSN5pi+56S6KirvvJrmjInljp/mnInop5LoibLmnaHku7bmgaLlpI3lr7zoiKrmk43kvZzjgIHku7vliqHkuK3lv4Plkozlv6vmjbfmk43kvZzlhaXlj6PvvJvnqoTlsY/mk43kvZzljLrlj6/mqKrlkJHmu5HliqjvvIzpgb/lhY3mkpHlrr3pobXpnaLvvIzkuI3mlLnlj5jml6LmnInmnYPpmZDovrnnlYzjgIIiXSwic2VjdXJpdHkiOlsiLSAqKumFjee9ruWkh+S7veS/neeVmea6kOaWh+S7tuadg+mZkCoq77ya5Yib5bu66YWN572u5aSH5Lu95ZCO5pi+5byP5bqU55So5rqQ5paH5Lu25p2D6ZmQ77yM6YG/5YWN6YOo5YiG5Li75py655qE57un5om/IEFDTCDkvb/mlrDlu7rlpIfku73ojrflvpfpop3lpJborr/pl67mnYPpmZDjgIIiXSwiZGVwcmVjYXRlZCI6WyItICoq5Zue56iL5bqV5bGC5Y+C5pWw5L2/55SoIE1TTSDkv53nlZnlgLwqKu+8mkFQSSDor7fmsYLkuI3og73lsIblm57nqIvmoIforrDjgIHot6/nlLHooajlkozpppbpgInkvJjlhYjnuqfmlLnkuLrlhbbku5blgLzvvJvlrp7pmYXop4TliJnkvJjlhYjnuqfkvJrmjInkuLvmnLrnrZbnlaXpgb/orqnlubborrDlvZXjgILkvb/nlKjoh6rlrprkuYnor7fmsYLnmoTlrqLmiLfnq6/pnIDpgbXlvqrov5nkuIDnuqbmnZ/jgIIiXSwibm90ZXMiOlsiLSAqKuWPkeW4g+iMg+WbtOaMieeql+WPo+S/neWuiOW9kue6syoq77ya5pys5qyh57y65bCR5Y+v55So55qE5LiK5LiA5bey5Y+R5biD54mI5pys5rqQ5o+Q5Lqk77yM5LiU6YOo5YiG6KGl5LiB5LuF5Li65oq95qC377yb5Lul5LiK5oyJ5Y+R5biD56qX5Y+j5pW055CG77yM5LiN5Luj6KGo5bey5a6M5oiQ5LiK5LiA54mI5pys5Yiw5b2T5YmN54mI5pys55qE5a6M5pW05YeA5beu5byC5qC45a+544CCIiwiLSAqKuW3suacieWkh+S7veetlueVpee7p+e7reS/neeVmSoq77ya5paw5bu66Ieq5Yqo5aSH5Lu96YWN572u6YeH55So6YWN572u5aSH5Lu944CB5pyA5aSa5LqU5Lu944CB5LiJ5Y2B5aSp44CBMSBHaULvvIzlubbni6znq4vkv53nlZnljYfnuqfmgaLlpI3ngrnvvJvlt7LmnInojIPlm7TlkozpmZDliLbkuI3ooqvljYfnuqfopobnm5bjgILlj5fkv53miqTmoaPmoYjlj6/og73kvb/lrp7pmYXljaDnlKjotoXov4flrrnph4/nm67moIfjgIIiLCItICoq56a757q/6L+B56e76ZyA5Yy56YWN546v5aKDKirvvJrnprvnur/ov4Hnp7vljIXpnaLlkJHlhbzlrrnns7vnu5/kuI7mnrbmnoTvvIzlpJbpg6joh6rlrprkuYnnqIvluo/pnIDlj6booYzlh4blpIfvvJvphY3nva7lpIfku73kuI3kv53or4Hog73lnKjlhajmlrDnprvnur/mnLrlmajnm7TmjqXlkK/liqjjgILljYfnuqfmgaLlpI3ngrnku43mkLrluKblrozmlbTmiYDpgInojIPlm7TvvIzlubbpnZ7ku4Xkv53nlZnljZXkuKrlm57mu5rniYjmnKzjgIIiLCItICoq572R5YWz5Zue56iL5pyJ5piO56Gu6YOo572y6L6555WMKirvvJror6Xog73lipvpgILnlKjkuo4gTGludXggbmZ0L+mAj+aYjuS7o+eQhuaooeW8j++8jFRVTiDlkozpnZ4gTGludXgg5bmz5Y+w5L2/55So57O757uf6Lev55Sx44CC5ZCv55So5YmN6aG756Gu6K6k5o6l5Y+j44CB5LiL5LiA6Lez5ZKM5a6i5oi356uv572R5q6177ybSVB2NiDlm57nqIvov5jpnIDloavlhpnlr7nlupTlj4LmlbDvvIzpk77ot6/mnKzlnLDkuIvkuIDot7PkuI3pmYTluKbmjqXlj6PlkI7nvIDjgIIiLCItICoq5Li76Lev55Sx5LuN6ZyA5Lq65bel6YWN572u5LiO6aqM5pS2KirvvJrpnZnmgIHot6/nlLHjgIFETlMg5LiL5Y+R44CB6Ziy54Gr5aKZ5ZKM5ZCM5o6l5Y+j6L2s5Y+R5LiN55SxIE1TTSDkv67mlLnvvJvkuLvot6/nlLHlupTlhbPpl63lr7nlupQgTEFOIOaOpeWPo+WQkeWuouaIt+err+WPkemAgemHjeWumuWQkeOAguW6lOinguWvn+S4u+i3r+eUseS4iuWQjOS4gOi/nuaOpeeahOWPjOWQkea1gemHj++8jOacrOacuuiviuaWreaIlumdouadv+ecn+WuniBJUCDkuI3og73ku6Pmm7/or6Xmo4Dmn6XjgIIiLCItICoq5aSa5a6e5L6L5L2/55So54us56uL5pWw5o2u5LiO5pel5b+X55uu5b2VKirvvJrmnKzmrKHml6Xlv5fova7ovazkuI3mib/or7rlpJrkuKogTVNNIOWunuS+i+WFseS6q+WQjOS4gOebruW9leaXtueahOmalOemu+OAgumAmueUqOWtmOWCqOa4heeQhuS4jei0n+i0o+WIoOmZpOWuv+S4u+ezu+e7n+aXpeW/l+OAgURvY2tlciDplZzlg4/kuI7ljbfmiJbmnKrliIbnsbvmlofku7bjgIIiXX19 -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDlop7liqAgTGlnaHRHQk0g5LiOIEFTTiDlj6/op4HlvIDlhbMgLyBleHBvc2Ugc2FmZSBTbWFydCBmZWF0dXJlIGNvbnRyb2xzIiwiLSDnu5/kuIDmlrDlop7mupDnoIHmlofku7bmnYPpmZAgLyBub3JtYWxpemUgbmV3IHNvdXJjZSBmaWxlIHBlcm1pc3Npb25zIiwiLSDnu5/kuIDkuIvmi4nnrq3lpLTpl7Tot53kuI7lr7npvZAgLyBhbGlnbiBkcm9wZG93biBhcnJvd3MgYW5kIHNwYWNpbmciLCItIOaUtuaLoui/kOihjOeKtuaAgeW5tuivtOaYjuWPr+mAieiuree7g+agt+acrOiusOW9lSAvIGNvbXBhY3QgcnVudGltZSBzdGF0dXMgYW5kIGNsYXJpZnkgb3B0aW9uYWwgc2FtcGxlIHJlY29yZGluZyIsIi0g54us56uL6YCJ5oup5Zue56iL5Y2P6K6u6YG/5YWN6K+v5pS5IElQdjQg6Lev5b6EIC8gU2NvcGUgZ2F0ZXdheSByZXR1cm4gYnkgSVAgZmFtaWx5IiwiLSDmlLbmi6Lku6PnkIbmpoLop4jmoLjlv4Pmk43kvZzljLogLyBHcm91cCBwcm94eSBvdmVydmlldyBjb3JlIGNvbnRyb2xzIl0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSDlop7liqAgTGlnaHRHQk0g5LiOIEFTTiDlj6/op4HlvIDlhbMgLyBleHBvc2Ugc2FmZSBTbWFydCBmZWF0dXJlIGNvbnRyb2xzIl0sImNoYW5nZWQiOlsiLSDnu5/kuIDmlrDlop7mupDnoIHmlofku7bmnYPpmZAgLyBub3JtYWxpemUgbmV3IHNvdXJjZSBmaWxlIHBlcm1pc3Npb25zIiwiLSDop4TojIMgU21hcnQg5rqQ56CB5paH5Lu25p2D6ZmQIC8gTm9ybWFsaXplIFNtYXJ0IHNvdXJjZSBmaWxlIHBlcm1pc3Npb25zIiwiLSDor7TmmI7orqLpmIXnvJPlrZjkv53miqQgLyBFeHBsYWluIHByb3ZpZGVyIGNhY2hlIHByb3RlY3Rpb24iLCItIOabtOaWsOaooeWei+S4jui/nuaOpeaBouWkjeivtOaYjiAvIERvY3VtZW50IG1vZGVsIGFuZCBjb25uZWN0aW9uIHJlY292ZXJ5Il0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSDnu5/kuIDkuIvmi4nnrq3lpLTpl7Tot53kuI7lr7npvZAgLyBhbGlnbiBkcm9wZG93biBhcnJvd3MgYW5kIHNwYWNpbmciLCItIOaUtuaLoui/kOihjOeKtuaAgeW5tuivtOaYjuWPr+mAieiuree7g+agt+acrOiusOW9lSAvIGNvbXBhY3QgcnVudGltZSBzdGF0dXMgYW5kIGNsYXJpZnkgb3B0aW9uYWwgc2FtcGxlIHJlY29yZGluZyIsIi0g54us56uL6YCJ5oup5Zue56iL5Y2P6K6u6YG/5YWN6K+v5pS5IElQdjQg6Lev5b6EIC8gU2NvcGUgZ2F0ZXdheSByZXR1cm4gYnkgSVAgZmFtaWx5IiwiLSDmlLbmi6Lku6PnkIbmpoLop4jmoLjlv4Pmk43kvZzljLogLyBHcm91cCBwcm94eSBvdmVydmlldyBjb3JlIGNvbnRyb2xzIiwiLSDmv4DmtLvliY3lh4blpIfmqKHlnovkuI4gQVNOIOaVsOaNriAvIHByZXBhcmUgYXNzZXRzIGJlZm9yZSBhY3RpdmF0aW9uIiwiLSDooaXpvZDph4fmoLfmoKHpqozkuI7oioLngrnlm7rlrprnirbmgIEgLyBDb21wbGV0ZSBzYW1wbGluZyB2YWxpZGF0aW9uIGFuZCBTbWFydCBwaW4gY29udHJvbHMiLCItIOS/ruWkjSBTbWFydCDnirbmgIHlsZXnpLrkuI7oh6rliqjpgInmi6nmgaLlpI0gLyBTaG93IFNtYXJ0IHJlYWRpbmVzcyBhbmQgcmVzdG9yZSBhdXRvbWF0aWMgc2VsZWN0aW9uIiwiLSDooaXpvZDku6PnkIbpobXlpLTpg6jlnIbop5LkuI7lhoXovrnot50gLyByb3VuZCBhbmQgaW5zZXQgcHJveHkgcGFnZSB0b29sYmFyIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMTEtMTZUMDc6Mjk6NDNaIOS5i+WQjueahCAxNCDkuKrmj5DkuqTkuK3mlbTnkIbvvIjnurPlhaXlvZPliY3lkIjlubbliIbmlK/nmoQgMTQg5Liq5Y676YeN5o+Q5Lqk77yJ77yb5b2T5YmN5L2/55So5o+Q5Lqk5qCH6aKY5LiO5q2j5paH6KaB54K555Sf5oiQ6KeE5YiZ5pGY6KaB77yM5pyq57uP6L+HIEFJIOivreS5ieW9kue6s+aIlui/kOihjOmqjOivgSJdfX0= -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p><strong>磁盘占用可查，清理前可预览：</strong>备份页面增加分类占用与历史日志清理入口，先查看候选文件、再确认执行，帮助判断可释放空间，同时避开正在使用的数据。</p>
+    <p>增加 LightGBM 与 ASN 可见开关 / expose safe Smart feature controls</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p><strong>备份按恢复目的选择：</strong>增加配置备份、离线迁移包，并细化自动备份的数量、天数和容量限制，兼顾日常配置保护、迁移与升级恢复。</p>
+    <p>统一新增源码文件权限 / normalize new source file permissions</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p><strong>旁路由回程更可控：</strong>实现并完善 Linux 透明代理的双栈网关回程，补充实际选路诊断、失败回滚，并修复连接跟踪过期后的 UDP 回程与会话续传问题。</p>
+    <p>统一下拉箭头间距与对齐 / align dropdown arrows and spacing</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p><strong>Docker 展示更贴合使用习惯：</strong>卡片与列表可独立选择展示字段，卡片提供三档大小；同时修复图标草稿被轮询覆盖、视图重复显示和节点创建后刷新阻塞。</p>
+    <p>收拢运行状态并说明可选训练样本记录 / compact runtime status and clarify optional sample recording</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p><strong>反代异常后继续尝试恢复：</strong>增加独立启动重试与进程恢复，重启失败时恢复反代及调度器，改善临时端口冲突、进程异常后的服务恢复行为。</p>
+    <p>独立选择回程协议避免误改 IPv4 路径 / Scope gateway return by IP family</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">06</span>
+    <p>收拢代理概览核心操作区 / Group proxy overview core controls</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-added">🆕 新增功能 <span>6</span></a>
-  <a href="#release-changed">✨ 功能增强 <span>8</span></a>
-  <a href="#release-performance">⚡ 性能优化 <span>2</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>15</span></a>
-  <a href="#release-security">🛡️ 安全加固 <span>1</span></a>
-  <a href="#release-deprecated">⚠️ 兼容性变更 <span>1</span></a>
-  <a href="#release-notes">📌 升级提醒 <span>6</span></a>
+  <a href="#release-added">🆕 新增功能 <span>1</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>4</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>8</span></a>
+  <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
 
 <section class="msm-release-section msm-release-section--added">
 
 ### 🆕 新增功能 {#release-added}
+
+- 增加 LightGBM 与 ASN 可见开关 / expose safe Smart feature controls
+
+</section>
+
+<section class="msm-release-section msm-release-section--changed">
+
+### ✨ 功能增强 {#release-changed}
+
+- 统一新增源码文件权限 / normalize new source file permissions
+- 规范 Smart 源码文件权限 / Normalize Smart source file permissions
+- 说明订阅缓存保护 / Explain provider cache protection
+- 更新模型与连接恢复说明 / Document model and connection recovery
+
+</section>
+
+<section class="msm-release-section msm-release-section--fixed">
+
+### 🐛 问题修复 {#release-fixed}
+
+- 统一下拉箭头间距与对齐 / align dropdown arrows and spacing
+- 收拢运行状态并说明可选训练样本记录 / compact runtime status and clarify optional sample recording
+- 独立选择回程协议避免误改 IPv4 路径 / Scope gateway return by IP family
+- 收拢代理概览核心操作区 / Group proxy overview core controls
+- 激活前准备模型与 ASN 数据 / prepare assets before activation
+- 补齐采样校验与节点固定状态 / Complete sampling validation and Smart pin controls
+- 修复 Smart 状态展示与自动选择恢复 / Show Smart readiness and restore automatic selection
+- 补齐代理页头部圆角与内边距 / round and inset proxy page toolbar
+
+</section>
+
+<section class="msm-release-section msm-release-section--notes">
+
+### 📌 升级提醒 {#release-notes}
+
+- 从 2026-11-16T07:29:43Z 之后的 14 个提交中整理（纳入当前合并分支的 14 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+</section>
+
+::: details 📋 构建信息
+- **发布通道**：beta（Beta 版）
+- **源提交**： [`a0d3c8d`](https://github.com/msm9527/msm/commit/a0d3c8d138190a22eb53e0849cf0e89ad8725400)
+- **提交信息**：fix(ui): 补齐代理页头部圆角与内边距 / round and inset proxy page toolbar
+- **提交作者**：msm
+- **提交时间**：2026-11-17 15:02:41 CST
+- **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
+:::
+
+---
+
+## 📚 历史 Beta 版本
+
+> 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.2.2 · 2026-11-16 15:01 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.2" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- **磁盘占用可查，清理前可预览**：备份页面增加分类占用与历史日志清理入口，先查看候选文件、再确认执行，帮助判断可释放空间，同时避开正在使用的数据。
+- **备份按恢复目的选择**：增加配置备份、离线迁移包，并细化自动备份的数量、天数和容量限制，兼顾日常配置保护、迁移与升级恢复。
+- **旁路由回程更可控**：实现并完善 Linux 透明代理的双栈网关回程，补充实际选路诊断、失败回滚，并修复连接跟踪过期后的 UDP 回程与会话续传问题。
+- **Docker 展示更贴合使用习惯**：卡片与列表可独立选择展示字段，卡片提供三档大小；同时修复图标草稿被轮询覆盖、视图重复显示和节点创建后刷新阻塞。
+- **反代异常后继续尝试恢复**：增加独立启动重试与进程恢复，重启失败时恢复反代及调度器，改善临时端口冲突、进程异常后的服务恢复行为。
+
+**🆕 新增功能**
 
 - **分类查看存储占用**：管理员可在“系统设置 → 备份与恢复”查看配置、组件、备份、日志和数据库占用，以及对应磁盘剩余空间。扫描有时间与文件数上限，统计不完整时会明确标记。
 - **历史日志先预览再清理**：支持手动预览、确认执行及定期清理历史日志。清理计划绑定管理员、五分钟内有效，执行前重新检查；正在写入、被替换或不再符合条件的文件会跳过，不通过此入口删除备份、核心和数据库。
@@ -77,11 +145,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 - **Docker 卡片大小可选**：增加紧凑、标准、宽松三档卡片大小，并保存选择，刷新后仍可沿用，便于按屏幕空间调整信息密度。
 - **Linux 旁路由支持经主路由回程**：在 nft/透明代理模式下，可按指定接口、下一跳与客户端网段，让受管 Fake-IP TCP/UDP 回包经主路由返回，支持 IPv4 与 IPv6；本机检测值可用于填写草稿，确认保存后应用。
 
-</section>
-
-<section class="msm-release-section msm-release-section--changed">
-
-### ✨ 功能增强 {#release-changed}
+**✨ 功能增强**
 
 - **自动备份保留规则更细致**：支持按数量、天数和容量管理自动备份，并为各升级目标独立保留恢复点。每组最近的已验证档案及待恢复档案受保护；手工与导入备份仍由用户删除。
 - **备份恢复前明确检查条件**：恢复前检查所需核心及身份，预检通过后才变更配置。核心缺失或改变、用途或格式不支持、空间不足分别提供明确错误；空间不足时可返回所需与可用空间。
@@ -92,20 +156,12 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 - **回程设置明确待保存状态**：关闭回程开关时收起配置区域，并明确修改尚需保存，减少把界面草稿误认为已生效配置的情况。
 - **仪表盘聚焦需要处理的服务**：细分启动中、停止中、已退出、暂停和状态待确认等状态，提供服务详情与相关操作入口。紧凑提醒聚焦异常或需留意状态，同时显示运行数量，减少正常状态带来的干扰。
 
-</section>
-
-<section class="msm-release-section msm-release-section--performance">
-
-### ⚡ 性能优化 {#release-performance}
+**⚡ 性能优化**
 
 - **Docker 清单与统计复用快照**：调整强制刷新加载流程，在 Docker 路由间复用容器清单与统计，并增加后端统计缓存，减少重复获取；相关弹窗按需加载并提供等待反馈。
 - **Docker 添加节点窗口减少展示开销**：调整抽屉、玻璃效果与背景动画的协作，改善重复打开和输入时的响应，并兼顾减少动态效果设置；节点列表或概览请求挂起时，表单仍可打开和输入。
 
-</section>
-
-<section class="msm-release-section msm-release-section--fixed">
-
-### 🐛 问题修复 {#release-fixed}
+**🐛 问题修复**
 
 - **切页等待立即可见**：修复弱网或页面模块尚未加载时切页缺少反馈的问题，加入加载动画与页面过渡。最终加载态仅显示旋转动画，不再叠加慢加载、离线提示和加载态刷新按钮。
 - **UDP 空闲后保持预期回程**：修复连接跟踪过期后迟到 UDP 回包的选路，以及同一会话后续请求的接管问题。处理限定在受管范围内，不将全部 UDP 无条件送往主路由。
@@ -123,27 +179,15 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 - **手机端 DNS 曲线保持可读布局**：为 MosDNS 概述趋势图设置有效绘图区高度，避免坐标、曲线与时间标签挤在一起；图例和采样按钮可换行，减少窄屏溢出。
 - **手机顶部快捷入口恢复显示**：按原有角色条件恢复导航操作、任务中心和快捷操作入口；窄屏操作区可横向滑动，避免撑宽页面，不改变既有权限边界。
 
-</section>
-
-<section class="msm-release-section msm-release-section--security">
-
-### 🛡️ 安全加固 {#release-security}
+**🛡️ 安全加固**
 
 - **配置备份保留源文件权限**：创建配置备份后显式应用源文件权限，避免部分主机的继承 ACL 使新建备份获得额外访问权限。
 
-</section>
-
-<section class="msm-release-section msm-release-section--deprecated">
-
-### ⚠️ 兼容性变更 {#release-deprecated}
+**⚠️ 兼容性变更**
 
 - **回程底层参数使用 MSM 保留值**：API 请求不能将回程标记、路由表和首选优先级改为其他值；实际规则优先级会按主机策略避让并记录。使用自定义请求的客户端需遵循这一约束。
 
-</section>
-
-<section class="msm-release-section msm-release-section--notes">
-
-### 📌 升级提醒 {#release-notes}
+**📌 升级提醒**
 
 - **发布范围按窗口保守归纳**：本次缺少可用的上一已发布版本源提交，且部分补丁仅为抽样；以上按发布窗口整理，不代表已完成上一版本到当前版本的完整净差异核对。
 - **已有备份策略继续保留**：新建自动备份配置采用配置备份、最多五份、三十天、1 GiB，并独立保留升级恢复点；已有范围和限制不被升级覆盖。受保护档案可能使实际占用超过容量目标。
@@ -152,22 +196,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 - **主路由仍需人工配置与验收**：静态路由、DNS 下发、防火墙和同接口转发不由 MSM 修改；主路由应关闭对应 LAN 接口向客户端发送重定向。应观察主路由上同一连接的双向流量，本机诊断或面板真实 IP 不能代替该检查。
 - **多实例使用独立数据与日志目录**：本次日志轮转不承诺多个 MSM 实例共享同一目录时的隔离。通用存储清理不负责删除宿主系统日志、Docker 镜像与卷或未分类文件。
 
-</section>
-
-::: details 📋 构建信息
-- **发布通道**：beta（Beta 版）
-- **源提交**： [`871adbb`](https://github.com/msm9527/msm/commit/871adbbbb5f1a39b726e1f2f165133ef9b3584ec)
-- **提交信息**：chore(version): 升级至 2.2.2 / Bump version to 2.2.2
-- **提交作者**：msm
-- **提交时间**：2026-11-16 15:01:09 CST
-- **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
-
----
-
-## 📚 历史 Beta 版本
-
-> 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
 
 ::: details beta-2.2.1 · 2026-11-11 18:48 · Beta 版
 
