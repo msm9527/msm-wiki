@@ -12,49 +12,49 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.2.3" data-release-date="2026-11-17 15:02:41 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.3">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.2.4" data-release-date="2026-11-18 14:13:00 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.4">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.2.3</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.2.4</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.3" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.4" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>13 项</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>7 项</strong></div>
   <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-17 15:02:41 CST</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-18 14:13:00 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDlop7liqAgTGlnaHRHQk0g5LiOIEFTTiDlj6/op4HlvIDlhbMgLyBleHBvc2Ugc2FmZSBTbWFydCBmZWF0dXJlIGNvbnRyb2xzIiwiLSDnu5/kuIDmlrDlop7mupDnoIHmlofku7bmnYPpmZAgLyBub3JtYWxpemUgbmV3IHNvdXJjZSBmaWxlIHBlcm1pc3Npb25zIiwiLSDnu5/kuIDkuIvmi4nnrq3lpLTpl7Tot53kuI7lr7npvZAgLyBhbGlnbiBkcm9wZG93biBhcnJvd3MgYW5kIHNwYWNpbmciLCItIOaUtuaLoui/kOihjOeKtuaAgeW5tuivtOaYjuWPr+mAieiuree7g+agt+acrOiusOW9lSAvIGNvbXBhY3QgcnVudGltZSBzdGF0dXMgYW5kIGNsYXJpZnkgb3B0aW9uYWwgc2FtcGxlIHJlY29yZGluZyIsIi0g54us56uL6YCJ5oup5Zue56iL5Y2P6K6u6YG/5YWN6K+v5pS5IElQdjQg6Lev5b6EIC8gU2NvcGUgZ2F0ZXdheSByZXR1cm4gYnkgSVAgZmFtaWx5IiwiLSDmlLbmi6Lku6PnkIbmpoLop4jmoLjlv4Pmk43kvZzljLogLyBHcm91cCBwcm94eSBvdmVydmlldyBjb3JlIGNvbnRyb2xzIl0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSDlop7liqAgTGlnaHRHQk0g5LiOIEFTTiDlj6/op4HlvIDlhbMgLyBleHBvc2Ugc2FmZSBTbWFydCBmZWF0dXJlIGNvbnRyb2xzIl0sImNoYW5nZWQiOlsiLSDnu5/kuIDmlrDlop7mupDnoIHmlofku7bmnYPpmZAgLyBub3JtYWxpemUgbmV3IHNvdXJjZSBmaWxlIHBlcm1pc3Npb25zIiwiLSDop4TojIMgU21hcnQg5rqQ56CB5paH5Lu25p2D6ZmQIC8gTm9ybWFsaXplIFNtYXJ0IHNvdXJjZSBmaWxlIHBlcm1pc3Npb25zIiwiLSDor7TmmI7orqLpmIXnvJPlrZjkv53miqQgLyBFeHBsYWluIHByb3ZpZGVyIGNhY2hlIHByb3RlY3Rpb24iLCItIOabtOaWsOaooeWei+S4jui/nuaOpeaBouWkjeivtOaYjiAvIERvY3VtZW50IG1vZGVsIGFuZCBjb25uZWN0aW9uIHJlY292ZXJ5Il0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSDnu5/kuIDkuIvmi4nnrq3lpLTpl7Tot53kuI7lr7npvZAgLyBhbGlnbiBkcm9wZG93biBhcnJvd3MgYW5kIHNwYWNpbmciLCItIOaUtuaLoui/kOihjOeKtuaAgeW5tuivtOaYjuWPr+mAieiuree7g+agt+acrOiusOW9lSAvIGNvbXBhY3QgcnVudGltZSBzdGF0dXMgYW5kIGNsYXJpZnkgb3B0aW9uYWwgc2FtcGxlIHJlY29yZGluZyIsIi0g54us56uL6YCJ5oup5Zue56iL5Y2P6K6u6YG/5YWN6K+v5pS5IElQdjQg6Lev5b6EIC8gU2NvcGUgZ2F0ZXdheSByZXR1cm4gYnkgSVAgZmFtaWx5IiwiLSDmlLbmi6Lku6PnkIbmpoLop4jmoLjlv4Pmk43kvZzljLogLyBHcm91cCBwcm94eSBvdmVydmlldyBjb3JlIGNvbnRyb2xzIiwiLSDmv4DmtLvliY3lh4blpIfmqKHlnovkuI4gQVNOIOaVsOaNriAvIHByZXBhcmUgYXNzZXRzIGJlZm9yZSBhY3RpdmF0aW9uIiwiLSDooaXpvZDph4fmoLfmoKHpqozkuI7oioLngrnlm7rlrprnirbmgIEgLyBDb21wbGV0ZSBzYW1wbGluZyB2YWxpZGF0aW9uIGFuZCBTbWFydCBwaW4gY29udHJvbHMiLCItIOS/ruWkjSBTbWFydCDnirbmgIHlsZXnpLrkuI7oh6rliqjpgInmi6nmgaLlpI0gLyBTaG93IFNtYXJ0IHJlYWRpbmVzcyBhbmQgcmVzdG9yZSBhdXRvbWF0aWMgc2VsZWN0aW9uIiwiLSDooaXpvZDku6PnkIbpobXlpLTpg6jlnIbop5LkuI7lhoXovrnot50gLyByb3VuZCBhbmQgaW5zZXQgcHJveHkgcGFnZSB0b29sYmFyIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMTEtMTZUMDc6Mjk6NDNaIOS5i+WQjueahCAxNCDkuKrmj5DkuqTkuK3mlbTnkIbvvIjnurPlhaXlvZPliY3lkIjlubbliIbmlK/nmoQgMTQg5Liq5Y676YeN5o+Q5Lqk77yJ77yb5b2T5YmN5L2/55So5o+Q5Lqk5qCH6aKY5LiO5q2j5paH6KaB54K555Sf5oiQ6KeE5YiZ5pGY6KaB77yM5pyq57uP6L+HIEFJIOivreS5ieW9kue6s+aIlui/kOihjOmqjOivgSJdfX0= -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDkvJjljJbnu4Tku7bkuIvovb3muKDpgZPjgIHliIfmjaLlkozlronoo4Xov5vluqYiLCItIOinhOiMg+WbnuW9kua1i+ivleaWh+S7tuadg+mZkCAvIG5vcm1hbGl6ZSByZWdyZXNzaW9uIHRlc3QgZmlsZSBwZXJtaXNzaW9ucyIsIi0g57uf5LiA5oGi5aSN6YWN572u5LiO5pu05paw6LWE5Lqn5pe26Ze0IC8gYWxpZ24gcmVjb3Zlcnkgc2V0dXAgYW5kIGFzc2V0IHRpbWVzdGFtcHMiLCItIOS/ruWkjeW5s+adv+eugOe6puS7quihqOmXqueDgSIsIi0g5L+u5aSN5ZCv5Yqo5ZKM54mI5pys6K+G5Yir55qE5YW85a656K+v5YikIiwiLSDkv53nlZnlkK/liqjph43or5XlubbmmI7noa7moLjlv4PniYjmnKzlhbPns7sgLyBwcmVzZXJ2ZSBzdGFydHVwIHJldHJpZXMgYW5kIHJlc29sdmUgY29yZSB2ZXJzaW9uIHJlbGF0aW9ucyJdLCJtYWpvciI6W10sImFkZGVkIjpbIi0g5LyY5YyW57uE5Lu25LiL6L295rig6YGT44CB5YiH5o2i5ZKM5a6J6KOF6L+b5bqmIl0sImNoYW5nZWQiOlsiLSDop4TojIPlm57lvZLmtYvor5Xmlofku7bmnYPpmZAgLyBub3JtYWxpemUgcmVncmVzc2lvbiB0ZXN0IGZpbGUgcGVybWlzc2lvbnMiLCItIOWQiOW5tuacgOaWsCBkZXYg5LiO57uE5Lu25LiL6L295pS56L+bIC8gbWVyZ2UgbGF0ZXN0IGRldiB3aXRoIGNvbXBvbmVudCBkb3dubG9hZCBpbXByb3ZlbWVudHMiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOe7n+S4gOaBouWkjemFjee9ruS4juabtOaWsOi1hOS6p+aXtumXtCAvIGFsaWduIHJlY292ZXJ5IHNldHVwIGFuZCBhc3NldCB0aW1lc3RhbXBzIiwiLSDkv67lpI3lubPmnb/nroDnuqbku6rooajpl6rng4EiLCItIOS/ruWkjeWQr+WKqOWSjOeJiOacrOivhuWIq+eahOWFvOWuueivr+WIpCIsIi0g5L+d55WZ5ZCv5Yqo6YeN6K+V5bm25piO56Gu5qC45b+D54mI5pys5YWz57O7IC8gcHJlc2VydmUgc3RhcnR1cCByZXRyaWVzIGFuZCByZXNvbHZlIGNvcmUgdmVyc2lvbiByZWxhdGlvbnMiXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSDku44gMjAyNi0xMS0xN1QwNzoyMzoxOFog5LmL5ZCO55qEIDgg5Liq5o+Q5Lqk5Lit5pW055CG77yI57qz5YWl5b2T5YmN5ZCI5bm25YiG5pSv55qEIDgg5Liq5Y676YeN5o+Q5Lqk77yJ77yb5b2T5YmN5L2/55So5o+Q5Lqk5qCH6aKY5LiO5q2j5paH6KaB54K555Sf5oiQ6KeE5YiZ5pGY6KaB77yM5pyq57uP6L+HIEFJIOivreS5ieW9kue6s+aIlui/kOihjOmqjOivgSJdfX0= -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>增加 LightGBM 与 ASN 可见开关 / expose safe Smart feature controls</p>
+    <p>优化组件下载渠道、切换和安装进度</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>统一新增源码文件权限 / normalize new source file permissions</p>
+    <p>规范回归测试文件权限 / normalize regression test file permissions</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>统一下拉箭头间距与对齐 / align dropdown arrows and spacing</p>
+    <p>统一恢复配置与更新资产时间 / align recovery setup and asset timestamps</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>收拢运行状态并说明可选训练样本记录 / compact runtime status and clarify optional sample recording</p>
+    <p>修复平板简约仪表闪烁</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>独立选择回程协议避免误改 IPv4 路径 / Scope gateway return by IP family</p>
+    <p>修复启动和版本识别的兼容误判</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">06</span>
-    <p>收拢代理概览核心操作区 / Group proxy overview core controls</p>
+    <p>保留启动重试并明确核心版本关系 / preserve startup retries and resolve core version relations</p>
   </li>
 </ol>
 
@@ -62,8 +62,8 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
   <a href="#release-added">🆕 新增功能 <span>1</span></a>
-  <a href="#release-changed">✨ 功能增强 <span>4</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>8</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>2</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>4</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
 
@@ -71,7 +71,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🆕 新增功能 {#release-added}
 
-- 增加 LightGBM 与 ASN 可见开关 / expose safe Smart feature controls
+- 优化组件下载渠道、切换和安装进度
 
 </section>
 
@@ -79,16 +79,70 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### ✨ 功能增强 {#release-changed}
 
-- 统一新增源码文件权限 / normalize new source file permissions
-- 规范 Smart 源码文件权限 / Normalize Smart source file permissions
-- 说明订阅缓存保护 / Explain provider cache protection
-- 更新模型与连接恢复说明 / Document model and connection recovery
+- 规范回归测试文件权限 / normalize regression test file permissions
+- 合并最新 dev 与组件下载改进 / merge latest dev with component download improvements
 
 </section>
 
 <section class="msm-release-section msm-release-section--fixed">
 
 ### 🐛 问题修复 {#release-fixed}
+
+- 统一恢复配置与更新资产时间 / align recovery setup and asset timestamps
+- 修复平板简约仪表闪烁
+- 修复启动和版本识别的兼容误判
+- 保留启动重试并明确核心版本关系 / preserve startup retries and resolve core version relations
+
+</section>
+
+<section class="msm-release-section msm-release-section--notes">
+
+### 📌 升级提醒 {#release-notes}
+
+- 从 2026-11-17T07:23:18Z 之后的 8 个提交中整理（纳入当前合并分支的 8 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+</section>
+
+::: details 📋 构建信息
+- **发布通道**：beta（Beta 版）
+- **源提交**： [`6047693`](https://github.com/msm9527/msm/commit/6047693c3a315bd7024ade6ff874c73a4daa1462)
+- **提交信息**：merge(dev): 合并最新 dev 与组件下载改进 / merge latest dev with component download improvements
+- **提交作者**：msm
+- **提交时间**：2026-11-18 14:13:00 CST
+- **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
+:::
+
+---
+
+## 📚 历史 Beta 版本
+
+> 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.2.3 · 2026-11-17 15:02 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.3" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 增加 LightGBM 与 ASN 可见开关 / expose safe Smart feature controls
+- 统一新增源码文件权限 / normalize new source file permissions
+- 统一下拉箭头间距与对齐 / align dropdown arrows and spacing
+- 收拢运行状态并说明可选训练样本记录 / compact runtime status and clarify optional sample recording
+- 独立选择回程协议避免误改 IPv4 路径 / Scope gateway return by IP family
+- 收拢代理概览核心操作区 / Group proxy overview core controls
+
+**🆕 新增功能**
+
+- 增加 LightGBM 与 ASN 可见开关 / expose safe Smart feature controls
+
+**✨ 功能增强**
+
+- 统一新增源码文件权限 / normalize new source file permissions
+- 规范 Smart 源码文件权限 / Normalize Smart source file permissions
+- 说明订阅缓存保护 / Explain provider cache protection
+- 更新模型与连接恢复说明 / Document model and connection recovery
+
+**🐛 问题修复**
 
 - 统一下拉箭头间距与对齐 / align dropdown arrows and spacing
 - 收拢运行状态并说明可选训练样本记录 / compact runtime status and clarify optional sample recording
@@ -99,30 +153,11 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 - 修复 Smart 状态展示与自动选择恢复 / Show Smart readiness and restore automatic selection
 - 补齐代理页头部圆角与内边距 / round and inset proxy page toolbar
 
-</section>
-
-<section class="msm-release-section msm-release-section--notes">
-
-### 📌 升级提醒 {#release-notes}
+**📌 升级提醒**
 
 - 从 2026-11-16T07:29:43Z 之后的 14 个提交中整理（纳入当前合并分支的 14 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
-</section>
-
-::: details 📋 构建信息
-- **发布通道**：beta（Beta 版）
-- **源提交**： [`a0d3c8d`](https://github.com/msm9527/msm/commit/a0d3c8d138190a22eb53e0849cf0e89ad8725400)
-- **提交信息**：fix(ui): 补齐代理页头部圆角与内边距 / round and inset proxy page toolbar
-- **提交作者**：msm
-- **提交时间**：2026-11-17 15:02:41 CST
-- **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
-
----
-
-## 📚 历史 Beta 版本
-
-> 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
 
 ::: details beta-2.2.2 · 2026-11-16 15:01 · Beta 版
 
