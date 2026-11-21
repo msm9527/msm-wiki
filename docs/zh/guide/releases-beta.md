@@ -12,49 +12,33 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.2.7" data-release-date="2026-11-21 14:53:46 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.7">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.2.8" data-release-date="2026-11-21 19:30:14 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.8">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.2.7</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.2.8</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.7" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.8" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>9 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-21 14:53:46 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>2 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>2 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-21 19:30:14 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDnlKggbWFjT1MgMjYg5Y6f55SfIFN3aWZ0VUkg5bqU55So5pu/5o2iIFRhdXJpIOahjOmdouerryAvIHJlcGxhY2UgVGF1cmkgZGVza3RvcCBzaGVsbCB3aXRoIG5hdGl2ZSBtYWNPUyAyNiBTd2lmdFVJIGFwcCIsIi0g5riF55CG5YaX5L2Z5Luj56CB5bm25ouG5YiG5qC35byP44CB5a6M5ZaEIGkxOG4g5LiO5peg6Zqc56KN5Lqk5LqSIC8gY2xlYW4gdXAgZGVhZCBjb2RlLCBzcGxpdCBDU1Mgc3R5bGVzaGVldHMsIGFuZCBwb2xpc2ggaTE4biAmIGZvY3VzLXZpc2libGUgVUkiLCItIOS/ruWkjSBERE5TIOi0puWPt+W8leeUqOmYu+WhnuW5tuWujOWWhOWPjeS7o+WunuaXtumAn+eOh+S4jui/nuaOpeebkeaOpyIsIi0gU21hcnQg6LWE5Lqn5Yy56YWN5pSv5oyBIGFtZDY0LXYzIOe8uuWkseaXtuWuieWFqOWbnumAgOiHsyBhbWQ2NC12MSAvIHNhZmVseSBmYWxsIGJhY2sgZnJvbSBhbWQ2NC12MyB0byBhbWQ2NC12MSBmb3IgQ2xhc2ggU21hcnQgYXNzZXRzIiwiLSDpgILphY0gQ0kg6aKE57yW6K+R5ZCO56uv5aSN55So5LiO5peg5o2f562+5ZCN5Y+K5bmy5YeA5pu05paw5b2S5qGjIiwiLSDooaXpvZDlrZjph48gU21hcnQg6YWN572u5LiO6KeE5YiZ6Ieq5oSI5Y+K5YmN56uvIFNtYXJ0IOiuoumYhem7mOiupOWAvCAvIHNlbGYtaGVhbCBsZWdhY3kgU21hcnQgY29uZmlncyBhbmQgcnVsZXMsIHVzZSBTbWFydCBwcm92aWRlciBkZWZhdWx0cyBpbiBVSSJdLCJtYWpvciI6W10sImFkZGVkIjpbIi0g55SoIG1hY09TIDI2IOWOn+eUnyBTd2lmdFVJIOW6lOeUqOabv+aNoiBUYXVyaSDmoYzpnaLnq68gLyByZXBsYWNlIFRhdXJpIGRlc2t0b3Agc2hlbGwgd2l0aCBuYXRpdmUgbWFjT1MgMjYgU3dpZnRVSSBhcHAiXSwiY2hhbmdlZCI6WyItIOa4heeQhuWGl+S9meS7o+eggeW5tuaLhuWIhuagt+W8j+OAgeWujOWWhCBpMThuIOS4juaXoOmanOeijeS6pOS6kiAvIGNsZWFuIHVwIGRlYWQgY29kZSwgc3BsaXQgQ1NTIHN0eWxlc2hlZXRzLCBhbmQgcG9saXNoIGkxOG4gJiBmb2N1cy12aXNpYmxlIFVJIiwiLSDlsIYgbWFjLWFwcCDljp/nlJ8gbWFjT1Mg5a6i5oi356uv5ZCI5bm26L+bIGRldiAvIG1lcmdlIG5hdGl2ZSBtYWNPUyBhcHAgYnJhbmNoIG1hYy1hcHAgaW50byBkZXYiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOS/ruWkjSBERE5TIOi0puWPt+W8leeUqOmYu+WhnuW5tuWujOWWhOWPjeS7o+WunuaXtumAn+eOh+S4jui/nuaOpeebkeaOpyIsIi0gU21hcnQg6LWE5Lqn5Yy56YWN5pSv5oyBIGFtZDY0LXYzIOe8uuWkseaXtuWuieWFqOWbnumAgOiHsyBhbWQ2NC12MSAvIHNhZmVseSBmYWxsIGJhY2sgZnJvbSBhbWQ2NC12MyB0byBhbWQ2NC12MSBmb3IgQ2xhc2ggU21hcnQgYXNzZXRzIiwiLSDpgILphY0gQ0kg6aKE57yW6K+R5ZCO56uv5aSN55So5LiO5peg5o2f562+5ZCN5Y+K5bmy5YeA5pu05paw5b2S5qGjIiwiLSDooaXpvZDlrZjph48gU21hcnQg6YWN572u5LiO6KeE5YiZ6Ieq5oSI5Y+K5YmN56uvIFNtYXJ0IOiuoumYhem7mOiupOWAvCAvIHNlbGYtaGVhbCBsZWdhY3kgU21hcnQgY29uZmlncyBhbmQgcnVsZXMsIHVzZSBTbWFydCBwcm92aWRlciBkZWZhdWx0cyBpbiBVSSIsIi0g5L+u5aSNIFNtYXJ0IOaguOW/g+abtOaWsOOAgeWIh+aNoueUn+aViOOAgeinhOWImeaooeadv+S4juS8mOmAiei/kOihjOmTvui3ryIsIi0g5L+u5aSN6L+c56iL5pyN5Yqh5Zmo5YGl5bq354q25oCB5ZCM5q2l5LiO5peg5Y2P6K6uIElQIOWcsOWdgOino+aekCJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS7jiAyMDI2LTExLTIxVDAxOjQ4OjQ5WiDkuYvlkI7nmoQgMTMg5Liq5o+Q5Lqk5Lit5pW055CG77yI57qz5YWl5b2T5YmN5ZCI5bm25YiG5pSv55qEIDEzIOS4quWOu+mHjeaPkOS6pO+8ie+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiXX19 -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDlrozlloQgU21hcnQg5qC45b+D5Y+C5pWw44CB6L+Q6KGM5pe257u05oqk5LiO5LiJ5qC45b+D5YiH5o2i6ZO+6LevIC8gY29tcGxldGUgQ2xhc2ggU21hcnQgY29uZmlnL3J1bnRpbWUgZmVhdHVyZXMgYW5kIGZpeCB0aHJlZS1jb3JlIHN3aXRjaGluZyIsIi0g5L+u5aSN5qGM6Z2i5bqU55So5pu05paw5qOA5rWL44CB5Yqg6YCf5Zue6YCA44CB5bm25Y+R5YiH5o2i5LiO5a6J6KOF5qCh6aqM6ZO+6LevIl0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSDlrozlloQgU21hcnQg5qC45b+D5Y+C5pWw44CB6L+Q6KGM5pe257u05oqk5LiO5LiJ5qC45b+D5YiH5o2i6ZO+6LevIC8gY29tcGxldGUgQ2xhc2ggU21hcnQgY29uZmlnL3J1bnRpbWUgZmVhdHVyZXMgYW5kIGZpeCB0aHJlZS1jb3JlIHN3aXRjaGluZyJdLCJjaGFuZ2VkIjpbXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOS/ruWkjeahjOmdouW6lOeUqOabtOaWsOajgOa1i+OAgeWKoOmAn+WbnumAgOOAgeW5tuWPkeWIh+aNouS4juWuieijheagoemqjOmTvui3ryJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS7jiAyMDI2LTExLTIxVDA3OjE0OjUxWiDkuYvlkI7nmoQgMyDkuKrmj5DkuqTkuK3mlbTnkIbvvIjnurPlhaXlvZPliY3lkIjlubbliIbmlK/nmoQgMyDkuKrljrvph43mj5DkuqTvvInvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>用 macOS 26 原生 SwiftUI 应用替换 Tauri 桌面端 / replace Tauri desktop shell with native macOS 26 SwiftUI app</p>
+    <p>完善 Smart 核心参数、运行时维护与三核心切换链路 / complete Clash Smart config/runtime features and fix three-core switching</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>清理冗余代码并拆分样式、完善 i18n 与无障碍交互 / clean up dead code, split CSS stylesheets, and polish i18n &amp; focus-visible UI</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>修复 DDNS 账号引用阻塞并完善反代实时速率与连接监控</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>Smart 资产匹配支持 amd64-v3 缺失时安全回退至 amd64-v1 / safely fall back from amd64-v3 to amd64-v1 for Clash Smart assets</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>适配 CI 预编译后端复用与无损签名及干净更新归档</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">06</span>
-    <p>补齐存量 Smart 配置与规则自愈及前端 Smart 订阅默认值 / self-heal legacy Smart configs and rules, use Smart provider defaults in UI</p>
+    <p>修复桌面应用更新检测、加速回退、并发切换与安装校验链路</p>
   </li>
 </ol>
 
@@ -62,8 +46,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
   <a href="#release-added">🆕 新增功能 <span>1</span></a>
-  <a href="#release-changed">✨ 功能增强 <span>2</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>6</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>1</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
 
@@ -71,16 +54,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🆕 新增功能 {#release-added}
 
-- 用 macOS 26 原生 SwiftUI 应用替换 Tauri 桌面端 / replace Tauri desktop shell with native macOS 26 SwiftUI app
-
-</section>
-
-<section class="msm-release-section msm-release-section--changed">
-
-### ✨ 功能增强 {#release-changed}
-
-- 清理冗余代码并拆分样式、完善 i18n 与无障碍交互 / clean up dead code, split CSS stylesheets, and polish i18n & focus-visible UI
-- 将 mac-app 原生 macOS 客户端合并进 dev / merge native macOS app branch mac-app into dev
+- 完善 Smart 核心参数、运行时维护与三核心切换链路 / complete Clash Smart config/runtime features and fix three-core switching
 
 </section>
 
@@ -88,12 +62,7 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🐛 问题修复 {#release-fixed}
 
-- 修复 DDNS 账号引用阻塞并完善反代实时速率与连接监控
-- Smart 资产匹配支持 amd64-v3 缺失时安全回退至 amd64-v1 / safely fall back from amd64-v3 to amd64-v1 for Clash Smart assets
-- 适配 CI 预编译后端复用与无损签名及干净更新归档
-- 补齐存量 Smart 配置与规则自愈及前端 Smart 订阅默认值 / self-heal legacy Smart configs and rules, use Smart provider defaults in UI
-- 修复 Smart 核心更新、切换生效、规则模板与优选运行链路
-- 修复远程服务器健康状态同步与无协议 IP 地址解析
+- 修复桌面应用更新检测、加速回退、并发切换与安装校验链路
 
 </section>
 
@@ -101,16 +70,16 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-11-21T01:48:49Z 之后的 13 个提交中整理（纳入当前合并分支的 13 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 从 2026-11-21T07:14:51Z 之后的 3 个提交中整理（纳入当前合并分支的 3 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`32646bd`](https://github.com/msm9527/msm/commit/32646bd146476123afe07bcf04d5718a1778f7f5)
-- **提交信息**：refactor: 清理冗余代码并拆分样式、完善 i18n 与无障碍交互 / clean up dead code, split CSS stylesheets, and polish i18n & focus-visible UI
+- **源提交**： [`56dba0d`](https://github.com/msm9527/msm/commit/56dba0dd6e3d7ba9d283c7cad1bd88237390d88c)
+- **提交信息**：chore(release): 升级版本至 2.2.8 / bump version to 2.2.8
 - **提交作者**：msm
-- **提交时间**：2026-11-21 14:53:46 CST
+- **提交时间**：2026-11-21 19:30:14 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -119,6 +88,43 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.2.7 · 2026-11-21 14:53 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.7" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 用 macOS 26 原生 SwiftUI 应用替换 Tauri 桌面端 / replace Tauri desktop shell with native macOS 26 SwiftUI app
+- 清理冗余代码并拆分样式、完善 i18n 与无障碍交互 / clean up dead code, split CSS stylesheets, and polish i18n & focus-visible UI
+- 修复 DDNS 账号引用阻塞并完善反代实时速率与连接监控
+- Smart 资产匹配支持 amd64-v3 缺失时安全回退至 amd64-v1 / safely fall back from amd64-v3 to amd64-v1 for Clash Smart assets
+- 适配 CI 预编译后端复用与无损签名及干净更新归档
+- 补齐存量 Smart 配置与规则自愈及前端 Smart 订阅默认值 / self-heal legacy Smart configs and rules, use Smart provider defaults in UI
+
+**🆕 新增功能**
+
+- 用 macOS 26 原生 SwiftUI 应用替换 Tauri 桌面端 / replace Tauri desktop shell with native macOS 26 SwiftUI app
+
+**✨ 功能增强**
+
+- 清理冗余代码并拆分样式、完善 i18n 与无障碍交互 / clean up dead code, split CSS stylesheets, and polish i18n & focus-visible UI
+- 将 mac-app 原生 macOS 客户端合并进 dev / merge native macOS app branch mac-app into dev
+
+**🐛 问题修复**
+
+- 修复 DDNS 账号引用阻塞并完善反代实时速率与连接监控
+- Smart 资产匹配支持 amd64-v3 缺失时安全回退至 amd64-v1 / safely fall back from amd64-v3 to amd64-v1 for Clash Smart assets
+- 适配 CI 预编译后端复用与无损签名及干净更新归档
+- 补齐存量 Smart 配置与规则自愈及前端 Smart 订阅默认值 / self-heal legacy Smart configs and rules, use Smart provider defaults in UI
+- 修复 Smart 核心更新、切换生效、规则模板与优选运行链路
+- 修复远程服务器健康状态同步与无协议 IP 地址解析
+
+**📌 升级提醒**
+
+- 从 2026-11-21T01:48:49Z 之后的 13 个提交中整理（纳入当前合并分支的 13 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+:::
 
 ::: details beta-2.2.6 · 2026-11-21 08:53 · Beta 版
 
