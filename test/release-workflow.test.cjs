@@ -111,7 +111,7 @@ test('release page publishing reads the latest renderer and uses conflict-safe s
 })
 
 test('macOS desktop workflows isolate and retry DMG creation', () => {
-  for (const workflow of workflows) {
+  for (const workflow of [...workflows, '.github/workflows/publish-desktop-dmg.yml']) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
 
     assert.match(source, /DMG_WORK="\$\(mktemp -d\)"[\s\S]*?DMG_TEMP="\$DMG_WORK\/msm-desktop\.dmg"/)
@@ -201,7 +201,7 @@ test('all MSM build checkouts use the exact source commit selected during prepar
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
     const checkouts = [...source.matchAll(/repository: msm9527\/msm\n\s+ref: ([^\n]+)/g)]
 
-    assert.equal(checkouts.length, 4, `${workflow}: prepare, server build, image runtime and desktop build`)
+    assert.equal(checkouts.length, 5, `${workflow}: prepare, server build, image runtime, desktop build and desktop manifest`)
     assert.equal(checkouts[0][1], workflow === stableWorkflow ? 'main' : 'dev')
     for (const checkout of checkouts.slice(1)) {
       assert.equal(checkout[1], '${{ needs.prepare.outputs.commit_sha }}')
@@ -545,19 +545,38 @@ test('forced releases update existing assets and fail if any attachment cannot b
   }
 })
 
-test('DMG publishing keeps updater artifacts and trust settings separate', () => {
+test('native macOS desktop publishing builds SwiftUI bundles, reuses hardened CLI, and publishes manifest last', () => {
   for (const workflow of [...workflows, '.github/workflows/publish-desktop-dmg.yml']) {
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
-    assert.match(source, /--config '\{"bundle":\{"createUpdaterArtifacts":false\}\}'/)
-    assert.doesNotMatch(source, /TAURI_SIGNING_PRIVATE_KEY|"pubkey"\s*:/)
+    assert.doesNotMatch(source, /dtolnay\/rust-toolchain|src-tauri|tauri build|TAURI_SIGNING_PRIVATE_KEY|"pubkey"\s*:|Cargo\.lock/)
+    assert.match(source, /runs_on: macos-26-intel/)
+    assert.match(source, /runs_on: macos-26\n/)
+    assert.match(source, /swift test/)
+    assert.match(source, /MSM_PREBUILT_BACKEND_BIN="\$DIST_ROOT\/msm"[\s\S]*?bash scripts\/build-macos-app\.sh[\s\S]*?--skip-backend/)
+    assert.match(source, /cmp -s "\$DIST_ROOT\/msm" "\$BUNDLED_MSM"/)
+    assert.match(source, /codesign --verify --deep --strict --verbose=4 "\$APP_PATH"/)
     assert.match(source, /codesign --verify --strict --verbose=4 "\$BUNDLED_MSM"/)
+    assert.match(source, /COPYFILE_DISABLE=1 tar --no-xattrs -czf "\$UPDATER_TEMP" -C "\$APP_OUT" "msm-desktop\.app"/)
     assert.match(source, /gh release upload[\s\S]*?\.dmg/)
+
+    const manifestJob = source.slice(source.indexOf('\n  desktop-manifest:\n'))
+    assert.notEqual(source.indexOf('\n  desktop-manifest:\n'), -1, `${workflow} must define desktop-manifest job`)
+    assert.match(manifestJob, /needs: \[[^\]]*desktop\]/)
+    assert.match(manifestJob, /node scripts\/generate-desktop-update-manifest\.mjs/)
+    const archiveUpload = manifestJob.indexOf('"$ARM64_ARCHIVE"')
+    const manifestUpload = manifestJob.indexOf('"dist/msm-desktop-latest.json"')
+    assert.ok(archiveUpload !== -1 && manifestUpload !== -1 && archiveUpload < manifestUpload,
+      `${workflow} must upload both updater archives before msm-desktop-latest.json`)
   }
 })
 
 test('DMG repair pins source to the published release and verifies CLI checksums', () => {
   const source = fs.readFileSync(path.join(root, '.github/workflows/publish-desktop-dmg.yml'), 'utf8')
-  assert.match(source, /ref: \$\{\{ inputs\.source_commit \}\}/)
+  const checkouts = [...source.matchAll(/repository: msm9527\/msm\n\s+ref: ([^\n]+)/g)]
+  assert.equal(checkouts.length, 2, 'publish-desktop-dmg must pin both desktop and desktop-manifest checkouts')
+  for (const checkout of checkouts) {
+    assert.equal(checkout[1], '${{ inputs.source_commit }}')
+  }
   assert.match(source, /grep -Fq "https:\/\/github\.com\/msm9527\/msm\/commit\/\$\{SOURCE_COMMIT\}\)"/)
   assert.match(source, /source version does not match release/)
   assert.match(source, /found != 1/)

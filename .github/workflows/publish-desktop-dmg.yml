@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: 'Existing release tag, e.g. beta-2.0.6'
+        description: 'Existing release tag, e.g. beta-2.2.6'
         required: true
         type: string
       source_commit:
@@ -21,23 +21,21 @@ concurrency:
 
 jobs:
   desktop:
-    name: 补发 macOS DMG
+    name: 补发 macOS 桌面应用（DMG 与更新归档）
     runs-on: ${{ matrix.runs_on }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - target: darwin-amd64
-            runs_on: macos-15-intel
+            runs_on: macos-26-intel
             goos: darwin
             goarch: amd64
-            rust_target: x86_64-apple-darwin
             macho_arch: x86_64
           - target: darwin-arm64
-            runs_on: macos-15
+            runs_on: macos-26
             goos: darwin
             goarch: arm64
-            rust_target: aarch64-apple-darwin
             macho_arch: arm64
     steps:
       - name: 验证发布版本和源提交
@@ -60,40 +58,24 @@ jobs:
           ref: ${{ inputs.source_commit }}
           token: ${{ secrets.MSM_REPO_TOKEN }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: 缓存前端依赖
-        uses: actions/cache@v4
-        with:
-          path: frontend/node_modules
-          key: npm-frontend-desktop-${{ runner.os }}-${{ matrix.target }}-${{ hashFiles('frontend/package-lock.json') }}
-
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.rust_target }}
-
-      - name: 缓存 Cargo 依赖与构建
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            frontend/src-tauri/target
-          key: cargo-tauri-${{ runner.os }}-${{ matrix.target }}-${{ hashFiles('frontend/src-tauri/Cargo.lock') }}
-
-      - name: 安装前端依赖并构建（Tauri 桌面）
+      - name: 检查原生 macOS 构建环境
         shell: bash
         run: |
           set -euo pipefail
-          cd frontend
-          npm ci --no-audit --no-fund
-          npm run build
+          if [ ! -f "macos/Package.swift" ] || [ ! -f "scripts/build-macos-app.sh" ]; then
+            echo "error: 目标源提交缺少原生 macOS 应用构建文件 (macos/Package.swift / scripts/build-macos-app.sh)" >&2
+            exit 1
+          fi
+          xcodebuild -version
+          swift --version
+          xcrun --show-sdk-version
+
+      - name: 运行 macOS 桌面核心单元测试
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd macos
+          swift test
 
       - name: 下载并校验已发布的 macOS CLI
         shell: bash
@@ -113,7 +95,7 @@ jobs:
           awk -v archive="$ARCHIVE" '$2 == archive { print; found++ } END { exit(found != 1) }' SHA256SUMS > expected.sha256
           shasum -a 256 -c expected.sha256
 
-      - name: 解压 CLI 二进制供 Tauri 使用
+      - name: 解压并校验 CLI 二进制
         shell: bash
         run: |
           set -euo pipefail
@@ -128,88 +110,64 @@ jobs:
             echo "error: CLI 架构不匹配，期望 ${{ matrix.macho_arch }}，实际 ${CLI_ARCHS}" >&2
             exit 1
           fi
-          echo "CLI 架构验证通过: ${CLI_ARCHS}"
+          codesign --verify --strict --verbose=4 dist/msm
+          if [ -f "scripts/verify-executable-sha256.sh" ]; then
+            bash scripts/verify-executable-sha256.sh dist/msm
+          fi
+          dist/msm --version >/dev/null
+          echo "CLI 架构与完整性验证通过: ${CLI_ARCHS}"
 
-      - name: 构建 Tauri 桌面应用
+      - name: 构建原生 macOS 桌面应用（.app / .dmg / 更新包）
+        id: build_desktop
         shell: bash
         run: |
           set -euo pipefail
           VERSION="${{ inputs.release_tag }}"
-          TAURI_TARGET="${{ matrix.rust_target }}"
+          BASE_VERSION="${VERSION#beta-}"
           EXPECTED_ARCH="${{ matrix.macho_arch }}"
+          DIST_ROOT="$PWD/dist"
+          APP_OUT="$DIST_ROOT/macos-app"
 
-          export TAURI_APP_VERSION="${VERSION}"
-          export TAURI_BUILD_VERSION="${VERSION}"
+          # 复用已发布并校验完成的加固版 msm 后端二进制（已内嵌前端资源），
+          # 由原生 SwiftUI 工程组装 msm-desktop.app。
+          # Reuse the verified published hardened msm backend binary (with embedded frontend)
+          # and assemble msm-desktop.app from the native SwiftUI package.
+          rm -rf "$APP_OUT"
+          MSM_PREBUILT_BACKEND_BIN="$DIST_ROOT/msm" \
+            bash scripts/build-macos-app.sh \
+              --arch "$EXPECTED_ARCH" \
+              --output "$APP_OUT" \
+              --configuration release \
+              --skip-frontend \
+              --skip-backend
 
-          cd frontend
-
-          WORKSPACE="$PWD"
-          SRC_TAURI_DIR="$WORKSPACE/src-tauri"
-          DIST_ROOT="$WORKSPACE/../dist"
-
-          # 确保目录存在；如存在开发用的内置二进制，先移除。
-          mkdir -p "$SRC_TAURI_DIR"
-          rm -f "$SRC_TAURI_DIR/msm"
-
-          # 复制已解压好的合并后端到 Tauri 资源目录。
-          cp "$DIST_ROOT/msm" "$SRC_TAURI_DIR/msm"
-          chmod +x "$SRC_TAURI_DIR/msm"
-
-          # 复制必要的资源文件（存在才复制）
-          cp about.html dist/ || true
-          cp icon.png dist/ || true
-
-          # 跳过重复的前端构建
-          TAURI_CONF="$SRC_TAURI_DIR/tauri.conf.json"
-          cp "$TAURI_CONF" "$TAURI_CONF.backup"
-          restore_tauri_conf() {
-            if [ -f "$TAURI_CONF.backup" ]; then
-              mv "$TAURI_CONF.backup" "$TAURI_CONF"
-            fi
-            rm -f "$TAURI_CONF.tmp"
-          }
-          trap restore_tauri_conf EXIT
-
-          sed -i.tmp 's/"beforeBuildCommand":[^,]*,/"beforeBuildCommand": "echo Skipping frontend build",/' "$TAURI_CONF"
-
-          # 仅用 Tauri 构建 .app（不打 DMG）：headless CI runner 上 tauri 自带的
-          # bundle_dmg.sh 会调用 Finder AppleScript 给窗口排版并超时失败(-1712)。
-          # Build only the .app with Tauri (no DMG): tauri's bundle_dmg.sh invokes
-          # Finder via AppleScript to style the window, which times out (-1712) on
-          # headless CI runners. We build the DMG ourselves below via hdiutil.
-          # This workflow publishes a DMG; signed updater archives use the
-          # dedicated desktop update publisher and its existing private key.
-          npm run tauri build -- --config '{"bundle":{"createUpdaterArtifacts":false}}' --target "$TAURI_TARGET" --bundles app
-
-          # 恢复原始配置
-          restore_tauri_conf
-          trap - EXIT
-
-          BUNDLE_ROOT="$SRC_TAURI_DIR/target/$TAURI_TARGET/release/bundle"
-          APP_PATH=""
-          for candidate in "$BUNDLE_ROOT/macos"/*.app; do
-            if [ -d "$candidate" ]; then
-              APP_PATH="$candidate"
-              break
-            fi
-          done
-
-          if [ -z "$APP_PATH" ]; then
-            echo "error: 未找到 Tauri .app 产物: $BUNDLE_ROOT/macos" >&2
+          APP_PATH="$APP_OUT/msm-desktop.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "error: 未找到原生 macOS .app 产物: $APP_PATH" >&2
             exit 1
           fi
 
           APP_EXECUTABLE="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP_PATH/Contents/Info.plist")"
-          APP_ARCHS="$(lipo -archs "$APP_PATH/Contents/MacOS/$APP_EXECUTABLE")"
-          if [ "$APP_ARCHS" != "$EXPECTED_ARCH" ]; then
-            echo "error: Tauri App 架构不匹配，期望 ${EXPECTED_ARCH}，实际 ${APP_ARCHS}" >&2
+          if [ "$APP_EXECUTABLE" != "msm-desktop" ]; then
+            echo "error: CFBundleExecutable 异常，期望 msm-desktop，实际 ${APP_EXECUTABLE}" >&2
             exit 1
           fi
-          echo "Tauri App 架构验证通过: ${APP_ARCHS}"
+          MIN_OS="$(/usr/libexec/PlistBuddy -c 'Print :LSMinimumSystemVersion' "$APP_PATH/Contents/Info.plist")"
+          if [ "$MIN_OS" != "26.0" ]; then
+            echo "error: LSMinimumSystemVersion 异常，期望 26.0，实际 ${MIN_OS}" >&2
+            exit 1
+          fi
+          APP_ARCHS="$(lipo -archs "$APP_PATH/Contents/MacOS/$APP_EXECUTABLE")"
+          if [ "$APP_ARCHS" != "$EXPECTED_ARCH" ]; then
+            echo "error: 原生 App 架构不匹配，期望 ${EXPECTED_ARCH}，实际 ${APP_ARCHS}" >&2
+            exit 1
+          fi
+          codesign --verify --deep --strict --verbose=4 "$APP_PATH"
+          echo "原生 App 架构与签名验证通过: ${APP_ARCHS}"
 
           BUNDLED_MSM="$APP_PATH/Contents/Resources/msm"
           if [ ! -x "$BUNDLED_MSM" ]; then
-            echo "error: Tauri App 缺少可执行内置后端: $BUNDLED_MSM" >&2
+            echo "error: 原生 App 缺少可执行内置后端: $BUNDLED_MSM" >&2
             exit 1
           fi
           BUNDLED_MSM_ARCHS="$(lipo -archs "$BUNDLED_MSM")"
@@ -217,12 +175,31 @@ jobs:
             echo "error: 内置后端架构不匹配，期望 ${EXPECTED_ARCH}，实际 ${BUNDLED_MSM_ARCHS}" >&2
             exit 1
           fi
+          cmp -s "$DIST_ROOT/msm" "$BUNDLED_MSM"
           codesign --verify --strict --verbose=4 "$BUNDLED_MSM"
+          if [ -f "scripts/verify-executable-sha256.sh" ]; then
+            bash scripts/verify-executable-sha256.sh "$BUNDLED_MSM"
+          fi
           "$BUNDLED_MSM" --version >/dev/null
-          echo "内置后端签名和可执行性验证通过: ${BUNDLED_MSM_ARCHS}"
+          echo "内置后端一致性、签名与可执行性验证通过: ${BUNDLED_MSM_ARCHS}"
 
-          # 自建无样式 DMG（绕过 tauri 的 Finder 排版步骤）
-          # Build a plain DMG ourselves (bypassing tauri's Finder styling step).
+          # 打包供桌面端在线更新使用的无签名 .app.tar.gz（由 GitHub Release SHA-256 校验）
+          # Package the unsigned .app.tar.gz archive verified via GitHub Release SHA-256 digest.
+          OUTPUT_UPDATER="$DIST_ROOT/msm-desktop-${BASE_VERSION}-darwin-${EXPECTED_ARCH}.app.tar.gz"
+          UPDATER_TEMP="${OUTPUT_UPDATER}.tmp.$$"
+          COPYFILE_DISABLE=1 tar --no-xattrs -czf "$UPDATER_TEMP" -C "$APP_OUT" "msm-desktop.app"
+          mv "$UPDATER_TEMP" "$OUTPUT_UPDATER"
+          tar -tzf "$OUTPUT_UPDATER" | grep -Fx "msm-desktop.app/Contents/MacOS/msm-desktop" >/dev/null
+          tar -tzf "$OUTPUT_UPDATER" | grep -Fx "msm-desktop.app/Contents/Resources/msm" >/dev/null
+          if tar -tzf "$OUTPUT_UPDATER" | grep -Eq '(^|/)\._'; then
+            echo "error: 更新压缩包包含 AppleDouble 元数据文件: $OUTPUT_UPDATER" >&2
+            exit 1
+          fi
+          echo "updater_archive=dist/msm-desktop-${BASE_VERSION}-darwin-${EXPECTED_ARCH}.app.tar.gz" >> "$GITHUB_OUTPUT"
+          echo "桌面更新归档校验通过: $OUTPUT_UPDATER"
+
+          # 隔离临时目录并重试创建 DMG（规避 headless CI 上 hdiutil 偶发挂载竞争）
+          # Isolate staging/output directories and retry hdiutil create on headless CI runners.
           mkdir -p "$DIST_ROOT"
           OUTPUT_DMG="$DIST_ROOT/msm-desktop-${VERSION}-${{ matrix.target }}.dmg"
 
@@ -237,7 +214,7 @@ jobs:
           cp -R "$APP_PATH" "$DMG_STAGE/"
           ln -s /Applications "$DMG_STAGE/Applications"
 
-          VOL_NAME="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleName' "$APP_PATH/Contents/Info.plist" 2>/dev/null || echo "msm-desktop")"
+          VOL_NAME="MSM ${BASE_VERSION}"
           DMG_CREATED="false"
           for attempt in 1 2 3; do
             if hdiutil create \
@@ -272,16 +249,9 @@ jobs:
           trap cleanup_dmg_mount EXIT
 
           hdiutil attach -nobrowse -readonly -mountpoint "$MOUNT_DIR" "$OUTPUT_DMG" >/dev/null
-          APP_IN_DMG=""
-          for candidate in "$MOUNT_DIR"/*.app; do
-            if [ -d "$candidate" ]; then
-              APP_IN_DMG="$candidate"
-              break
-            fi
-          done
-
-          if [ -z "$APP_IN_DMG" ]; then
-            echo "error: DMG 中未找到 .app: $OUTPUT_DMG" >&2
+          APP_IN_DMG="$MOUNT_DIR/msm-desktop.app"
+          if [ ! -d "$APP_IN_DMG" ]; then
+            echo "error: DMG 中未找到 msm-desktop.app: $OUTPUT_DMG" >&2
             exit 1
           fi
 
@@ -291,7 +261,8 @@ jobs:
             echo "error: DMG App 架构不匹配，期望 ${EXPECTED_ARCH}，实际 ${DMG_APP_ARCHS}" >&2
             exit 1
           fi
-          echo "DMG 架构验证通过: ${DMG_APP_ARCHS}"
+          codesign --verify --deep --strict "$APP_IN_DMG"
+          echo "DMG 架构与签名验证通过: ${DMG_APP_ARCHS}"
 
           DMG_BUNDLED_MSM="$APP_IN_DMG/Contents/Resources/msm"
           if [ ! -x "$DMG_BUNDLED_MSM" ]; then
@@ -315,7 +286,14 @@ jobs:
         with:
           name: msm-desktop-${{ inputs.release_tag }}-${{ matrix.target }}
           path: dist/msm-desktop-${{ inputs.release_tag }}-${{ matrix.target }}.dmg
-          if-no-files-found: ignore
+          if-no-files-found: error
+
+      - name: 上传桌面应用更新归档产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: msm-desktop-updater-${{ inputs.release_tag }}-${{ matrix.target }}
+          path: ${{ steps.build_desktop.outputs.updater_archive }}
+          if-no-files-found: error
 
       - name: 将 DMG 附加到已有 Release
         env:
@@ -328,3 +306,63 @@ jobs:
             --repo "${GITHUB_REPOSITORY}" \
             --clobber
 
+  desktop-manifest:
+    name: 补发 macOS 桌面在线更新清单
+    needs: [desktop]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout MSM 仓库
+        uses: actions/checkout@v4
+        with:
+          repository: msm9527/msm
+          ref: ${{ inputs.source_commit }}
+          token: ${{ secrets.MSM_REPO_TOKEN }}
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 下载 Apple Silicon 桌面更新归档
+        uses: actions/download-artifact@v4
+        with:
+          name: msm-desktop-updater-${{ inputs.release_tag }}-darwin-arm64
+          path: dist
+
+      - name: 下载 Intel 桌面更新归档
+        uses: actions/download-artifact@v4
+        with:
+          name: msm-desktop-updater-${{ inputs.release_tag }}-darwin-amd64
+          path: dist
+
+      - name: 生成并发布桌面更新归档与清单
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE_VERSION="${RELEASE_TAG#beta-}"
+          SOURCE_VERSION="$(tr -d '[:space:]' < .version)"
+          [[ "$SOURCE_VERSION" == "$BASE_VERSION" ]] || { echo "source version does not match release" >&2; exit 1; }
+
+          ARM64_ARCHIVE="dist/msm-desktop-${BASE_VERSION}-darwin-arm64.app.tar.gz"
+          X64_ARCHIVE="dist/msm-desktop-${BASE_VERSION}-darwin-x86_64.app.tar.gz"
+          test -s "$ARM64_ARCHIVE"
+          test -s "$X64_ARCHIVE"
+
+          node scripts/generate-desktop-update-manifest.mjs "${BASE_VERSION}" dist "${RELEASE_TAG}"
+          test -s dist/msm-desktop-latest.json
+
+          # 先上传双架构 .app.tar.gz，全部成功后再发布 msm-desktop-latest.json
+          # Upload both architecture updater archives before publishing msm-desktop-latest.json.
+          gh release upload "${RELEASE_TAG}" \
+            "$ARM64_ARCHIVE" \
+            "$X64_ARCHIVE" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --clobber
+          gh release upload "${RELEASE_TAG}" \
+            "dist/msm-desktop-latest.json" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --clobber
