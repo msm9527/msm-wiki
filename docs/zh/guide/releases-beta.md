@@ -12,71 +12,132 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.2.6" data-release-date="2026-11-21 08:53:36 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.6">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.2.7" data-release-date="2026-11-21 14:53:46 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.7">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.2.6</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.2.7</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.6" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.7" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>11 项</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>9 项</strong></div>
   <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-21 08:53:36 CST</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-21 14:53:46 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDlkIjlubbkuInliIbpkp/kuIvovb3otoXml7blj4ogQVBJIOivtOaYjiAvIG1lcmdlIHRocmVlLW1pbnV0ZSBkb3dubG9hZCBsaW1pdHMgYW5kIEFQSSBkb2NzIiwiLSDmlK/mjIHooaXkuIHniYjov4Hlm57kuIrmuLjljp/niYggLyBhbGxvdyBtaWdyYXRpb24gdG8gdW5wYXRjaGVkIHVwc3RyZWFtIGJ1aWxkcyIsIi0g5L+u5aSNIEZha2VJUCDnvJPlrZjlpLHmraXkuI7mlYXpmpzliIfmjaLnqpflj6PlpLHmlYggLyBzeW5jIEZha2VJUCBjYWNoZSBvbiByZWxvYWQgYW5kIGZpeCBVUkxUZXN0IGZhaWxvdmVyIHdpbmRvdyIsIi0g5L2/55So5a6Y5pa5IFNtYXJ0IOW5tuS/ruWkjeaOpeWFpSAvIHVzZSB1cHN0cmVhbSBTbWFydCBhbmQgZml4IGludGVncmF0aW9uIiwiLSDkv53nlZkgVURQIOe8k+WtmOW5tuaSpOWbniBUQ1Ag6KeE6YG/IC8gcmV0YWluIFVEUCBjYWNoZSBhbmQgcmV2ZXJ0IFRDUCB3b3JrYXJvdW5kIiwiLSDpgb/lhY3oioLngrkgRE5TIOmVv+acn+WRveS4reaXpyBJUCAvIGJ5cGFzcyBzdGFsZSBVRFAgY2FjaGUgZm9yIG5vZGUgRE5TIl0sIm1ham9yIjpbXSwiYWRkZWQiOltdLCJjaGFuZ2VkIjpbIi0g5ZCI5bm25LiJ5YiG6ZKf5LiL6L296LaF5pe25Y+KIEFQSSDor7TmmI4gLyBtZXJnZSB0aHJlZS1taW51dGUgZG93bmxvYWQgbGltaXRzIGFuZCBBUEkgZG9jcyJdLCJwZXJmb3JtYW5jZSI6W10sImZpeGVkIjpbIi0g5pSv5oyB6KGl5LiB54mI6L+B5Zue5LiK5ri45Y6f54mIIC8gYWxsb3cgbWlncmF0aW9uIHRvIHVucGF0Y2hlZCB1cHN0cmVhbSBidWlsZHMiLCItIOS/ruWkjSBGYWtlSVAg57yT5a2Y5aSx5q2l5LiO5pWF6Zqc5YiH5o2i56qX5Y+j5aSx5pWIIC8gc3luYyBGYWtlSVAgY2FjaGUgb24gcmVsb2FkIGFuZCBmaXggVVJMVGVzdCBmYWlsb3ZlciB3aW5kb3ciLCItIOS9v+eUqOWumOaWuSBTbWFydCDlubbkv67lpI3mjqXlhaUgLyB1c2UgdXBzdHJlYW0gU21hcnQgYW5kIGZpeCBpbnRlZ3JhdGlvbiIsIi0g5L+d55WZIFVEUCDnvJPlrZjlubbmkqTlm54gVENQIOinhOmBvyAvIHJldGFpbiBVRFAgY2FjaGUgYW5kIHJldmVydCBUQ1Agd29ya2Fyb3VuZCIsIi0g6YG/5YWN6IqC54K5IEROUyDplb/mnJ/lkb3kuK3ml6cgSVAgLyBieXBhc3Mgc3RhbGUgVURQIGNhY2hlIGZvciBub2RlIEROUyIsIi0g5L+u5aSN5py65Zy66K6i6ZiF5pu05paw6LaF5pe25LiO5Yi35pawIiwiLSDkv67lpI0gU21hcnQg6Ieq5Yqo6YCJ5oup5LiO5YGl5bq35qOA5p+lIiwiLSDlsIbljZXmupDkuIvovb3otoXml7blu7bplb/oh7PkuInliIbpkp8gLyBleHRlbmQgcGVyLXNvdXJjZSB0aW1lb3V0IHRvIHRocmVlIG1pbnV0ZXMiLCItIOWNlea6kOi2heaXtuW7tumVv+iHs+S4ieWIhumSnyAvIGV4dGVuZCBwZXItc291cmNlIHRpbWVvdXQgdG8gdGhyZWUgbWludXRlcyIsIi0g5qC45b+D5byC5bi45pe25L+d55WZ566h55CG5YWl5Y+jIC8ga2VlcCBjb25zb2xlIGFjY2Vzc2libGUgd2hlbiBjb3JlcyBhcmUgdW5hdmFpbGFibGUiXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSDku44gMjAyNi0xMS0xOVQwMjowODoxMFog5LmL5ZCO55qEIDE0IOS4quaPkOS6pOS4reaVtOeQhu+8iOe6s+WFpeW9k+WJjeWQiOW5tuWIhuaUr+eahCAxNCDkuKrljrvph43mj5DkuqTvvInvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDnlKggbWFjT1MgMjYg5Y6f55SfIFN3aWZ0VUkg5bqU55So5pu/5o2iIFRhdXJpIOahjOmdouerryAvIHJlcGxhY2UgVGF1cmkgZGVza3RvcCBzaGVsbCB3aXRoIG5hdGl2ZSBtYWNPUyAyNiBTd2lmdFVJIGFwcCIsIi0g5riF55CG5YaX5L2Z5Luj56CB5bm25ouG5YiG5qC35byP44CB5a6M5ZaEIGkxOG4g5LiO5peg6Zqc56KN5Lqk5LqSIC8gY2xlYW4gdXAgZGVhZCBjb2RlLCBzcGxpdCBDU1Mgc3R5bGVzaGVldHMsIGFuZCBwb2xpc2ggaTE4biAmIGZvY3VzLXZpc2libGUgVUkiLCItIOS/ruWkjSBERE5TIOi0puWPt+W8leeUqOmYu+WhnuW5tuWujOWWhOWPjeS7o+WunuaXtumAn+eOh+S4jui/nuaOpeebkeaOpyIsIi0gU21hcnQg6LWE5Lqn5Yy56YWN5pSv5oyBIGFtZDY0LXYzIOe8uuWkseaXtuWuieWFqOWbnumAgOiHsyBhbWQ2NC12MSAvIHNhZmVseSBmYWxsIGJhY2sgZnJvbSBhbWQ2NC12MyB0byBhbWQ2NC12MSBmb3IgQ2xhc2ggU21hcnQgYXNzZXRzIiwiLSDpgILphY0gQ0kg6aKE57yW6K+R5ZCO56uv5aSN55So5LiO5peg5o2f562+5ZCN5Y+K5bmy5YeA5pu05paw5b2S5qGjIiwiLSDooaXpvZDlrZjph48gU21hcnQg6YWN572u5LiO6KeE5YiZ6Ieq5oSI5Y+K5YmN56uvIFNtYXJ0IOiuoumYhem7mOiupOWAvCAvIHNlbGYtaGVhbCBsZWdhY3kgU21hcnQgY29uZmlncyBhbmQgcnVsZXMsIHVzZSBTbWFydCBwcm92aWRlciBkZWZhdWx0cyBpbiBVSSJdLCJtYWpvciI6W10sImFkZGVkIjpbIi0g55SoIG1hY09TIDI2IOWOn+eUnyBTd2lmdFVJIOW6lOeUqOabv+aNoiBUYXVyaSDmoYzpnaLnq68gLyByZXBsYWNlIFRhdXJpIGRlc2t0b3Agc2hlbGwgd2l0aCBuYXRpdmUgbWFjT1MgMjYgU3dpZnRVSSBhcHAiXSwiY2hhbmdlZCI6WyItIOa4heeQhuWGl+S9meS7o+eggeW5tuaLhuWIhuagt+W8j+OAgeWujOWWhCBpMThuIOS4juaXoOmanOeijeS6pOS6kiAvIGNsZWFuIHVwIGRlYWQgY29kZSwgc3BsaXQgQ1NTIHN0eWxlc2hlZXRzLCBhbmQgcG9saXNoIGkxOG4gJiBmb2N1cy12aXNpYmxlIFVJIiwiLSDlsIYgbWFjLWFwcCDljp/nlJ8gbWFjT1Mg5a6i5oi356uv5ZCI5bm26L+bIGRldiAvIG1lcmdlIG5hdGl2ZSBtYWNPUyBhcHAgYnJhbmNoIG1hYy1hcHAgaW50byBkZXYiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOS/ruWkjSBERE5TIOi0puWPt+W8leeUqOmYu+WhnuW5tuWujOWWhOWPjeS7o+WunuaXtumAn+eOh+S4jui/nuaOpeebkeaOpyIsIi0gU21hcnQg6LWE5Lqn5Yy56YWN5pSv5oyBIGFtZDY0LXYzIOe8uuWkseaXtuWuieWFqOWbnumAgOiHsyBhbWQ2NC12MSAvIHNhZmVseSBmYWxsIGJhY2sgZnJvbSBhbWQ2NC12MyB0byBhbWQ2NC12MSBmb3IgQ2xhc2ggU21hcnQgYXNzZXRzIiwiLSDpgILphY0gQ0kg6aKE57yW6K+R5ZCO56uv5aSN55So5LiO5peg5o2f562+5ZCN5Y+K5bmy5YeA5pu05paw5b2S5qGjIiwiLSDooaXpvZDlrZjph48gU21hcnQg6YWN572u5LiO6KeE5YiZ6Ieq5oSI5Y+K5YmN56uvIFNtYXJ0IOiuoumYhem7mOiupOWAvCAvIHNlbGYtaGVhbCBsZWdhY3kgU21hcnQgY29uZmlncyBhbmQgcnVsZXMsIHVzZSBTbWFydCBwcm92aWRlciBkZWZhdWx0cyBpbiBVSSIsIi0g5L+u5aSNIFNtYXJ0IOaguOW/g+abtOaWsOOAgeWIh+aNoueUn+aViOOAgeinhOWImeaooeadv+S4juS8mOmAiei/kOihjOmTvui3ryIsIi0g5L+u5aSN6L+c56iL5pyN5Yqh5Zmo5YGl5bq354q25oCB5ZCM5q2l5LiO5peg5Y2P6K6uIElQIOWcsOWdgOino+aekCJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS7jiAyMDI2LTExLTIxVDAxOjQ4OjQ5WiDkuYvlkI7nmoQgMTMg5Liq5o+Q5Lqk5Lit5pW055CG77yI57qz5YWl5b2T5YmN5ZCI5bm25YiG5pSv55qEIDEzIOS4quWOu+mHjeaPkOS6pO+8ie+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiXX19 -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>合并三分钟下载超时及 API 说明 / merge three-minute download limits and API docs</p>
+    <p>用 macOS 26 原生 SwiftUI 应用替换 Tauri 桌面端 / replace Tauri desktop shell with native macOS 26 SwiftUI app</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>支持补丁版迁回上游原版 / allow migration to unpatched upstream builds</p>
+    <p>清理冗余代码并拆分样式、完善 i18n 与无障碍交互 / clean up dead code, split CSS stylesheets, and polish i18n &amp; focus-visible UI</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>修复 FakeIP 缓存失步与故障切换窗口失效 / sync FakeIP cache on reload and fix URLTest failover window</p>
+    <p>修复 DDNS 账号引用阻塞并完善反代实时速率与连接监控</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>使用官方 Smart 并修复接入 / use upstream Smart and fix integration</p>
+    <p>Smart 资产匹配支持 amd64-v3 缺失时安全回退至 amd64-v1 / safely fall back from amd64-v3 to amd64-v1 for Clash Smart assets</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>保留 UDP 缓存并撤回 TCP 规避 / retain UDP cache and revert TCP workaround</p>
+    <p>适配 CI 预编译后端复用与无损签名及干净更新归档</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">06</span>
-    <p>避免节点 DNS 长期命中旧 IP / bypass stale UDP cache for node DNS</p>
+    <p>补齐存量 Smart 配置与规则自愈及前端 Smart 订阅默认值 / self-heal legacy Smart configs and rules, use Smart provider defaults in UI</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-changed">✨ 功能增强 <span>1</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>10</span></a>
+  <a href="#release-added">🆕 新增功能 <span>1</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>2</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>6</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
+
+<section class="msm-release-section msm-release-section--added">
+
+### 🆕 新增功能 {#release-added}
+
+- 用 macOS 26 原生 SwiftUI 应用替换 Tauri 桌面端 / replace Tauri desktop shell with native macOS 26 SwiftUI app
+
+</section>
 
 <section class="msm-release-section msm-release-section--changed">
 
 ### ✨ 功能增强 {#release-changed}
 
-- 合并三分钟下载超时及 API 说明 / merge three-minute download limits and API docs
+- 清理冗余代码并拆分样式、完善 i18n 与无障碍交互 / clean up dead code, split CSS stylesheets, and polish i18n & focus-visible UI
+- 将 mac-app 原生 macOS 客户端合并进 dev / merge native macOS app branch mac-app into dev
 
 </section>
 
 <section class="msm-release-section msm-release-section--fixed">
 
 ### 🐛 问题修复 {#release-fixed}
+
+- 修复 DDNS 账号引用阻塞并完善反代实时速率与连接监控
+- Smart 资产匹配支持 amd64-v3 缺失时安全回退至 amd64-v1 / safely fall back from amd64-v3 to amd64-v1 for Clash Smart assets
+- 适配 CI 预编译后端复用与无损签名及干净更新归档
+- 补齐存量 Smart 配置与规则自愈及前端 Smart 订阅默认值 / self-heal legacy Smart configs and rules, use Smart provider defaults in UI
+- 修复 Smart 核心更新、切换生效、规则模板与优选运行链路
+- 修复远程服务器健康状态同步与无协议 IP 地址解析
+
+</section>
+
+<section class="msm-release-section msm-release-section--notes">
+
+### 📌 升级提醒 {#release-notes}
+
+- 从 2026-11-21T01:48:49Z 之后的 13 个提交中整理（纳入当前合并分支的 13 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+</section>
+
+::: details 📋 构建信息
+- **发布通道**：beta（Beta 版）
+- **源提交**： [`32646bd`](https://github.com/msm9527/msm/commit/32646bd146476123afe07bcf04d5718a1778f7f5)
+- **提交信息**：refactor: 清理冗余代码并拆分样式、完善 i18n 与无障碍交互 / clean up dead code, split CSS stylesheets, and polish i18n & focus-visible UI
+- **提交作者**：msm
+- **提交时间**：2026-11-21 14:53:46 CST
+- **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
+:::
+
+---
+
+## 📚 历史 Beta 版本
+
+> 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.2.6 · 2026-11-21 08:53 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.2.6" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 合并三分钟下载超时及 API 说明 / merge three-minute download limits and API docs
+- 支持补丁版迁回上游原版 / allow migration to unpatched upstream builds
+- 修复 FakeIP 缓存失步与故障切换窗口失效 / sync FakeIP cache on reload and fix URLTest failover window
+- 使用官方 Smart 并修复接入 / use upstream Smart and fix integration
+- 保留 UDP 缓存并撤回 TCP 规避 / retain UDP cache and revert TCP workaround
+- 避免节点 DNS 长期命中旧 IP / bypass stale UDP cache for node DNS
+
+**✨ 功能增强**
+
+- 合并三分钟下载超时及 API 说明 / merge three-minute download limits and API docs
+
+**🐛 问题修复**
 
 - 支持补丁版迁回上游原版 / allow migration to unpatched upstream builds
 - 修复 FakeIP 缓存失步与故障切换窗口失效 / sync FakeIP cache on reload and fix URLTest failover window
@@ -89,30 +150,11 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 - 单源超时延长至三分钟 / extend per-source timeout to three minutes
 - 核心异常时保留管理入口 / keep console accessible when cores are unavailable
 
-</section>
-
-<section class="msm-release-section msm-release-section--notes">
-
-### 📌 升级提醒 {#release-notes}
+**📌 升级提醒**
 
 - 从 2026-11-19T02:08:10Z 之后的 14 个提交中整理（纳入当前合并分支的 14 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
-</section>
-
-::: details 📋 构建信息
-- **发布通道**：beta（Beta 版）
-- **源提交**： [`8185df4`](https://github.com/msm9527/msm/commit/8185df465cc8d0d7cd63e0cbea940ba3c3c50fa2)
-- **提交信息**：chore(release): 升级版本至 2.2.6 / bump version to 2.2.6
-- **提交作者**：msm
-- **提交时间**：2026-11-21 08:53:36 CST
-- **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
-
----
-
-## 📚 历史 Beta 版本
-
-> 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
 
 ::: details beta-2.2.5 · 2026-11-19 08:28 · Beta 版
 
