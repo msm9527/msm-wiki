@@ -46,7 +46,7 @@ description: MSM Assistant 浏览器助手独立发布页，提供 Google Chrome
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>深度适配 Mihomo Smart 智能策略组：遵循配置顺序排列策略组、展示组图标与子策略组穿透延迟、固定态一键「恢复智能优选」及全组无截断并发测速</p>
+    <p>深度适配 Clash Smart 智能策略组：遵循配置顺序排列策略组、展示组图标与子策略组穿透延迟、固定态一键「恢复智能优选」及全组无截断并发测速</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
@@ -70,7 +70,7 @@ description: MSM Assistant 浏览器助手独立发布页，提供 Google Chrome
 
 - 新增无冲突 MosDNS 策略引擎与 `[复]` 一键重置按钮，并在域名详情与连接详情支持 `当前域名 / *.根域名` 作用域切换
 - 新增规则管理「代理核心规则」视图（支持按规则类型、匹配内容、出站策略检索并显示 RuleSet 规模与命中次数）及 `/batch` 原子批量添加规则
-- 新增 Mihomo `Smart` 智能组固定态标记与一键「恢复智能优选」（`DELETE /proxy/controller/proxies/:group`）
+- 新增 Clash `Smart` 智能组固定态标记与一键「恢复智能优选」（`DELETE /proxy/controller/proxies/:group`）
 - 新增实时连接页局域网客户端 `srcIP` 筛选器、当前站点连接数徽标与「断开筛选连接」安全操作
 - 新增预加载网页自动关联主域名与「重载网页完整采集」引导，Popup / Side Panel 补齐规则、历史、行内设置与 `⌘K` 命令面板
 - 所有域名输入框与命令面板支持直接粘贴完整 URL 自动规范化主机名
