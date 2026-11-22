@@ -583,3 +583,24 @@ test('DMG repair pins source to the published release and verifies CLI checksums
   assert.match(source, /shasum -a 256 -c expected\.sha256/)
   assert.doesNotMatch(source, /force_update|gh release create|git push/)
 })
+
+test('core release baseline lookup ignores standalone companion tags like assistant-v*', () => {
+  const stableSource = fs.readFileSync(path.join(root, stableWorkflow), 'utf8')
+  const betaSource = fs.readFileSync(path.join(root, betaWorkflow), 'utf8')
+
+  assert.match(stableSource, /\.tag_name \| test\("\^v\?\[0-9\]\+\\\\\.\[0-9\]\+\\\\\.\[0-9\]\+\$"\)/)
+  assert.match(stableSource, /\.tag_name \| test\("\^beta-\[0-9\]\+\\\\\.\[0-9\]\+\\\\\.\[0-9\]\+\$"\)/)
+  assert.match(betaSource, /\.tag_name \| test\("\^beta-\[0-9\]\+\\\\\.\[0-9\]\+\\\\\.\[0-9\]\+\$"\)/)
+})
+
+test('standalone MSM Assistant publish workflow never marks releases as Latest', () => {
+  const source = fs.readFileSync(path.join(root, '.github/workflows/publish-assistant.yml'), 'utf8')
+  assert.match(source, /repository: msm9527\/msm-assistant/)
+  assert.match(source, /RELEASE_TAG="assistant-v\$\{VERSION\}"/)
+  assert.match(source, /makeLatest: false/)
+  assert.match(source, /prerelease: false/)
+  assert.match(source, /dist\/msm-assistant-\*-chrome\.zip/)
+  assert.match(source, /dist\/msm-assistant-\*-edge\.zip/)
+  assert.match(source, /dist\/msm-assistant-\*-firefox\.zip/)
+  assert.match(source, /dist\/SHA256SUMS/)
+})

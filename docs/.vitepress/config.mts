@@ -50,6 +50,7 @@ export default defineConfig({
       {
         text: '扩展功能',
         items: [
+          { text: '浏览器助手（MSM Assistant）', link: '/zh/guide/assistant' },
           { text: '域名服务', link: '/zh/guide/domain-services' },
           { text: 'Cloudflare 内网穿透', link: '/zh/guide/cloudflare' },
           { text: '自建私网', link: '/zh/guide/networking' },
@@ -78,7 +79,8 @@ export default defineConfig({
         text: '更新日志',
         items: [
           { text: '正式版', link: '/zh/guide/releases' },
-          { text: 'Beta 版', link: '/zh/guide/releases-beta' }
+          { text: 'Beta 版', link: '/zh/guide/releases-beta' },
+          { text: '浏览器助手', link: '/zh/guide/releases-assistant' }
         ]
       },
       {
@@ -115,6 +117,7 @@ export default defineConfig({
             { text: 'Alpine 安装', link: '/zh/guide/install-alpine' },
             { text: 'OpenWrt 安装', link: '/zh/guide/install-openwrt' },
             { text: 'Docker 安装', link: '/zh/guide/docker' },
+            { text: '浏览器助手（MSM Assistant）', link: '/zh/guide/assistant' },
             { text: '首次使用', link: '/zh/guide/first-use' },
             { text: '完整使用流程', link: '/zh/guide/complete-workflow' }
           ]
@@ -175,7 +178,8 @@ export default defineConfig({
             { text: '更新升级', link: '/zh/guide/update' },
             { text: '备份恢复', link: '/zh/guide/backup-restore' },
             { text: '版本发布', link: '/zh/guide/releases' },
-            { text: 'Beta 版发布', link: '/zh/guide/releases-beta' }
+            { text: 'Beta 版发布', link: '/zh/guide/releases-beta' },
+            { text: '浏览器助手发布', link: '/zh/guide/releases-assistant' }
           ]
         },
         {

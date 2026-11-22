@@ -1,0 +1,147 @@
+name: 发布 MSM Assistant 浏览器扩展
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: 'msm-assistant 源标签、分支或完整提交 SHA（如 v2.0.0）'
+        required: true
+        default: 'v2.0.0'
+        type: string
+      force_update:
+        description: '覆盖已存在的 assistant-v* Release'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-assistant-${{ inputs.source_ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: 构建、验证并发布三平台扩展包
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout msm-assistant 源码
+        uses: actions/checkout@v4
+        with:
+          repository: msm9527/msm-assistant
+          ref: ${{ inputs.source_ref }}
+          token: ${{ secrets.MSM_REPO_TOKEN }}
+          persist-credentials: false
+
+      - name: 读取版本与发布元数据
+        id: meta
+        shell: bash
+        env:
+          FORCE_UPDATE: ${{ inputs.force_update }}
+        run: |
+          set -euo pipefail
+          VERSION="$(node -p "require('./package.json').version")"
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]] || { echo "invalid version: $VERSION" >&2; exit 1; }
+          RELEASE_TAG="assistant-v${VERSION}"
+          COMMIT_SHA="$(git rev-parse HEAD)"
+          COMMIT_SHA_SHORT="$(git rev-parse --short HEAD)"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "release_tag=${RELEASE_TAG}" >> "$GITHUB_OUTPUT"
+          echo "commit_sha=${COMMIT_SHA}" >> "$GITHUB_OUTPUT"
+          echo "commit_sha_short=${COMMIT_SHA_SHORT}" >> "$GITHUB_OUTPUT"
+
+          if [ "${FORCE_UPDATE}" != "true" ]; then
+            STATUS="$(curl -I -s -o /dev/null -w '%{http_code}' "https://github.com/${GITHUB_REPOSITORY}/releases/tag/${RELEASE_TAG}")"
+            if [ "${STATUS}" -ge 200 ] && [ "${STATUS}" -lt 400 ]; then
+              echo "检测到 ${RELEASE_TAG} 已存在且未开启 force_update，跳过发布。"
+              echo "skip=1" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          fi
+          echo "skip=0" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Node.js
+        if: steps.meta.outputs.skip == '0'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 安装依赖并执行基础校验与构建
+        if: steps.meta.outputs.skip == '0'
+        run: |
+          npm ci
+          npm run format:check
+          npm test
+          npm run build
+          npm run lint:firefox
+
+      - name: 安装 Playwright Chromium
+        if: steps.meta.outputs.skip == '0'
+        run: npx playwright install --with-deps chromium
+
+      - name: 验证 Chrome 与 Edge 扩展包
+        if: steps.meta.outputs.skip == '0'
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHROME_BIN="$(node --input-type=module -e 'import {chromium} from "@playwright/test"; console.log(chromium.executablePath())')"
+          CHROMIUM_PATH="$CHROME_BIN" EXT_TARGET=chrome npm run test:browser
+          CHROMIUM_PATH="$CHROME_BIN" EXT_TARGET=edge npm run test:browser
+
+      - name: 打包三平台发行包与 SHA256SUMS
+        if: steps.meta.outputs.skip == '0'
+        run: |
+          node scripts/package.mjs
+          ls -la dist/msm-assistant-*.zip dist/SHA256SUMS
+          (cd dist && sha256sum -c SHA256SUMS)
+
+      - name: 生成 Release 正文
+        if: steps.meta.outputs.skip == '0'
+        shell: bash
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+          RELEASE_TAG: ${{ steps.meta.outputs.release_tag }}
+          COMMIT_SHA_SHORT: ${{ steps.meta.outputs.commit_sha_short }}
+        run: |
+          set -euo pipefail
+          cat > release-body.md <<EOF
+          ## 🧩 MSM Assistant v${VERSION}（浏览器助手独立发布）
+
+          > 本发布为 **MSM 浏览器扩展**独立发行版，支持 **Google Chrome**、**Microsoft Edge** 与 **Mozilla Firefox**，不影响 MSM 核心程序的 \`Latest\` 版本与自动更新通道。
+
+          ### 📦 下载发行包
+
+          | 浏览器平台 | 发行包 | 安装方式 |
+          | --- | --- | --- |
+          | **Google Chrome / Chromium** | [\`msm-assistant-${VERSION}-chrome.zip\`](https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}/msm-assistant-${VERSION}-chrome.zip) | 解压后在 \`chrome://extensions\` 开启开发者模式，点击「加载已解压的扩展程序」 |
+          | **Microsoft Edge** | [\`msm-assistant-${VERSION}-edge.zip\`](https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}/msm-assistant-${VERSION}-edge.zip) | 解压后在 \`edge://extensions\` 开启开发人员模式，点击「加载解压缩的扩展」 |
+          | **Mozilla Firefox** | [\`msm-assistant-${VERSION}-firefox.zip\`](https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}/msm-assistant-${VERSION}-firefox.zip) | 在 \`about:debugging#/runtime/this-firefox\` 临时加载附加组件，或自行签名安装 |
+          | **校验文件** | [\`SHA256SUMS\`](https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}/SHA256SUMS) | \`shasum -a 256 -c SHA256SUMS\` |
+
+          ### 📖 文档与使用指南
+          - 完整安装与功能说明：[MSM Assistant 浏览器助手指南](https://doc.msmbox.net/zh/guide/assistant.html)
+          - 版本更新记录：[浏览器助手发布页](https://doc.msmbox.net/zh/guide/releases-assistant.html)
+          - 源码提交：\`${COMMIT_SHA_SHORT}\`
+          EOF
+
+      - name: 创建或更新独立 Release（不覆盖 MSM 核心 Latest）
+        if: steps.meta.outputs.skip == '0'
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.meta.outputs.release_tag }}
+          name: "🧩 MSM Assistant v${{ steps.meta.outputs.version }}（浏览器助手）"
+          bodyFile: release-body.md
+          draft: false
+          prerelease: false
+          makeLatest: false
+          allowUpdates: true
+          replacesArtifacts: true
+          artifactErrorsFailBuild: true
+          artifacts: |
+            dist/msm-assistant-*-chrome.zip
+            dist/msm-assistant-*-edge.zip
+            dist/msm-assistant-*-firefox.zip
+            dist/SHA256SUMS

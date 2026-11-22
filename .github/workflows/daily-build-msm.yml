@@ -139,9 +139,9 @@ jobs:
           # latest Beta window, even when both builds have the same target tree.
           if command -v jq >/dev/null 2>&1; then
             if [ "${CHANNEL}" = "beta" ]; then
-              PREVIOUS_RELEASE_JSON="$(echo "${RELEASES_JSON}" | jq -c --arg current_tag "${RELEASE_VERSION}" '[.[] | select(.draft == false and .prerelease == true and (.tag_name | startswith("beta-")) and .tag_name != $current_tag and .published_at != null)] | sort_by(.published_at) | last // {}' || echo '{}')"
+              PREVIOUS_RELEASE_JSON="$(echo "${RELEASES_JSON}" | jq -c --arg current_tag "${RELEASE_VERSION}" '[.[] | select(.draft == false and .prerelease == true and (.tag_name | test("^beta-[0-9]+\\.[0-9]+\\.[0-9]+$")) and .tag_name != $current_tag and .published_at != null)] | sort_by(.published_at) | last // {}' || echo '{}')"
             else
-              PREVIOUS_RELEASE_JSON="$(echo "${RELEASES_JSON}" | jq -c --arg current_tag "${RELEASE_VERSION}" '[.[] | select(.draft == false and .prerelease == false and ((.tag_name | startswith("beta-")) | not) and .tag_name != $current_tag and .published_at != null)] | sort_by(.published_at) | last // {}' || echo '{}')"
+              PREVIOUS_RELEASE_JSON="$(echo "${RELEASES_JSON}" | jq -c --arg current_tag "${RELEASE_VERSION}" '[.[] | select(.draft == false and .prerelease == false and (.tag_name | test("^v?[0-9]+\\.[0-9]+\\.[0-9]+$")) and .tag_name != $current_tag and .published_at != null)] | sort_by(.published_at) | last // {}' || echo '{}')"
             fi
 
             PREVIOUS_RELEASE_PUBLISHED_AT="$(echo "${PREVIOUS_RELEASE_JSON}" | jq -r '.published_at // empty' || true)"

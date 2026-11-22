@@ -16,6 +16,7 @@ MSM 是自托管管理平台。请仅用于自有或已获明确授权的设备�
 | OpenWrt 路由器 | [OpenWrt 安装](/zh/guide/install-openwrt) | 测试版原生 IPK / APK + LuCI 插件 + procd 服务 |
 | Alpine Linux | [Alpine 安装](/zh/guide/install-alpine) | musl + 手动服务管理 |
 | Docker 环境 | [Docker 安装](/zh/guide/docker) | 容器化部署 |
+| 浏览器伴随扩展 | [浏览器助手（MSM Assistant）](/zh/guide/assistant) | Chrome / Edge / Firefox 三平台扩展（可选） |
 
 ## 基本要求（通用）
 

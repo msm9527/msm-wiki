@@ -8,6 +8,7 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 <nav class="msm-release-channels" aria-label="发布通道">
   <a href="/zh/guide/releases.html" aria-current="page">🚀 稳定版 <span>日常使用</span></a>
   <a href="/zh/guide/releases-beta.html">🧪 Beta 版 <span>抢先体验</span></a>
+  <a href="/zh/guide/releases-assistant.html">🧩 浏览器助手 <span>Chrome / Edge / Firefox</span></a>
 </nav>
 
 ## 🚀 最新稳定版本
