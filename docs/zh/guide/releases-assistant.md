@@ -13,18 +13,18 @@ description: MSM Assistant 浏览器助手独立发布页，提供 Google Chrome
 
 ## 🧩 最新浏览器助手版本
 
-<div class="msm-release-hero msm-release-hero--stable" data-version="assistant-v2.0.0" data-release-date="2026-11-22 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/assistant-v2.0.0">
+<div class="msm-release-hero msm-release-hero--stable" data-version="assistant-v2.1.0" data-release-date="2026-11-22 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/assistant-v2.1.0">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>浏览器助手</span> <code>v2.0.0</code></h3>
+    <h3 class="msm-release-version"><span>浏览器助手</span> <code>v2.1.0</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/assistant-v2.0.0" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/assistant-v2.1.0" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/assistant.html">安装与使用指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
   <div class="msm-release-metric"><span>支持平台</span><strong>Chrome / Edge / Firefox</strong></div>
-  <div class="msm-release-metric"><span>发布标签</span><strong>assistant-v2.0.0</strong></div>
+  <div class="msm-release-metric"><span>发布标签</span><strong>assistant-v2.1.0</strong></div>
   <div class="msm-release-metric"><span>发布日期</span><strong>2026-11-22</strong></div>
 </div>
 
@@ -32,33 +32,33 @@ description: MSM Assistant 浏览器助手独立发布页，提供 Google Chrome
 
 | 浏览器平台 | 发行包 | 安装方式 |
 | --- | --- | --- |
-| **Google Chrome / Chromium** | [`msm-assistant-2.0.0-chrome.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.0.0/msm-assistant-2.0.0-chrome.zip) | 解压后在 `chrome://extensions` 开启开发者模式加载 |
-| **Microsoft Edge** | [`msm-assistant-2.0.0-edge.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.0.0/msm-assistant-2.0.0-edge.zip) | 解压后在 `edge://extensions` 开启开发人员模式加载 |
-| **Mozilla Firefox** | [`msm-assistant-2.0.0-firefox.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.0.0/msm-assistant-2.0.0-firefox.zip) | 在 `about:debugging#/runtime/this-firefox` 加载或签名安装 |
-| **SHA256 校验文件** | [`SHA256SUMS`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.0.0/SHA256SUMS) | `shasum -a 256 -c SHA256SUMS` |
+| **Google Chrome / Chromium** | [`msm-assistant-2.1.0-chrome.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/msm-assistant-2.1.0-chrome.zip) | 解压后在 `chrome://extensions` 开启开发者模式加载 |
+| **Microsoft Edge** | [`msm-assistant-2.1.0-edge.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/msm-assistant-2.1.0-edge.zip) | 解压后在 `edge://extensions` 开启开发人员模式加载 |
+| **Mozilla Firefox** | [`msm-assistant-2.1.0-firefox.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/msm-assistant-2.1.0-firefox.zip) | 在 `about:debugging#/runtime/this-firefox` 加载或签名安装 |
+| **SHA256 校验文件** | [`SHA256SUMS`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/SHA256SUMS) | `shasum -a 256 -c SHA256SUMS` |
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>全新 Precision Glass Console 设计，统一 Popup 弹窗、Side Panel 侧边栏与全屏工作台三端体验，提供浅色 / 深色主题与 ⌘K 全局命令面板</p>
+    <p>全新无冲突分流策略引擎（[直] [代] [禁] [复] [清]）：切换策略自动清理 MosDNS 兄弟列表冲突并刷新缓存，支持一键恢复默认分流与当前域名 / 根域名作用域切换</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>实时流式架构（runtime.connect）驱动吞吐、活跃连接、域名分流归因与工具栏动态徽标，告别低频轮询</p>
+    <p>深度适配 Mihomo Smart 智能策略组：遵循配置顺序排列策略组、展示组图标与子策略组穿透延迟、固定态一键「恢复智能优选」及全组无截断并发测速</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>新增完整控制面：规则 / 全局 / 直连模式切换、Clash / Sing-Box 代理组测速与切节点、实时连接列表与一键断开</p>
+    <p>旁路由实时连接安全防护与客户端过滤：筛选态自动切换「断开筛选连接」防止误断局域网其他设备，新增 LAN 客户端 IP 过滤与表头锁定的虚拟滚动列表</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>深度对齐 MSM 后台重构 4 标签 MosDNS 监控工作台（实时查询日志、概览与排行、上游 DNS 统计、缓存分片与详情弹窗）</p>
+    <p>双模规则工作台与实时流稳定性升级：新增「代理核心规则」只读视图（含规则类型、策略与命中次数）及多行原子批量写入；跨页面导航长连接不断流，预加载网页即开即看</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>正式提供 Google Chrome、Microsoft Edge 与 Mozilla Firefox 三平台独立构建包、SHA256SUMS 校验与双目标自动化端到端验证</p>
+    <p>Popup 与 390px 侧边栏全功能闭环：补齐规则、历史、行内设置与 ⌘K 搜索，首屏零闪烁主题缓存、Top-Layer Popover 通知与长 IPv6 截断修复</p>
   </li>
 </ol>
 
@@ -68,11 +68,12 @@ description: MSM Assistant 浏览器助手独立发布页，提供 Google Chrome
 
 ### 🆕 新增功能 {#release-added}
 
-- 新增代理节点页面，支持按策略组查看节点、批量/单节点延迟测速与一键切换
-- 新增实时连接页面，支持按域名/规则/代理链路筛选、查看连接详情及断开连接
-- 新增 4 标签 MosDNS 监控工作台：实时查询日志、概览与排行、上游 DNS 统计与缓存分片视图
-- 新增全屏工作台 `⌘K` / `Ctrl+K` 命令面板与工具栏实时状态徽标
-- 新增 Chrome、Edge 与 Firefox 三平台独立发行构建及 `SHA256SUMS` 校验清单
+- 新增无冲突 MosDNS 策略引擎与 `[复]` 一键重置按钮，并在域名详情与连接详情支持 `当前域名 / *.根域名` 作用域切换
+- 新增规则管理「代理核心规则」视图（支持按规则类型、匹配内容、出站策略检索并显示 RuleSet 规模与命中次数）及 `/batch` 原子批量添加规则
+- 新增 Mihomo `Smart` 智能组固定态标记与一键「恢复智能优选」（`DELETE /proxy/controller/proxies/:group`）
+- 新增实时连接页局域网客户端 `srcIP` 筛选器、当前站点连接数徽标与「断开筛选连接」安全操作
+- 新增预加载网页自动关联主域名与「重载网页完整采集」引导，Popup / Side Panel 补齐规则、历史、行内设置与 `⌘K` 命令面板
+- 所有域名输入框与命令面板支持直接粘贴完整 URL 自动规范化主机名
 
 </section>
 
@@ -80,10 +81,12 @@ description: MSM Assistant 浏览器助手独立发布页，提供 Google Chrome
 
 ### 🐛 问题修复与体验优化 {#release-fixed}
 
-- 修复 MosDNS 查询日志 `type`、`q`、`domain_mode` 筛选参数与 MSM 后端接口对齐问题
-- 修复缓存命中率与懒命中率计算口径，支持亚毫秒（`< 1 ms`）DNS 耗时精确展示
-- 修复热门查询域名超长文本重叠、宽屏/窄屏分栏表格裁切以及侧边栏徽标横向滚动条问题
-- 修复 Microsoft Edge 158 扩展冷启动下网络请求监听竞态问题，全页面通过 WCAG 2.1 AA 无障碍检查
+- 修复切换直连/代理/拦截时因 MosDNS 兄弟规则列表残留导致策略被更高优先级列表覆盖的问题，后台写操作升级为 FIFO 串行队列消除并发 `busy` 报错
+- 修复跨页面导航时断开 `msm-stream` 长连接并丢失归档视图、以及重开弹窗瞬间出现虚假速率尖峰的问题
+- 修复 DNS 监控 3 秒自动轮询导致刷新按钮持续禁用闪烁的问题，并修正上游健康度降级与异常状态文案
+- 修复代理组按字母排序打乱配置顺序、规则模式下冗余显示 `GLOBAL`、隐藏组泄露及全组测速仅测前 16 个节点的问题
+- 修复总览页长 IPv6 地址跨列溢出、390px 侧边栏导航标签右侧图标被裁切、状态浮层层级遮挡及弹窗遮盖 Toast 通知的问题
+- 全量通过 38 项单元测试、Chrome / Edge 双平台 13 项 E2E 与明暗双主题 WCAG 2.1 AA 校验及 Firefox `addons-linter` 零错误校验
 
 </section>
 
@@ -100,4 +103,12 @@ description: MSM Assistant 浏览器助手独立发布页，提供 Google Chrome
 
 ## 📚 历史版本
 
-> `v2.0.0` 是首个在 MSM Wiki 独立公开发布的三平台版本；后续更新将持续归档在此处。
+<details>
+<summary><strong>v2.0.0</strong>（2026-11-22 · <code>assistant-v2.0.0</code>）— 首个三平台独立公开发行版</summary>
+
+- 下载归档：[`msm-assistant-2.0.0-chrome.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.0.0/msm-assistant-2.0.0-chrome.zip) · [`msm-assistant-2.0.0-edge.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.0.0/msm-assistant-2.0.0-edge.zip) · [`msm-assistant-2.0.0-firefox.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.0.0/msm-assistant-2.0.0-firefox.zip) · [GitHub Release](https://github.com/msm9527/msm-wiki/releases/tag/assistant-v2.0.0)
+- 全新 Precision Glass Console 设计，统一 Popup、Side Panel 与全屏工作台三端界面，支持浅色 / 深色主题与 `⌘K` 命令面板
+- 引入 `runtime.connect` 长连接实时推送、代理控制面（模式切换 / 代理组测速切节点 / 实时连接）与 4 标签 MosDNS 监控工作台
+- 正式提供 Google Chrome、Microsoft Edge 与 Mozilla Firefox 三平台独立构建与 `SHA256SUMS` 校验清单
+
+</details>

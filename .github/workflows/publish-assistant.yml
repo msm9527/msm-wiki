@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       source_ref:
-        description: 'msm-assistant 源标签、分支或完整提交 SHA（如 v2.0.0）'
+        description: 'msm-assistant 源标签、分支或完整提交 SHA（如 v2.1.0）'
         required: true
-        default: 'v2.0.0'
+        default: 'v2.1.0'
         type: string
       force_update:
         description: '覆盖已存在的 assistant-v* Release'
