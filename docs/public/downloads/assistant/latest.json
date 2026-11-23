@@ -1,0 +1,21 @@
+{
+  "version": "2.1.0",
+  "published_at": "2026-11-22T09:09:24Z",
+  "source_commit": "96cd404",
+  "base_url": "https://doc.msmbox.net/downloads/assistant/v2.1.0",
+  "files": {
+    "chrome": {
+      "name": "msm-assistant-2.1.0-chrome.zip",
+      "sha256": "83a7c2632a6baf5f848cac5a732d38287957e9946702a4f8df7c4b95c0c7e4d4"
+    },
+    "edge": {
+      "name": "msm-assistant-2.1.0-edge.zip",
+      "sha256": "83a7c2632a6baf5f848cac5a732d38287957e9946702a4f8df7c4b95c0c7e4d4"
+    },
+    "firefox": {
+      "name": "msm-assistant-2.1.0-firefox.zip",
+      "sha256": "30e751fb8ab3e71c903aacdcc9685653c8edfb424be4145c920b4285fc15da47"
+    },
+    "checksums": "SHA256SUMS"
+  }
+}

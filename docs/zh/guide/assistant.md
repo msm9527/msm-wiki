@@ -12,16 +12,16 @@ MSM Assistant 仅连接你自有或已获授权的 MSM 实例，所有请求捕�
 
 ## 下载与最新版本
 
-当前最新版本：**`v2.1.0`**（独立发布标签：`assistant-v2.1.0`）
+当前最新版本：**`v2.1.0`**（文档站独立静态分发，不占用 MSM 核心 Release 通道）
 
 | 浏览器平台 | 下载发行包 | 说明 |
 | --- | --- | --- |
-| **Google Chrome / Chromium** | [msm-assistant-2.1.0-chrome.zip](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/msm-assistant-2.1.0-chrome.zip) | Chrome / Brave / Arc / Vivaldi 等 Chromium 内核浏览器（支持 Side Panel） |
-| **Microsoft Edge** | [msm-assistant-2.1.0-edge.zip](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/msm-assistant-2.1.0-edge.zip) | Microsoft Edge 桌面端（已通过 Edge 实机与端到端验证） |
-| **Mozilla Firefox** | [msm-assistant-2.1.0-firefox.zip](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/msm-assistant-2.1.0-firefox.zip) | Firefox 140+（通过 `addons-linter` 零错误校验，支持 Sidebar） |
-| **校验清单** | [SHA256SUMS](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/SHA256SUMS) | 用于验证压缩包完整性：`shasum -a 256 -c SHA256SUMS` |
+| **Google Chrome / Chromium** | [msm-assistant-2.1.0-chrome.zip](https://doc.msmbox.net/downloads/assistant/v2.1.0/msm-assistant-2.1.0-chrome.zip) | Chrome / Brave / Arc / Vivaldi 等 Chromium 内核浏览器（支持 Side Panel） |
+| **Microsoft Edge** | [msm-assistant-2.1.0-edge.zip](https://doc.msmbox.net/downloads/assistant/v2.1.0/msm-assistant-2.1.0-edge.zip) | Microsoft Edge 桌面端（已通过 Edge 实机与端到端验证） |
+| **Mozilla Firefox** | [msm-assistant-2.1.0-firefox.zip](https://doc.msmbox.net/downloads/assistant/v2.1.0/msm-assistant-2.1.0-firefox.zip) | Firefox 140+（通过 `addons-linter` 零错误校验，支持 Sidebar） |
+| **校验清单** | [SHA256SUMS](https://doc.msmbox.net/downloads/assistant/v2.1.0/SHA256SUMS) | 用于验证压缩包完整性：`shasum -a 256 -c SHA256SUMS` |
 
-完整更新内容与历史发行记录见 [浏览器助手发布页](/zh/guide/releases-assistant) 与 [GitHub Release（assistant-v2.1.0）](https://github.com/msm9527/msm-wiki/releases/tag/assistant-v2.1.0)。
+完整更新内容与历史发行记录见 [浏览器助手发布页](/zh/guide/releases-assistant)。
 
 ## 界面预览
 
@@ -59,20 +59,20 @@ MSM Assistant 仅连接你自有或已获授权的 MSM 实例，所有请求捕�
 
 ### Google Chrome / Chromium 浏览器
 
-1. 下载并解压 [`msm-assistant-2.1.0-chrome.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/msm-assistant-2.1.0-chrome.zip) 到一个不会误删的本地目录。
+1. 下载并解压 [`msm-assistant-2.1.0-chrome.zip`](https://doc.msmbox.net/downloads/assistant/v2.1.0/msm-assistant-2.1.0-chrome.zip) 到一个不会误删的本地目录。
 2. 打开 `chrome://extensions`，开启右上角 **开发者模式**。
 3. 点击 **加载已解压的扩展程序**，选择解压后的文件夹。
 4. 建议在扩展栏将 **MSM Assistant** 固定（Pin）到工具栏，方便随时查看徽标与一键操作。
 
 ### Microsoft Edge
 
-1. 下载并解压 [`msm-assistant-2.1.0-edge.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/msm-assistant-2.1.0-edge.zip) 到本地固定目录。
+1. 下载并解压 [`msm-assistant-2.1.0-edge.zip`](https://doc.msmbox.net/downloads/assistant/v2.1.0/msm-assistant-2.1.0-edge.zip) 到本地固定目录。
 2. 打开 `edge://extensions`，开启左下角 **开发人员模式**。
 3. 点击 **加载解压缩的扩展**，选择解压后的目录完成安装。
 
 ### Mozilla Firefox
 
-1. 下载 [`msm-assistant-2.1.0-firefox.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/msm-assistant-2.1.0-firefox.zip) 并解压（临时测试也可直接选择 ZIP 内的 `manifest.json`）。
+1. 下载 [`msm-assistant-2.1.0-firefox.zip`](https://doc.msmbox.net/downloads/assistant/v2.1.0/msm-assistant-2.1.0-firefox.zip) 并解压（临时测试也可直接选择 ZIP 内的 `manifest.json`）。
 2. 打开 `about:debugging#/runtime/this-firefox`，点击 **临时载入附加组件...**，选择解压目录中的 `manifest.json`。
 3. 如需在标准版 Firefox 中长期保留安装，请使用 Mozilla AMO 签名（`web-ext sign`）后通过 `.xpi` 安装，或在 Firefox Developer Edition / Nightly 中使用。
 

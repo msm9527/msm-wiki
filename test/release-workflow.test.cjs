@@ -593,14 +593,30 @@ test('core release baseline lookup ignores standalone companion tags like assist
   assert.match(betaSource, /\.tag_name \| test\("\^beta-\[0-9\]\+\\\\\.\[0-9\]\+\\\\\.\[0-9\]\+\$"\)/)
 })
 
-test('standalone MSM Assistant publish workflow never marks releases as Latest', () => {
+test('standalone MSM Assistant publish workflow distributes static assets without creating msm-wiki GitHub Releases', () => {
   const source = fs.readFileSync(path.join(root, '.github/workflows/publish-assistant.yml'), 'utf8')
+  const deploySource = fs.readFileSync(path.join(root, '.github/workflows/deploy.yml'), 'utf8')
+  const guideDoc = fs.readFileSync(path.join(root, 'docs/zh/guide/assistant.md'), 'utf8')
+  const releasesDoc = fs.readFileSync(path.join(root, 'docs/zh/guide/releases-assistant.md'), 'utf8')
+
   assert.match(source, /repository: msm9527\/msm-assistant/)
-  assert.match(source, /RELEASE_TAG="assistant-v\$\{VERSION\}"/)
-  assert.match(source, /makeLatest: false/)
-  assert.match(source, /prerelease: false/)
-  assert.match(source, /dist\/msm-assistant-\*-chrome\.zip/)
-  assert.match(source, /dist\/msm-assistant-\*-edge\.zip/)
-  assert.match(source, /dist\/msm-assistant-\*-firefox\.zip/)
-  assert.match(source, /dist\/SHA256SUMS/)
+  assert.match(source, /TARGET_REL_DIR="docs\/public\/downloads\/assistant\/v\$\{VERSION\}"/)
+  assert.match(source, /docs\/public\/downloads\/assistant\/latest\.json/)
+  assert.doesNotMatch(source, /ncipollo\/release-action|gh release create|gh release upload/)
+  assert.match(deploySource, /-\s*发布 MSM Assistant 浏览器扩展/)
+
+  for (const doc of [guideDoc, releasesDoc]) {
+    assert.match(doc, /https:\/\/doc\.msmbox\.net\/downloads\/assistant\/v2\.1\.0\/msm-assistant-2\.1\.0-chrome\.zip/)
+    assert.doesNotMatch(doc, /github\.com\/msm9527\/msm-wiki\/releases\/(?:tag|download)\/assistant-/)
+  }
+
+  for (const version of ['2.0.0', '2.1.0']) {
+    const dir = path.join(root, `docs/public/downloads/assistant/v${version}`)
+    const sums = fs.readFileSync(path.join(dir, 'SHA256SUMS'), 'utf8')
+    for (const browser of ['chrome', 'edge', 'firefox']) {
+      const filename = `msm-assistant-${version}-${browser}.zip`
+      assert.ok(fs.existsSync(path.join(dir, filename)), `missing static assistant package ${filename}`)
+      assert.match(sums, new RegExp(`[0-9a-f]{64}\\s+${filename.replace(/\./g, '\\.')}`, 'i'))
+    }
+  }
 })

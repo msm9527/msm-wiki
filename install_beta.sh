@@ -282,7 +282,7 @@ get_latest_version() {
     print_info "获取最新 Beta 版本信息..."
 
     local version
-    local api_url="https://api.github.com/repos/${GITHUB_REPO}/releases?per_page=30"
+    local api_url="https://api.github.com/repos/${GITHUB_REPO}/releases?per_page=100"
     local response
 
     # 若指定了国内镜像，优先从镜像读取版本号

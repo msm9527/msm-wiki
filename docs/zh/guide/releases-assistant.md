@@ -13,18 +13,18 @@ description: MSM Assistant 浏览器助手独立发布页，提供 Google Chrome
 
 ## 🧩 最新浏览器助手版本
 
-<div class="msm-release-hero msm-release-hero--stable" data-version="assistant-v2.1.0" data-release-date="2026-11-22 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/assistant-v2.1.0">
+<div class="msm-release-hero msm-release-hero--stable" data-version="v2.1.0" data-release-date="2026-11-22 CST" data-release-url="#release-downloads">
   <div class="msm-release-hero-copy">
     <h3 class="msm-release-version"><span>浏览器助手</span> <code>v2.1.0</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/assistant-v2.1.0" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="#release-downloads">下载此版本 <span aria-hidden="true">↓</span></a>
     <a class="msm-release-action" href="/zh/guide/assistant.html">安装与使用指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
   <div class="msm-release-metric"><span>支持平台</span><strong>Chrome / Edge / Firefox</strong></div>
-  <div class="msm-release-metric"><span>发布标签</span><strong>assistant-v2.1.0</strong></div>
+  <div class="msm-release-metric"><span>分发方式</span><strong>文档站独立直链</strong></div>
   <div class="msm-release-metric"><span>发布日期</span><strong>2026-11-22</strong></div>
 </div>
 
@@ -32,10 +32,10 @@ description: MSM Assistant 浏览器助手独立发布页，提供 Google Chrome
 
 | 浏览器平台 | 发行包 | 安装方式 |
 | --- | --- | --- |
-| **Google Chrome / Chromium** | [`msm-assistant-2.1.0-chrome.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/msm-assistant-2.1.0-chrome.zip) | 解压后在 `chrome://extensions` 开启开发者模式加载 |
-| **Microsoft Edge** | [`msm-assistant-2.1.0-edge.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/msm-assistant-2.1.0-edge.zip) | 解压后在 `edge://extensions` 开启开发人员模式加载 |
-| **Mozilla Firefox** | [`msm-assistant-2.1.0-firefox.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/msm-assistant-2.1.0-firefox.zip) | 在 `about:debugging#/runtime/this-firefox` 加载或签名安装 |
-| **SHA256 校验文件** | [`SHA256SUMS`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.1.0/SHA256SUMS) | `shasum -a 256 -c SHA256SUMS` |
+| **Google Chrome / Chromium** | [`msm-assistant-2.1.0-chrome.zip`](https://doc.msmbox.net/downloads/assistant/v2.1.0/msm-assistant-2.1.0-chrome.zip) | 解压后在 `chrome://extensions` 开启开发者模式加载 |
+| **Microsoft Edge** | [`msm-assistant-2.1.0-edge.zip`](https://doc.msmbox.net/downloads/assistant/v2.1.0/msm-assistant-2.1.0-edge.zip) | 解压后在 `edge://extensions` 开启开发人员模式加载 |
+| **Mozilla Firefox** | [`msm-assistant-2.1.0-firefox.zip`](https://doc.msmbox.net/downloads/assistant/v2.1.0/msm-assistant-2.1.0-firefox.zip) | 在 `about:debugging#/runtime/this-firefox` 加载或签名安装 |
+| **SHA256 校验文件** | [`SHA256SUMS`](https://doc.msmbox.net/downloads/assistant/v2.1.0/SHA256SUMS) | `shasum -a 256 -c SHA256SUMS` |
 
 ### 🎉 本次亮点 {#release-highlights}
 
@@ -94,7 +94,7 @@ description: MSM Assistant 浏览器助手独立发布页，提供 Google Chrome
 
 ### 📌 发布说明 {#release-notes}
 
-- 浏览器助手在 `msm-wiki` 中使用独立的 `assistant-v*` 标签发布，不会覆盖 MSM 核心程序的 `Latest` 版本，也不会影响一键脚本和 MSM 后台在线更新。
+- 浏览器助手发行包托管在文档站独立静态目录（`doc.msmbox.net/downloads/assistant/`），不会向 `msm-wiki` 的 GitHub Releases 创建条目，因此不会污染 MSM 后台的版本历史、`Latest` 版本、一键安装脚本或在线更新通道。
 - 详细安装与 API Token 配置步骤请参阅 [浏览器助手使用指南](/zh/guide/assistant)。
 
 </section>
@@ -104,9 +104,9 @@ description: MSM Assistant 浏览器助手独立发布页，提供 Google Chrome
 ## 📚 历史版本
 
 <details>
-<summary><strong>v2.0.0</strong>（2026-11-22 · <code>assistant-v2.0.0</code>）— 首个三平台独立公开发行版</summary>
+<summary><strong>v2.0.0</strong>（2026-11-22）— 首个三平台独立公开发行版</summary>
 
-- 下载归档：[`msm-assistant-2.0.0-chrome.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.0.0/msm-assistant-2.0.0-chrome.zip) · [`msm-assistant-2.0.0-edge.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.0.0/msm-assistant-2.0.0-edge.zip) · [`msm-assistant-2.0.0-firefox.zip`](https://github.com/msm9527/msm-wiki/releases/download/assistant-v2.0.0/msm-assistant-2.0.0-firefox.zip) · [GitHub Release](https://github.com/msm9527/msm-wiki/releases/tag/assistant-v2.0.0)
+- 下载归档：[`msm-assistant-2.0.0-chrome.zip`](https://doc.msmbox.net/downloads/assistant/v2.0.0/msm-assistant-2.0.0-chrome.zip) · [`msm-assistant-2.0.0-edge.zip`](https://doc.msmbox.net/downloads/assistant/v2.0.0/msm-assistant-2.0.0-edge.zip) · [`msm-assistant-2.0.0-firefox.zip`](https://doc.msmbox.net/downloads/assistant/v2.0.0/msm-assistant-2.0.0-firefox.zip) · [`SHA256SUMS`](https://doc.msmbox.net/downloads/assistant/v2.0.0/SHA256SUMS)
 - 全新 Precision Glass Console 设计，统一 Popup、Side Panel 与全屏工作台三端界面，支持浅色 / 深色主题与 `⌘K` 命令面板
 - 引入 `runtime.connect` 长连接实时推送、代理控制面（模式切换 / 代理组测速切节点 / 实时连接）与 4 标签 MosDNS 监控工作台
 - 正式提供 Google Chrome、Microsoft Edge 与 Mozilla Firefox 三平台独立构建与 `SHA256SUMS` 校验清单
