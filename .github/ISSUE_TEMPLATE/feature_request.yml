@@ -25,9 +25,12 @@ body:
       label: 部署方式
       options:
         - Docker / docker-compose
-        - 下载单二进制直接部署
         - 一键安装脚本安装
-        - macos使用app安装
+        - 下载单二进制直接部署
+        - OpenWrt（IPK / APK / LuCI）
+        - macOS 26 桌面应用（MSM.app）
+        - Docker Agent（msmbox/msm-agent）
+        - MSM Assistant 浏览器助手
         - 其他
     validations:
       required: true
@@ -41,6 +44,10 @@ body:
         - label: MosDNS
         - label: SingBox
         - label: Clash
+        - label: Docker Center / Docker Agent
+        - label: 域名服务（DDNS / 证书 / 反代 / 端口转发）
+        - label: 私有组网 / 远程回家 / 网络工具
+        - label: macOS 桌面应用 / MSM Assistant
         - label: 文档/教程
         - label: 其他
   - type: textarea

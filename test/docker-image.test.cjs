@@ -15,18 +15,26 @@ test('binary image contains the managed networking runtime', () => {
   assert.match(dockerfile, /apt-get install -y --no-install-recommends/)
   for (const dependency of [
     'bash',
+    'gnupg',
     'iproute2',
+    'iperf3',
     'iptables',
+    'libcap2-bin',
+    'mtr-tiny',
     'nftables',
     'procps',
+    'traceroute',
     'wireguard-go',
     'wireguard-tools',
     'openresolv',
   ]) {
     assert.match(dockerfile, new RegExp(`\\n\\s+${dependency} \\\\`), `${dependency} must be installed`)
   }
-  assert.match(dockerfile, /for command in bash ip sysctl iptables nft wg wg-quick wireguard-go/)
+  assert.match(dockerfile, /for command in bash ip sysctl iptables ip6tables nft wg wg-quick wireguard-go/)
   assert.match(dockerfile, /MSM_DOCKER="1"/)
+  assert.match(dockerfile, /exec msm serve -p /)
+  assert.match(dockerfile, /https:\/\/127\.0\.0\.1:\$\{MSM_PORT\}\/api\/v1\/version/)
+  assert.doesNotMatch(dockerfile, /EXPOSE [^\n]*\b6666\b/)
 })
 
 test('release image jobs enable QEMU before Buildx', () => {

@@ -13,7 +13,7 @@ function canonicalUrl(relativePath: string) {
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "MSM Wiki",
-  description: "MSM 闭源自托管网络与系统管理软件官方文档",
+  description: "MSM 自托管网络与系统管理平台官方文档",
   base: '/',
   sitemap: {
     hostname: SITE_URL
@@ -43,15 +43,23 @@ export default defineConfig({
     siteTitle: 'MSM Wiki',
 
     nav: [
-      { text: '首页', link: '/zh/' },
       { text: '快速上手', link: '/zh/guide/install' },
-      { text: '路由器接入', link: '/zh/guide/router-integration' },
-      { text: '界面功能', link: '/zh/guide/basic-config' },
       {
-        text: '扩展功能',
+        text: '核心指南',
+        items: [
+          { text: '路由器接入总览', link: '/zh/guide/router-integration' },
+          { text: '使用指南总览', link: '/zh/guide/basic-config' },
+          { text: 'DNS 服务（MosDNS）', link: '/zh/guide/mosdns' },
+          { text: '代理服务与 Clash', link: '/zh/guide/proxy' },
+          { text: '远程回家', link: '/zh/guide/home' },
+          { text: 'OpenWrt 进阶', link: '/zh/guide/openwrt-advanced' }
+        ]
+      },
+      {
+        text: '扩展能力',
         items: [
           { text: '浏览器助手（MSM Assistant）', link: '/zh/guide/assistant' },
-          { text: '域名服务', link: '/zh/guide/domain-services' },
+          { text: '域名服务（Edge）', link: '/zh/guide/domain-services' },
           { text: 'Cloudflare 内网穿透', link: '/zh/guide/cloudflare' },
           { text: '自建私网', link: '/zh/guide/networking' },
           { text: 'Docker 管理', link: '/zh/guide/docker-center' },
@@ -59,16 +67,10 @@ export default defineConfig({
         ]
       },
       {
-        text: '场景与进阶',
-        items: [
-          { text: 'OpenWrt 进阶', link: '/zh/guide/openwrt-advanced' },
-          { text: '远程回家', link: '/zh/guide/home' }
-        ]
-      },
-      {
-        text: '运维与参考',
+        text: '运维参考',
         items: [
           { text: '系统诊断', link: '/zh/guide/diagnostics' },
+          { text: '备份恢复', link: '/zh/guide/backup-restore' },
           { text: 'CLI 命令', link: '/zh/guide/cli' },
           { text: 'API 参考', link: '/zh/guide/api' },
           { text: '常见问题', link: '/zh/faq/' },
@@ -84,7 +86,7 @@ export default defineConfig({
         ]
       },
       {
-        text: '合规与权益',
+        text: '支持与合规',
         items: [
           { text: '使用与合规中心', link: '/zh/legal/' },
           { text: 'Pro 购买与授权', link: '/zh/legal/pro-and-support' },
@@ -194,7 +196,7 @@ export default defineConfig({
         },
         {
           text: '法律与合规',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: '使用与合规中心', link: '/zh/legal/' },
             { text: 'Pro 购买与授权', link: '/zh/legal/pro-and-support' },
@@ -228,18 +230,25 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          zh: {
+          root: {
             translations: {
               button: {
                 buttonText: '搜索文档',
                 buttonAriaLabel: '搜索文档'
               },
               modal: {
-                noResultsText: '无法找到相关结果',
+                displayDetails: '显示详细列表',
                 resetButtonTitle: '清除查询条件',
+                backButtonTitle: '关闭搜索',
+                noResultsText: '无法找到相关结果',
                 footer: {
                   selectText: '选择',
-                  navigateText: '切换'
+                  selectKeyAriaLabel: '回车选择',
+                  navigateText: '切换',
+                  navigateUpKeyAriaLabel: '向上切换',
+                  navigateDownKeyAriaLabel: '向下切换',
+                  closeText: '关闭',
+                  closeKeyAriaLabel: '按 Esc 关闭'
                 }
               }
             }
@@ -267,6 +276,7 @@ export default defineConfig({
     },
 
     outline: {
+      level: [2, 3],
       label: '页面导航'
     },
 

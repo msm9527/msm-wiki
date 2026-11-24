@@ -3,7 +3,7 @@ ARG MSM_DOCKER_CLI_IMAGE=docker:29.6.2-cli@sha256:be132a9f282288de4afaf63379dff7
 FROM ${MSM_DOCKER_CLI_IMAGE} AS docker-cli
 
 # 整理发布归档，最终镜像只复制一份主程序和随附声明。
-FROM debian:13-slim AS release-payload
+FROM debian:13.6-slim@sha256:020c0d20b9880058cbe785a9db107156c3c75c2ac944a6aa7ab59f2add76a7bd AS release-payload
 ARG TARGETPLATFORM
 COPY binaries/${TARGETPLATFORM}/ /tmp/msm-release/
 RUN set -eu; \
@@ -19,40 +19,50 @@ RUN set -eu; \
     fi; \
     rm -rf /tmp/msm-release
 
-# 基于 Debian 13 slim 镜像
-FROM debian:13-slim
+# 与源码仓 Dockerfile 保持同一 Debian 13.6 slim 运行基线。
+FROM debian:13.6-slim@sha256:020c0d20b9880058cbe785a9db107156c3c75c2ac944a6aa7ab59f2add76a7bd
 
-# 声明构建参数
 ARG TARGETPLATFORM
 
-# 安装运行时依赖并应用安全更新
-RUN apt-get update && \
+# 安装运行依赖、网络诊断工具与 Tunnel/Mesh 动态库，并移除不需要的 perl-base。
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
     bash \
     ca-certificates \
     curl \
+    gnupg \
     iproute2 \
     iputils-ping \
+    iperf3 \
     iptables \
+    libcap2-bin \
+    libdbus-1-3 \
+    libnss3 \
+    libpcap0.8t64 \
+    libtss2-esys-3.0.2-0t64 \
+    libtss2-tctildr0t64 \
+    mtr-tiny \
     net-tools \
     nftables \
     openresolv \
     procps \
+    traceroute \
     tzdata \
     wireguard-go \
     wireguard-tools \
-    && apt-get upgrade -y \
+    && apt-get purge -y --allow-remove-essential perl-base \
     && rm -rf /var/lib/apt/lists/*
 
 RUN set -eu; \
-    for command in bash ip sysctl iptables nft wg wg-quick wireguard-go resolvconf; do \
-      command -v "${command}" >/dev/null || exit 1; \
-    done
+    for command in bash ip sysctl iptables ip6tables nft wg wg-quick wireguard-go resolvconf; do \
+      command -v "${command}" >/dev/null || { echo "missing runtime command: ${command}" >&2; exit 1; }; \
+    done; \
+    wg --version >/dev/null; \
+    bash "$(command -v wg-quick)" --help >/dev/null
 
-# 创建必要的目录
 RUN mkdir -p /opt/msm /var/log/msm
 
-# 复制对应架构的二进制文件
 # TARGETPLATFORM 格式: linux/amd64, linux/arm64, linux/arm/v7
 COPY --from=release-payload /usr/local/bin/msm /usr/local/bin/msm
 COPY --from=release-payload /usr/share/doc/msm/ /usr/share/doc/msm/
@@ -65,24 +75,24 @@ WORKDIR /opt/msm
 
 # 暴露端口
 # 7777: MSM Web 管理界面
+# 7778: 可选 gRPC 接口
 # 53: DNS (MosDNS) - UDP 和 TCP
 # 1053: DNS 备用端口
 # 7890: HTTP 代理 (SingBox/Clash)
 # 7891: SOCKS5 代理 (SingBox/Clash)
 # 7892: 混合代理端口 (SingBox/Clash)
-# 6666: 管理端口
-EXPOSE 7777 53/tcp 53/udp 1053 7890 7891 7892 6666
+# 80/443: Edge 内置反向代理网关
+EXPOSE 7777 7778 53/tcp 53/udp 1053 7890 7891 7892 80 443
 
-# 环境变量
 ENV JWT_SECRET="" \
     MSM_PORT="7777" \
     MSM_CONFIG_DIR="/opt/msm" \
     MSM_DOCKER="1" \
     TZ="Asia/Shanghai"
 
-# 健康检查
+# 健康检查（兼容 HTTP 与启用管理面板 HTTPS 两种模式）
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:${MSM_PORT}/ || exit 1
+    CMD sh -c 'curl -fsS "http://127.0.0.1:${MSM_PORT}/api/v1/version" >/dev/null || curl -kfsS "https://127.0.0.1:${MSM_PORT}/api/v1/version" >/dev/null'
 
-# 启动命令
-CMD ["sh", "-c", "msm serve -p ${MSM_PORT} -c ${MSM_CONFIG_DIR}"]
+# 启动命令（使用 exec 让 msm 作为 PID 1 直接接收 SIGTERM 优雅退出）
+CMD ["sh", "-c", "exec msm serve -p \"${MSM_PORT}\" -c \"${MSM_CONFIG_DIR}\""]

@@ -2,6 +2,8 @@ import { h } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import MsmConstellation from './components/MsmConstellation.vue'
+import MsmDocEyebrow from './components/MsmDocEyebrow.vue'
+import MsmImageLightbox from './components/MsmImageLightbox.vue'
 
 // 自定义样式：按层次单向依赖，令牌 → 基础 → 布局 / 正文 / 首页。
 // 每个组件只由一个文件负责，不再互相覆盖。
@@ -16,7 +18,11 @@ export default {
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
       // 首页 Hero 视觉：用网络星座替换默认的 logo 图版
-      'home-hero-image': () => h(MsmConstellation)
+      'home-hero-image': () => h(MsmConstellation),
+      // 文档页眉标：使用原生 doc-before 插槽，避免路由切换后的 DOM 注入抖动
+      'doc-before': () => h(MsmDocEyebrow),
+      // 教程截图点击放大灯箱
+      'layout-bottom': () => h(MsmImageLightbox)
     })
   },
   enhanceApp({ router }) {
@@ -26,19 +32,24 @@ export default {
     // 脚本失效时内容照常可见（渐进增强）。
     document.documentElement.classList.add('msm-js')
 
-    // 去掉代码块复制按钮的浏览器原生 tooltip
+    let revealObserver: IntersectionObserver | null = null
+
+    // 去掉代码块复制按钮的浏览器原生 tooltip，同时保留无障碍标签
     const cleanupCopyTitle = () => {
       const buttons = document.querySelectorAll<HTMLButtonElement>(
         '.vp-doc div[class*="language-"] button.copy'
       )
       buttons.forEach((btn) => {
+        if (!btn.getAttribute('aria-label')) {
+          btn.setAttribute('aria-label', '复制代码')
+        }
         if (btn.title) {
           btn.removeAttribute('title')
         }
       })
     }
 
-    // 自定义移动端抽屉导航：基于汉堡按钮，独立创建抽屉内容
+    // 自定义移动端抽屉导航：基于汉堡按钮，独立创建抽屉内容（含主题切换与社区链接）
     const setupMobileDrawer = () => {
       const hamburger = document.querySelector<HTMLButtonElement>(
         '.VPNavBarHamburger'
@@ -47,14 +58,16 @@ export default {
 
       const overlayId = 'msm-nav-overlay'
       const drawerId = 'msm-nav-drawer'
-      const drawerBreakpoint = 1199
+      const drawerBreakpoint = 959
 
-      // 规范化路径：去掉 index.html 和多余的末尾 /
+      // 规范化路径：去掉 index.html、.html 和多余的末尾 /
       const normalizePath = (path: string) => {
         if (!path) return '/'
         let p = path
         if (p.endsWith('index.html')) {
           p = p.slice(0, -'index.html'.length)
+        } else if (p.endsWith('.html')) {
+          p = p.slice(0, -'.html'.length)
         }
         if (p.length > 1 && p.endsWith('/')) {
           p = p.slice(0, -1)
@@ -62,7 +75,6 @@ export default {
         return p || '/'
       }
 
-      // 清理旧的抽屉和遮罩
       const cleanup = () => {
         const overlay = document.getElementById(overlayId)
         const drawer = document.getElementById(drawerId)
@@ -76,7 +88,6 @@ export default {
         return
       }
 
-      // 防止重复绑定
       if ((hamburger as any)._msmDrawerBound) {
         cleanup()
         return
@@ -116,6 +127,8 @@ export default {
 
         const drawer = document.createElement('nav')
         drawer.id = drawerId
+        drawer.setAttribute('role', 'dialog')
+        drawer.setAttribute('aria-modal', 'true')
         drawer.setAttribute('aria-label', '移动端主导航')
         drawer.setAttribute('aria-hidden', 'true')
 
@@ -149,7 +162,6 @@ export default {
           if (a.target) clone.target = a.target
           if (a.rel) clone.rel = a.rel
 
-          // 通过当前路径匹配高亮项
           try {
             const url = new URL(a.href, window.location.origin)
             const linkPath = normalizePath(url.pathname)
@@ -162,7 +174,6 @@ export default {
           }
 
           clone.addEventListener('click', () => {
-            // 点击后关闭抽屉，让路由接管导航
             requestClose(false)
           })
           firstLink ??= clone
@@ -198,7 +209,6 @@ export default {
           drawer.appendChild(group)
         })
 
-        // 如果没有匹配到任何 active，兜底把第一个链接高亮
         if (!hasActive && firstLink) {
           firstLink.classList.add('active')
         }
@@ -206,6 +216,55 @@ export default {
         if (!primaryLinks.childElementCount) {
           primaryLinks.remove()
         }
+
+        // 抽屉底部操作栏：保留明暗主题切换与社区入口（解决 <768px 原生工具区被隐藏的问题）
+        const footer = document.createElement('div')
+        footer.className = 'msm-nav-footer'
+
+        const themeButton = document.createElement('button')
+        themeButton.type = 'button'
+        themeButton.className = 'msm-nav-theme-btn'
+        const syncThemeLabel = () => {
+          const isDark = document.documentElement.classList.contains('dark')
+          themeButton.textContent = isDark ? '切换为浅色模式' : '切换为深色模式'
+          themeButton.setAttribute('aria-pressed', String(isDark))
+        }
+        syncThemeLabel()
+        themeButton.addEventListener('click', () => {
+          const nativeSwitch = document.querySelector<HTMLButtonElement>(
+            '.VPSwitchAppearance'
+          )
+          if (nativeSwitch) {
+            nativeSwitch.click()
+          } else {
+            document.documentElement.classList.toggle('dark')
+          }
+          requestAnimationFrame(syncThemeLabel)
+        })
+        footer.appendChild(themeButton)
+
+        const socialAnchors = document.querySelectorAll<HTMLAnchorElement>(
+          '.VPNavBarSocialLinks a'
+        )
+        if (socialAnchors.length) {
+          const socials = document.createElement('div')
+          socials.className = 'msm-nav-socials'
+          socialAnchors.forEach((anchor) => {
+            const link = document.createElement('a')
+            link.href = anchor.href
+            link.target = anchor.target || '_blank'
+            link.rel = anchor.rel || 'noreferrer'
+            link.className = 'msm-nav-social-link'
+            link.textContent =
+              anchor.getAttribute('aria-label') ||
+              (anchor.href.includes('github.com') ? 'GitHub' : '社区链接')
+            link.addEventListener('click', () => requestClose(false))
+            socials.appendChild(link)
+          })
+          footer.appendChild(socials)
+        }
+
+        drawer.appendChild(footer)
 
         document.body.appendChild(overlay)
         document.body.appendChild(drawer)
@@ -215,6 +274,22 @@ export default {
           if (event.key === 'Escape') {
             event.preventDefault()
             requestClose()
+            return
+          }
+          if (event.key === 'Tab') {
+            const focusables = drawer.querySelectorAll<HTMLElement>(
+              'a[href], button:not([disabled])'
+            )
+            if (!focusables.length) return
+            const first = focusables[0]
+            const last = focusables[focusables.length - 1]
+            if (event.shiftKey && document.activeElement === first) {
+              event.preventDefault()
+              last.focus()
+            } else if (!event.shiftKey && document.activeElement === last) {
+              event.preventDefault()
+              first.focus()
+            }
           }
         })
       }
@@ -223,9 +298,7 @@ export default {
         const isMobile = window.innerWidth <= drawerBreakpoint
         if (!isMobile) return
 
-        if (!document.getElementById(drawerId)) {
-          buildDrawer()
-        }
+        buildDrawer()
 
         const overlay = document.getElementById(overlayId)
         const drawer = document.getElementById(drawerId)
@@ -251,7 +324,6 @@ export default {
         }
       }
 
-      // 初始状态同步一次
       toggleFromAria()
 
       const observer = new MutationObserver((mutations) => {
@@ -264,10 +336,8 @@ export default {
       })
       observer.observe(hamburger, { attributes: true })
 
-      // 记录绑定状态，避免重复初始化
       ;(hamburger as any)._msmDrawerBound = true
 
-      // 窗口尺寸变化时重建（从桌面切到移动）
       window.addEventListener('resize', () => {
         const isMobile = window.innerWidth <= drawerBreakpoint
         if (!isMobile) {
@@ -277,18 +347,24 @@ export default {
     }
 
     // 滚动入场：卡片 / 快速导航 / 正文小节进入视口时加 .msm-reveal 触发过渡。
-    // 观察一次即取消观察，避免重复触发；不支持 IO 的老浏览器直接放行。
+    // 路由切换时先释放旧观察器；带 hash 锚点跳转或不支持 IO 时直接放行。
     const setupScrollReveal = () => {
+      if (revealObserver) {
+        revealObserver.disconnect()
+        revealObserver = null
+      }
+
       const targets = document.querySelectorAll<HTMLElement>(
         '.VPHome .VPFeatures .item, .msm-home-jump a, .VPHome .vp-doc h2'
       )
+      if (!targets.length) return
 
-      if (!('IntersectionObserver' in window)) {
+      if (!('IntersectionObserver' in window) || window.location.hash) {
         targets.forEach((el) => el.classList.add('msm-reveal'))
         return
       }
 
-      const observer = new IntersectionObserver(
+      revealObserver = new IntersectionObserver(
         (entries, obs) => {
           for (const entry of entries) {
             if (entry.isIntersecting) {
@@ -297,12 +373,17 @@ export default {
             }
           }
         },
-        { rootMargin: '0px 0px -10% 0px', threshold: 0.12 }
+        { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
       )
 
       targets.forEach((el) => {
         if (el.classList.contains('msm-reveal')) return
-        observer.observe(el)
+        const rect = el.getBoundingClientRect()
+        if (rect.top < window.innerHeight * 0.95) {
+          el.classList.add('msm-reveal')
+          return
+        }
+        revealObserver!.observe(el)
       })
     }
 
@@ -317,7 +398,6 @@ export default {
 
       const existing = document.getElementById(barId)
       if (existing) {
-        // 路由切换后页面高度变化、且已滚回顶部，重算一次
         requestAnimationFrame(() => {
           existing.style.setProperty('--msm-scroll', String(computeRatio()))
         })
@@ -353,44 +433,6 @@ export default {
       setupMobileDrawer()
       setupScrollReveal()
       setupScrollProgress()
-      setupDocEyebrow()
-      setupReleasePage()
-    }
-
-    // 版本页需要一套更紧凑的发布概览 / 历史版本样式；用路由类限定作用域，
-    // 避免影响普通教程里的 details、提示块和标题。
-    function setupReleasePage() {
-      const path = window.location.pathname.replace(/\.html$/u, '')
-      const isReleasePage =
-        path === '/zh/guide/releases' || path === '/zh/guide/releases-beta'
-      document.documentElement.classList.toggle(
-        'msm-release-page',
-        isReleasePage
-      )
-    }
-
-    // 文档页在 h1 上方注入一条等宽小眉标，显示当前所属的侧栏分组
-    // （如"快速上手"），把文档页和首页的标注语汇统一起来。
-    // 分组名取自侧栏里高亮的 level-0 分组；取不到就不注入。
-    function setupDocEyebrow() {
-      const h1 = document.querySelector<HTMLElement>('.VPDoc .vp-doc h1')
-      if (!h1) return
-
-      // 路由切换后重建，先移除旧的
-      document.querySelector('.msm-doc-eyebrow')?.remove()
-
-      const groupLabel = document
-        .querySelector<HTMLElement>(
-          '.VPSidebar .VPSidebarItem.level-0.has-active > .item .text'
-        )
-        ?.textContent?.trim()
-
-      if (!groupLabel) return
-
-      const eyebrow = document.createElement('div')
-      eyebrow.className = 'msm-doc-eyebrow'
-      eyebrow.textContent = groupLabel
-      h1.parentElement?.insertBefore(eyebrow, h1)
     }
 
     if (document.readyState === 'loading') {

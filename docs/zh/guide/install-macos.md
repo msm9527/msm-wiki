@@ -1,58 +1,82 @@
 # macOS 安装
 
-macOS 支持 **CLI 版** 与 **桌面版**（若发布提供）。
+macOS 提供两种使用方式：**原生 macOS 桌面应用（推荐，需 macOS 26+）** 与 **命令行 CLI 版（兼容所有主流 macOS 版本）**。
 
-## 方式一：CLI 版（推荐）
+## 方式一：原生 macOS 桌面应用（macOS 26+）
+
+MSM 原生桌面客户端基于 **Swift 6 + SwiftUI（macOS 26 Liquid Glass）+ WKWebView** 构建，既可以托管本机 MSM LaunchDaemon 后台服务，也可以作为多服务器控制中心统一管理家里的 OpenWrt / Linux / Docker 节点。
+
+### 主要特性
+
+- **本机服务托管**：内置 `msm` 后端二进制与 LaunchDaemon 生命周期管理（安装、启停、重启、本机自签 HTTPS 健康检查、防降级同步与异常自动回滚）
+- **多服务器侧边栏**：左侧原生侧边栏一键切换本机与多台远程 MSM 服务器，采用零重载多实例 WKWebView 池，切换不丢页面状态
+- **菜单栏浮窗（Menu Bar）**：无需打开主窗口即可快速查看本机运行状态、启停服务或直达控制台
+- **开机自启动**：通过 macOS 原生 `SMAppService` 管理登录项
+- **内置在线更新**：基于 GitHub Releases 清单自动检测新版本，支持受限重定向流式下载、SHA-256 校验、安全解包与 `.app` 原子替换回滚
+
+### 安装步骤
+
+1. 前往 [正式版发布](/zh/guide/releases) 或 [Beta 版发布](/zh/guide/releases-beta) 页面，下载对应架构的 `.dmg` 安装包（Apple Silicon 选 `arm64`，Intel 选 `amd64`）
+2. 双击 `.dmg`，将 **`msm-desktop.app`** 拖入「应用程序（`/Applications`）」目录
+3. 首次打开前解除系统隔离属性（见下方提示），然后按指引完成本机服务安装或直接添加远程 MSM 服务器
+
+::: warning 首次打开安全提示（Gatekeeper）
+由于应用未经过 Apple 公证，macOS 首次启动可能弹窗提示“无法验证开发者”或“文件已损坏”。在终端执行以下命令清除下载隔离属性后再打开即可：
 
 ```bash
-# 使用 curl
+/usr/bin/xattr -dr com.apple.quarantine "/Applications/msm-desktop.app"
+```
+
+或在 **系统设置 → 隐私与安全性** 中点击「仍要打开」。发布包内嵌二进制的完整性与可执行性均在构建流水线中校验；如解除隔离后仍无法启动本机服务，请通过应用内日志查看详情并提交反馈。
+:::
+
+## 方式二：CLI 版（兼容 macOS 26 以下或无桌面环境）
+
+适合希望纯终端/LaunchDaemon 运行、或系统版本低于 macOS 26 的用户。
+
+### 一键安装脚本
+
+```bash
+# GitHub 官方源
 curl -fsSL https://raw.githubusercontent.com/msm9527/msm-wiki/main/install.sh | sudo bash
 ```
 
-### 国内网络加速（可选）
+国内网络加速镜像（稳定版直链，与仓库 `install_cn.sh` 同步）：
 
 ```bash
-# 国内镜像稳定版脚本直链（等价于 install_cn.sh）
 curl -fsSL https://msm.19930520.xyz/dl/install.sh | sudo bash
 ```
 
-> `https://msm.19930520.xyz/dl/install.sh` 为国内镜像稳定版脚本直链，和仓库中的 `install_cn.sh` 同步。
+如需体验 Beta 版，将脚本替换为 `install_beta.sh` 或 `https://msm.19930520.xyz/dl/beta/install.sh`。
 
-安装后可使用：
+### 启动与访问
 
 ```bash
+# 后台启动服务（或使用 msm serve 前台调试）
 msm -d
+
+# 查看状态
+msm status
 ```
 
-访问地址：`http://<MSM-IP>:7777`
+打开浏览器访问 `http://<MSM-IP>:7777` 完成初始化向导。
 
-::: warning 安全提示（CLI）
-由于二进制未经过 Apple 公证，macOS 可能拦截首次运行，或提示“文件已损坏/无法打开”。请在 `msm` 所在目录执行以下命令解除隔离属性：
+::: warning CLI 隔离属性提示
+若通过浏览器手动下载压缩包解压运行，遇到 macOS 拦截时同样在二进制所在目录执行：
 
 ```bash
-/usr/bin/xattr -cr msm
+/usr/bin/xattr -dr com.apple.quarantine ./msm
 ```
 :::
 
-## 方式二：桌面版（可选，需 macOS 26+）
+## 常用运维与排查
 
-1. 打开 Releases 页面下载 macOS 安装包（按 Intel / Apple Silicon 选择）
-2. 打开 `.dmg` 并拖拽到 Applications
-3. 若被系统阻止，请在 **系统设置 > 隐私与安全性** 中允许
-
-> 原生 SwiftUI 桌面版需要 **macOS 26（Tahoe）或更高版本**，内置服务管理与在线更新能力；较旧版本 macOS 请使用上方的 CLI 版。
-
-::: warning 安全提示
-由于应用未经过 Apple 公证，macOS 可能拦截首次打开，或提示“文件已损坏/无法打开”。请执行以下命令解除隔离属性：
-
-```bash
-/usr/bin/xattr -cr "/Applications/msm-desktop.app"
-```
-
-该命令仅用于处理 macOS Gatekeeper/隔离属性拦截；发布包内置后端的签名和可执行性已在构建流程中校验。如果执行后仍无法安装服务，请下载最新版本并反馈错误日志。
-:::
+- **查看本机服务日志**：桌面端可直接在「本机服务控制台」查看日志；CLI 版可使用 `msm logs`
+- **多服务器切换**：桌面端无需在本机启动 MSM 后端也能直接添加局域网或远程的 MSM Web 地址（支持 HTTP 与 HTTPS）
+- **升级**：桌面端支持菜单内「检查更新」一键升级 `.app` 并自动同步本机 LaunchDaemon 二进制；CLI 版使用 `msm update` 或重新执行安装脚本
 
 ## 下一步
 
-- [路由器集成](/zh/guide/router-integration)
 - [首次使用](/zh/guide/first-use)
+- [路由器接入总览](/zh/guide/router-integration)
+- [使用指南总览](/zh/guide/basic-config)

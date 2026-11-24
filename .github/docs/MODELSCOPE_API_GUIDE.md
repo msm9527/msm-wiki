@@ -77,4 +77,3 @@ GitHub runner 必须能访问 `AI_BASE_URL` 的公网 HTTPS 地址。写成 `loc
 
 - [Release 工作流优化指南](RELEASE_WORKFLOW_GUIDE.md)
 - [AI 网关测试脚本说明](TEST_API_README.md)
-- [AI 总结技术实现](AI_SUMMARY_TECHNICAL_GUIDE.md)

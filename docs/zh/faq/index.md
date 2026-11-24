@@ -47,7 +47,7 @@
 2. [MosDNS 相关实践（PH 佬）](https://github.com/yyysuo/mosdns)：再看 MosDNS 侧配置与实战经验
 3. [MetaCubeX 官方核心](https://github.com/MetaCubeX/mihomo)：核对上游内核能力与官方参数说明
 4. [FakeIP 分流大法总教程](https://drive.google.com/drive/u/1/folders/1ldD2XqIrREPgr_CKMSgvYomXgwknpApi)：系统化学习 FakeIP 分流
-5. [以 FakeIP 分流为基石的一套科学方案](https://blog.847977.xyz/2025/10/30/%E4%BB%A5fakeip%E5%88%86%E6%B5%81%E4%B8%BA%E5%9F%BA%E7%9F%B3%E7%9A%84%E4%B8%80%E5%A5%97%E7%A7%91%E5%AD%A6%E6%96%B9%E6%A1%88/)：结合实际拓扑理解 FakeIP 方案落地
+5. [以 FakeIP 分流为基石的网络分流实践](https://blog.847977.xyz/2025/10/30/%E4%BB%A5fakeip%E5%88%86%E6%B5%81%E4%B8%BA%E5%9F%BA%E7%9F%B3%E7%9A%84%E4%B8%80%E5%A5%97%E7%A7%91%E5%AD%A6%E6%96%B9%E6%A1%88/)：结合实际拓扑理解 FakeIP 方案落地
 6. [Tom佬的技术博客](https://blog.847977.xyz/)：延伸阅读 RouterOS、FakeIP 与相关折腾实践
 7. [原版 MosDNS 知识库](https://irine-sistiana.gitbook.io/mosdns-wiki/) 与 [StoreHouse 脚本合集](https://github.com/herozmy/StoreHouse/tree/latest)：用于进阶查阅与脚本实践
 :::
@@ -61,14 +61,15 @@
 或DNS服务→规则管理→在线分流中添加国外专属域名规则
 <img width="2501" height="417" alt="image" src="https://github.com/user-attachments/assets/55832bcd-8d51-475a-9b0d-f0512d507046" /><img width="758" height="788" alt="image" src="https://github.com/user-attachments/assets/7b800fb6-73e1-4dc0-ac01-1c4d6088c6fc" />
 
-## 9. 为什么 Pro 模块没有出现在侧边栏？
+## 9. 为什么部分模块或 Pro 功能没有出现在侧边栏？
 
-- 检查授权管理页是否包含所需能力
-- 检查 **系统设置 → 功能开关**
-- 确认当前用户角色至少有查看权限
-- 退出后重新登录，刷新许可证与功能状态
+- 先进入 **应用商店（`/apps`）** 确认对应模块已完成安装
+- 检查 **授权管理** 是否具备所需 Pro 能力
+- 检查 **系统设置 → 功能开关** 是否已启用该模块
+- 确认当前登录账号角色至少具备查看（`viewer`）权限
+- 必要时刷新页面或退出重新登录，同步最新授权与模块状态
 
-域名服务、Cloudflare 内网穿透、自建私网、Docker 管理和网络工具都会同时检查模块开关与 Pro。
+域名服务、Cloudflare 内网穿透、自建私网、Docker 管理和网络工具会同时检查应用安装状态、功能开关、Pro 授权与用户角色。
 
 ## 10. 回家页面本机检查通过，为什么外网仍连不上？
 
@@ -83,7 +84,31 @@
 
 ## 12. Docker Agent 节点应该用哪种连接方式？
 
-子节点不方便开放入站端口时优先使用主动回连；已有可信 HTTPS 地址和明确网络边界时可用直连。生产环境不要启用明文 HTTP 兼容开关。详见 [Docker 管理](/zh/guide/docker-center)。
+子节点不方便开放入站端口时优先使用 **主动回连（Tunnel）**，无需暴露 `7788` 端口也无需单独配证书；已有可信 HTTPS 地址和明确网络边界时可用 **HTTPS 直连**。生产环境不要启用明文 HTTP 兼容开关。详见 [Docker 管理](/zh/guide/docker-center)。
+
+## 13. 使用域名服务（Edge 网关）还需要单独安装 Caddy 吗？
+
+不需要。MSM 已内置进程内纯 Go Edge 网关引擎，直接承载 DDNS、ACME 证书、L7 反向代理、L4 端口转发与 STUN 穿透，无需用户额外安装或维护外部 Caddy 二进制。详见 [域名服务](/zh/guide/domain-services)。
+
+## 14. macOS 桌面应用或 CLI 提示“文件已损坏 / 无法验证开发者”怎么办？
+
+由于安装包未经过 Apple 公证，macOS Gatekeeper 会拦截下载文件。在终端执行解除隔离命令即可（详见 [macOS 安装](/zh/guide/install-macos)）：
+
+```bash
+/usr/bin/xattr -dr com.apple.quarantine "/Applications/msm-desktop.app"
+```
+
+## 15. 停用或卸载 MSM 后宿主机无法解析域名怎么办？
+
+若此前 MSM 接管了宿主机 53 端口（如 Linux `systemd-resolved` 或 OpenWrt `dnsmasq`），直接运行以下命令恢复系统 DNS 即可：
+
+```bash
+sudo msm service recover-dns
+```
+
+## 16. Clash Smart 为什么一直走同一个节点不切换？
+
+先在 **代理节点** 确认策略组未被手动点选锁定——点击 **恢复自动选择** 可同时清除内存与持久化选择；同时确认 `proxy-providers` 自身的 `health-check` 已正确配置 `interval` 与 `expected-status`。详见 [Clash 管理 → Smart 调优](/zh/guide/clash#clash-smart-自动选路与调优)。
 
 ## 更多帮助
 

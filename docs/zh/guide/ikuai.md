@@ -11,7 +11,7 @@
 
 - [下载爱快 3.X 规则](https://raw.githubusercontent.com/msm9527/msm-wiki/main/docs/zh/guide/ikuai_static_route_3.x.csv)
 - [下载爱快 4.X (Beta版) 规则](https://raw.githubusercontent.com/msm9527/msm-wiki/main/docs/zh/guide/ikuai_static_route_4.x_beta.csv)
-- 使用Excel、WPS亦或是Visual Studio打开对应爱快版本的static_route.csv文件
+- 使用 Excel、WPS 或 VS Code / 文本编辑器打开对应爱快版本的 `static_route.csv` 文件
 - 查找替换，搜索并替换 **`REPLACE_WITH_MSM_LAN_IPV4`** 为 MSM 设置页显示的实际 IPv4 地址
 - 查找替换，搜索并替换 **`REPLACE_WITH_MSM_LAN_IPV6_NEXT_HOP`** 为实际的 MSM IPv6 下一跳；若使用链路本地地址，同时确认接口绑定
 - 将 FakeIP 行中的 `REPLACE_WITH_MSM_FAKEIP_V4_NETWORK`、`REPLACE_WITH_MSM_FAKEIP_V4_NETMASK` 和 `REPLACE_WITH_MSM_FAKEIP_V6_CIDR` 替换为 MSM 设置页当前值；地址池变化后必须重新导入前核对
@@ -31,8 +31,8 @@
 
 在 **DHCP 服务器地址池** 中设置 DNS：
 
-- **DNS 服务器**：填写 MSM 设置页显示的实际 IPv4 地址
-- **备用 DNS**：可选填写运营商 DNS
+- **DNS 服务器（主 DNS）**：填写 MSM 设置页显示的实际 IPv4 地址
+- **备用 DNS**：**建议留空**（不要填写运营商 DNS，否则客户端会并发或轮询请求备用 DNS，导致 DNS 泄漏并绕过 FakeIP 分流）
 ![配置 DHCP DNS](https://github.com/user-attachments/assets/68fb5a28-8059-47d0-86f5-71c0df55e20b)
 
 ## 验证

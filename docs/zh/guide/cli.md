@@ -1,6 +1,6 @@
 # CLI 命令参考
 
-MSM 提供了功能完善的命令行工具，用于管理和控制 MSM 服务。所有命令均通过 `msm` 二进制文件执行。
+MSM 提供完整的命令行工具 `msm` 用于服务启停、子服务控制、在线升级、网络诊断、授权管理与系统服务托管；独立 Docker 子节点则由单独的 `msm-docker-agent` 命令提供。
 
 ## 基本用法
 
@@ -9,289 +9,178 @@ msm [命令] [参数] [选项]
 ```
 
 ::: tip 默认行为
-直接运行 `msm`（不带任何参数）等同于执行 `msm serve`，即启动 HTTP 服务。
+直接运行不带子命令的 `msm` 等同于 `msm serve`。
 :::
 
 ## 全局选项
 
 | 选项 | 说明 | 默认值 |
 |------|------|--------|
-| `-c, --config <路径>` | 配置目录路径 | `~/.msm` |
-| `-p, --port <端口>` | HTTP 服务端口 | `7777` |
-| `--help` | 显示帮助信息 | - |
-| `--help-all` | 显示所有命令的完整帮助 | - |
-| `--version` | 显示版本号 | - |
+| `-c, --config <路径>` | 配置与数据目录路径（也可通过 `MSM_CONFIG_DIR` 设置） | `~/.msm` |
+| `-p, --port <端口>` | HTTP/HTTPS Web 服务端口（也可通过 `MSM_PORT` 设置） | `7777` |
+| `--help` / `--help-all` | 显示当前命令帮助 / 所有命令完整帮助 | - |
+| `--version` | 显示当前版本号与构建信息 | - |
 
-## 核心命令
+## 服务与子服务控制
 
-### `msm serve` — 启动服务 {#serve}
-
-启动 MSM HTTP 服务及 Web 管理界面，这是最核心的命令。
-
-```bash
-# 默认启动（端口 7777）
-msm serve
-
-# 指定端口
-msm serve -p 8080
-
-# 指定配置目录
-msm serve -c /etc/msm
-
-# 后台运行（守护进程模式）
-msm serve -d
-
-# 组合使用
-msm serve -p 8080 -c /etc/msm -d
-```
-
-**选项：**
-
-| 选项 | 说明 |
+| 命令 | 说明 |
 |------|------|
-| `-p, --port` | HTTP 服务端口（默认 7777） |
-| `-c, --config` | 配置目录路径（默认 `~/.msm`） |
-| `-d, --daemon` | 以守护进程模式在后台运行 |
+| `msm serve [-p 端口] [-c 目录] [-d]` | 启动 MSM 主服务（`-d` 表示后台守护进程模式） |
+| `msm init [-c 目录]` | 初始化 MSM 配置目录并生成默认配置 |
+| `msm status` | 查看 MSM 主服务及各托管子服务（MosDNS、Clash、Sing-Box 等）运行状态 |
+| `msm list` | 列出所有受管子服务及其编号与名称，便于配合 `start/stop/restart` 操作 |
+| `msm start [编号\|服务名]` | 启动主服务或指定受管子服务（如 `msm start mosdns`） |
+| `msm stop [编号\|服务名]` | 停止主服务或指定受管子服务 |
+| `msm restart [编号\|服务名]` | 重启主服务或指定受管子服务 |
+| `msm logs [服务名]` | 查看主服务或指定子服务日志（`mosdns` / `mihomo` / `singbox`） |
+| `msm operation [请求 ID]` | 查询最近或指定请求 ID 的后台异步操作状态与详情 |
 
-启动后访问 `http://your-server-ip:7777` 进入 Web 管理界面。
+> 提示：命令参数中针对 Clash 的内部服务标识仍沿用 `mihomo`（例如 `msm logs mihomo`、`msm restart mihomo`）。
 
-### `msm init` — 初始化配置 {#init}
+## 系统服务托管与 DNS 恢复
 
-初始化 MSM 配置目录，生成默认配置文件。
+### `msm service install` / `uninstall`
 
-```bash
-# 使用默认路径初始化
-msm init
-
-# 指定配置目录
-msm init -c /etc/msm
-```
-
-::: info 说明
-通常在首次安装后自动执行，也可手动执行来重置配置目录。
-:::
-
-### `msm status` — 查看状态 {#status}
-
-查看 MSM 及其管理的各组件的运行状态。
+将 MSM 注册为当前操作系统的托管服务，实现开机自启与自动拉起：
 
 ```bash
-msm status
+# 自动检测当前系统的服务管理器（systemd / launchd / openrc / procd）
+sudo msm service install
+
+# 显式指定服务管理器
+sudo msm service install --manager systemd
+sudo msm service install --manager openrc   # Alpine Linux
+sudo msm service install --manager procd    # OpenWrt
+sudo msm service install --manager launchd  # macOS
+
+# 卸载系统服务注册
+sudo msm service uninstall
 ```
 
-输出示例：
+### `msm service recover-dns`
 
-```
-MSM 状态:
-  MSM 服务:    运行中 (PID: 12345)
-  MosDNS:     运行中 (PID: 12346)
-  Clash:  运行中 (PID: 12347)
-  Sing-Box:   已停止
-```
-
-示例里写作 `Clash`，但 CLI 当前仍沿用内部服务标识 `mihomo`。
-
-### `msm restart` — 重启服务 {#restart}
-
-重启 MSM 服务。
+当系统停用或卸载 MSM 后，若宿主机（特别是 Linux `systemd-resolved` 或 OpenWrt `dnsmasq`）因 53 端口接管变更导致本机 DNS 解析异常，可执行此命令安全恢复宿主机 DNS：
 
 ```bash
-msm restart
+sudo msm service recover-dns
 ```
 
-### `msm stop` — 停止服务 {#stop}
+## 在线更新与回滚（`msm update`）
 
-停止 MSM 服务。
+除 Docker 容器部署外，二进制安装的 MSM 可直接通过命令行完成版本检查、下载、安装与回滚：
 
 ```bash
-msm stop
+msm update status      # 查看当前版本与最近更新状态
+msm update releases    # 列出可用发布版本
+msm update check       # 检查是否有新版本
+msm update download    # 仅下载并校验目标版本包
+msm update install     # 下载并安装更新
+msm update force       # 强制重装指定或最新版本
+msm update cancel      # 取消正在进行的更新任务
+msm update rollback    # 回滚至升级前保留的旧版本二进制
+msm update config      # 查看或修改更新通道与镜像源设置
 ```
 
-### `msm logs` — 查看日志 {#logs}
+## 系统诊断与密码重置
 
-查看 MSM 或各组件的日志输出。
+### `msm doctor`
 
-```bash
-# 查看 MSM 主服务日志
-msm logs
-
-# 查看 MosDNS 日志
-msm logs mosdns
-
-# 查看 Sing-Box 日志
-msm logs singbox
-
-# 查看 Clash 日志
-msm logs mihomo
-```
-
-## 诊断命令
-
-### `msm doctor` — 系统诊断 {#doctor}
-
-运行全面的系统诊断检测，检查运行环境、端口占用、依赖状态等问题。
+全面检测运行环境、关键端口占用、核心配置、网络连通性与权限状态，并输出修复建议：
 
 ```bash
 msm doctor
 ```
 
-诊断项目包括：
+### `msm reset-password`
 
-- ✅ 系统环境检测（OS、架构、内存、磁盘）
-- ✅ 端口占用检查（53, 7777, 7890 等关键端口）
-- ✅ 服务运行状态检查
-- ✅ 配置文件有效性验证
-- ✅ 网络连通性测试
-- ✅ 权限检查（root/sudo）
-
-::: tip 故障排查利器
-遇到问题时，首先运行 `msm doctor` 进行全面诊断，它会自动发现常见问题并给出修复建议。
-:::
-
-## 密码管理
-
-### `msm reset-password` — 重置密码 {#reset-password}
-
-重置管理员用户密码。当忘记登录密码时使用此命令。
+忘记 Web 管理密码时，在 MSM 所在主机本地执行此命令重置管理员密码：
 
 ```bash
 msm reset-password
 ```
 
-::: warning 注意
-此命令需要在 MSM 服务所在的主机上直接执行，不支持远程操作。执行后将重置管理员密码为默认值，请及时登录并修改密码。
-:::
+## 网络诊断工具箱（`msm nettools`）
 
-## 系统服务管理
-
-### `msm service install` — 安装系统服务 {#service-install}
-
-将 MSM 注册为系统服务，实现开机自启动。
+MSM 将 Web 端网络工具箱能力同样开放为 CLI 子命令，方便无浏览器环境或在 SSH 终端内快速排障：
 
 ```bash
-msm service install
+# 连通性与路径
+msm nettools ping <target>
+msm nettools traceroute <target>
+msm nettools mtr <target>
+msm nettools portscan <target>
+
+# DNS、HTTP 与证书
+msm nettools dns <domain>
+msm nettools http <url>
+msm nettools ssl <host>
+msm nettools whois <target>
+msm nettools ipinfo [ip]
+
+# 局域网与地址诊断
+msm nettools interfaces
+msm nettools arp
+msm nettools ipv6
+msm nettools nat
+msm nettools subnet <cidr>
+msm nettools wol <mac>
+
+# 带宽与吞吐测速
+msm nettools speedtest
+msm nettools iperf <host>
 ```
 
-- **Linux**: 创建 systemd 服务单元文件（`/etc/systemd/system/msm.service`）
-- **macOS**: 创建 launchd 配置文件（`~/Library/LaunchAgents/com.msm.plist`）
-
-安装完成后可使用系统命令管理：
+## 授权管理（`msm license`）
 
 ```bash
-# Linux (systemd)
-sudo systemctl start msm
-sudo systemctl stop msm
-sudo systemctl restart msm
-sudo systemctl status msm
-
-# macOS (launchctl)
-launchctl start com.msm
-launchctl stop com.msm
+msm license status                  # 查看当前 Pro 授权状态
+msm license fingerprint             # 查看本机硬件指纹
+msm license activate --code <授权码> # 使用授权码激活 Pro（省略 --code 时进入交互输入）
+msm license deactivate              # 取消本机授权绑定
 ```
 
-### `msm service uninstall` — 卸载系统服务 {#service-uninstall}
+## 独立 Docker 子节点 CLI（`msm-docker-agent`）
 
-移除 MSM 系统服务注册。
+部署在远端 Docker 主机上的轻量独立 Agent 使用专用命令 `msm-docker-agent`：
 
 ```bash
-msm service uninstall
+# 查看 Agent 版本
+msm-docker-agent version
+
+# 启动 Agent（主动回连模式，未指定 --listen 时默认仅绑定 127.0.0.1:7788）
+msm-docker-agent serve \
+  --data-dir /var/lib/msm-docker-agent \
+  --controller-url https://msm.example.com \
+  --node-name nas-docker \
+  --enrollment-token-file /run/secrets/enrollment-token
+
+# 启动 Agent（HTTPS 直连模式）
+msm-docker-agent serve \
+  --listen 0.0.0.0:7788 \
+  --data-dir /var/lib/msm-docker-agent \
+  --tls-cert /run/tls/agent.crt \
+  --tls-key /run/tls/agent.key
+
+# 生成直连模式一次性接入令牌（10 分钟有效，可选 --json）
+msm-docker-agent token --data-dir /var/lib/msm-docker-agent
+
+# 存活探针（自动忽略 HTTP_PROXY 代理环境变量）
+msm-docker-agent healthcheck
 ```
 
-## 授权管理
-
-### `msm license status` — 查看授权状态 {#license-status}
-
-查看当前 Pro 授权的激活状态。
-
-```bash
-msm license status
-```
-
-### `msm license fingerprint` — 获取硬件指纹 {#license-fingerprint}
-
-获取当前设备的硬件指纹，用于绑定 Pro 授权。
-
-```bash
-msm license fingerprint
-```
-
-### `msm license activate` — 激活授权 {#license-activate}
-
-使用授权码激活 Pro 许可证。
-
-```bash
-msm license activate
-```
-
-### `msm license deactivate` — 取消激活 {#license-deactivate}
-
-取消当前设备的 Pro 授权绑定。
-
-```bash
-msm license deactivate
-```
-
-## 常用操作示例
-
-### 完整部署流程
-
-```bash
-# 1. 初始化配置
-msm init
-
-# 2. 启动服务
-msm serve -d
-
-# 3. 安装为系统服务（开机自启）
-msm service install
-
-# 4. 检查运行状态
-msm status
-```
-
-### 日常运维
-
-```bash
-# 查看服务状态
-msm status
-
-# 查看日志排查问题
-msm logs mosdns
-
-# 系统诊断
-msm doctor
-
-# 重启服务
-msm restart
-```
-
-### 故障恢复
-
-```bash
-# 停止服务
-msm stop
-
-# 运行诊断
-msm doctor
-
-# 重置密码（忘记密码时）
-msm reset-password
-
-# 重新启动
-msm serve -d
-```
-
-## 环境变量
+## 常用环境变量
 
 | 变量 | 说明 | 默认值 |
 |------|------|--------|
-| `JWT_SECRET` | JWT 签名密钥（生产环境必须设置） | 自动生成 |
-| `MSM_CONFIG_DIR` | 配置目录路径 | `~/.msm` |
-| `MSM_PORT` | HTTP 服务端口 | `7777` |
+| `JWT_SECRET` | JWT 会话签名密钥（Docker 与生产环境建议至少 32 位随机字符） | 本机首次自动生成 |
+| `MSM_CONFIG_DIR` | MSM 配置与数据目录 | `~/.msm` |
+| `MSM_PORT` | Web 服务监听端口 | `7777` |
+| `MSM_NETWORK_SCOPE` | 网络模式提示（Docker Host 模式设为 `host`） | 自动检测 |
+| `MSM_DOCKER_ALLOW_INSECURE_NODE_HTTP` | 控制端显式允许与直连 Agent 使用明文 HTTP（仅隔离测试网） | `false` |
 
 ## 下一步
 
-- [安装总览](/zh/guide/install) - 安装 MSM
-- [首次使用](/zh/guide/first-use) - 初始设置向导
-- [系统诊断](/zh/guide/diagnostics) - 详细诊断说明
-- [仪表盘](/zh/guide/dashboard) - 服务状态监控
+- [安装总览](/zh/guide/install)
+- [系统诊断](/zh/guide/diagnostics)
+- [Docker 管理](/zh/guide/docker-center)
+- [故障排查](/zh/faq/troubleshooting)

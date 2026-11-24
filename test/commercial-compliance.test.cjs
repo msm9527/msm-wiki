@@ -28,15 +28,20 @@ test('Pro purchase page stays concise and avoids unnecessary legal citations', (
   assert.doesNotMatch(commercial, /购买 Pro.*赞助.*不是一回事/)
 })
 
-test('public product boundaries state closed source and exclude network access sales', () => {
+test('public product boundaries avoid inappropriate closed-source labels and exclude network access sales', () => {
   const targets = [
+    'docs/.vitepress/config.mts',
     'docs/zh/index.md',
     'docs/zh/introduction/what-is-msm.md',
+    'docs/zh/guide/license.md',
     'docs/zh/legal/index.md',
+    'docs/zh/legal/disclaimer.md',
+    'docs/zh/legal/intellectual-property.md',
+    'docs/zh/legal/third-party-software.md',
     'docs/zh/legal/pro-and-support.md',
   ].map(read).join('\n')
 
-  assert.match(targets, /闭源/)
+  assert.doesNotMatch(targets, /闭源/)
   assert.match(targets, /不提供节点、订阅|不包含代理节点、订阅/)
 })
 

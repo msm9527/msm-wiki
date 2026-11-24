@@ -381,12 +381,12 @@
   border-bottom-color: var(--msm-accent);
 }
 
-/* 悬停时图标徽章点亮：品牌填充 + 反白图标 + 轻微放大 */
+/* 悬停时图标徽章点亮：品牌填充 + 随明暗主题适配的前景色 + 轻微放大 */
 .VPHome .VPFeature:hover .icon {
   transform: scale(1.06);
   border-color: transparent;
   background: var(--msm-gradient-brand);
-  color: #fff;
+  color: var(--vp-button-brand-text);
 }
 
 /*
@@ -599,7 +599,7 @@
   font-size: var(--msm-text-2xs);
   letter-spacing: var(--msm-tracking-label);
   text-transform: uppercase;
-  color: var(--msm-ink-4);
+  color: var(--msm-ink-3);
 }
 
 /* 右上角琥珀箭头，hover 右移 */
@@ -667,7 +667,7 @@
 .VPHome .vp-doc .msm-link:hover .msm-link-icon {
   border-color: transparent;
   background: var(--msm-gradient-brand);
-  color: #fff;
+  color: var(--vp-button-brand-text);
 }
 
 .VPHome .vp-doc .msm-link-body {
@@ -691,7 +691,7 @@
   font-family: var(--msm-font-mono);
   font-size: var(--msm-text-2xs);
   letter-spacing: 0.04em;
-  color: var(--msm-ink-4);
+  color: var(--msm-ink-3);
 }
 
 /* ==================== 快速导航条 ==================== */
@@ -743,7 +743,7 @@
   font-size: var(--msm-text-2xs);
   font-weight: var(--msm-weight-medium);
   letter-spacing: var(--msm-tracking-label);
-  color: var(--msm-ink-4);
+  color: var(--msm-ink-3);
 }
 
 .msm-home-jump strong::after {
@@ -798,15 +798,6 @@
 .VPHome .vp-doc ul,
 .VPHome .vp-doc ol {
   max-width: 76ch;
-}
-
-/*
- * 首页只有"按目标选路"这一类两列对照表，撑满 1200px 会在两列之间
- * 空出一大段，读起来要来回扫。这里让表格按内容收缩。
- */
-.VPHome .vp-doc table {
-  width: auto;
-  max-width: 100%;
 }
 
 /* ==================== 滚动入场 ==================== */

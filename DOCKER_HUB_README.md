@@ -1,163 +1,70 @@
-# MSM
+# MSM - 家庭网络统一管理平台
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/msmbox/msm.svg)](https://hub.docker.com/r/msmbox/msm)
-[![Docker Image Size](https://img.shields.io/docker/image-size/msmbox/msm/latest.svg)](https://hub.docker.com/r/msmbox/msm)
-[![GitHub](https://img.shields.io/badge/GitHub-msm9527%2Fmsm-blue.svg)](https://github.com/msm9527/msm-wiki)
+MSM 是面向家庭网络与自托管环境的统一管理平台，集成 MosDNS 分流、Clash / Sing-Box 透明代理、域名服务（DDNS / ACME 证书 / 反向代理 / L4 端口转发）、Cloudflare 穿透、自建私网（WireGuard / EasyTier / Tailscale）、Docker Center 与网络诊断工作台。
 
-**MSM** 是一个功能强大的代理和 DNS 管理工具，集成提供统一的 Web 管理界面。
+- **官方文档**: https://doc.msmbox.net/zh/
+- **版本发布与下载**: https://github.com/msm9527/msm-wiki/releases
+- **问题反馈**: https://github.com/msm9527/msm-wiki/issues
 
-## ✨ 主要特性
+## 支持架构与镜像标签
 
-- 🌐 **统一管理界面** - 通过 Web 界面管理所有组件
-- 🚀 **多架构支持** - 支持 amd64、arm64、armv7、armv6、386
-- 🔒 **高级网络功能** - 支持透明代理、TUN 模式、iptables 规则配置
-- 📦 **开箱即用** - 无需复杂配置，一键启动
-- 🔄 **自动更新** - 每日自动构建最新版本
+| 镜像 | 支持平台 | 说明 |
+| --- | --- | --- |
+| `msmbox/msm` | `linux/amd64`、`linux/arm64`、`linux/arm/v7` | 主管理平台（Debian 13 运行基线，内置 Docker CLI、Compose 插件、nftables、WireGuard 与网络工具） |
+| `msmbox/msm-agent` | `linux/amd64`、`linux/arm64`、`linux/arm/v7` | 独立轻量子节点 Agent（Alpine 3.23 基线，仅用于 Docker Center 远程节点管理） |
 
-## 🚀 快速开始
+- `latest` / `<x.y.z>`：正式稳定版
+- `beta-latest` / `beta-<x.y.z>`：Beta 预览版
 
-### 基础使用
+> ARMv5 / ARMv6 设备请直接从 [Releases 页面](https://github.com/msm9527/msm-wiki/releases) 下载静态二进制或 OpenWrt 软件包。
 
-```bash
-# 拉取最新镜像
-docker pull msmbox/msm:latest
+## 快速开始
 
-# 运行容器（推荐使用特权模式以支持透明代理和 TUN 设备）
-docker run -d \
-  --name msm \
-  --privileged \
-  --device /dev/net/tun \
-  --network host \
-  -v /opt/msm:/opt/msm \
-  msmbox/msm:latest
-```
-
-访问管理界面：`http://localhost:7777`
-
-> **注意**: 目前 Docker 部署仅支持 `--network host`（不支持 `bridge` / `macvlan` / `ipvlan` 等其他网络模式，也不支持 `-p` / `ports` 端口映射），并需要特权模式（`--privileged`）和 TUN 设备访问权限以支持透明代理、TUN 模式等高级网络功能。
-
-### Docker Compose
-
-```yaml
-version: '3.8'
-
-services:
-  msm:
-    image: msmbox/msm:latest
-    container_name: msm
-    restart: unless-stopped
-    network_mode: host
-    privileged: true
-    devices:
-      - /dev/net/tun
-    volumes:
-      - ./msm-data:/opt/msm
-    environment:
-      - TZ=Asia/Shanghai
-      - MSM_PORT=7777
-```
-
-## 🔧 环境变量
-
-| 变量 | 默认值 | 说明 |
-|------|--------|------|
-| `MSM_PORT` | `7777` | Web 管理界面端口 |
-| `MSM_CONFIG_DIR` | `/opt/msm` | 配置文件目录 |
-| `JWT_SECRET` | - | JWT 密钥（建议设置） |
-| `TZ` | `Asia/Shanghai` | 时区设置 |
-
-## 📋 端口说明
-
-| 端口 | 协议 | 用途 |
-|------|------|------|
-| 7777 | TCP | Web 管理界面 |
-| 53 | UDP/TCP | DNS 服务（MosDNS） |
-| 1053 | UDP | DNS 备用端口 |
-| 7890 | TCP | HTTP 代理 |
-| 7891 | TCP | SOCKS5 代理 |
-| 7892 | TCP | 混合代理端口 |
-| 6666 | TCP | 管理端口 |
-
-## 🏗️ 支持的架构
-
-此镜像支持以下平台架构：
-
-- `linux/amd64` - x86_64（Intel/AMD 64位）
-- `linux/arm64` - ARM64（树莓派 4、Apple Silicon 等）
-- `linux/arm/v7` - ARMv7（树莓派 3 等）
-
-ARMv6 与 x86 32 位可使用发布页的静态二进制，不包含在 Debian 13 镜像清单中。
-
-Docker 会自动选择适合您平台的镜像。
-
-## 💾 数据持久化
-
-建议挂载数据卷以持久化配置：
+### 1. Host 网络模式（推荐，支持透明代理与 DNS 53 端口）
 
 ```bash
 docker run -d \
   --name msm \
-  --privileged \
-  --device /dev/net/tun \
+  --restart unless-stopped \
   --network host \
-  -v /your/data/path:/opt/msm \
+  --cap-add NET_ADMIN \
+  --cap-add NET_RAW \
+  --device /dev/net/tun:/dev/net/tun \
+  -e TZ=Asia/Shanghai \
+  -v "$PWD/msm-data:/opt/msm" \
+  -v "$PWD/msm-logs:/var/log/msm" \
   msmbox/msm:latest
 ```
 
-## 🔒 安全建议
-
-1. **设置 JWT 密钥**：
-   ```bash
-   -e JWT_SECRET="$(openssl rand -base64 32)"
-   ```
-
-2. **限制网络访问**：
-   Host 模式下无法通过端口映射限制访问，请在宿主机上通过防火墙限制 `7777` 端口访问（仅允许可信网段/来源）。
-
-3. **特权模式说明**：
-   - 容器以 root 用户运行以支持透明代理、TUN 设备等高级网络功能
-   - 如不需要这些功能，可移除 `--privileged` 和 `--device /dev/net/tun` 参数
-   - 建议在可信环境中运行，或使用网络隔离
-
-## 📚 文档
-
-- 📖 [完整文档](https://doc.msmbox.net/)
-- 🚀 [快速开始](https://doc.msmbox.net/zh/guide/first-use.html)
-- 💾 [安装部署](https://doc.msmbox.net/zh/guide/install.html)
-- ⚖️ [使用与合规](https://doc.msmbox.net/zh/legal/)
-
-## 🔗 相关链接
-
-- **文档仓库**: [msm9527/msm-wiki](https://github.com/msm9527/msm-wiki)
-- **问题反馈**: [提交 Issue](https://github.com/msm9527/msm-wiki/issues)
-- **Docker Hub**: [msmbox/msm](https://hub.docker.com/r/msmbox/msm)
-
-## 📦 版本标签
-
-- `latest` - 最新稳定版本（每日自动构建）
-- `0.7.2` - 具体版本号
-- 更多版本请查看 [Tags 页面](https://hub.docker.com/r/msmbox/msm/tags)
-
-## 🛠️ 健康检查
-
-容器内置健康检查，每 30 秒检查一次服务状态：
+### 2. Bridge 桥接模式（仅使用 Web 面板 / 域名反代 / Docker 管理等场景）
 
 ```bash
-# 查看容器健康状态
-docker ps --format "table {{.Names}}\t{{.Status}}"
+docker run -d \
+  --name msm \
+  --restart unless-stopped \
+  -p 7777:7777 \
+  -p 53:53/udp -p 53:53/tcp \
+  -p 80:80 -p 443:443 \
+  -e TZ=Asia/Shanghai \
+  -v "$PWD/msm-data:/opt/msm" \
+  -v "$PWD/msm-logs:/var/log/msm" \
+  msmbox/msm:latest
 ```
 
-## 🤝 贡献
+## 常用端口与环境变量
 
-欢迎提交 Issue
----
+| 端口 | 用途 |
+| --- | --- |
+| `7777` | MSM Web 管理界面（支持 HTTP 与 HTTPS） |
+| `7778` | 可选 gRPC 接口 |
+| `53` / `1053` | MosDNS 解析端口 |
+| `7890` / `7891` / `7892` | 代理核心 HTTP / SOCKS5 / Mixed 端口 |
+| `80` / `443` | Edge 内置网关 HTTP / HTTPS 入口 |
 
-<sub>🤖 由 GitHub Actions 每日自动构建 | 基于 Debian 13 Slim | 镜像大小约 55MB（单架构）</sub>
+| 环境变量 | 默认值 | 说明 |
+| --- | --- | --- |
+| `MSM_PORT` | `7777` | 管理面板监听端口 |
+| `MSM_CONFIG_DIR` | `/opt/msm` | 配置、数据库与受管组件数据目录 |
+| `TZ` | `Asia/Shanghai` | 容器时区 |
 
-## ⚠️ 重要说明
-
-- 容器以 **root 权限**运行，并需要 **特权模式** 以支持透明代理、TUN 设备等高级网络功能
-- Docker 部署目前仅支持 **Host 网络模式**（`--network host` / `network_mode: host`），不支持桥接模式（端口映射）
-- 所有网络功能（iptables、路由配置等）均由 Golang 实现，无需外部依赖
-- 自动映射 `/dev/net/tun` 设备以支持 TUN 模式
-- 建议在可信网络环境中运行，或配置适当的网络隔离措施
+更多 Compose 示例、Docker Socket 挂载权限与子节点 Agent 配置详见 [Docker 部署指南](https://doc.msmbox.net/zh/guide/docker) 与 [Docker 管理文档](https://doc.msmbox.net/zh/guide/docker-center)。

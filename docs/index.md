@@ -1,5 +1,9 @@
 ---
 title: MSM Wiki
+head:
+  - - meta
+    - http-equiv: refresh
+      content: 0; url=/zh/
 ---
 
 <script setup>

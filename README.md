@@ -3,201 +3,81 @@
 <div align="center">
   <img src="docs/public/logo/logo-square.svg" alt="MSM Logo" width="120" height="120">
 
-  <h3>MSM 项目官方文档</h3>
+  <h3>MSM 项目官方文档与发布仓库</h3>
 
-  <p>Mosdns Singbox Manager - 统一管理平台文档</p>
+  <p>面向家庭网络与自托管环境的统一管理平台（MosDNS / Clash / Sing-Box / Edge 网关 / 私有组网 / Docker Center）</p>
 
   <p>
     <a href="https://doc.msmbox.net/zh/">官方文档</a> •
+    <a href="https://github.com/msm9527/msm-wiki/releases">版本发布</a> •
     <a href="https://doc.msmbox.net/zh/legal/">使用与合规</a>
   </p>
 </div>
 
 ---
 
-## 📖 关于
-
-这是 MSM (Mosdns Singbox Manager) 项目的官方文档站点，提供完整的使用指南、API 文档和部署说明。
-
-## 🌐 在线访问
+## 在线访问
 
 - **官方文档**: https://doc.msmbox.net/zh/
+- **版本下载**: https://github.com/msm9527/msm-wiki/releases
 - **使用与合规**: https://doc.msmbox.net/zh/legal/
+- **Telegram 公告频道**: https://t.me/msmwiki
+- **Telegram 交流群**: https://t.me/msm_home
 
-## ⚖️ 产品与使用边界
+## 使用边界
 
-MSM 是用于管理用户自有或已获授权设备的自托管网络与系统管理平台。项目不运营代理节点、不提供违法内容，也不授权将 DNS、代理、隧道、端口扫描或远程管理能力用于未授权访问、侵害他人权益或其他违法活动。
+MSM 是用于管理用户自有或已获授权设备的自托管网络与系统管理平台。项目不提供代理节点、订阅、网络线路或违法内容，请仅在合法与已授权的环境中使用。详情见 [使用与合规中心](https://doc.msmbox.net/zh/legal/)。
 
-- [使用与合规中心](https://doc.msmbox.net/zh/legal/)
-- [合规使用规范](https://doc.msmbox.net/zh/legal/acceptable-use.html)
-- [隐私与数据安全](https://doc.msmbox.net/zh/legal/privacy-security.html)
-- [免责声明](https://doc.msmbox.net/zh/legal/disclaimer.html)
-- [知识产权说明](https://doc.msmbox.net/zh/legal/intellectual-property.html)
+## 本地开发与验证
 
-## 🚀 本地开发
-
-### 安装依赖
+环境要求：Node.js 22+ 与 npm。
 
 ```bash
-npm install
+npm ci
+npm run docs:dev      # 本地预览（默认 http://localhost:5173）
+npm test              # 运行工作流、安装脚本、合规与术语自动化测试
+npm run docs:build    # 构建静态站点（输出至 docs/.vitepress/dist）
+npm run docs:preview  # 预览构建产物
 ```
 
-### 启动开发服务器
+站点通过 `.github/workflows/deploy.yml` 自动部署到 GitHub Pages（自定义域名定义在 `docs/public/CNAME`）。
 
-```bash
-npm run docs:dev
-```
+## 目录结构
 
-访问 http://localhost:5173
-
-### 构建生产版本
-
-```bash
-npm run docs:build
-```
-
-### 预览构建结果
-
-```bash
-npm run docs:preview
-```
-
-## 📁 目录结构
-
-```
+```text
 msm-wiki/
 ├── docs/
-│   ├── .vitepress/
-│   │   └── config.mts          # VitePress 配置
-│   ├── public/
-│   │   └── logo/               # Logo 资源
-│   └── zh/                     # 中文文档
-│       ├── index.md            # 首页
-│       ├── introduction/       # 介绍
-│       ├── guide/              # 用户指南
-│       ├── api/                # API 文档
-│       ├── deployment/         # 部署指南
-│       ├── development/        # 开发指南
-│       ├── faq/                # 常见问题
-│       └── legal/              # 使用、隐私、免责与知识产权
+│   ├── .vitepress/           # VitePress 配置与自定义主题（Terminal Blueprint）
+│   ├── public/               # 静态资源（CNAME、Logo、截图、MSM Assistant 静态包）
+│   └── zh/
+│       ├── index.md          # 中文首页
+│       ├── introduction/     # 项目介绍与核心特性
+│       ├── guide/            # 安装、路由器接入、核心功能、Pro 模块、CLI/API 与版本发布
+│       ├── faq/              # 常见问题与故障排查
+│       └── legal/            # 合规使用、隐私安全、第三方软件与授权说明
+├── scripts/                  # 发布摘要生成与版本页更新脚本
+├── test/                     # Node 自动化回归测试套件
 ├── .github/
-│   └── workflows/
-│       └── deploy.yml          # GitHub Actions 部署配置
-├── package.json
-└── README.md
+│   ├── workflows/            # Pages 部署、稳定版/Beta 发布、Docker/Agent 镜像、OpenWrt/PanaBit 打包
+│   ├── openwrt/              # OpenWrt IPK/APK 与 LuCI 打包资产
+│   ├── panabit/              # PanaBit APX 打包模板
+│   ├── scripts/              # 镜像同步与版本清理辅助脚本
+│   └── docs/                 # 维护者发布工作流与 AI 网关说明
+├── Dockerfile.binary         # 官方 Docker Hub msmbox/msm 运行镜像构建定义
+├── DOCKER.md                 # Docker 与 Docker Agent 部署说明
+├── DOCKER_HUB_README.md      # Docker Hub 仓库简介
+└── install*.sh               # Linux / Alpine 稳定版与 Beta 一键安装脚本
 ```
 
-## 📝 文档内容
+## 自动化发布说明
 
-### 介绍
-- 什么是 MSM
-- 核心特性
-- 架构设计
-- 技术栈
+本仓库统一承载 MSM 稳定版、Beta 版、macOS 桌面端、OpenWrt 软件包、PanaBit 套件、Docker 主镜像（`msmbox/msm`）及独立 Docker Agent 镜像（`msmbox/msm-agent`）的发布与文档同步：
 
-### 快速开始
-- 安装部署
-- 基础配置
-- 首次使用
+- [AI 网关配置指南](.github/docs/MODELSCOPE_API_GUIDE.md)
+- [Release 工作流说明](.github/docs/RELEASE_WORKFLOW_GUIDE.md)
+- [AI 网关测试脚本说明](.github/docs/TEST_API_README.md)
 
-### 用户指南
-- 用户管理
-- MosDNS 管理
-- SingBox 管理
-- Clash 管理
-- 配置编辑
-- 历史记录与回滚
-- 日志查看
+## 问题反馈与贡献
 
-### API 文档
-- API 概览
-- 认证接口
-- 用户接口
-- 服务管理接口
-- 配置管理接口
-- 历史记录接口
-- WebSocket 接口
-
-### 部署指南
-- 单机部署
-- Docker 部署
-- Systemd 配置
-- Nginx 配置
-- HTTPS 配置
-
-### 开发指南
-- 开发环境搭建
-- 项目结构
-- 前端开发
-- 后端开发
-- 贡献指南
-
-## 🤝 贡献文档
-
-欢迎贡献文档内容！
-
-1. Fork 本仓库
-2. 创建你的特性分支 (`git checkout -b feature/AmazingDoc`)
-3. 提交你的修改 (`git commit -m '添加某某文档'`)
-4. 推送到分支 (`git push origin feature/AmazingDoc`)
-5. 创建一个 Pull Request
-
-## 📋 文档规范
-
-- 使用 Markdown 格式
-- 中文文档放在 `docs/zh/` 目录
-- 图片资源放在 `docs/public/` 目录
-- 遵循现有的目录结构和命名规范
-- 保持文档简洁清晰，易于理解
-
-## 🛠️ 技术栈
-
-- [VitePress](https://vitepress.dev/) - 静态站点生成器
-- [Vue 3](https://vuejs.org/) - 前端框架
-- [GitHub Pages](https://pages.github.com/) - 托管平台
-- [GitHub Actions](https://github.com/features/actions) - 自动部署
-
-## 🤖 自动化工作流
-
-本项目包含智能化的每日构建工作流，具有以下特性：
-
-### AI 智能总结
-- 使用兼容 OpenAI Responses API 的 AI 网关自动分析提交、正文、文件和 diff
-- 生成“本次亮点 / 新增 / 变更 / 修复 / 备注”结构化版本总结
-- 通过 `AI_BASE_URL`、`AI_WIRE_API`、`AI_MODEL` 和 `AI_REQUIRES_OPENAI_AUTH` 配置服务
-- `AI_API_KEY` 只从 GitHub Actions Secret 读取，不写入代码、日志或发布产物
-- `responses` 协议使用 `output_text` 解析模型结果，网关不可用时回退本地规则摘要
-- AI 全部失败时由本地规则生成完整多分类摘要，不丢失功能项
-
-### Release UI 优化
-- 徽章展示（构建状态、版本号、平台）
-- 折叠区域组织内容，提升可读性
-- 直接下载链接和安装指南
-- Docker 安装说明
-
-### 自动更新文档
-- 新版本信息自动同步到文档站点
-- 旧版本自动归档到历史版本
-- 包含 AI 生成的更新总结
-
-### 智能提交范围
-- 自动检测上一个版本 tag
-- 获取从上个版本到当前的所有提交
-- 无上一版源提交时降级到最近 100 条提交
-
-详细配置和使用说明请查看：
-- [AI 网关配置指南](.github/docs/MODELSCOPE_API_GUIDE.md) - Responses API、密钥和降级策略（文件名保留以兼容旧链接）
-- [Release 工作流优化指南](.github/docs/RELEASE_WORKFLOW_GUIDE.md)
-- [AI 技术实现详解](.github/docs/AI_SUMMARY_TECHNICAL_GUIDE.md)
-
-
-## 🔗 相关链接
-
-- [问题反馈](https://github.com/msm9527/msm-wiki/issues) - 报告文档问题
-- [讨论区](https://github.com/msm9527/msm-wiki/discussions) - 讨论交流
-
----
-
-<div align="center">
-  Made with ❤️ by MSM Team
-</div>
+- 报告文档或发布包问题：[GitHub Issues](https://github.com/msm9527/msm-wiki/issues)
+- 贡献文档请遵循现有中文目录结构，避免在公开文档和 Issue 中包含密码、Token、私钥或真实订阅链接。

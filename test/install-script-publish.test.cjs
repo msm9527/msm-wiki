@@ -59,7 +59,12 @@ for (const [workflow, channel, installer] of [
       run(`
 set -euo pipefail
 sshpass() {
-  shift 2
+  if [ "$1" = -e ]; then
+    [ "\${SSHPASS:-}" = "fixture-password" ] || return 1
+    shift
+  elif [ "$1" = -p ]; then
+    shift 2
+  fi
   if [ "$1" = rsync ]; then
     shift
     printf '%s\\0' "$@" >> rsync-args

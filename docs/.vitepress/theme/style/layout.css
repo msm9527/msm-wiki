@@ -451,7 +451,7 @@
 .VPFooter .copyright {
   font-family: var(--msm-font-mono);
   font-size: var(--msm-text-xs);
-  color: var(--msm-ink-4);
+  color: var(--msm-ink-3);
   margin-top: var(--msm-space-2);
 }
 
@@ -572,7 +572,7 @@ body.msm-nav-open {
   font-weight: var(--msm-weight-medium);
   letter-spacing: var(--msm-tracking-label);
   text-transform: uppercase;
-  color: var(--msm-ink-4);
+  color: var(--msm-ink-3);
 }
 
 #msm-nav-drawer .msm-nav-primary,
@@ -613,9 +613,67 @@ body.msm-nav-open {
   background: var(--msm-accent-soft);
 }
 
+#msm-nav-drawer .msm-nav-footer {
+  margin-top: var(--msm-space-6);
+  padding-top: var(--msm-space-4);
+  border-top: 1px solid var(--msm-line);
+  display: flex;
+  flex-direction: column;
+  gap: var(--msm-space-3);
+}
+
+#msm-nav-drawer .msm-nav-theme-btn {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 var(--msm-space-4);
+  border: 1px solid var(--msm-line-strong);
+  border-radius: var(--msm-radius-md);
+  background: var(--msm-bg-soft);
+  color: var(--msm-ink-1);
+  font: inherit;
+  font-size: var(--msm-text-sm);
+  font-weight: var(--msm-weight-medium);
+  cursor: pointer;
+  transition: border-color var(--msm-fast), color var(--msm-fast),
+    background-color var(--msm-fast);
+}
+
+#msm-nav-drawer .msm-nav-theme-btn:hover {
+  border-color: var(--msm-brand-line);
+  color: var(--msm-brand);
+}
+
+#msm-nav-drawer .msm-nav-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--msm-space-2);
+}
+
+#msm-nav-drawer .msm-nav-social-link {
+  flex: 1 1 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 var(--msm-space-3);
+  border: 1px solid var(--msm-line);
+  border-radius: var(--msm-radius-sm);
+  font-size: var(--msm-text-xs);
+  color: var(--msm-ink-2);
+  text-decoration: none;
+  transition: border-color var(--msm-fast), color var(--msm-fast),
+    background-color var(--msm-fast);
+}
+
+#msm-nav-drawer .msm-nav-social-link:hover {
+  border-color: var(--msm-brand-line);
+  background: var(--msm-bg-soft);
+  color: var(--msm-ink-1);
+}
+
 /* ==================== 响应式 ==================== */
 
-@media (max-width: 1199px) {
+@media (max-width: 959px) {
   /* 桌面菜单与 VitePress 自带全屏导航让位给自定义抽屉 */
   .VPNavBarMenu,
   #VPNavScreen {
@@ -625,9 +683,7 @@ body.msm-nav-open {
   .VPNavBarHamburger {
     display: flex !important;
   }
-}
 
-@media (max-width: 959px) {
   .VPSidebar {
     padding: var(--msm-space-5) var(--msm-space-5) var(--msm-space-12);
   }

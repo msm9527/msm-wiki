@@ -250,7 +250,7 @@ jobs:
 
   build:
     name: 打包编译
-    needs: prepare
+    needs: [prepare, frontend]
     if: needs.prepare.outputs.skip == '0'
     strategy:
       fail-fast: false
@@ -372,27 +372,17 @@ jobs:
             ~/.cache/go-build
           key: go-build-${{ runner.os }}-${{ matrix.target }}-${{ hashFiles('backend/go.sum') }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: 下载预构建前端资源
+        uses: actions/download-artifact@v4
         with:
-          node-version: "20"
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          name: frontend-dist-${{ needs.prepare.outputs.version }}
+          path: frontend/dist
 
-      - name: 缓存前端依赖
-        uses: actions/cache@v4
-        with:
-          path: frontend/node_modules
-          key: npm-frontend-${{ runner.os }}-${{ hashFiles('frontend/package-lock.json') }}
-
-      - name: 构建前端并复制到后端（嵌入资源）
+      - name: 复制前端到后端（嵌入资源）
         shell: bash
         run: |
           set -euo pipefail
           cd frontend
-          npm ci --no-audit --no-fund
-          npm run build
-
           test -d dist
 
           if [ -f ../scripts/prepare-embedded-frontend.sh ]; then
@@ -511,6 +501,50 @@ jobs:
           name: msm-${{ needs.prepare.outputs.version }}-${{ matrix.target }}-panabit
           path: dist/msm-${{ needs.prepare.outputs.version }}-${{ matrix.target }}-panabit.apx
           if-no-files-found: ignore
+
+  frontend:
+    name: 构建前端资源（单次构建供全平台复用）
+    needs: prepare
+    if: needs.prepare.outputs.skip == '0'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout MSM 仓库
+        uses: actions/checkout@v4
+        with:
+          repository: msm9527/msm
+          ref: ${{ needs.prepare.outputs.commit_sha }}
+          token: ${{ secrets.MSM_REPO_TOKEN }}
+          persist-credentials: false
+
+      - name: 注入稳定版版本号到 .version
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf "%s\n" "${{ needs.prepare.outputs.version }}" > .version
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: 构建前端生产包
+        working-directory: frontend
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci --no-audit --no-fund
+          npm run build
+          test -f dist/index.html
+
+      - name: 上传前端构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist-${{ needs.prepare.outputs.version }}
+          path: frontend/dist
+          if-no-files-found: error
+          retention-days: 1
 
   release:
     name: 发布构建产物（${{ needs.prepare.outputs.channel_name }}）
@@ -785,15 +819,17 @@ jobs:
             ### Docker 安装
 
             ```bash
-            # 拉取镜像
+            # 主控端镜像
             docker pull msmbox/msm:${{ needs.prepare.outputs.version }}
 
-            # 运行容器
             docker run -d \
               --name msm \
               -p 7777:7777 \
               -v /opt/msm:/opt/msm \
               msmbox/msm:${{ needs.prepare.outputs.version }}
+
+            # 独立 Docker 子节点镜像（可选）
+            docker pull msmbox/msm-agent:${{ needs.prepare.outputs.version }}
             ```
 
             ---
@@ -814,7 +850,7 @@ jobs:
             - 📖 [完整文档](https://doc.msmbox.net/)
             - 🚀 [快速开始](https://doc.msmbox.net/zh/guide/install.html)
             - 📝 [版本发布](${{ needs.prepare.outputs.release_docs_url }})
-            - 💬 [问题反馈](https://github.com/msm9527/msm/issues)
+            - 💬 [问题反馈](https://github.com/msm9527/msm-wiki/issues)
 
             ---
 
@@ -822,9 +858,10 @@ jobs:
 
             **🤖 由 GitHub Actions 自动构建**
 
-            [![GitHub](https://img.shields.io/badge/GitHub-msm9527%2Fmsm-blue?logo=github)](https://github.com/msm9527/msm)
+            [![GitHub](https://img.shields.io/badge/GitHub-msm9527%2Fmsm--wiki-blue?logo=github)](https://github.com/msm9527/msm-wiki)
             [![Documentation](https://img.shields.io/badge/docs-msm--wiki-green)](https://doc.msmbox.net/)
             [![Docker](https://img.shields.io/badge/docker-msmbox%2Fmsm-blue?logo=docker)](https://hub.docker.com/r/msmbox/msm)
+            [![Docker Agent](https://img.shields.io/badge/docker-msmbox%2Fmsm--agent-blue?logo=docker)](https://hub.docker.com/r/msmbox/msm-agent)
 
             </div>
 
@@ -929,7 +966,7 @@ jobs:
 
   docker-agent:
     name: 发布独立 Docker 子节点镜像
-    needs: [prepare, build]
+    needs: [prepare]
     if: needs.prepare.outputs.skip == '0'
     uses: ./.github/workflows/publish-docker-agent.yml
     with:
@@ -1167,12 +1204,12 @@ jobs:
             printf -v retention_quoted '%q' "${RETENTION_COUNT}"
             printf -v version_quoted '%q' "${VERSION}"
 
-            sshpass -p "${pass}" ssh "${SSH_ARGS[@]}" "${user}@${host}" "mkdir -p -- ${target_quoted} ${target_version_quoted}"
+            SSHPASS="${pass}" sshpass -e ssh "${SSH_ARGS[@]}" "${user}@${host}" "mkdir -p -- ${target_quoted} ${target_version_quoted}"
 
-            sshpass -p "${pass}" rsync -avz --no-perms --no-owner --no-group -e "${RSYNC_SSH}" --rsync-path="mkdir -p \"${TARGET}\" && rsync" upload/.version upload/install.sh "${user}@${host}:${TARGET}/"
-            sshpass -p "${pass}" rsync -avz --no-perms --no-owner --no-group -e "${RSYNC_SSH}" --rsync-path="mkdir -p \"${TARGET_VERSION}\" && rsync" upload/${VERSION}/ "${user}@${host}:${TARGET_VERSION}/"
+            SSHPASS="${pass}" sshpass -e rsync -avz --no-perms --no-owner --no-group -e "${RSYNC_SSH}" --rsync-path="mkdir -p \"${TARGET}\" && rsync" upload/.version upload/install.sh "${user}@${host}:${TARGET}/"
+            SSHPASS="${pass}" sshpass -e rsync -avz --no-perms --no-owner --no-group -e "${RSYNC_SSH}" --rsync-path="mkdir -p \"${TARGET_VERSION}\" && rsync" upload/${VERSION}/ "${user}@${host}:${TARGET_VERSION}/"
 
-            sshpass -p "${pass}" ssh "${SSH_ARGS[@]}" "${user}@${host}" \
+            SSHPASS="${pass}" sshpass -e ssh "${SSH_ARGS[@]}" "${user}@${host}" \
               "bash -s -- ${target_quoted} ${channel_quoted} ${retention_quoted} ${version_quoted}" \
               < .github/scripts/prune-remote-versions.sh
           done
@@ -1509,69 +1546,9 @@ jobs:
   pages:
     name: 构建并发布 Wiki 到 GitHub Pages
     needs: [prepare, release]
-    runs-on: ubuntu-latest
+    if: needs.prepare.outputs.skip == '0'
     permissions:
       contents: read
       pages: write
       id-token: write
-    concurrency:
-      group: pages
-      cancel-in-progress: false
-    steps:
-      - name: Checkout Wiki 仓库
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: main
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: 缓存文档依赖
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: npm-docs-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run Wiki regression tests
-        run: npm test
-
-      - name: Build with VitePress
-        run: npm run docs:build
-
-      - name: Set Pages artifact name
-        id: pages_artifact
-        run: echo "name=github-pages-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs/.vitepress/dist
-          name: ${{ steps.pages_artifact.outputs.name }}
-
-      - name: Deploy to GitHub Pages (attempt 1)
-        id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: ${{ steps.pages_artifact.outputs.name }}
-        continue-on-error: true
-
-      - name: Wait before retrying Pages deployment
-        if: steps.deployment.outcome == 'failure'
-        run: sleep 15
-
-      - name: Deploy to GitHub Pages (attempt 2)
-        if: steps.deployment.outcome == 'failure'
-        id: deployment_retry
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: ${{ steps.pages_artifact.outputs.name }}
+    uses: ./.github/workflows/deploy.yml

@@ -7,19 +7,17 @@ on:
       - '.github/workflows/openwrt-check.yml'
       - '.github/workflows/openwrt-repair-mirror.yml'
       - '.github/workflows/openwrt-update-luci.yml'
-      - '.github/workflows/restore-stable-1.2.6.yml'
       - '.github/workflows/daily-build-msm.yml'
       - '.github/workflows/daily-build-msm-beta.yml'
       - 'test/openwrt-*.test.cjs'
       - 'test/release-workflow.test.cjs'
   push:
-    branches: [codex/openwrt-packages]
+    branches: [main]
     paths:
       - '.github/openwrt/**'
       - '.github/workflows/openwrt-check.yml'
       - '.github/workflows/openwrt-repair-mirror.yml'
       - '.github/workflows/openwrt-update-luci.yml'
-      - '.github/workflows/restore-stable-1.2.6.yml'
       - '.github/workflows/daily-build-msm.yml'
       - '.github/workflows/daily-build-msm-beta.yml'
       - 'test/openwrt-*.test.cjs'
@@ -65,7 +63,8 @@ jobs:
             .github/workflows/openwrt-check.yml \
             .github/workflows/openwrt-repair-mirror.yml \
             .github/workflows/openwrt-update-luci.yml \
-            .github/workflows/restore-stable-1.2.6.yml \
+            .github/workflows/publish-docker-agent.yml \
+            .github/workflows/deploy.yml \
             .github/workflows/daily-build-msm.yml \
             .github/workflows/daily-build-msm-beta.yml
 

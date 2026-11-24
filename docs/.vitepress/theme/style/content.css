@@ -10,8 +10,9 @@
 
 /*
  * 文档页眉标：h1 上方一条等宽小标签（当前侧栏分组名），前缀一段琥珀短线，
- * 呼应首页 Hero 的品牌名标注。由 theme/index.ts 注入到 h1 之前。
+ * 呼应首页 Hero 的品牌名标注。由 MsmDocEyebrow.vue 通过 doc-before 插槽渲染。
  */
+.VPDoc .msm-doc-eyebrow,
 .vp-doc .msm-doc-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -25,6 +26,7 @@
   color: var(--msm-ink-3);
 }
 
+.VPDoc .msm-doc-eyebrow::before,
 .vp-doc .msm-doc-eyebrow::before {
   content: '';
   width: 20px;
@@ -151,6 +153,18 @@
 .vp-doc img {
   border: 1px solid var(--msm-line);
   border-radius: var(--msm-radius-md);
+  background: var(--msm-bg-soft);
+  cursor: zoom-in;
+  transition: border-color var(--msm-fast), box-shadow var(--msm-fast);
+}
+
+.vp-doc img:hover {
+  border-color: var(--msm-brand-line);
+  box-shadow: var(--msm-shadow-2);
+}
+
+.vp-doc a img {
+  cursor: pointer;
 }
 
 /* ==================== 列表 ==================== */
@@ -259,7 +273,7 @@
   font-weight: var(--msm-weight-medium);
   letter-spacing: var(--msm-tracking-label);
   text-transform: uppercase;
-  color: var(--msm-ink-4);
+  color: var(--msm-ink-3);
   transition: color var(--msm-fast);
 }
 
@@ -275,7 +289,7 @@
 
 .vp-doc [class*='language-'] .line-numbers-wrapper {
   font-family: var(--msm-font-mono);
-  color: var(--msm-ink-4);
+  color: var(--msm-ink-3);
 }
 
 /* ==================== 表格 ==================== */
@@ -925,6 +939,22 @@
 
 /* ==================== 响应式 ==================== */
 
+@media (max-width: 1279px) {
+  /*
+   * 中窄屏表格：允许横向滚动并允许表头换行，避免宽表格溢出正文列或压住右侧目录。
+   */
+  .vp-doc table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .vp-doc th {
+    white-space: normal;
+  }
+}
+
 @media (max-width: 768px) {
   .vp-doc h1 {
     font-size: var(--msm-text-3xl);
@@ -937,21 +967,6 @@
 
   .vp-doc h3 {
     font-size: var(--msm-text-md);
-  }
-
-  /*
-   * 窄屏表格：允许横向滚动，但不再用 white-space: nowrap 撑宽单元格
-   * —— 那正是旧样式把第三列挤出屏幕、看起来像被裁掉的原因。
-   */
-  .vp-doc table {
-    display: block;
-    max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .vp-doc th {
-    white-space: normal;
   }
 
   .vp-doc th,

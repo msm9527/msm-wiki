@@ -1,6 +1,6 @@
 # API 参考
 
-MSM 后端使用 REST、SSE 和 WebSocket。所有业务接口统一以 `/api/v1` 开头；本文提供稳定的路径分组和认证边界，具体请求字段以当前 Web 界面发出的请求和对应版本代码为准。
+MSM 后端基于 REST、SSE 和 WebSocket 构建，所有业务接口统一以 `/api/v1` 开头。本页给出稳定路径分组、认证模型与权限边界；完整端点清单与字段结构以源码内自动生成的 OpenAPI 规范（`backend/docs/openapi.yaml`）和当前 Web 端请求为准。
 
 ## 基本地址
 
@@ -8,11 +8,11 @@ MSM 后端使用 REST、SSE 和 WebSocket。所有业务接口统一以 `/api/v1
 http://<MSM-IP>:7777/api/v1
 ```
 
-启用 HTTPS 后改用 `https://`。不要关闭证书验证来掩盖证书配置错误。
+启用 HTTPS 后请改用 `https://`，不要为了绕过配置问题关闭 TLS 证书校验。
 
-## 认证
+## 认证方式
 
-### 登录
+### 1. 登录与会话 Cookie
 
 ```http
 POST /api/v1/auth/login
@@ -24,68 +24,71 @@ Content-Type: application/json
 }
 ```
 
-Web 界面使用安全 Cookie 会话；API 客户端也可按当前响应使用 Bearer Token。登录、刷新、改密、激活等敏感接口有额外速率限制。
+Web 界面默认使用安全 Cookie 会话，浏览器内的 SSE / WebSocket 同样复用会话 Cookie；登录、刷新、改密与激活等接口带有独立速率限制。
 
-### Bearer Token
+### 2. Bearer Token 与长期 API Token
 
 ```bash
 curl -H "Authorization: Bearer $TOKEN" \
   http://<MSM-IP>:7777/api/v1/auth/me
 ```
 
-### API Token
+长期 API Token 可在 **系统设置 → 系统管理 → API Token 管理** 创建（同样适用于 [MSM Assistant 浏览器助手](/zh/guide/assistant)）。Token 仅在创建时完整展示一次，请妥善保存并遵循最小权限角色原则。
 
-长期 Token 从 **系统设置 → 系统管理 → API Token 管理** 创建，需要相应 Pro 能力。Token 只在创建时完整显示，应立即存入密码管理器，并选择满足任务所需的最低角色。
+## 权限与门控边界
 
-### Cookie
+后端在验证身份后，还会按接口级联校验：
 
-浏览器内的 SSE / WebSocket 通常复用登录 Cookie。跨域客户端还会受到 Origin、CORS 和 Cookie 属性限制。
+- **用户角色**：`admin`、`operator`、`viewer`
+- **应用商店安装状态与系统功能开关**
+- **Pro 授权状态、细分能力与本机授权 Proof**
+- **高风险写操作的在线动作确认**
 
-## 授权不只检查 Token
+有效 Token 并不代表拥有全部接口权限；遇到 `403` 时请读取响应体中的 `code` 字段，不要盲目重试。
 
-后端会继续检查：
-
-- 用户角色：`admin`、`operator`、`viewer`
-- 系统功能开关
-- 基础 Pro 和细分许可证能力
-- 本机授权 Proof
-- 高风险写操作的短期在线授权与 Action Attestation
-
-有效 Token 不代表可以调用所有写接口。遇到 `403` 时读取响应中的 `code`，不要通过重试绕过权限。
-
-## 核心路径组
+## 核心路径分组
 
 | 路径组 | 主要用途 |
 |--------|----------|
-| `/auth` | 登录、退出、刷新与当前用户 |
-| `/setup` | 初始化、组件下载 / 上传、HTTPS 与系统重置 |
-| `/services` | 托管服务查询、启停、配置和日志 |
-| `/monitor` | 系统、硬件、资源和网络监控 |
-| `/mosdns` | DNS 统计、规则、客户端、日志、配置和版本 |
-| `/proxy/controller` | 当前活动代理核心的统一控制接口 |
-| `/mihomo` | Clash 特有版本、配置和回家接口；路径保留内部技术标识 |
-| `/singbox` | Sing-Box 特有版本、配置和回家接口 |
-| `/edge` | 域名服务、DDNS、证书、反向代理和发布工作流 |
-| `/cloudflare/tunnel` | Cloudflare Tunnel 多域名 Web 服务发布 |
-| `/networking` | EasyTier、Tailscale、WireGuard 自建私网 |
-| `/network` | FakeIP、本机受管网络诊断与规则恢复 |
-| `/docker-center` | Docker 资源与节点控制 |
-| `/nettools` | 网络诊断与实时任务 |
-| `/config`、`/history` | 全局配置树、校验、历史与回滚 |
-| `/backups` | 备份、存储、导入与恢复 |
-| `/users`、`/api-tokens` | 用户与长期 Token |
-| `/settings`、`/user-settings` | 系统和用户设置 |
-| `/license-activation` | 授权状态、指纹、激活与撤销 |
-| `/update`、`/component-updates` | MSM 和组件更新 |
-| `/events` | SSE 事件流 |
+| `/auth` | 登录、登出、会话刷新与当前用户信息 |
+| `/setup` | 初始化向导、组件下载/上传、HTTPS 与系统重置 |
+| `/apps` | 应用商店目录查询、模块安装/卸载与依赖状态 |
+| `/icons` | 图标库管理、图标上传/搜索与服务/策略组/容器图标绑定 |
+| `/services` | 托管子服务状态查询、启停、重载与日志 |
+| `/monitor` | 主机 CPU、内存、磁盘、流量、温度与系统监控 |
+| `/mosdns` | DNS 统计、规则、客户端、AdGuard 拦截、Geosite、自动分类、批量重建、备份、日志与版本 |
+| `/proxy/controller` | 当前活动代理核心的统一控制面（节点、规则、连接、Smart 权重与降权） |
+| `/proxy/icon-linkage` | 代理策略组与图标库的自动联动配置 |
+| `/mihomo` | Clash 专属版本、配置、Smart 资产与回家接口（路径保留内部技术标识） |
+| `/singbox` | Sing-Box 专属版本、配置与回家接口 |
+| `/home-access/shares` | 远程回家终端配置分享链接创建、撤销与公开下载 |
+| `/edge` | Edge 网关概览、拓扑、DDNS、ACME 证书、L7 反向代理、L4 端口转发与 STUN 隧道 |
+| `/cloudflare/tunnel` | Cloudflare Tunnel 隧道配置、部署与启停 |
+| `/networking` | EasyTier、Tailscale、WireGuard 自建私网、节点与终端分发 |
+| `/network` | FakeIP 一致性诊断、规则预演与本机受管网络规则恢复 |
+| `/docker-center` | 多节点 Docker 容器、镜像、存储卷、网络、应用栈、更新检查、事件与操作审计 |
+| `/nettools` | 网络诊断 REST 接口与实时流 WebSocket 任务 |
+| `/notify` | 通知渠道配置、测试推送与事件通知规则 |
+| `/storage` | 存储占用分析、目录清理预览与安全清理 |
+| `/assistant` | MSM Assistant 浏览器助手快速连接状态与协同接口 |
+| `/policy-sync` | 策略同步任务与规则源同步状态 |
+| `/config`、`/history` | 全局配置树编辑、校验、历史版本对比与回滚 |
+| `/backups` | v3 分级备份（configuration / offline / legacy）、导入导出与恢复 |
+| `/users`、`/api-tokens` | 用户角色与长期 API Token 管理 |
+| `/settings`、`/user-settings` | 系统全局设置、功能开关、下载镜像源与个人偏好 |
+| `/license-activation` | Pro 授权状态、硬件指纹、激活、刷新与解绑 |
+| `/update`、`/component-updates` | MSM 主程序及核心组件的检查、下载、安装与回滚 |
+| `/audit` | 系统关键安全与运维审计日志 |
+| `/uninstall` | Web 端安全卸载预览与触发流程 |
+| `/events` | 全局与分模块 SSE 实时事件流 |
 
-## 统一代理接口
+## 常用业务端点速查
 
-新客户端应优先使用 `/proxy/controller`，它会根据当前活动核心转发到 Clash 或 Sing-Box。
+### 统一代理控制面（`/proxy/controller`）
 
-常用接口：
+推荐第三方工具与扩展优先调用 `/proxy/controller`，后端会自动路由至当前运行的 Clash 或 Sing-Box 核心：
 
-| 方法 | 路径 | 最低常见角色 |
+| 方法 | 路径 | 常见最低角色 |
 |------|------|--------------|
 | `GET` | `/proxy/controller/capabilities` | viewer |
 | `GET` | `/proxy/controller/overview` | viewer |
@@ -98,11 +101,7 @@ curl -H "Authorization: Bearer $TOKEN" \
 | `PUT` | `/proxy/controller/providers/proxies/:name` | operator |
 | `POST` | `/proxy/controller/validate-restart` | operator |
 
-高级策略、规则集和配置写入还会检查 `proxy.manage` 或非 Pro 数量限制。
-
-### 远程回家
-
-Clash 与 Sing-Box 路径结构一致：
+### 远程回家与分享（`/mihomo`、`/singbox`、`/home-access/shares`）
 
 ```text
 GET  /api/v1/{mihomo|singbox}/home-access
@@ -110,37 +109,27 @@ GET  /api/v1/{mihomo|singbox}/home-access/detect
 PUT  /api/v1/{mihomo|singbox}/home-access
 POST /api/v1/{mihomo|singbox}/home-access/validate
 POST /api/v1/{mihomo|singbox}/home-access/test
+GET/POST/DELETE /api/v1/home-access/shares
 ```
 
-先读取并校验，再保存 / 应用；不要直接拼接核心配置文件。
-
-## 域名服务
-
-所有 `/edge` 接口要求模块开关启用并具备基础 Pro。
+### Edge 域名与端口网关（`/edge`）
 
 | 路径 | 用途 |
 |------|------|
-| `/edge/overview`、`/edge/events`、`/edge/runtime` | 概览、事件和代理运行时 |
-| `/edge/publish/workflows` | 创建、预检、继续和取消发布工作流 |
-| `/edge/ddns/credentials` | DNS 服务商凭据 |
-| `/edge/ddns/tasks` | DDNS 任务、同步、测试和批处理 |
-| `/edge/certificates` | 证书预检、申请、导入、下载和部署 |
-| `/edge/proxies` | 反向代理、验证、应用、健康和诊断 |
+| `/edge/overview`、`/edge/topology`、`/edge/runtime` | 概览、服务拓扑与内置网关引擎状态 |
+| `/edge/publish/workflows` | 一键发布域名工作流的创建、预检、继续与取消 |
+| `/edge/ddns/credentials`、`/edge/ddns/tasks` | DNS 服务商凭据、双栈 DDNS 同步与诊断 |
+| `/edge/certificates` | ACME 证书预检、签发、续期、导入与下载 |
+| `/edge/proxies` | L7 反向代理规则、上游发现探测、校验与热加载 |
+| `/edge/forwards` | L4 TCP / UDP 端口转发规则管理 |
+| `/edge/tunnels` | STUN NAT 穿透隧道管理 |
 
-凭据、私钥和内部运行时路径不会原样出现在普通响应中。不要把加密存储误解为可以在请求日志中输出秘密。
-
-## Cloudflare 与自建私网
-
-### 网页穿透
+### 自建私网与 Cloudflare（`/networking`、`/cloudflare/tunnel`）
 
 ```text
 GET/PUT /api/v1/cloudflare/tunnel
 POST    /api/v1/cloudflare/tunnel/{validate|provision|install|setup|start|stop|restart|test}
-```
 
-### EasyTier / Tailscale / WireGuard
-
-```text
 GET/PUT /api/v1/networking
 GET     /api/v1/networking/endpoints
 POST    /api/v1/networking/install
@@ -149,34 +138,25 @@ POST    /api/v1/networking/peers
 DELETE  /api/v1/networking/peers/:id
 ```
 
-## Docker 管理
+### Docker 管理（`/docker-center`）
 
-`/docker-center` 要求基础 Pro、有效 Proof 和对应角色。通过查询参数或当前选择访问远端节点时，控制端会代理同一套资源契约。
-
-主要资源：
+切换远端节点时，控制端会透明代理同一套资源契约（`/docker-agent` 为内部 Agent 登记与隧道复用协议，不面向普通客户端）：
 
 ```text
-/docker-center/overview
 /docker-center/engine/health
 /docker-center/containers
 /docker-center/images
 /docker-center/volumes
 /docker-center/networks
 /docker-center/stacks
-/docker-center/compose/validate
-/docker-center/system
+/docker-center/updates
+/docker-center/operations
 /docker-center/events
-/docker-center/templates
+/docker-center/system
 /docker-center/nodes
 ```
 
-大多数读取要求 viewer；常规生命周期要求 operator；创建 / 删除容器、文件写入、脚本、终端、节点管理和清理通常要求 admin。以具体响应为准。
-
-`/docker-agent` 是 Agent 注册、回连与控制端代理协议，不是面向普通第三方客户端的公共 API。
-
-## 网络工具
-
-### FakeIP 与外部网关诊断
+### 网络诊断与 FakeIP 校验（`/network`、`/nettools`）
 
 ```text
 GET  /api/v1/network/diagnostics
@@ -184,41 +164,9 @@ POST /api/v1/network/plan
 POST /api/v1/network/reconcile
 ```
 
-三个接口分别读取本机一致性、预览拟议配置和恢复 MSM 自己创建的网络规则。读取
-结果中的 `checks[]` 以 `code/status/scope/expected/actual` 描述检查；UniFi 的
-DHCP/RA、静态路由、防火墙和客户端回程无法由 MSM 观察，会明确返回
-`status=unknown`。`reconcile` 不会修改 UniFi，也不会接管未知的 nftables 或策略
-路由资源。`via_gateway` 当前保持 fail-closed，请使用 `system` 模式并按
-[UniFi 配置](/zh/guide/unifi) 完成外部网关设置。
+`/nettools` 提供 `ping`、`dns/query`、`portscan`、`ipv6/check`、`nat/check`、`traceroute`、`http/test`、`speedtest`、`ipinfo`、`whois`、`subnet/calc`、`wol`、`ssl/info`、`interfaces`、`arp/scan`、`mtr`、`iperf` 等 REST 接口，以及 `/nettools/ws/{ping|traceroute|mtr|portscan|speedtest}` 实时流 WebSocket。
 
-常用 REST 路径：
-
-```text
-/nettools/health
-/nettools/ping
-/nettools/dns/query
-/nettools/portscan
-/nettools/ipv6/check
-/nettools/nat/check
-/nettools/traceroute
-/nettools/http/test
-/nettools/speedtest
-/nettools/ipinfo
-/nettools/whois
-/nettools/subnet/calc
-/nettools/wol
-/nettools/ssl/info
-/nettools/interfaces
-/nettools/arp/scan
-/nettools/mtr
-/nettools/iperf
-```
-
-实时任务使用 `/nettools/ws/{ping|traceroute|mtr|portscan|speedtest}`。端口扫描、HTTP、WOL、iPerf3 等操作要求 operator。
-
-## SSE 与 WebSocket
-
-SSE 入口：
+## SSE 实时事件流
 
 ```text
 GET /api/v1/events
@@ -229,11 +177,11 @@ GET /api/v1/events/mihomo
 GET /api/v1/events/logs/:service
 ```
 
-浏览器优先使用安全 Cookie。生产环境不建议把长期 Token 放进 URL，因为 URL 可能进入代理、历史和日志。
+生产环境请勿把长期 API Token 拼接在 URL 查询参数中，以免泄漏至反向代理访问日志或浏览器历史。
 
-## 错误处理
+## 错误响应规范
 
-错误响应使用结构化 JSON，通常包含：
+所有错误返回结构化 JSON：
 
 ```json
 {
@@ -242,34 +190,19 @@ GET /api/v1/events/logs/:service
 }
 ```
 
-常见状态：
-
-- `400`：请求字段或配置校验失败
-- `401`：未认证或凭据失效
-- `403`：角色、Pro、Proof 或在线授权不足
-- `404`：资源或路由不存在
-- `409`：状态冲突、依赖或并发操作冲突
-- `429`：速率限制
-- `500`：后端执行失败
-- `503`：功能开关关闭、目标服务或节点不可用
-
-客户端应保留 `code` 和服务端消息，不要只显示 HTTP 状态码。
-
-## 安全建议
-
-- 只将 API 用于自有或已获授权的设备、网络和账户；集成方仍需自行满足适用的授权、隐私与数据保护要求
-- 使用 HTTPS
-- Token 只授予所需角色与能力
-- 不把 Token 放入 URL、日志或仓库
-- 写操作先读取当前状态，处理并发变化与 `409`
-- 发布、更新、核心切换等长操作监听进度，不要重复提交
-- 对 `429` 和临时 `5xx` 使用有上限的退避重试
-- 不自动重试删除、清理、回滚、激活等非幂等高风险操作
+| 状态码 | 含义 |
+|--------|------|
+| `400` | 请求参数或配置校验失败 |
+| `401` | 未登录或 Token 失效 |
+| `403` | 角色、Pro 授权或能力不足 |
+| `404` | 资源不存在 |
+| `409` | 状态冲突、存在引用依赖或并发写入冲突 |
+| `429` | 触发接口速率限制 |
+| `500` | 后端执行异常 |
+| `503` | 模块未安装、功能开关关闭或远端节点离线 |
 
 ## 下一步
 
-- [合规使用规范](/zh/legal/acceptable-use)
+- [浏览器助手（MSM Assistant）](/zh/guide/assistant) - 使用 API Token 快速连接浏览器扩展
+- [CLI 命令参考](/zh/guide/cli) - 终端管理与脚本化运维
 - [隐私与数据安全](/zh/legal/privacy-security)
-- [授权管理](/zh/guide/license)
-- [统一代理服务](/zh/guide/proxy)
-- [系统诊断](/zh/guide/diagnostics)

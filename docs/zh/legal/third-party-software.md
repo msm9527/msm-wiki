@@ -1,94 +1,69 @@
 ---
 title: 第三方软件与许可证
-description: MSM 闭源代码与第三方开源程序、依赖、规则数据及外部服务的许可边界
+description: MSM 自有代码与第三方开源程序、依赖、规则数据及外部服务的许可边界
 outline: deep
 pageClass: legal-page
 ---
 
 # 第三方软件与许可证
 
-> 版本：`1.0` · 更新日期：2026 年 8 月 19 日
+> 版本：`1.2` · 更新日期：2026 年 11 月 24 日
 
 ::: info 核心原则
-MSM 自有代码采用闭源商业许可。MSM 使用开源依赖或管理开源程序，不会把第三方版权转移给 MSM；第三方许可证也不能替代 MSM 自有代码的许可。每一部分分别适用自己的权利和义务。
+MSM 自有代码适用其自身软件许可；MSM 使用开源依赖或管理开源程序，不会把第三方版权转移给 MSM，第三方许可证也不能替代 MSM 自有代码的许可。每一部分分别适用各自的权利与义务。
 :::
 
-## 闭源与开源组件可以共存
+## 自研代码与开源组件的关系
 
-MSM 的控制面、界面、安装升级逻辑和其他自研部分不因“兼容或管理开源软件”就自动成为开源软件。与此同时，闭源、收费也不免除 MSM 对实际复制、编译、打包、镜像或分发的第三方内容履行许可证义务。
+MSM 的控制面、界面、内置纯 Go 反向代理引擎、安装升级逻辑与其他自研部分保持自身许可边界；同时，MSM 对随包编译、打包或分发的第三方开源组件严格保留其版权声明与许可证文本（见发布包内的 `THIRD_PARTY_NOTICES.md`、`OSS_PROVENANCE.md` 与 `licenses/` 目录）。
 
-需要区分以下关系：
+常见集成关系如下：
 
-| 使用方式 | 常见情形 | 主要合规动作 |
+| 使用方式 | 常见情形 | 许可边界 |
 | --- | --- | --- |
-| 编译进 MSM 二进制 | Go、Swift、前端依赖 | 按实际产物保留许可证、版权、NOTICE 和必要源码义务 |
-| 作为独立进程运行 | MosDNS、Clash、Sing-Box、边缘数据面 | 分别保留程序许可证；强 copyleft 程序按其许可证提供对应源码 |
-| 由安装器下载 | 组件、工具、规则数据 | 记录准确来源、版本、校验值、许可证和下载后的通知方式 |
-| 连接第三方服务 | DNS、ACME、Cloudflare、爱发电等 | 遵守服务条款、隐私规则、商标和地区限制 |
-| 用户自行导入 | 节点、订阅、规则、镜像、配置 | 用户负责来源授权；MSM 不因能够导入而取得或授予相关权利 |
+| 编译进 MSM 二进制 | Go、前端与系统框架依赖 | 随发布包提供第三方声明与对应许可证正文 |
+| 作为独立进程管理 | MosDNS、Clash、Sing-Box、EasyTier、Tailscale、cloudflared | 分别独立运行并适用各自许可证及源码条款 |
+| 按需下载与更新 | 核心二进制、规则数据、GeoIP / Geosite | 从各自上游或镜像获取，遵守对应发布条款 |
+| 连接第三方服务 | DNS 服务商、ACME、Cloudflare、爱发电等 | 适用对应平台的服务条款与隐私政策 |
+| 用户自行导入 | 节点、订阅、规则、容器镜像、自定义配置 | 由用户负责来源授权与合规使用 |
 
-独立进程之间通过命令、文件或网络接口协作，不等于可以删除这些程序自己的许可证，也不当然决定 MSM 自有代码的许可证。是否形成派生作品应以具体链接、修改、组合和交付方式进行判断。
+## 主要受管与集成组件
 
-## 当前主要第三方类别
+下表为常见第三方组件的参考说明，具体随包依赖版本以对应版本发布包内的 `THIRD_PARTY_NOTICES.md` 为准：
 
-下表是面向用户的代表性说明，不是某一版本完整的软件物料清单。正式发布物应以随包声明、锁文件、SBOM 和实际二进制为准。
-
-| 组件或类别 | 在 MSM 中的关系 | 许可证或条款提示 |
+| 组件或类别 | 在 MSM 中的关系 | 许可证或条款说明 |
 | --- | --- | --- |
-| [MosDNS](https://github.com/IrineSistiana/mosdns) | 由 MSM 安装、配置和独立运行 | 适用其发布版本随附的 GPL 许可证及对应源码义务 |
-| [Clash 兼容核心上游](https://github.com/MetaCubeX/mihomo) | 由 MSM 安装、配置和独立运行 | 上游采用 MIT；再分发时应保留版权与许可文本 |
-| [Sing-Box](https://github.com/SagerNet/sing-box) / reF1nd 派生构建 | 由 MSM 下载并独立运行 | Sing-Box 上游采用 GPL-3.0-or-later；派生构建须提供与二进制匹配的适用源码和许可证 |
-| [Caddy](https://github.com/caddyserver/caddy) / MSM Edge 数据面 | 独立数据面及相关 Go 模块 | Caddy 上游采用 Apache-2.0，应保留 LICENSE、适用 NOTICE 和修改说明 |
-| [EasyTier](https://github.com/EasyTier/EasyTier) | 自建私网组件 | 上游采用 LGPL-3.0；分发前应完成弱 copyleft 交付复核 |
-| [go-gost](https://github.com/go-gost/gost) | 隧道与桥接组件 | 上游采用 MIT，应保留版权与许可文本 |
-| [cloudflared](https://github.com/cloudflare/cloudflared) | Cloudflare 隧道客户端 | 开源客户端适用 Apache-2.0；Cloudflare 服务本身另受服务条款约束 |
-| Tailscale / Headscale / WireGuard 生态 | 私网和远程接入 | 各组件分别适用自己的许可证和服务条款，不应按单一许可证概括 |
-| WARP 客户端与 Cloudflare One | 可选外部客户端或服务 | 不是因为可下载就成为 MSM 自有或开源组件，应单独核对厂商条款和地区可用性 |
-| 规则数据、GeoIP、Geosite、图标和 UI | 模板、嵌入资源或运行时下载 | 数据库、规则、图片和品牌可能有不同许可证、署名和再分发条件 |
+| [MosDNS](https://github.com/IrineSistiana/mosdns) | 由 MSM 安装、配置并独立运行 | 适用其发布版本随附的 GPL 许可证 |
+| [Clash 兼容核心上游](https://github.com/MetaCubeX/mihomo) | 由 MSM 安装、配置并独立运行 | 上游采用 MIT 许可证 |
+| [Sing-Box](https://github.com/SagerNet/sing-box) / reF1nd 派生构建 | 由 MSM 下载并独立运行 | 适用 GPL-3.0-or-later 及其对应源码条款 |
+| 内置 Edge 反向代理引擎 / 可选外部 [Caddy](https://github.com/caddyserver/caddy) | 默认由 MSM 内置纯 Go 引擎在进程内处理；仅在显式配置外部兼容模式时通过 HTTP 连接用户自建 Caddy | 外部 Caddy 适用 Apache-2.0（MSM 发布包不分发 Caddy 二进制） |
+| [EasyTier](https://github.com/EasyTier/EasyTier) | 自建私网组件 | 上游采用 LGPL-3.0 |
+| [go-gost](https://github.com/go-gost/gost) | 隧道与桥接组件 | 上游采用 MIT 许可证 |
+| [cloudflared](https://github.com/cloudflare/cloudflared) | Cloudflare 隧道客户端 | 客户端采用 Apache-2.0；Cloudflare 服务另受其服务条款约束 |
+| Tailscale / Headscale / WireGuard 生态 | 私网和远程接入 | 各组件分别适用各自许可证与服务条款 |
+| WARP 客户端与 Cloudflare One | 可选外部客户端或服务 | 适用 Cloudflare 对应服务条款 |
+| 规则数据、GeoIP、Geosite、图标库 | 模板或运行时下载 | 按各自数据与资源许可证使用 |
 
-## GPL 程序不会被商业 EULA 覆盖
+## GPL 等开源组件的独立边界
 
-MSM 可以对自有代码采用商业 EULA，但不能用该 EULA 删除 MosDNS、Sing-Box 或其他 GPL 程序的权利与义务。若 MSM 官方构建、镜像或下载仓库向用户提供 GPL 二进制，应至少确保：
-
-- 分发物或明显可访问的位置提供完整 GPL 文本；
-- 清楚标明程序名称、版本、上游和 MSM 使用的精确构建；
-- 提供与该二进制对应的完整源码及必要构建信息，或采用许可证允许的有效源码提供方式；
-- 对修改、fork 和补丁保留可追溯记录；
-- 源码获取方式与二进制同样明确、可持续，不以模糊的上游首页代替精确来源。
-
-上述交付要求针对相应 GPL 程序，不表示 MSM 自有的独立代码因此自动获得同一许可证。
-
-## 发布物应提供什么
-
-每个正式版本、安装包、桌面包和容器镜像都应针对实际内容生成并归档：
-
-1. 第三方软件清单和准确版本；
-2. CycloneDX 或 SPDX 格式的 SBOM；
-3. 机器可读的许可证报告；
-4. 完整 LICENSE、NOTICE、版权和署名文本；
-5. GPL/LGPL/MPL 等许可证要求的源码或源码获取方式；
-6. fork、补丁、例外批准和人工复核记录；
-7. 与发布文件校验值或镜像 digest 的对应关系。
-
-仅在 Wiki 中列出上游名称，不能替代随实际发布物履行许可证义务。
+MSM 对自有代码的许可条款不会削减 MosDNS、Sing-Box 等独立运行的 GPL 程序的开源权利与义务；反之，通过命令行、文件或网络协议管理这些独立进程，也不会改变 MSM 自有代码的许可属性。
 
 ## 用户自行配置的第三方内容
 
 MSM 不提供代理节点、订阅、带宽或网络线路。用户自行填写 URL、导入配置或连接第三方服务时，应确认：
 
 - 内容来源合法，自己拥有使用和处理权限；
-- 没有把仅限个人使用、禁止转售或禁止再分发的内容提供给他人；
-- 没有把密钥、Token、订阅 URL 或付费内容写入公开模板和 Issue；
-- 第三方服务允许所在地区、用途、自动化方式和访问频率；
-- 迁移、备份和导出不会违反许可证、合同或个人信息要求。
+- 不将仅限个人使用或禁止再分发的内容对外公开；
+- 不将密钥、Token、订阅 URL 或敏感配置写入公开模板与 Issue；
+- 遵守对应第三方服务的频率、用途和地区限制。
 
 ## 商标与兼容性表述
 
-“兼容”“支持”“可管理”只表示技术关系，不表示获得第三方赞助、认证、代理权或商标授权。MosDNS、Clash、Sing-Box、Caddy、Docker、Cloudflare、Tailscale、WireGuard、爱发电及其他名称和标识归各自权利人所有。
+“兼容”“支持”“可管理”仅表示技术集成关系，不代表获得第三方赞助、认证或商标授权。MosDNS、Clash、Sing-Box、Caddy、Docker、Cloudflare、Tailscale、WireGuard、爱发电及其他名称与标识均归各自权利人所有。
 
-## 发现许可证问题
+## 许可证反馈
 
-如果发现发布包缺少许可证、来源不明、源码与二进制不匹配或第三方署名错误，请通过 [Wiki Issues](https://github.com/msm9527/msm-wiki/issues) 提供版本、文件名、下载地址和问题描述。不要在公开 Issue 中附带授权码、私钥、订阅地址或其他敏感数据。
+如发现发布包中的第三方声明、许可证文本或来源标注存在遗漏或错误，欢迎通过 [Wiki Issues](https://github.com/msm9527/msm-wiki/issues) 提交版本、文件名和具体说明。
 
 相关文档：
 

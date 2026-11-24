@@ -1,90 +1,47 @@
-# MSM Docker 镜像
+# MSM Docker 部署说明
 
-MSM 官方镜像支持 `linux/amd64`、`linux/arm64` 和 `linux/arm/v7`。ARMv6 可使用发布页的静态二进制，但 Debian 13 镜像不提供 ARMv6 运行环境。
+官方镜像同时提供主控端镜像 `msmbox/msm` 与独立 Docker 子节点镜像 `msmbox/msm-agent`，支持 `linux/amd64`、`linux/arm64` 和 `linux/arm/v7`（Debian 13 / Alpine 3.23 运行基线）。
 
-完整部署、网络模式、权限、端口和排错说明见 [Docker 安装文档](https://doc.msmbox.net/zh/guide/docker)。
+完整图文教程见官方文档：
+- [Docker 部署教程](https://doc.msmbox.net/zh/guide/docker)
+- [Docker Center 与独立子节点 Agent](https://doc.msmbox.net/zh/guide/docker-center)
 
-## 推荐：Docker Compose
+## 快速启动（Docker Compose）
 
-仓库提供的 `docker-compose.yml` 默认使用 Bridge 网络和显式端口映射。先在 `.env` 固定镜像版本并设置随机 JWT 密钥：
-
-```dotenv
-MSM_IMAGE=msmbox/msm:2.0.3
-JWT_SECRET=替换为至少32个随机字符
-MSM_DATA_DIR=./data
-MSM_WEB_PORT=7777
+```yaml
+services:
+  msm:
+    image: msmbox/msm:latest
+    container_name: msm
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      MSM_PORT: "7777"
+      MSM_CONFIG_DIR: /opt/msm
+      TZ: Asia/Shanghai
+    volumes:
+      - ./data/msm:/opt/msm
+      - ./logs/msm:/var/log/msm
+      # 如需通过本机 Docker Center 管理宿主机容器，取消下一行注释：
+      # - /var/run/docker.sock:/var/run/docker.sock:ro
 ```
 
-```bash
-docker compose up -d
-docker compose ps
-docker compose logs --tail=100 msm
-```
+启动后访问 `http://<宿主机IP>:7777` 完成初始化向导。
 
-访问 `http://<宿主机地址>:7777`。
+> 如需查看独立发布包（含 ARMv5/ARMv6 静态二进制）或历史版本标签，请前往 [Releases 页面](https://github.com/msm9527/msm-wiki/releases)。
 
-## Docker Run
+## 独立 Docker 子节点（`msmbox/msm-agent`）
 
-```bash
-docker run -d \
-  --name msm \
-  --restart unless-stopped \
-  --cap-add NET_ADMIN \
-  --cap-add NET_RAW \
-  --device /dev/net/tun:/dev/net/tun \
-  --sysctl net.ipv4.ip_forward=1 \
-  --sysctl net.ipv6.conf.all.forwarding=1 \
-  --sysctl net.ipv6.conf.all.accept_ra=2 \
-  -p 7777:7777 \
-  -p 53:53/udp \
-  -p 1053:1053/udp \
-  -p 7890:7890 \
-  -p 7891:7891 \
-  -p 7892:7892 \
-  -e JWT_SECRET='替换为至少32个随机字符' \
-  -e MSM_CONFIG_DIR=/opt/msm \
-  -e TZ=Asia/Shanghai \
-  -v /opt/msm:/opt/msm \
-  msmbox/msm:2.0.3
-```
+如需在另一台 Docker 主机（NAS / 服务器 / NAT 后设备）接入 MSM Docker Center，无需部署完整 MSM，只需运行轻量子节点镜像 `msmbox/msm-agent:latest`：
 
-`NET_ADMIN`、`NET_RAW` 和 `/dev/net/tun` 用于 TUN、透明代理、诊断与受管隧道。默认不需要 `--privileged`。
+- **主动回连模式（推荐，适用于 NAT 后或跨网段主机）**：在 MSM 的 **Docker 管理 → 添加节点 → 主动回连** 中生成一次性令牌和一键 `docker run` / Compose 命令，子节点仅发起出站 HTTPS 隧道连接，不暴露监听端口。
+- **直连模式**：映射 `7788` 端口并挂载 TLS 证书后，通过 `docker exec msm-docker-agent msm-docker-agent token` 获取一次性配对令牌登记到 MSM。
 
-## 网络模式
+## 问题反馈
 
-- **Bridge（默认）**：使用 `-p` / `ports:` 只发布需要的端口；容器中的 `127.0.0.1` 指向容器自身。
-- **Host（Linux 可选）**：删除所有端口映射，设置 `network_mode: host` 和 `MSM_NETWORK_SCOPE=host`；只在确实需要直接使用宿主网络时启用。
-
-Edge 反向代理和远程回家使用自定义监听端口时，还要为对应 TCP / UDP 端口添加映射。映射端口不会让 MSM 自动监听，只有启用相应配置后才会创建监听器。
-
-## 数据与安全
-
-- 必须持久化 `/opt/msm`。
-- `JWT_SECRET` 至少 32 个随机字符，不要提交到仓库。
-- 只暴露实际需要的端口，并用防火墙限制管理入口。
-- 不把 DNS 凭据、Cloudflare Token、证书私钥和订阅写进镜像层。
-
-## 更新
-
-Docker 部署不在容器内更新 MSM 主二进制。修改镜像版本并重建：
-
-```bash
-docker compose pull
-docker compose up -d
-docker compose logs --tail=100 msm
-```
-
-## 版本标签
-
-- `latest`：最新稳定版
-- `beta-latest`：最新测试版
-- `x.y.z`：指定正式版本
-
-生产环境推荐使用明确版本或镜像摘要。
-
-## 资源
-
-- [项目主页](https://github.com/msm9527/msm)
-- [完整文档](https://doc.msmbox.net/zh/guide/docker)
-- [Docker Hub](https://hub.docker.com/r/msmbox/msm)
-- [问题反馈](https://github.com/msm9527/msm/issues)
+使用中遇到问题请前往 [msm-wiki Issues](https://github.com/msm9527/msm-wiki/issues) 提交脱敏日志与环境信息。

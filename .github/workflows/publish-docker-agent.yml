@@ -19,7 +19,7 @@ on:
         required: true
         type: string
       version:
-        description: "Release version, e.g. 2.0.3 or beta-2.0.3"
+        description: "Release version, e.g. 2.2.8 or beta-2.2.8"
         required: true
         type: string
       channel:
@@ -35,7 +35,7 @@ permissions:
 
 jobs:
   publish:
-    name: Build and publish standalone Agent
+    name: Build and publish standalone Agent image
     runs-on: ubuntu-24.04
     steps:
       - name: Validate release inputs
@@ -110,7 +110,7 @@ jobs:
             org.opencontainers.image.title=MSM Docker Agent
             org.opencontainers.image.version=${{ inputs.version }}
             org.opencontainers.image.revision=${{ inputs.source_commit }}
-            org.opencontainers.image.source=https://github.com/msm9527/msm
+            org.opencontainers.image.source=https://github.com/msm9527/msm-wiki
           cache-from: type=gha,scope=msm-docker-agent
           cache-to: type=gha,mode=max,scope=msm-docker-agent
           provenance: false
@@ -136,3 +136,61 @@ jobs:
           '
           docker pull --platform linux/amd64 "$IMAGE"
           test "$(docker run --rm --platform linux/amd64 "$IMAGE" version)" = "$RELEASE_VERSION"
+
+  standalone-binaries:
+    name: Build standalone Agent binary archives
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout exact MSM source
+        uses: actions/checkout@v4
+        with:
+          repository: msm9527/msm
+          ref: ${{ inputs.source_commit }}
+          token: ${{ secrets.MSM_REPO_TOKEN }}
+          path: msm-source
+          persist-credentials: false
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: msm-source/backend/go.mod
+          cache-dependency-path: msm-source/backend/go.sum
+
+      - name: Cross-compile and verify standalone Docker Agent archives
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          mkdir -p agent-dist
+          if [ ! -f msm-source/scripts/package-release-docker-agent.sh ]; then
+            echo "source commit predates standalone package-release-docker-agent.sh; skipping binary archives"
+            exit 0
+          fi
+          chmod +x msm-source/scripts/build-docker-agent.sh msm-source/scripts/package-release-docker-agent.sh
+          for target in "linux:amd64:" "linux:arm64:" "linux:arm:7"; do
+            IFS=':' read -r goos goarch goarm <<< "$target"
+            suffix="${goos}-${goarch}${goarm:+v${goarm}}"
+            archive="$PWD/agent-dist/msm-docker-agent-${RELEASE_VERSION}-${suffix}.tar.gz"
+            if [ -n "$goarm" ]; then
+              GOOS="$goos" GOARCH="$goarch" GOARM="$goarm" MSM_AGENT_VERSION="$RELEASE_VERSION" \
+                bash msm-source/scripts/package-release-docker-agent.sh "$archive"
+            else
+              GOOS="$goos" GOARCH="$goarch" MSM_AGENT_VERSION="$RELEASE_VERSION" \
+                bash msm-source/scripts/package-release-docker-agent.sh "$archive"
+            fi
+          done
+          (cd agent-dist && sha256sum msm-docker-agent-*.tar.gz > SHA256SUMS.agent)
+          check_dir="$(mktemp -d)"
+          trap 'rm -rf "$check_dir"' EXIT
+          tar -xzf "agent-dist/msm-docker-agent-${RELEASE_VERSION}-linux-amd64.tar.gz" -C "$check_dir" msm-docker-agent
+          go version -m "$check_dir/msm-docker-agent" | grep -F 'GOAMD64=v1' >/dev/null
+          test "$("$check_dir/msm-docker-agent" version)" = "$RELEASE_VERSION"
+
+      - name: Upload standalone Docker Agent artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: msm-docker-agent-${{ inputs.version }}-binaries
+          path: agent-dist/
+          if-no-files-found: ignore
+          retention-days: 14

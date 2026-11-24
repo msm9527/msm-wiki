@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '22'
       - name: 验证安装与同步脚本
         run: node --test test/install-scripts.test.cjs test/sync-installers.test.cjs
       - name: 安装传输工具

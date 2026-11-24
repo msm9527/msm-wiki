@@ -147,15 +147,24 @@ test('custom server uploads keep the mirror installer scripts synchronized', () 
   }
 })
 
-test('all Pages workflows run Wiki regression tests before building', () => {
-  for (const workflow of [...workflows, '.github/workflows/deploy.yml']) {
-    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
-    const regressionTests = source.indexOf('name: Run Wiki regression tests')
-    const docsBuild = source.indexOf('name: Build with VitePress')
+test('all Pages workflows run Wiki regression tests before building and avoid duplicate daily deploys', () => {
+  const deploySource = fs.readFileSync(path.join(root, '.github/workflows/deploy.yml'), 'utf8')
+  const regressionTests = deploySource.indexOf('name: Run Wiki regression tests')
+  const docsBuild = deploySource.indexOf('name: Build with VitePress')
 
-    assert.notEqual(regressionTests, -1, `${workflow} must run Wiki regression tests`)
-    assert.notEqual(docsBuild, -1, `${workflow} must build the Wiki`)
-    assert.ok(regressionTests < docsBuild, `${workflow} must test before building`)
+  assert.notEqual(regressionTests, -1, 'deploy.yml must run Wiki regression tests')
+  assert.notEqual(docsBuild, -1, 'deploy.yml must build the Wiki')
+  assert.ok(regressionTests < docsBuild, 'deploy.yml must test before building')
+  assert.match(deploySource, /\n  workflow_call:\n/)
+  assert.doesNotMatch(deploySource, /每日构建 MSM（稳定版）|每日构建 MSM（Beta）/)
+
+  for (const workflow of workflows) {
+    const source = fs.readFileSync(path.join(root, workflow), 'utf8')
+    const pagesJob = source.slice(source.indexOf('\n  pages:\n'))
+    assert.match(pagesJob, /if: needs\.prepare\.outputs\.skip == '0'/)
+    assert.match(pagesJob, /uses: \.\/\.github\/workflows\/deploy\.yml/)
+    assert.doesNotMatch(pagesJob, /actions\/deploy-pages@/)
+    assert.doesNotMatch(source, /sshpass -p /)
   }
 })
 
@@ -201,7 +210,7 @@ test('all MSM build checkouts use the exact source commit selected during prepar
     const source = fs.readFileSync(path.join(root, workflow), 'utf8')
     const checkouts = [...source.matchAll(/repository: msm9527\/msm\n\s+ref: ([^\n]+)/g)]
 
-    assert.equal(checkouts.length, 5, `${workflow}: prepare, server build, image runtime, desktop build and desktop manifest`)
+    assert.equal(checkouts.length, 6, `${workflow}: prepare, server build, frontend build, image runtime, desktop build and desktop manifest`)
     assert.equal(checkouts[0][1], workflow === stableWorkflow ? 'main' : 'dev')
     for (const checkout of checkouts.slice(1)) {
       assert.equal(checkout[1], '${{ needs.prepare.outputs.commit_sha }}')
@@ -342,8 +351,8 @@ fi
 test('stable release keeps its original assets and ignores OpenWrt artifacts during publish and mirror upload', () => {
   const { createHash } = require('node:crypto')
   const source = fs.readFileSync(path.join(root, stableWorkflow), 'utf8')
-  const release = source.slice(source.indexOf('\n  release:\n'), source.indexOf('\n  docker:\n'))
-  assert.match(release, /needs: \[prepare, build\]/)
+  const release = source.slice(source.indexOf('\n  release:\n'), source.indexOf('\n  docker-agent:\n'))
+  assert.match(release, /needs: \[prepare, build, docker-agent\]/)
   assert.doesNotMatch(source, /openwrt|OpenWrt|luci-app-msm|\.ipk|\.apk/)
 
   for (const includeUnexpectedOpenwrt of [false, true]) {
@@ -511,7 +520,7 @@ test('Beta release requires real APK lifecycle checks in the amd64 OpenWrt job',
 test('OpenWrt pull request checks are path-scoped, read-only and exercise real APK packages', () => {
   const source = fs.readFileSync(path.join(root, '.github/workflows/openwrt-check.yml'), 'utf8')
   assert.match(source, /pull_request:\n\s+paths:/)
-  assert.match(source, /push:\n\s+branches: \[codex\/openwrt-packages\]\n\s+paths:/)
+  assert.match(source, /push:\n\s+branches: \[main\]\n\s+paths:/)
   const triggers = source.slice(source.indexOf('\non:\n'), source.indexOf('\npermissions:\n'))
   for (const watchedPath of [
     '.github/openwrt/**',

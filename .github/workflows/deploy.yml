@@ -12,12 +12,12 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'test/**'
-  # 注意：由 GitHub Actions 使用 GITHUB_TOKEN 推送的提交不会触发 push 工作流（防递归机制）
-  # 因此需要用 workflow_run 来接住自动提交 docs/静态发行包的工作流，保证 Pages 能自动更新。
+  # 每日构建仅在真正发布新版本并更新 Wiki 后通过 workflow_call 调用本工作流，
+  # 避免无新版本（skip=1）时每日空跑或重复部署两次 Pages。
+  workflow_call:
+  # 浏览器扩展独立发布工作流使用 GITHUB_TOKEN 推送静态包后，通过 workflow_run 触发 Pages 更新。
   workflow_run:
     workflows:
-      - 每日构建 MSM（稳定版）
-      - 每日构建 MSM（Beta）
       - 发布 MSM Assistant 浏览器扩展
     types:
       - completed
@@ -48,14 +48,14 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '22'
           cache: npm
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --no-audit --no-fund
 
       - name: Run Wiki regression tests
         run: npm test

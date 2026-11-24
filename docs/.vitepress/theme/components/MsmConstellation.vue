@@ -36,17 +36,17 @@ const ICONS: Record<string, string> = {
 }
 
 const nodes: Node[] = [
-  { key: 'dns', label: 'DNS', color: '#2C97CC', link: '/zh/guide/mosdns', x: 50, y: 17.5, line: [200, 140, 200, 90], icon: ICONS.dns, delay: '0s' },
-  { key: 'proxy', label: '代理', color: '#3666AC', link: '/zh/guide/proxy', x: 78.25, y: 33.75, line: [252, 170, 295, 145], icon: ICONS.proxy, delay: '-.2s' },
-  { key: 'home', label: '组网', color: '#3B3E8F', link: '/zh/guide/home', x: 78.25, y: 66.25, line: [252, 230, 295, 255], icon: ICONS.home, delay: '-.4s' },
-  { key: 'domain', label: '域名', color: '#3F73B5', link: '/zh/guide/domain-services', x: 50, y: 82.5, line: [200, 260, 200, 310], icon: ICONS.domain, delay: '-.6s' },
-  { key: 'docker', label: 'Docker', color: '#F68A35', link: '/zh/guide/docker-center', x: 21.75, y: 66.25, line: [148, 230, 105, 255], icon: ICONS.docker, delay: '-.8s' },
-  { key: 'diag', label: '诊断', color: '#F99739', link: '/zh/guide/network-tools', x: 21.75, y: 33.75, line: [148, 170, 105, 145], icon: ICONS.diagnostics, delay: '-1s' }
+  { key: 'dns', label: 'DNS', color: 'var(--msm-node-dns)', link: '/zh/guide/mosdns', x: 50, y: 17.5, line: [200, 140, 200, 90], icon: ICONS.dns, delay: '0s' },
+  { key: 'proxy', label: '代理', color: 'var(--msm-node-proxy)', link: '/zh/guide/proxy', x: 78.25, y: 33.75, line: [252, 170, 295, 145], icon: ICONS.proxy, delay: '-.2s' },
+  { key: 'home', label: '组网', color: 'var(--msm-node-home)', link: '/zh/guide/home', x: 78.25, y: 66.25, line: [252, 230, 295, 255], icon: ICONS.home, delay: '-.4s' },
+  { key: 'domain', label: '域名', color: 'var(--msm-node-domain)', link: '/zh/guide/domain-services', x: 50, y: 82.5, line: [200, 260, 200, 310], icon: ICONS.domain, delay: '-.6s' },
+  { key: 'docker', label: 'Docker', color: 'var(--msm-node-docker)', link: '/zh/guide/docker-center', x: 21.75, y: 66.25, line: [148, 230, 105, 255], icon: ICONS.docker, delay: '-.8s' },
+  { key: 'diag', label: '诊断', color: 'var(--msm-node-diag)', link: '/zh/guide/network-tools', x: 21.75, y: 33.75, line: [148, 170, 105, 145], icon: ICONS.diagnostics, delay: '-1s' }
 ]
 </script>
 
 <template>
-  <div class="msm-net" role="img" aria-label="MSM 作为家庭网络中枢，连接 DNS、代理、组网、域名、Docker 与诊断">
+  <nav class="msm-net" aria-label="MSM 核心能力快速入口：DNS、代理、组网、域名、Docker 与诊断">
     <!-- 连线层 -->
     <svg class="msm-net-wires" viewBox="0 0 400 400" aria-hidden="true">
       <defs>
@@ -88,7 +88,7 @@ const nodes: Node[] = [
       </span>
       <span class="msm-net-label">{{ n.label }}</span>
     </a>
-  </div>
+  </nav>
 </template>
 
 <style scoped>
