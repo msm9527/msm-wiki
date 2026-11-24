@@ -1155,10 +1155,13 @@ jobs:
             msm --version
             docker --version
             docker compose version
-            if [ -f /usr/share/doc/msm/THIRD_PARTY_NOTICES.md ] &&
-               grep -q "GORM local compatibility patch" /usr/share/doc/msm/THIRD_PARTY_NOTICES.md; then
-              test -s /usr/share/doc/msm/licenses/GORM-MIT.txt
-              test -s /usr/share/doc/msm/licenses/CADDY-APACHE-2.0.txt
+            if [ -f /usr/share/doc/msm/THIRD_PARTY_NOTICES.md ]; then
+              if grep -q "GORM local compatibility patch" /usr/share/doc/msm/THIRD_PARTY_NOTICES.md; then
+                test -s /usr/share/doc/msm/licenses/GORM-MIT.txt
+              fi
+              if grep -q "CADDY-APACHE-2.0.txt" /usr/share/doc/msm/THIRD_PARTY_NOTICES.md; then
+                test -s /usr/share/doc/msm/licenses/CADDY-APACHE-2.0.txt
+              fi
             fi
           '
 

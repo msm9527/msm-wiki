@@ -65,5 +65,7 @@ test('release images include executable Docker CLI and Compose from the source p
     assert.match(docker, /name: Checkout 镜像运行依赖的源版本[\s\S]*?ref: \$\{\{ needs\.prepare\.outputs\.commit_sha \}\}/)
     assert.match(docker, /MSM_DOCKER_CLI_IMAGE=\$\{\{ steps\.docker_cli\.outputs\.image/)
     assert.match(docker, /docker --version\n\s+docker compose version/)
+    assert.match(docker, /grep -q "GORM local compatibility patch" \/usr\/share\/doc\/msm\/THIRD_PARTY_NOTICES\.md; then\n\s+test -s \/usr\/share\/doc\/msm\/licenses\/GORM-MIT\.txt/)
+    assert.match(docker, /grep -q "CADDY-APACHE-2\.0\.txt" \/usr\/share\/doc\/msm\/THIRD_PARTY_NOTICES\.md; then\n\s+test -s \/usr\/share\/doc\/msm\/licenses\/CADDY-APACHE-2\.0\.txt/)
   }
 })
