@@ -1,0 +1,37 @@
+{
+  "version": "beta-2.2.8",
+  "agent_version": "2.2.8",
+  "channel": "beta",
+  "published_at": "2026-11-24T08:14:30Z",
+  "source_commit": "67e6334",
+  "source_commit_full": "67e63347752c4d5836df28a77ca0dd1a774f7374",
+  "docker": {
+    "repository": "msmbox/msm-agent",
+    "version_tag": "msmbox/msm-agent:beta-2.2.8",
+    "moving_tag": "msmbox/msm-agent:beta-latest",
+    "platforms": [
+      "linux/amd64",
+      "linux/arm64",
+      "linux/arm/v7"
+    ]
+  },
+  "binaries": {
+    "mirror_synced": true,
+    "mirror_base_url": "https://msm.19930520.xyz/dl/docker-agent/beta/beta-2.2.8",
+    "checksums": "SHA256SUMS",
+    "files": {
+      "linux-amd64": {
+        "name": "msm-docker-agent-beta-2.2.8-linux-amd64.tar.gz",
+        "sha256": "72b0422b532cc32406561c3a3e5de514d8b3d9ddc3105716f0ef5825dd836d5a"
+      },
+      "linux-arm64": {
+        "name": "msm-docker-agent-beta-2.2.8-linux-arm64.tar.gz",
+        "sha256": "0645dd24090e7c14f1ecbe4a0b0371121b1dff6fd17ec8d0a179ff35a54ec836"
+      },
+      "linux-armv7": {
+        "name": "msm-docker-agent-beta-2.2.8-linux-armv7.tar.gz",
+        "sha256": "598f45aad44b30f60a8eff4fa9ce19f5c9317776399f2272be1a1e236e240cc3"
+      }
+    }
+  }
+}
