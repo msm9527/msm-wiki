@@ -9,6 +9,8 @@ on:
       - '.github/workflows/openwrt-update-luci.yml'
       - '.github/workflows/daily-build-msm.yml'
       - '.github/workflows/daily-build-msm-beta.yml'
+      - '.github/workflows/publish-docker-agent.yml'
+      - '.github/workflows/deploy.yml'
       - 'test/openwrt-*.test.cjs'
       - 'test/release-workflow.test.cjs'
   push:
@@ -20,6 +22,8 @@ on:
       - '.github/workflows/openwrt-update-luci.yml'
       - '.github/workflows/daily-build-msm.yml'
       - '.github/workflows/daily-build-msm-beta.yml'
+      - '.github/workflows/publish-docker-agent.yml'
+      - '.github/workflows/deploy.yml'
       - 'test/openwrt-*.test.cjs'
       - 'test/release-workflow.test.cjs'
   workflow_dispatch:

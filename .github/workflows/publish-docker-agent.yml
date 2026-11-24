@@ -1,85 +1,141 @@
-name: Publish Docker Agent image
+name: 发布独立 Docker Agent
 
 on:
-  workflow_call:
-    inputs:
-      source_commit:
-        required: true
-        type: string
-      version:
-        required: true
-        type: string
-      channel:
-        required: true
-        type: string
   workflow_dispatch:
     inputs:
-      source_commit:
-        description: "MSM source commit (full SHA)"
+      source_ref:
+        description: 'msm 源分支、标签或完整提交 SHA（稳定版默认 main，Beta 可填 dev）'
         required: true
-        type: string
-      version:
-        description: "Release version, e.g. 2.2.8 or beta-2.2.8"
-        required: true
+        default: 'main'
         type: string
       channel:
-        description: "Release channel"
+        description: '发布通道'
         required: true
+        default: 'stable'
         type: choice
         options:
           - stable
           - beta
+      force_publish:
+        description: '强制重新构建并覆盖已发布的同版本镜像与清单'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
 
+concurrency:
+  group: publish-docker-agent-${{ inputs.channel }}
+  cancel-in-progress: false
+
 jobs:
-  publish:
-    name: Build and publish standalone Agent image
+  prepare:
+    name: 解析独立版本与发布元数据
     runs-on: ubuntu-24.04
+    outputs:
+      skip: ${{ steps.meta.outputs.skip }}
+      source_commit: ${{ steps.meta.outputs.source_commit }}
+      source_commit_short: ${{ steps.meta.outputs.source_commit_short }}
+      agent_version: ${{ steps.meta.outputs.agent_version }}
+      release_version: ${{ steps.meta.outputs.release_version }}
+      moving_tag: ${{ steps.meta.outputs.moving_tag }}
+      channel: ${{ steps.meta.outputs.channel }}
+      manifest_rel_path: ${{ steps.meta.outputs.manifest_rel_path }}
     steps:
-      - name: Validate release inputs
+      - name: 校验触发参数
         shell: bash
         env:
-          SOURCE_COMMIT: ${{ inputs.source_commit }}
-          RELEASE_VERSION: ${{ inputs.version }}
+          SOURCE_REF: ${{ inputs.source_ref }}
           RELEASE_CHANNEL: ${{ inputs.channel }}
         run: |
           set -euo pipefail
-          [[ "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]] || { echo "source_commit must be a full SHA" >&2; exit 1; }
-          [[ "$RELEASE_VERSION" =~ ^(beta-)?[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "invalid release version" >&2; exit 1; }
-          [[ "$RELEASE_CHANNEL" == stable || "$RELEASE_CHANNEL" == beta ]] || { echo "invalid release channel" >&2; exit 1; }
+          [[ "$SOURCE_REF" =~ ^[A-Za-z0-9._/-]+$ ]] || { echo "invalid source_ref" >&2; exit 1; }
+          [[ "$SOURCE_REF" != -* && "$SOURCE_REF" != *..* ]] || { echo "unsafe source_ref" >&2; exit 1; }
+          [[ "$RELEASE_CHANNEL" == stable || "$RELEASE_CHANNEL" == beta ]] || { echo "invalid channel" >&2; exit 1; }
 
-      - name: Checkout exact MSM source
+      - name: Checkout MSM 源码
         uses: actions/checkout@v4
         with:
           repository: msm9527/msm
-          ref: ${{ inputs.source_commit }}
+          ref: ${{ inputs.source_ref }}
           token: ${{ secrets.MSM_REPO_TOKEN }}
           path: msm-source
           persist-credentials: false
 
-      - name: Verify source version and select tags
+      - name: Checkout msm-wiki 主分支
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: wiki
+          persist-credentials: false
+
+      - name: 读取独立版本号并检查是否需要发布
         id: meta
         shell: bash
         env:
-          RELEASE_VERSION: ${{ inputs.version }}
           RELEASE_CHANNEL: ${{ inputs.channel }}
+          FORCE_PUBLISH: ${{ inputs.force_publish }}
         run: |
           set -euo pipefail
-          SOURCE_VERSION="$(tr -d '[:space:]' < msm-source/.version)"
-          EXPECTED_VERSION="$SOURCE_VERSION"
-          MOVING_TAG="latest"
-          if [[ "$RELEASE_CHANNEL" == beta ]]; then
-            EXPECTED_VERSION="beta-$SOURCE_VERSION"
-            MOVING_TAG="beta-latest"
+          SOURCE_COMMIT="$(git -C msm-source rev-parse HEAD)"
+          SOURCE_COMMIT_SHORT="$(git -C msm-source rev-parse --short HEAD)"
+          [[ "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]] || { echo "invalid resolved commit" >&2; exit 1; }
+
+          if [ -f msm-source/.agent-version ]; then
+            AGENT_VERSION="$(tr -d '[:space:]' < msm-source/.agent-version)"
+          elif [ -f msm-source/.version ]; then
+            AGENT_VERSION="$(tr -d '[:space:]' < msm-source/.version)"
+          else
+            echo "missing .agent-version and .version in msm-source" >&2
+            exit 1
           fi
-          [[ "$RELEASE_VERSION" == "$EXPECTED_VERSION" ]] || { echo "release version does not match source" >&2; exit 1; }
-          echo "tags<<EOF" >> "$GITHUB_OUTPUT"
-          echo "msmbox/msm-agent:$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
-          echo "msmbox/msm-agent:$MOVING_TAG" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
-          echo "moving_tag=$MOVING_TAG" >> "$GITHUB_OUTPUT"
+          [[ "$AGENT_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "invalid agent version: $AGENT_VERSION" >&2; exit 1; }
+
+          RELEASE_VERSION="$AGENT_VERSION"
+          MOVING_TAG="latest"
+          MANIFEST_REL_PATH="docs/public/downloads/docker-agent/latest.json"
+          if [ "$RELEASE_CHANNEL" = "beta" ]; then
+            RELEASE_VERSION="beta-${AGENT_VERSION}"
+            MOVING_TAG="beta-latest"
+            MANIFEST_REL_PATH="docs/public/downloads/docker-agent/beta-latest.json"
+          fi
+
+          SKIP="0"
+          if [ "$FORCE_PUBLISH" != "true" ] && [ -f "wiki/${MANIFEST_REL_PATH}" ]; then
+            EXISTING_VERSION="$(jq -r '.version // ""' "wiki/${MANIFEST_REL_PATH}")"
+            EXISTING_COMMIT="$(jq -r '.source_commit_full // ""' "wiki/${MANIFEST_REL_PATH}")"
+            if [ "$EXISTING_VERSION" = "$RELEASE_VERSION" ] && [ "$EXISTING_COMMIT" = "$SOURCE_COMMIT" ]; then
+              echo "Docker Agent ${RELEASE_VERSION} (${SOURCE_COMMIT_SHORT}) 已发布且未开启 force_publish，跳过。"
+              SKIP="1"
+            fi
+          fi
+
+          {
+            echo "skip=${SKIP}"
+            echo "source_commit=${SOURCE_COMMIT}"
+            echo "source_commit_short=${SOURCE_COMMIT_SHORT}"
+            echo "agent_version=${AGENT_VERSION}"
+            echo "release_version=${RELEASE_VERSION}"
+            echo "moving_tag=${MOVING_TAG}"
+            echo "channel=${RELEASE_CHANNEL}"
+            echo "manifest_rel_path=${MANIFEST_REL_PATH}"
+          } >> "$GITHUB_OUTPUT"
+
+  publish-image:
+    name: 构建并推送多架构 Docker Agent 镜像
+    needs: [prepare]
+    if: needs.prepare.outputs.skip == '0'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout 精确 MSM 源码提交
+        uses: actions/checkout@v4
+        with:
+          repository: msm9527/msm
+          ref: ${{ needs.prepare.outputs.source_commit }}
+          token: ${{ secrets.MSM_REPO_TOKEN }}
+          path: msm-source
+          persist-credentials: false
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -103,13 +159,15 @@ jobs:
           target: agent-runtime
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            msmbox/msm-agent:${{ needs.prepare.outputs.release_version }}
+            msmbox/msm-agent:${{ needs.prepare.outputs.moving_tag }}
           build-args: |
-            VERSION=${{ inputs.version }}
+            VERSION=${{ needs.prepare.outputs.release_version }}
           labels: |
             org.opencontainers.image.title=MSM Docker Agent
-            org.opencontainers.image.version=${{ inputs.version }}
-            org.opencontainers.image.revision=${{ inputs.source_commit }}
+            org.opencontainers.image.version=${{ needs.prepare.outputs.release_version }}
+            org.opencontainers.image.revision=${{ needs.prepare.outputs.source_commit }}
             org.opencontainers.image.source=https://github.com/msm9527/msm-wiki
           cache-from: type=gha,scope=msm-docker-agent
           cache-to: type=gha,mode=max,scope=msm-docker-agent
@@ -119,8 +177,8 @@ jobs:
       - name: Verify published manifest and runnable version
         shell: bash
         env:
-          RELEASE_VERSION: ${{ inputs.version }}
-          MOVING_TAG: ${{ steps.meta.outputs.moving_tag }}
+          RELEASE_VERSION: ${{ needs.prepare.outputs.release_version }}
+          MOVING_TAG: ${{ needs.prepare.outputs.moving_tag }}
         run: |
           set -euo pipefail
           IMAGE="msmbox/msm-agent:$RELEASE_VERSION"
@@ -137,15 +195,20 @@ jobs:
           docker pull --platform linux/amd64 "$IMAGE"
           test "$(docker run --rm --platform linux/amd64 "$IMAGE" version)" = "$RELEASE_VERSION"
 
-  standalone-binaries:
-    name: Build standalone Agent binary archives
+  publish-binaries:
+    name: 交叉编译并分发独立二进制包
+    needs: [prepare]
+    if: needs.prepare.outputs.skip == '0'
     runs-on: ubuntu-24.04
+    outputs:
+      checksums_json: ${{ steps.build.outputs.checksums_json }}
+      mirror_synced: ${{ steps.mirror.outputs.synced }}
     steps:
-      - name: Checkout exact MSM source
+      - name: Checkout 精确 MSM 源码提交
         uses: actions/checkout@v4
         with:
           repository: msm9527/msm
-          ref: ${{ inputs.source_commit }}
+          ref: ${{ needs.prepare.outputs.source_commit }}
           token: ${{ secrets.MSM_REPO_TOKEN }}
           path: msm-source
           persist-credentials: false
@@ -157,16 +220,13 @@ jobs:
           cache-dependency-path: msm-source/backend/go.sum
 
       - name: Cross-compile and verify standalone Docker Agent archives
+        id: build
         shell: bash
         env:
-          RELEASE_VERSION: ${{ inputs.version }}
+          RELEASE_VERSION: ${{ needs.prepare.outputs.release_version }}
         run: |
           set -euo pipefail
           mkdir -p agent-dist
-          if [ ! -f msm-source/scripts/package-release-docker-agent.sh ]; then
-            echo "source commit predates standalone package-release-docker-agent.sh; skipping binary archives"
-            exit 0
-          fi
           chmod +x msm-source/scripts/build-docker-agent.sh msm-source/scripts/package-release-docker-agent.sh
           for target in "linux:amd64:" "linux:arm64:" "linux:arm:7"; do
             IFS=':' read -r goos goarch goarm <<< "$target"
@@ -180,17 +240,193 @@ jobs:
                 bash msm-source/scripts/package-release-docker-agent.sh "$archive"
             fi
           done
-          (cd agent-dist && sha256sum msm-docker-agent-*.tar.gz > SHA256SUMS.agent)
+          (cd agent-dist && sha256sum msm-docker-agent-*.tar.gz > SHA256SUMS && sha256sum -c SHA256SUMS)
+
           check_dir="$(mktemp -d)"
           trap 'rm -rf "$check_dir"' EXIT
           tar -xzf "agent-dist/msm-docker-agent-${RELEASE_VERSION}-linux-amd64.tar.gz" -C "$check_dir" msm-docker-agent
           go version -m "$check_dir/msm-docker-agent" | grep -F 'GOAMD64=v1' >/dev/null
           test "$("$check_dir/msm-docker-agent" version)" = "$RELEASE_VERSION"
 
+          CHECKSUMS_JSON="$(node - "${RELEASE_VERSION}" "agent-dist/SHA256SUMS" <<'NODE'
+          const fs = require('node:fs');
+          const [version, sumsPath] = process.argv.slice(2);
+          const sums = new Map();
+          for (const line of fs.readFileSync(sumsPath, 'utf8').trim().split(/\r?\n/)) {
+            const match = line.trim().match(/^([0-9a-f]{64})\s+\*?(.+)$/i);
+            if (match) sums.set(match[2].trim(), match[1].toLowerCase());
+          }
+          const files = {};
+          for (const arch of ['linux-amd64', 'linux-arm64', 'linux-armv7']) {
+            const name = `msm-docker-agent-${version}-${arch}.tar.gz`;
+            const sha256 = sums.get(name);
+            if (!sha256) throw new Error(`missing checksum for ${name}`);
+            files[arch] = { name, sha256 };
+          }
+          process.stdout.write(JSON.stringify(files));
+          NODE
+          )"
+          echo "checksums_json=${CHECKSUMS_JSON}" >> "$GITHUB_OUTPUT"
+
       - name: Upload standalone Docker Agent artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: msm-docker-agent-${{ inputs.version }}-binaries
+          name: msm-docker-agent-${{ needs.prepare.outputs.release_version }}-binaries
           path: agent-dist/
-          if-no-files-found: ignore
-          retention-days: 14
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: 同步独立二进制包到国内镜像服务器（可选）
+        id: mirror
+        shell: bash
+        env:
+          EXTRA_SERVERS: ${{ secrets.DEPLOY_SERVERS }}
+          RELEASE_VERSION: ${{ needs.prepare.outputs.release_version }}
+          RELEASE_CHANNEL: ${{ needs.prepare.outputs.channel }}
+        run: |
+          set -euo pipefail
+          servers=()
+          if [ -n "${EXTRA_SERVERS}" ]; then
+            while IFS= read -r line; do
+              line_trimmed="$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+              [ -z "$line_trimmed" ] && continue
+              servers+=("$line_trimmed")
+            done <<< "${EXTRA_SERVERS}"
+          fi
+
+          if [ ${#servers[@]} -eq 0 ]; then
+            echo "未配置 DEPLOY_SERVERS，跳过镜像服务器同步。"
+            echo "synced=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          sudo apt-get update -y
+          sudo apt-get install -y sshpass rsync
+
+          mkdir -p "upload/${RELEASE_VERSION}"
+          cp agent-dist/msm-docker-agent-*.tar.gz "upload/${RELEASE_VERSION}/"
+          cp agent-dist/SHA256SUMS "upload/${RELEASE_VERSION}/SHA256SUMS"
+          printf "%s\n" "${RELEASE_VERSION}" > upload/.version
+
+          for entry in "${servers[@]}"; do
+            IFS=',' read -r host user pass target port <<< "$entry"
+            port="${port:-22}"
+            target_base="${target%/}/docker-agent"
+            if [ "${RELEASE_CHANNEL}" = "beta" ]; then
+              target_base="${target_base}/beta"
+            fi
+            ssh_opts=(-p "${port}" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=20)
+            SSHPASS="${pass}" sshpass -e ssh "${ssh_opts[@]}" "${user}@${host}" \
+              "mkdir -p '${target_base}/${RELEASE_VERSION}'"
+            SSHPASS="${pass}" sshpass -e rsync -avz --chmod=F644,D755 \
+              -e "ssh ${ssh_opts[*]}" \
+              upload/.version "${user}@${host}:${target_base}/"
+            SSHPASS="${pass}" sshpass -e rsync -avz --delete --chmod=F644,D755 \
+              -e "ssh ${ssh_opts[*]}" \
+              "upload/${RELEASE_VERSION}/" "${user}@${host}:${target_base}/${RELEASE_VERSION}/"
+          done
+
+          echo "synced=true" >> "$GITHUB_OUTPUT"
+
+  publish-manifest:
+    name: 同步独立版本清单到文档站（不创建 GitHub Release）
+    needs: [prepare, publish-image, publish-binaries]
+    if: needs.prepare.outputs.skip == '0'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout msm-wiki 主分支
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: wiki
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 生成并推送轻量版本清单 JSON
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ needs.prepare.outputs.release_version }}
+          AGENT_VERSION: ${{ needs.prepare.outputs.agent_version }}
+          MOVING_TAG: ${{ needs.prepare.outputs.moving_tag }}
+          RELEASE_CHANNEL: ${{ needs.prepare.outputs.channel }}
+          SOURCE_COMMIT: ${{ needs.prepare.outputs.source_commit }}
+          SOURCE_COMMIT_SHORT: ${{ needs.prepare.outputs.source_commit_short }}
+          MANIFEST_REL_PATH: ${{ needs.prepare.outputs.manifest_rel_path }}
+          CHECKSUMS_JSON: ${{ needs.publish-binaries.outputs.checksums_json }}
+          MIRROR_SYNCED: ${{ needs.publish-binaries.outputs.mirror_synced }}
+        run: |
+          set -euo pipefail
+          MANIFEST_PATH="wiki/${MANIFEST_REL_PATH}"
+          mkdir -p "$(dirname "${MANIFEST_PATH}")"
+
+          node - "${MANIFEST_PATH}" <<'NODE'
+          const fs = require('node:fs');
+          const outPath = process.argv[2];
+          const releaseVersion = process.env.RELEASE_VERSION;
+          const agentVersion = process.env.AGENT_VERSION;
+          const movingTag = process.env.MOVING_TAG;
+          const channel = process.env.RELEASE_CHANNEL;
+          const sourceCommit = process.env.SOURCE_COMMIT;
+          const sourceCommitShort = process.env.SOURCE_COMMIT_SHORT;
+          const files = JSON.parse(process.env.CHECKSUMS_JSON);
+          const mirrorSynced = process.env.MIRROR_SYNCED === 'true';
+
+          const mirrorSubpath = channel === 'beta'
+            ? `docker-agent/beta/${releaseVersion}`
+            : `docker-agent/${releaseVersion}`;
+
+          const manifest = {
+            version: releaseVersion,
+            agent_version: agentVersion,
+            channel,
+            published_at: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
+            source_commit: sourceCommitShort,
+            source_commit_full: sourceCommit,
+            docker: {
+              repository: 'msmbox/msm-agent',
+              version_tag: `msmbox/msm-agent:${releaseVersion}`,
+              moving_tag: `msmbox/msm-agent:${movingTag}`,
+              platforms: ['linux/amd64', 'linux/arm64', 'linux/arm/v7'],
+            },
+            binaries: {
+              mirror_synced: mirrorSynced,
+              mirror_base_url: `https://msm.19930520.xyz/dl/${mirrorSubpath}`,
+              checksums: 'SHA256SUMS',
+              files,
+            },
+          };
+
+          fs.writeFileSync(outPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+          NODE
+
+          cd wiki
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "${MANIFEST_REL_PATH}"
+          if git diff --cached --quiet; then
+            echo "版本清单无变化，无需提交。"
+            exit 0
+          fi
+
+          git commit -m "chore(docker-agent): 发布独立 Docker Agent ${RELEASE_VERSION} 清单 / Publish standalone Docker Agent ${RELEASE_VERSION} manifest"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              break
+            fi
+            if [ "${attempt}" -eq 3 ]; then
+              echo "推送 msm-wiki main 失败，已耗尽重试" >&2
+              exit 1
+            fi
+            git fetch origin main
+            git rebase origin/main
+          done
+
+          {
+            echo "## 🐳 MSM Docker Agent ${RELEASE_VERSION} 独立发布完成"
+            echo ""
+            echo "- 通道：\`${RELEASE_CHANNEL}\`"
+            echo "- 源码提交：\`${SOURCE_COMMIT_SHORT}\`"
+            echo "- 多架构镜像：\`msmbox/msm-agent:${RELEASE_VERSION}\` / \`msmbox/msm-agent:${MOVING_TAG}\`"
+            echo "- 元数据清单：https://doc.msmbox.net/${MANIFEST_REL_PATH#docs/public/}"
+          } >> "$GITHUB_STEP_SUMMARY"

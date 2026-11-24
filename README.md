@@ -71,7 +71,7 @@ msm-wiki/
 
 ## 自动化发布说明
 
-本仓库统一承载 MSM 稳定版、Beta 版、macOS 桌面端、OpenWrt 软件包、PanaBit 套件、Docker 主镜像（`msmbox/msm`）及独立 Docker Agent 镜像（`msmbox/msm-agent`）的发布与文档同步：
+本仓库统一承载 MSM 稳定版、Beta 版、macOS 桌面端、OpenWrt 软件包、PanaBit 套件、Docker 主镜像（`msmbox/msm`）的发布与文档同步，并维护完全独立发版的配套组件工作流（浏览器助手 `publish-assistant.yml` 与独立 Docker Agent `publish-docker-agent.yml`）：
 
 - [AI 网关配置指南](.github/docs/MODELSCOPE_API_GUIDE.md)
 - [Release 工作流说明](.github/docs/RELEASE_WORKFLOW_GUIDE.md)

@@ -54,13 +54,15 @@ MSM 后端需要能够访问本机 Docker Engine（默认 `unix:///var/run/docke
 
 ### 独立 Agent 子节点
 
-被管理主机只需运行轻量独立的 **`msm-docker-agent`**，不需要安装完整 MSM，也不会启动 Web、DNS 或代理组件。Agent 拥有独立的镜像、二进制包与数据卷生命周期：
+被管理主机只需运行轻量独立的 **`msm-docker-agent`**，不需要安装完整 MSM，也不会启动 Web、DNS 或代理组件。Agent 采用**独立版本号（`.agent-version`）与独立发布流水线**，与 MSM 主程序的版本与发布完全解耦：
 
 - **Docker 镜像**：
-  - 稳定版：`msmbox/msm-agent:latest` 或固定版本 `msmbox/msm-agent:<MSM版本>`
-  - Beta 版：`msmbox/msm-agent:beta-latest` 或 `msmbox/msm-agent:beta-<MSM版本>`
+  - 稳定版：`msmbox/msm-agent:latest` 或固定版本 `msmbox/msm-agent:<Agent版本>`
+  - Beta 版：`msmbox/msm-agent:beta-latest` 或 `msmbox/msm-agent:beta-<Agent版本>`
   - 镜像基于 `alpine:3.23.3`，仅内置 `msm-docker-agent`、Docker CLI 与 Docker Compose 插件，支持 `linux/amd64`、`linux/arm64`、`linux/arm/v7`
-- **独立二进制**：可从源码执行 `scripts/package-release-docker-agent.sh` 或在发布工作流产物中获取对应架构的 `msm-docker-agent` 静态二进制包，适合直接在宿主机以 systemd / OpenRC 运行
+- **独立二进制与元数据清单**：
+  - 每次独立发布除推送多架构镜像外，还会交叉编译 `linux-amd64`、`linux-arm64`、`linux-armv7` 静态二进制归档与 `SHA256SUMS`（同步至国内镜像 `docker-agent/` 目录及发布工作流 Artifact），并在 `https://doc.msmbox.net/downloads/docker-agent/latest.json` 提供最新元数据，不污染 MSM 主程序的 GitHub Releases 更新通道
+  - 也可在源码目录直接执行 `scripts/package-release-docker-agent.sh` 本地构建静态包，适合直接在宿主机以 systemd / OpenRC 运行
 
 进入 **Docker 管理 → 节点**，支持两种接入模式：
 
