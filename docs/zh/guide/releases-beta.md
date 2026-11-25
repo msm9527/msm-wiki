@@ -13,58 +13,59 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.9.2" data-release-date="2026-11-25 14:42:57 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.2">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.9.3" data-release-date="2026-11-25 19:54:13 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.3">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.9.2</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.9.3</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.2" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.3" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>9 项</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>19 项</strong></div>
   <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-25 14:42:57 CST</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-25 19:54:13 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDph43mnoQgUFdBIOemu+e6v+W8leaTjuOAgeeLrOeri+W6lOeUqOS6pOS6kuS4jua1geWFieeOu+eSg+inhuinieS9k+ezuyAvIE92ZXJoYXVsIFBXQSBhcmNoaXRlY3R1cmUsIFNlcnZpY2UgV29ya2VyIHByZWNhY2hpbmcsIHN0YW5kYWxvbmUgVVgsIGFuZCBMdW1pbm91cyBHbGFzcyB2aXN1YWwgZGVzaWduIiwiLSDlkIjlubbov5znqIvmnIDmlrAgZGV2IOaPkOS6pO+8iEVkZ2Ug5Y+N5Luj5LiOIFVJIOWNh+e6p++8iSAvIE1lcmdlIGxhdGVzdCBvcmlnaW4vZGV2IChFZGdlIHJldmVyc2UgcHJveHkgYW5kIFVJIHVwZ3JhZGVzKSIsIi0g5byV5YWlIEZsb2F0aW5nUG9ydGFsIOS/ruWkjeWFqOWxgOS4i+aLieahhuOAgeW8ueWxguS4juaPkOekuuiiq+mBruaMoeeahOmXrumimCIsIi0g5rex5bqm5Y2H57qn5Z+f5ZCN5LiO6K+B5Lmm5Y+N5LujIFVJIOinhuinieiuvuiuoeS4juS6pOS6kuS9k+mqjCAvIE92ZXJoYXVsIEVkZ2UgcmV2ZXJzZSBwcm94eSBVSSB2aXN1YWwgaGllcmFyY2h5IGFuZCBpbnRlcmFjdGl2ZSBVWCIsIi0g5aKe5by65Y+N5LujMzAy6YeN5a6a5ZCRL+W9semfsy9TU0gvRG9ja2VyL1dlYkRBVi9nUlBD5YW85a655oCn5bm25paw5aKe57G7THVja3nkuIfkuovlpKflkInlhajlhbzlrrnmqKHlvI/kuI40MeasvuW6lOeUqOmihOiuviAvIFVwZ3JhZGUgcmV2ZXJzZSBwcm94eSAzMDIvbWVkaWEvU1NIL0RvY2tlci9XZWJEQVYvZ1JQQyBjb21wYXRpYmlsaXR5LCBMdWNreS1zdHlsZSBBbGwtR29vZCBtb2RlLCBhbmQgNDEgYXBwIHByZXNldHMiLCItIOWunueOsOmmlumhteWNoeeJh+m7mOiupOmrmOW6puiHqumAguW6lOOAgeinhuiniee0p+WHkeWMluWPiuWFqOWwuuWvuOWkmuerr+WTjeW6lOW8j+mAgumFjSAvIEF1dG8tZml0IGNsYXNzaWMgZGFzaGJvYXJkIHdpZGdldCBoZWlnaHRzLCByZWZpbmUgdmlzdWFsIGRlbnNpdHksIGFuZCBhbGlnbiByZXNwb25zaXZlIGxheW91dHMgZnJvbSBtb2JpbGUgdG8gNEsiXSwibWFqb3IiOltdLCJhZGRlZCI6WyItIOmHjeaehCBQV0Eg56a757q/5byV5pOO44CB54us56uL5bqU55So5Lqk5LqS5LiO5rWB5YWJ546755KD6KeG6KeJ5L2T57O7IC8gT3ZlcmhhdWwgUFdBIGFyY2hpdGVjdHVyZSwgU2VydmljZSBXb3JrZXIgcHJlY2FjaGluZywgc3RhbmRhbG9uZSBVWCwgYW5kIEx1bWlub3VzIEdsYXNzIHZpc3VhbCBkZXNpZ24iLCItIOa3seW6puWNh+e6p+Wfn+WQjeS4juivgeS5puWPjeS7oyBVSSDop4bop4norr7orqHkuI7kuqTkupLkvZPpqowgLyBPdmVyaGF1bCBFZGdlIHJldmVyc2UgcHJveHkgVUkgdmlzdWFsIGhpZXJhcmNoeSBhbmQgaW50ZXJhY3RpdmUgVVgiLCItIOWinuW8uuWPjeS7ozMwMumHjeWumuWQkS/lvbHpn7MvU1NIL0RvY2tlci9XZWJEQVYvZ1JQQ+WFvOWuueaAp+W5tuaWsOWinuexu0x1Y2t55LiH5LqL5aSn5ZCJ5YWo5YW85a655qih5byP5LiONDHmrL7lupTnlKjpooTorr4gLyBVcGdyYWRlIHJldmVyc2UgcHJveHkgMzAyL21lZGlhL1NTSC9Eb2NrZXIvV2ViREFWL2dSUEMgY29tcGF0aWJpbGl0eSwgTHVja3ktc3R5bGUgQWxsLUdvb2QgbW9kZSwgYW5kIDQxIGFwcCBwcmVzZXRzIiwiLSDlrp7njrDpppbpobXljaHniYfpu5jorqTpq5jluqboh6rpgILlupTjgIHop4bop4nntKflh5HljJblj4rlhajlsLrlr7jlpJrnq6/lk43lupTlvI/pgILphY0gLyBBdXRvLWZpdCBjbGFzc2ljIGRhc2hib2FyZCB3aWRnZXQgaGVpZ2h0cywgcmVmaW5lIHZpc3VhbCBkZW5zaXR5LCBhbmQgYWxpZ24gcmVzcG9uc2l2ZSBsYXlvdXRzIGZyb20gbW9iaWxlIHRvIDRLIl0sImNoYW5nZWQiOlsiLSDlkIjlubbov5znqIvmnIDmlrAgZGV2IOaPkOS6pO+8iEVkZ2Ug5Y+N5Luj5LiOIFVJIOWNh+e6p++8iSAvIE1lcmdlIGxhdGVzdCBvcmlnaW4vZGV2IChFZGdlIHJldmVyc2UgcHJveHkgYW5kIFVJIHVwZ3JhZGVzKSJdLCJwZXJmb3JtYW5jZSI6W10sImZpeGVkIjpbIi0g5byV5YWlIEZsb2F0aW5nUG9ydGFsIOS/ruWkjeWFqOWxgOS4i+aLieahhuOAgeW8ueWxguS4juaPkOekuuiiq+mBruaMoeeahOmXrumimCIsIi0g5YWo56uZ5rex5bqm5L2T6aqM5a6h6K6h5LiOIENocm9tZSDlrp7mnLrkv67lpI3vvIhQV0Eg56e75Yqo56uv44CB5rWu5bGC5a6J5YWo5Yy644CB56m65YC85a656ZSZ5LiO5Y+M6K+t6KGl6b2Q77yJIC8gRnVsbC1zaXRlIFVYIGF1ZGl0IGFuZCBDaHJvbWUtdmVyaWZpZWQgZml4ZXMgKG1vYmlsZSBQV0EsIG92ZXJsYXkgc2FmZS1hcmVhcywgbnVsbC1zYWZldHksIGFuZCBiaWxpbmd1YWwgaTE4bikiLCItIOWQiOW5tui/nOeoi+acgOaWsCBkZXYg5o+Q5Lqk77yIRWRnZSDlj43lkJHku6PnkIbkv67lpI3vvIkgLyBNZXJnZSBsYXRlc3Qgb3JpZ2luL2RldiAoRWRnZSByZXZlcnNlIHByb3h5IGZpeGVzKSIsIi0g5L+u5aSN55yf5a6e5rWP6KeI5Zmo5a6e5rWL5Y+R546w55qE5qC35byP5Yqg6L2944CB562b6YCJ5qCP6ZSZ5L2N44CB5pON5L2c5YiX5oqY6KGM5LiO56uv5Y+j55u06YCa5bGV56S66Zeu6aKYIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMTEtMjVUMDM6NDU6MzJaIOS5i+WQjueahCAxMCDkuKrmj5DkuqTkuK3mlbTnkIbvvIjnurPlhaXlvZPliY3lkIjlubbliIbmlK/nmoQgMTAg5Liq5Y676YeN5o+Q5Lqk77yJ77yb5b2T5YmN5L2/55So5o+Q5Lqk5qCH6aKY5LiO5q2j5paH6KaB54K555Sf5oiQ6KeE5YiZ5pGY6KaB77yM5pyq57uP6L+HIEFJIOivreS5ieW9kue6s+aIlui/kOihjOmqjOivgSJdfX0= -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSBjb21wbGV0ZSBTNSB1bmlmaWVkIFBhZ2VIZWFkZXIsIEFwcGVhcmFuY2VEcmF3ZXIgb3ZlcmhhdWwsIGFuZCBPcGVyYXRpb25zV29ya3NwYWNlIGNvbnNvbGlkYXRpb24gLyDlrozmiJAgUzUg5aSW5aOz44CB57uf5LiA6aG15aS044CB5aSW6KeC5oq95bGJ5LiO5bel5L2c5Y+w5bqV5bqn5pS25Y+jIiwiLSBjb21wbGV0ZSBTNmIgYXBwcywgc2V0dGluZ3MsIHVzZXJzLCBzeXN0ZW0sIHByb2Nlc3MsIGFuZCBsaWNlbnNlIG1pZ3JhdGlvbiAvIOWujOaIkCBTNmIg5bqU55So5ZWG5bqX44CB6K6+572u44CB55So5oi344CB57O757uf44CB6L+b56iL5LiO5o6I5p2D6aG16L+B56e7IiwiLSDosIPmlbTlkK/liqjlkI7lhrfpobXlm57mlLbml7bmnLrlubbmlL7lrr3lj6ror7vmlofku7bmrrXov4fmu6QgLyBBbGlnbiBwb3N0LWJvb3QgY29sZC1wYWdlIHJlY2xhaW0gdGltaW5nIGFuZCByZWFkLW9ubHkgVk1BIGZpbHRlciIsIi0gcmVzb2x2ZSBTNCBhbmQgUzItZml4IHJldmlldyBmaW5kaW5ncyBhbmQgZW5mb3JjZSB6LWluZGV4IHRpZXJzIC8g5L+u5aSNIFM0IOS4jiBTMiDlrqHmn6Xpl67popjlubbnu5/kuIDliIblsYLkuI7ml6Dpmpznoo3lpZHnuqYiLCItIGVzdGFibGlzaCBUMC9UMS9UMiBleHByZXNzaW9uIHRpZXJzLCBzdGFnZSB0b2tlbnMsIGFuZCBjcmFmdGVkIGF1dGgvYm9vdCBtb3Rpb24gLyDlu7rnq4vkuInlsYLooajnjrDlipvliIbnuqfjgIHljZXmupDoiJ7lj7Dku6TniYzlubbph43loZHnmbvlvZXkuI7lkK/liqjliqjmlYgiLCItIGFkZCBCYXNlIFVJIDEuOSBwcmltaXRpdmVzIGFuZCBzd2FwIGNvcmUgVUkgZmFjYWRlcyAvIOW8leWFpSBCYXNlIFVJIDEuOSDmoIflh4bljp/or63lsYLlubblrozmiJDmoLjlv4MgVUkg6Zeo6Z2i5o2i6IqvIl0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSBjb21wbGV0ZSBTNSB1bmlmaWVkIFBhZ2VIZWFkZXIsIEFwcGVhcmFuY2VEcmF3ZXIgb3ZlcmhhdWwsIGFuZCBPcGVyYXRpb25zV29ya3NwYWNlIGNvbnNvbGlkYXRpb24gLyDlrozmiJAgUzUg5aSW5aOz44CB57uf5LiA6aG15aS044CB5aSW6KeC5oq95bGJ5LiO5bel5L2c5Y+w5bqV5bqn5pS25Y+jIiwiLSBlc3RhYmxpc2ggVDAvVDEvVDIgZXhwcmVzc2lvbiB0aWVycywgc3RhZ2UgdG9rZW5zLCBhbmQgY3JhZnRlZCBhdXRoL2Jvb3QgbW90aW9uIC8g5bu656uL5LiJ5bGC6KGo546w5Yqb5YiG57qn44CB5Y2V5rqQ6Iie5Y+w5Luk54mM5bm26YeN5aGR55m75b2V5LiO5ZCv5Yqo5Yqo5pWIIiwiLSBhZGQgQmFzZSBVSSAxLjkgcHJpbWl0aXZlcyBhbmQgc3dhcCBjb3JlIFVJIGZhY2FkZXMgLyDlvJXlhaUgQmFzZSBVSSAxLjkg5qCH5YeG5Y6f6K+t5bGC5bm25a6M5oiQ5qC45b+DIFVJIOmXqOmdouaNouiKryIsIi0gY29tcGxldGUgUzIgc2luZ2xlLXNvdXJjZSB0b2tlbnMsIDkgcmVmaW5lZCB0aGVtZXMsIGZsYXQvZnJvc3QgZHVhbCBtYXRlcmlhbCwgYW5kIGJvb3QgcGFyaXR5IC8g5a6M5oiQIFMyIOWNlea6kOS7pOeJjOOAgTkg5aWX57K+6ZuV5Li76aKY44CB57qvIENTUyDlj4zmnZDotKjkuI7pppblsY/lr7nmi40iLCItIGFkZCBTMGIgZGV2LW9ubHkgZnVsbC1zY2VuYXJpbyBWaXRlIG1vY2sgcGx1Z2luICg/bW9jaz08c2NlbmFyaW8+KSAvIOaWsOWiniBTMGIg5byA5Y+R5oCB5YWo5Zy65pmv5YaF572uIE1vY2sg5o+S5Lu2Il0sImNoYW5nZWQiOlsiLSBjb21wbGV0ZSBTNmIgYXBwcywgc2V0dGluZ3MsIHVzZXJzLCBzeXN0ZW0sIHByb2Nlc3MsIGFuZCBsaWNlbnNlIG1pZ3JhdGlvbiAvIOWujOaIkCBTNmIg5bqU55So5ZWG5bqX44CB6K6+572u44CB55So5oi344CB57O757uf44CB6L+b56iL5LiO5o6I5p2D6aG16L+B56e7IiwiLSBjb21wbGV0ZSBTNmQgZG9ja2VyLCBDbGFzaCwgbmV0d29yayB0b29scywgbG9ncywgYW5kIHNlYXJjaCBtaWdyYXRpb24gLyDlrozmiJAgUzZkIOWuueWZqOOAgeS7o+eQhuOAgee9kee7nOW3peWFt+OAgeaXpeW/l+S4juaQnOe0oui/geenuyIsIi0gc3RyaXAgbG9naW4vYm9vdCBydW5uaW5nIGxpZ2h0cyBhbmQgbWFuZGF0b3J5IHJvdXRlIHN0YWdnZXIgLyDmuIXnkIbnmbvlvZXlkK/liqjot5Hpqaznga/kuI7liIfpobXplJnls7DliqjmlYgiLCItIGNvbXBsZXRlIFMxIHRvb2xjaGFpbiB1cGdyYWRlIChAdGFpbHdpbmRjc3Mvdml0ZSA0LjMuNSwgQmFzZSBVSSAxLjksIHNoYWRjbiA0LjIzLCBsdWNpZGUgMS44MCkgLyDlrozmiJAgUzEg5YmN56uv5bel5YW36ZO+5LiOIEJhc2UgVUkg5bqV5bqn5Y2H57qnIiwiLSBlc3RhYmxpc2ggUzBhIGRlc2lnbiBjb25zdGl0dXRpb24sIHBhbmVsIHBhdHRlcm5zLCBhbmQgcXVhbGl0eSBnYXRlcyAvIOW7uueriyBTMGEg6KeG6KeJ6KeE6IyD44CB6Z2i5p2/5aWR57qm5LiO6Ieq5Yqo5YyW6LSo6YeP6Zeo56aBIiwiLSBwcmVjaXNpb24gdGVjaCBkZXNpZ24gc3lzdGVtLCBCYXNlIFVJIDEuOSBwcmltaXRpdmVzLCBhbmQgZG9tYWluIENTUyBjbGVhbnVwIChTMGHigJNTNikiXSwicGVyZm9ybWFuY2UiOlsiLSDosIPmlbTlkK/liqjlkI7lhrfpobXlm57mlLbml7bmnLrlubbmlL7lrr3lj6ror7vmlofku7bmrrXov4fmu6QgLyBBbGlnbiBwb3N0LWJvb3QgY29sZC1wYWdlIHJlY2xhaW0gdGltaW5nIGFuZCByZWFkLW9ubHkgVk1BIGZpbHRlciIsIi0g5rex5bqm5LyY5YyWIE1TTSDoh6rouqvluLjpqbvlhoXlrZjljaDnlKggLyBEZWVwbHkgb3B0aW1pemUgTVNNIHJlc2lkZW50IG1lbW9yeSBmb290cHJpbnQiXSwiZml4ZWQiOlsiLSByZXNvbHZlIFM0IGFuZCBTMi1maXggcmV2aWV3IGZpbmRpbmdzIGFuZCBlbmZvcmNlIHotaW5kZXggdGllcnMgLyDkv67lpI0gUzQg5LiOIFMyIOWuoeafpemXrumimOW5tue7n+S4gOWIhuWxguS4juaXoOmanOeijeWlkee6piIsIi0gY29tcGxldGUgUzZjIGVkZ2UsIGNsb3VkZmxhcmUsIG5ldHdvcmtpbmcsIGhvbWUtYWNjZXNzIG1pZ3JhdGlvbiBhbmQgREROU1Rhc2tSb3cgZml4IC8g5a6M5oiQIFM2YyDovrnnvJjjgIHlhoXnvZHnqb/pgI/jgIHlsYXlrrborr/pl67ov4Hnp7vkuI4gREROUyDoj5zljZXkv67lpI0iLCItIOS/ruWkjeS4quaAp+WMluinhOWImeWIhuexu+iuoeaVsOaBkuS4uiAxIOWPiuWkmuS4u+mimOS4i+WunuaXtuWbvuihqOabsue6v+aSnuiJsiIsIi0gY29tcGxldGUgUzZhIG1pZ3JhdGlvbiwgZGVsZXRlIDI5IENTUyBmaWxlcywgYW5kIGZpeCBjdXN0b21pemUgb3ZlcmxhcCAvIOWujOaIkCBTNmEg5Luq6KGo55uY5LiO57uE5Lu26L+B56e744CB5riF55CGIDI5IOS7veaXpyBDU1Mg5bm25L+u5aSN5oyJ6ZKu6YGu5oyhIiwiLSByZXNvbHZlIFMyIHJldmlldyBmaW5kaW5ncyBmb3IgYm9vdCBwYXJpdHkgYW5kIFdDQUcgY29udHJhc3QgLyDkv67lpI0gUzIg5a6h5p+l5Y+R546w55qE6aaW5bGP6Zeq54OB5LiO5a+55q+U5bqm6Zeu6aKYIiwiLSBmZWF0aGVyIHNob3djYXNlIGFtYmllbnQgZWRnZSB0byBlbGltaW5hdGUgdmVydGljYWwgc2VhbSAvIOaflOWMlueZu+W9leiInuWPsOeOr+Wig+WFieWPs+i+uee8mOa2iOmZpOaOpee8nSJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS7jiAyMDI2LTExLTI1VDA2OjUwOjI4WiDkuYvlkI7nmoQgMjEg5Liq5o+Q5Lqk5Lit5pW055CG77yI57qz5YWl5b2T5YmN5ZCI5bm25YiG5pSv55qEIDIxIOS4quWOu+mHjeaPkOS6pO+8ie+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiXX19 -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>重构 PWA 离线引擎、独立应用交互与流光玻璃视觉体系 / Overhaul PWA architecture, Service Worker precaching, standalone UX, and Luminous Glass visual design</p>
+    <p>complete S5 unified PageHeader, AppearanceDrawer overhaul, and OperationsWorkspace consolidation / 完成 S5 外壳、统一页头、外观抽屉与工作台底座收口</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>合并远程最新 dev 提交（Edge 反代与 UI 升级） / Merge latest origin/dev (Edge reverse proxy and UI upgrades)</p>
+    <p>complete S6b apps, settings, users, system, process, and license migration / 完成 S6b 应用商店、设置、用户、系统、进程与授权页迁移</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>引入 FloatingPortal 修复全局下拉框、弹层与提示被遮挡的问题</p>
+    <p>调整启动后冷页回收时机并放宽只读文件段过滤 / Align post-boot cold-page reclaim timing and read-only VMA filter</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>深度升级域名与证书反代 UI 视觉设计与交互体验 / Overhaul Edge reverse proxy UI visual hierarchy and interactive UX</p>
+    <p>resolve S4 and S2-fix review findings and enforce z-index tiers / 修复 S4 与 S2 审查问题并统一分层与无障碍契约</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>增强反代302重定向/影音/SSH/Docker/WebDAV/gRPC兼容性并新增类Lucky万事大吉全兼容模式与41款应用预设 / Upgrade reverse proxy 302/media/SSH/Docker/WebDAV/gRPC compatibility, Lucky-style All-Good mode, and 41 app presets</p>
+    <p>establish T0/T1/T2 expression tiers, stage tokens, and crafted auth/boot motion / 建立三层表现力分级、单源舞台令牌并重塑登录与启动动效</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">06</span>
-    <p>实现首页卡片默认高度自适应、视觉紧凑化及全尺寸多端响应式适配 / Auto-fit classic dashboard widget heights, refine visual density, and align responsive layouts from mobile to 4K</p>
+    <p>add Base UI 1.9 primitives and swap core UI facades / 引入 Base UI 1.9 标准原语层并完成核心 UI 门面换芯</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-added">🆕 新增功能 <span>4</span></a>
-  <a href="#release-changed">✨ 功能增强 <span>1</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>4</span></a>
+  <a href="#release-added">🆕 新增功能 <span>5</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>6</span></a>
+  <a href="#release-performance">⚡ 性能优化 <span>2</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>6</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
 
@@ -72,10 +73,11 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🆕 新增功能 {#release-added}
 
-- 重构 PWA 离线引擎、独立应用交互与流光玻璃视觉体系 / Overhaul PWA architecture, Service Worker precaching, standalone UX, and Luminous Glass visual design
-- 深度升级域名与证书反代 UI 视觉设计与交互体验 / Overhaul Edge reverse proxy UI visual hierarchy and interactive UX
-- 增强反代302重定向/影音/SSH/Docker/WebDAV/gRPC兼容性并新增类Lucky万事大吉全兼容模式与41款应用预设 / Upgrade reverse proxy 302/media/SSH/Docker/WebDAV/gRPC compatibility, Lucky-style All-Good mode, and 41 app presets
-- 实现首页卡片默认高度自适应、视觉紧凑化及全尺寸多端响应式适配 / Auto-fit classic dashboard widget heights, refine visual density, and align responsive layouts from mobile to 4K
+- complete S5 unified PageHeader, AppearanceDrawer overhaul, and OperationsWorkspace consolidation / 完成 S5 外壳、统一页头、外观抽屉与工作台底座收口
+- establish T0/T1/T2 expression tiers, stage tokens, and crafted auth/boot motion / 建立三层表现力分级、单源舞台令牌并重塑登录与启动动效
+- add Base UI 1.9 primitives and swap core UI facades / 引入 Base UI 1.9 标准原语层并完成核心 UI 门面换芯
+- complete S2 single-source tokens, 9 refined themes, flat/frost dual material, and boot parity / 完成 S2 单源令牌、9 套精雕主题、纯 CSS 双材质与首屏对拍
+- add S0b dev-only full-scenario Vite mock plugin (?mock=&lt;scenario&gt;) / 新增 S0b 开发态全场景内置 Mock 插件
 
 </section>
 
@@ -83,7 +85,21 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### ✨ 功能增强 {#release-changed}
 
-- 合并远程最新 dev 提交（Edge 反代与 UI 升级） / Merge latest origin/dev (Edge reverse proxy and UI upgrades)
+- complete S6b apps, settings, users, system, process, and license migration / 完成 S6b 应用商店、设置、用户、系统、进程与授权页迁移
+- complete S6d docker, Clash, network tools, logs, and search migration / 完成 S6d 容器、代理、网络工具、日志与搜索迁移
+- strip login/boot running lights and mandatory route stagger / 清理登录启动跑马灯与切页错峰动效
+- complete S1 toolchain upgrade (@tailwindcss/vite 4.3.5, Base UI 1.9, shadcn 4.23, lucide 1.80) / 完成 S1 前端工具链与 Base UI 底座升级
+- establish S0a design constitution, panel patterns, and quality gates / 建立 S0a 视觉规范、面板契约与自动化质量门禁
+- precision tech design system, Base UI 1.9 primitives, and domain CSS cleanup (S0a–S6)
+
+</section>
+
+<section class="msm-release-section msm-release-section--performance">
+
+### ⚡ 性能优化 {#release-performance}
+
+- 调整启动后冷页回收时机并放宽只读文件段过滤 / Align post-boot cold-page reclaim timing and read-only VMA filter
+- 深度优化 MSM 自身常驻内存占用 / Deeply optimize MSM resident memory footprint
 
 </section>
 
@@ -91,10 +107,12 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🐛 问题修复 {#release-fixed}
 
-- 引入 FloatingPortal 修复全局下拉框、弹层与提示被遮挡的问题
-- 全站深度体验审计与 Chrome 实机修复（PWA 移动端、浮层安全区、空值容错与双语补齐） / Full-site UX audit and Chrome-verified fixes (mobile PWA, overlay safe-areas, null-safety, and bilingual i18n)
-- 合并远程最新 dev 提交（Edge 反向代理修复） / Merge latest origin/dev (Edge reverse proxy fixes)
-- 修复真实浏览器实测发现的样式加载、筛选栏错位、操作列折行与端口直通展示问题
+- resolve S4 and S2-fix review findings and enforce z-index tiers / 修复 S4 与 S2 审查问题并统一分层与无障碍契约
+- complete S6c edge, cloudflare, networking, home-access migration and DDNSTaskRow fix / 完成 S6c 边缘、内网穿透、居家访问迁移与 DDNS 菜单修复
+- 修复个性化规则分类计数恒为 1 及多主题下实时图表曲线撞色
+- complete S6a migration, delete 29 CSS files, and fix customize overlap / 完成 S6a 仪表盘与组件迁移、清理 29 份旧 CSS 并修复按钮遮挡
+- resolve S2 review findings for boot parity and WCAG contrast / 修复 S2 审查发现的首屏闪烁与对比度问题
+- feather showcase ambient edge to eliminate vertical seam / 柔化登录舞台环境光右边缘消除接缝
 
 </section>
 
@@ -102,16 +120,16 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-11-25T03:45:32Z 之后的 10 个提交中整理（纳入当前合并分支的 10 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 从 2026-11-25T06:50:28Z 之后的 21 个提交中整理（纳入当前合并分支的 21 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`564e81b`](https://github.com/msm9527/msm/commit/564e81b907a401a5cd75b4011aee2473661c084c)
-- **提交信息**：chore(release): 升级版本至 2.9.2 / bump version to 2.9.2
+- **源提交**： [`89c08c1`](https://github.com/msm9527/msm/commit/89c08c1cdc1a01a6616def2e993f267c79ca1fdf)
+- **提交信息**：chore(release): 升级版本至 2.9.3 / bump version to 2.9.3
 - **提交作者**：msm
-- **提交时间**：2026-11-25 14:42:57 CST
+- **提交时间**：2026-11-25 19:54:13 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -120,6 +138,43 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.9.2 · 2026-11-25 14:42 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.2" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 重构 PWA 离线引擎、独立应用交互与流光玻璃视觉体系 / Overhaul PWA architecture, Service Worker precaching, standalone UX, and Luminous Glass visual design
+- 合并远程最新 dev 提交（Edge 反代与 UI 升级） / Merge latest origin/dev (Edge reverse proxy and UI upgrades)
+- 引入 FloatingPortal 修复全局下拉框、弹层与提示被遮挡的问题
+- 深度升级域名与证书反代 UI 视觉设计与交互体验 / Overhaul Edge reverse proxy UI visual hierarchy and interactive UX
+- 增强反代302重定向/影音/SSH/Docker/WebDAV/gRPC兼容性并新增类Lucky万事大吉全兼容模式与41款应用预设 / Upgrade reverse proxy 302/media/SSH/Docker/WebDAV/gRPC compatibility, Lucky-style All-Good mode, and 41 app presets
+- 实现首页卡片默认高度自适应、视觉紧凑化及全尺寸多端响应式适配 / Auto-fit classic dashboard widget heights, refine visual density, and align responsive layouts from mobile to 4K
+
+**🆕 新增功能**
+
+- 重构 PWA 离线引擎、独立应用交互与流光玻璃视觉体系 / Overhaul PWA architecture, Service Worker precaching, standalone UX, and Luminous Glass visual design
+- 深度升级域名与证书反代 UI 视觉设计与交互体验 / Overhaul Edge reverse proxy UI visual hierarchy and interactive UX
+- 增强反代302重定向/影音/SSH/Docker/WebDAV/gRPC兼容性并新增类Lucky万事大吉全兼容模式与41款应用预设 / Upgrade reverse proxy 302/media/SSH/Docker/WebDAV/gRPC compatibility, Lucky-style All-Good mode, and 41 app presets
+- 实现首页卡片默认高度自适应、视觉紧凑化及全尺寸多端响应式适配 / Auto-fit classic dashboard widget heights, refine visual density, and align responsive layouts from mobile to 4K
+
+**✨ 功能增强**
+
+- 合并远程最新 dev 提交（Edge 反代与 UI 升级） / Merge latest origin/dev (Edge reverse proxy and UI upgrades)
+
+**🐛 问题修复**
+
+- 引入 FloatingPortal 修复全局下拉框、弹层与提示被遮挡的问题
+- 全站深度体验审计与 Chrome 实机修复（PWA 移动端、浮层安全区、空值容错与双语补齐） / Full-site UX audit and Chrome-verified fixes (mobile PWA, overlay safe-areas, null-safety, and bilingual i18n)
+- 合并远程最新 dev 提交（Edge 反向代理修复） / Merge latest origin/dev (Edge reverse proxy fixes)
+- 修复真实浏览器实测发现的样式加载、筛选栏错位、操作列折行与端口直通展示问题
+
+**📌 升级提醒**
+
+- 从 2026-11-25T03:45:32Z 之后的 10 个提交中整理（纳入当前合并分支的 10 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+:::
 
 ::: details beta-2.9.1 · 2026-11-25 10:45 · Beta 版
 
