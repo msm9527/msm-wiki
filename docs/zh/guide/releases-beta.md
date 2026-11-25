@@ -13,57 +13,58 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.9.1" data-release-date="2026-11-25 10:45:49 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.1">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.9.2" data-release-date="2026-11-25 14:42:57 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.2">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.9.1</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.9.2</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.1" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.2" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>7 项</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>9 项</strong></div>
   <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-25 10:45:49 CST</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-25 14:42:57 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDnroDljJblsYDln5/nvZHnm7Tov57lj43lkJHku6PnkIbmtYHnqIvlubbph43mnoTln5/lkI3kuI7or4HkuabkuIPlpKflrZDmqKHlnZfogZTliqggLyBTaW1wbGlmeSBkaXJlY3QgTEFOIHJldmVyc2UgcHJveHkgZmxvdyBhbmQgY29ubmVjdCBhbGwgc2V2ZW4gRWRnZSBzdWItbW9kdWxlcyIsIi0g5paw5aKe6Leo5byV5pOO57uf5LiA56uv5Y+j5Y+w6LSmIEdFVCAvYXBpL3YxL2VkZ2UvcG9ydHMg5LiO5Y+N5LujL+err+WPo+i9rOWPkS9TVFVOIOWGsueqgeagoemqjCIsIi0g5L+u5aSNIGRldiDlpJrpobnov5DooYzml7YvVUkv5LiL6L295LiO5Ya35b2S5qGj5qC45b+D6Zeu6aKY5bm26YeN5p6E6YCa55+l5Lit5b+DIiwiLSDmiZPno6jlj43lkJHku6PnkIbkurrkvZPlt6XlrabkuqTkupLvvIjkv67lpI3pooTop4jljaDkvY3nrKbjgIHoh6rliqjloavlkI3jgIHljZXmraXliJvlu7rkuI7nq6/lj6Pnm7TpgJrkuIDplK7orr/pl67vvIkgLyBQb2xpc2ggcmV2ZXJzZSBwcm94eSBlcmdvbm9taWNzIChmaXggcHJldmlldyBwbGFjZWhvbGRlciwgYXV0by1uYW1pbmcsIHNpbmdsZS1zdGVwIGNyZWF0ZSwgYW5kIGNsaWNrYWJsZSBwb3J0LWRpcmVjdCBsaW5rcykiLCItIOS/ruWkjSBDbGFzaCBTbWFydCDmoLjlv4PphY3nva7lpLHmraXjgIFETlMg5rGh5p+T44CB5YGl5bq35qOA5p+l6K+v5bCB5LiO5Ya35b2S5qGj5aSN55So6Zeu6aKYIC8gRml4IENsYXNoIFNtYXJ0IGNvcmUvY29uZmlnIGRlc3luYywgRE5TIHBvaXNvbmluZywgYWdncmVzc2l2ZSBoZWFsdGgtY2hlY2sgYmFucywgYW5kIGNvbGQtYXJjaGl2ZSByZXVzZSIsIi0g5L+u5aSN5Y+N5Luj5Y2H57qn5rWL6K+VIHRhcmdldF91cmwg57G75Z6L5Zue6YCA5Lul6YCa6L+H5YmN56uv5p6E5bu6Il0sIm1ham9yIjpbXSwiYWRkZWQiOlsiLSDnroDljJblsYDln5/nvZHnm7Tov57lj43lkJHku6PnkIbmtYHnqIvlubbph43mnoTln5/lkI3kuI7or4HkuabkuIPlpKflrZDmqKHlnZfogZTliqggLyBTaW1wbGlmeSBkaXJlY3QgTEFOIHJldmVyc2UgcHJveHkgZmxvdyBhbmQgY29ubmVjdCBhbGwgc2V2ZW4gRWRnZSBzdWItbW9kdWxlcyIsIi0g5pSv5oyB6KO4IGhvc3Q6cG9ydCDlsYDln5/nvZHnm67moIfnm7Tov57kuI7lhY3ln5/lkI3nq6/lj6Pnm7TpgJrvvIgq77yJ5Y+N5Luj77yM5peg6ZyA5YWI5bu656uv5Y+j6L2s5Y+RIl0sImNoYW5nZWQiOltdLCJwZXJmb3JtYW5jZSI6W10sImZpeGVkIjpbIi0g5paw5aKe6Leo5byV5pOO57uf5LiA56uv5Y+j5Y+w6LSmIEdFVCAvYXBpL3YxL2VkZ2UvcG9ydHMg5LiO5Y+N5LujL+err+WPo+i9rOWPkS9TVFVOIOWGsueqgeagoemqjCIsIi0g5L+u5aSNIGRldiDlpJrpobnov5DooYzml7YvVUkv5LiL6L295LiO5Ya35b2S5qGj5qC45b+D6Zeu6aKY5bm26YeN5p6E6YCa55+l5Lit5b+DIiwiLSDmiZPno6jlj43lkJHku6PnkIbkurrkvZPlt6XlrabkuqTkupLvvIjkv67lpI3pooTop4jljaDkvY3nrKbjgIHoh6rliqjloavlkI3jgIHljZXmraXliJvlu7rkuI7nq6/lj6Pnm7TpgJrkuIDplK7orr/pl67vvIkgLyBQb2xpc2ggcmV2ZXJzZSBwcm94eSBlcmdvbm9taWNzIChmaXggcHJldmlldyBwbGFjZWhvbGRlciwgYXV0by1uYW1pbmcsIHNpbmdsZS1zdGVwIGNyZWF0ZSwgYW5kIGNsaWNrYWJsZSBwb3J0LWRpcmVjdCBsaW5rcykiLCItIOS/ruWkjSBDbGFzaCBTbWFydCDmoLjlv4PphY3nva7lpLHmraXjgIFETlMg5rGh5p+T44CB5YGl5bq35qOA5p+l6K+v5bCB5LiO5Ya35b2S5qGj5aSN55So6Zeu6aKYIC8gRml4IENsYXNoIFNtYXJ0IGNvcmUvY29uZmlnIGRlc3luYywgRE5TIHBvaXNvbmluZywgYWdncmVzc2l2ZSBoZWFsdGgtY2hlY2sgYmFucywgYW5kIGNvbGQtYXJjaGl2ZSByZXVzZSIsIi0g5L+u5aSN5Y+N5Luj5Y2H57qn5rWL6K+VIHRhcmdldF91cmwg57G75Z6L5Zue6YCA5Lul6YCa6L+H5YmN56uv5p6E5bu6Il0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMTEtMjRUMDg6NTk6NThaIOS5i+WQjueahCA2IOS4quaPkOS6pOS4reaVtOeQhu+8iOe6s+WFpeW9k+WJjeWQiOW5tuWIhuaUr+eahCA2IOS4quWOu+mHjeaPkOS6pO+8ie+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiXX19 -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDph43mnoQgUFdBIOemu+e6v+W8leaTjuOAgeeLrOeri+W6lOeUqOS6pOS6kuS4jua1geWFieeOu+eSg+inhuinieS9k+ezuyAvIE92ZXJoYXVsIFBXQSBhcmNoaXRlY3R1cmUsIFNlcnZpY2UgV29ya2VyIHByZWNhY2hpbmcsIHN0YW5kYWxvbmUgVVgsIGFuZCBMdW1pbm91cyBHbGFzcyB2aXN1YWwgZGVzaWduIiwiLSDlkIjlubbov5znqIvmnIDmlrAgZGV2IOaPkOS6pO+8iEVkZ2Ug5Y+N5Luj5LiOIFVJIOWNh+e6p++8iSAvIE1lcmdlIGxhdGVzdCBvcmlnaW4vZGV2IChFZGdlIHJldmVyc2UgcHJveHkgYW5kIFVJIHVwZ3JhZGVzKSIsIi0g5byV5YWlIEZsb2F0aW5nUG9ydGFsIOS/ruWkjeWFqOWxgOS4i+aLieahhuOAgeW8ueWxguS4juaPkOekuuiiq+mBruaMoeeahOmXrumimCIsIi0g5rex5bqm5Y2H57qn5Z+f5ZCN5LiO6K+B5Lmm5Y+N5LujIFVJIOinhuinieiuvuiuoeS4juS6pOS6kuS9k+mqjCAvIE92ZXJoYXVsIEVkZ2UgcmV2ZXJzZSBwcm94eSBVSSB2aXN1YWwgaGllcmFyY2h5IGFuZCBpbnRlcmFjdGl2ZSBVWCIsIi0g5aKe5by65Y+N5LujMzAy6YeN5a6a5ZCRL+W9semfsy9TU0gvRG9ja2VyL1dlYkRBVi9nUlBD5YW85a655oCn5bm25paw5aKe57G7THVja3nkuIfkuovlpKflkInlhajlhbzlrrnmqKHlvI/kuI40MeasvuW6lOeUqOmihOiuviAvIFVwZ3JhZGUgcmV2ZXJzZSBwcm94eSAzMDIvbWVkaWEvU1NIL0RvY2tlci9XZWJEQVYvZ1JQQyBjb21wYXRpYmlsaXR5LCBMdWNreS1zdHlsZSBBbGwtR29vZCBtb2RlLCBhbmQgNDEgYXBwIHByZXNldHMiLCItIOWunueOsOmmlumhteWNoeeJh+m7mOiupOmrmOW6puiHqumAguW6lOOAgeinhuiniee0p+WHkeWMluWPiuWFqOWwuuWvuOWkmuerr+WTjeW6lOW8j+mAgumFjSAvIEF1dG8tZml0IGNsYXNzaWMgZGFzaGJvYXJkIHdpZGdldCBoZWlnaHRzLCByZWZpbmUgdmlzdWFsIGRlbnNpdHksIGFuZCBhbGlnbiByZXNwb25zaXZlIGxheW91dHMgZnJvbSBtb2JpbGUgdG8gNEsiXSwibWFqb3IiOltdLCJhZGRlZCI6WyItIOmHjeaehCBQV0Eg56a757q/5byV5pOO44CB54us56uL5bqU55So5Lqk5LqS5LiO5rWB5YWJ546755KD6KeG6KeJ5L2T57O7IC8gT3ZlcmhhdWwgUFdBIGFyY2hpdGVjdHVyZSwgU2VydmljZSBXb3JrZXIgcHJlY2FjaGluZywgc3RhbmRhbG9uZSBVWCwgYW5kIEx1bWlub3VzIEdsYXNzIHZpc3VhbCBkZXNpZ24iLCItIOa3seW6puWNh+e6p+Wfn+WQjeS4juivgeS5puWPjeS7oyBVSSDop4bop4norr7orqHkuI7kuqTkupLkvZPpqowgLyBPdmVyaGF1bCBFZGdlIHJldmVyc2UgcHJveHkgVUkgdmlzdWFsIGhpZXJhcmNoeSBhbmQgaW50ZXJhY3RpdmUgVVgiLCItIOWinuW8uuWPjeS7ozMwMumHjeWumuWQkS/lvbHpn7MvU1NIL0RvY2tlci9XZWJEQVYvZ1JQQ+WFvOWuueaAp+W5tuaWsOWinuexu0x1Y2t55LiH5LqL5aSn5ZCJ5YWo5YW85a655qih5byP5LiONDHmrL7lupTnlKjpooTorr4gLyBVcGdyYWRlIHJldmVyc2UgcHJveHkgMzAyL21lZGlhL1NTSC9Eb2NrZXIvV2ViREFWL2dSUEMgY29tcGF0aWJpbGl0eSwgTHVja3ktc3R5bGUgQWxsLUdvb2QgbW9kZSwgYW5kIDQxIGFwcCBwcmVzZXRzIiwiLSDlrp7njrDpppbpobXljaHniYfpu5jorqTpq5jluqboh6rpgILlupTjgIHop4bop4nntKflh5HljJblj4rlhajlsLrlr7jlpJrnq6/lk43lupTlvI/pgILphY0gLyBBdXRvLWZpdCBjbGFzc2ljIGRhc2hib2FyZCB3aWRnZXQgaGVpZ2h0cywgcmVmaW5lIHZpc3VhbCBkZW5zaXR5LCBhbmQgYWxpZ24gcmVzcG9uc2l2ZSBsYXlvdXRzIGZyb20gbW9iaWxlIHRvIDRLIl0sImNoYW5nZWQiOlsiLSDlkIjlubbov5znqIvmnIDmlrAgZGV2IOaPkOS6pO+8iEVkZ2Ug5Y+N5Luj5LiOIFVJIOWNh+e6p++8iSAvIE1lcmdlIGxhdGVzdCBvcmlnaW4vZGV2IChFZGdlIHJldmVyc2UgcHJveHkgYW5kIFVJIHVwZ3JhZGVzKSJdLCJwZXJmb3JtYW5jZSI6W10sImZpeGVkIjpbIi0g5byV5YWlIEZsb2F0aW5nUG9ydGFsIOS/ruWkjeWFqOWxgOS4i+aLieahhuOAgeW8ueWxguS4juaPkOekuuiiq+mBruaMoeeahOmXrumimCIsIi0g5YWo56uZ5rex5bqm5L2T6aqM5a6h6K6h5LiOIENocm9tZSDlrp7mnLrkv67lpI3vvIhQV0Eg56e75Yqo56uv44CB5rWu5bGC5a6J5YWo5Yy644CB56m65YC85a656ZSZ5LiO5Y+M6K+t6KGl6b2Q77yJIC8gRnVsbC1zaXRlIFVYIGF1ZGl0IGFuZCBDaHJvbWUtdmVyaWZpZWQgZml4ZXMgKG1vYmlsZSBQV0EsIG92ZXJsYXkgc2FmZS1hcmVhcywgbnVsbC1zYWZldHksIGFuZCBiaWxpbmd1YWwgaTE4bikiLCItIOWQiOW5tui/nOeoi+acgOaWsCBkZXYg5o+Q5Lqk77yIRWRnZSDlj43lkJHku6PnkIbkv67lpI3vvIkgLyBNZXJnZSBsYXRlc3Qgb3JpZ2luL2RldiAoRWRnZSByZXZlcnNlIHByb3h5IGZpeGVzKSIsIi0g5L+u5aSN55yf5a6e5rWP6KeI5Zmo5a6e5rWL5Y+R546w55qE5qC35byP5Yqg6L2944CB562b6YCJ5qCP6ZSZ5L2N44CB5pON5L2c5YiX5oqY6KGM5LiO56uv5Y+j55u06YCa5bGV56S66Zeu6aKYIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMTEtMjVUMDM6NDU6MzJaIOS5i+WQjueahCAxMCDkuKrmj5DkuqTkuK3mlbTnkIbvvIjnurPlhaXlvZPliY3lkIjlubbliIbmlK/nmoQgMTAg5Liq5Y676YeN5o+Q5Lqk77yJ77yb5b2T5YmN5L2/55So5o+Q5Lqk5qCH6aKY5LiO5q2j5paH6KaB54K555Sf5oiQ6KeE5YiZ5pGY6KaB77yM5pyq57uP6L+HIEFJIOivreS5ieW9kue6s+aIlui/kOihjOmqjOivgSJdfX0= -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>简化局域网直连反向代理流程并重构域名与证书七大子模块联动 / Simplify direct LAN reverse proxy flow and connect all seven Edge sub-modules</p>
+    <p>重构 PWA 离线引擎、独立应用交互与流光玻璃视觉体系 / Overhaul PWA architecture, Service Worker precaching, standalone UX, and Luminous Glass visual design</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>新增跨引擎统一端口台账 GET /api/v1/edge/ports 与反代/端口转发/STUN 冲突校验</p>
+    <p>合并远程最新 dev 提交（Edge 反代与 UI 升级） / Merge latest origin/dev (Edge reverse proxy and UI upgrades)</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>修复 dev 多项运行时/UI/下载与冷归档核心问题并重构通知中心</p>
+    <p>引入 FloatingPortal 修复全局下拉框、弹层与提示被遮挡的问题</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>打磨反向代理人体工学交互（修复预览占位符、自动填名、单步创建与端口直通一键访问） / Polish reverse proxy ergonomics (fix preview placeholder, auto-naming, single-step create, and clickable port-direct links)</p>
+    <p>深度升级域名与证书反代 UI 视觉设计与交互体验 / Overhaul Edge reverse proxy UI visual hierarchy and interactive UX</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>修复 Clash Smart 核心配置失步、DNS 污染、健康检查误封与冷归档复用问题 / Fix Clash Smart core/config desync, DNS poisoning, aggressive health-check bans, and cold-archive reuse</p>
+    <p>增强反代302重定向/影音/SSH/Docker/WebDAV/gRPC兼容性并新增类Lucky万事大吉全兼容模式与41款应用预设 / Upgrade reverse proxy 302/media/SSH/Docker/WebDAV/gRPC compatibility, Lucky-style All-Good mode, and 41 app presets</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">06</span>
-    <p>修复反代升级测试 target_url 类型回退以通过前端构建</p>
+    <p>实现首页卡片默认高度自适应、视觉紧凑化及全尺寸多端响应式适配 / Auto-fit classic dashboard widget heights, refine visual density, and align responsive layouts from mobile to 4K</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-added">🆕 新增功能 <span>2</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>5</span></a>
+  <a href="#release-added">🆕 新增功能 <span>4</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>1</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>4</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
 
@@ -71,8 +72,18 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🆕 新增功能 {#release-added}
 
-- 简化局域网直连反向代理流程并重构域名与证书七大子模块联动 / Simplify direct LAN reverse proxy flow and connect all seven Edge sub-modules
-- 支持裸 host:port 局域网目标直连与免域名端口直通（*）反代，无需先建端口转发
+- 重构 PWA 离线引擎、独立应用交互与流光玻璃视觉体系 / Overhaul PWA architecture, Service Worker precaching, standalone UX, and Luminous Glass visual design
+- 深度升级域名与证书反代 UI 视觉设计与交互体验 / Overhaul Edge reverse proxy UI visual hierarchy and interactive UX
+- 增强反代302重定向/影音/SSH/Docker/WebDAV/gRPC兼容性并新增类Lucky万事大吉全兼容模式与41款应用预设 / Upgrade reverse proxy 302/media/SSH/Docker/WebDAV/gRPC compatibility, Lucky-style All-Good mode, and 41 app presets
+- 实现首页卡片默认高度自适应、视觉紧凑化及全尺寸多端响应式适配 / Auto-fit classic dashboard widget heights, refine visual density, and align responsive layouts from mobile to 4K
+
+</section>
+
+<section class="msm-release-section msm-release-section--changed">
+
+### ✨ 功能增强 {#release-changed}
+
+- 合并远程最新 dev 提交（Edge 反代与 UI 升级） / Merge latest origin/dev (Edge reverse proxy and UI upgrades)
 
 </section>
 
@@ -80,11 +91,10 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 🐛 问题修复 {#release-fixed}
 
-- 新增跨引擎统一端口台账 GET /api/v1/edge/ports 与反代/端口转发/STUN 冲突校验
-- 修复 dev 多项运行时/UI/下载与冷归档核心问题并重构通知中心
-- 打磨反向代理人体工学交互（修复预览占位符、自动填名、单步创建与端口直通一键访问） / Polish reverse proxy ergonomics (fix preview placeholder, auto-naming, single-step create, and clickable port-direct links)
-- 修复 Clash Smart 核心配置失步、DNS 污染、健康检查误封与冷归档复用问题 / Fix Clash Smart core/config desync, DNS poisoning, aggressive health-check bans, and cold-archive reuse
-- 修复反代升级测试 target_url 类型回退以通过前端构建
+- 引入 FloatingPortal 修复全局下拉框、弹层与提示被遮挡的问题
+- 全站深度体验审计与 Chrome 实机修复（PWA 移动端、浮层安全区、空值容错与双语补齐） / Full-site UX audit and Chrome-verified fixes (mobile PWA, overlay safe-areas, null-safety, and bilingual i18n)
+- 合并远程最新 dev 提交（Edge 反向代理修复） / Merge latest origin/dev (Edge reverse proxy fixes)
+- 修复真实浏览器实测发现的样式加载、筛选栏错位、操作列折行与端口直通展示问题
 
 </section>
 
@@ -92,16 +102,16 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-11-24T08:59:58Z 之后的 6 个提交中整理（纳入当前合并分支的 6 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 从 2026-11-25T03:45:32Z 之后的 10 个提交中整理（纳入当前合并分支的 10 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`7d440d8`](https://github.com/msm9527/msm/commit/7d440d8fc2db3ffa8a25fa7365d6b6106e542250)
-- **提交信息**：fix(edge): 打磨反向代理人体工学交互（修复预览占位符、自动填名、单步创建与端口直通一键访问） / Polish reverse proxy ergonomics (fix preview placeholder, auto-naming, single-step create, and clickable port-direct links)
+- **源提交**： [`564e81b`](https://github.com/msm9527/msm/commit/564e81b907a401a5cd75b4011aee2473661c084c)
+- **提交信息**：chore(release): 升级版本至 2.9.2 / bump version to 2.9.2
 - **提交作者**：msm
-- **提交时间**：2026-11-25 10:45:49 CST
+- **提交时间**：2026-11-25 14:42:57 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -110,6 +120,38 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.9.1 · 2026-11-25 10:45 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.1" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 简化局域网直连反向代理流程并重构域名与证书七大子模块联动 / Simplify direct LAN reverse proxy flow and connect all seven Edge sub-modules
+- 新增跨引擎统一端口台账 GET /api/v1/edge/ports 与反代/端口转发/STUN 冲突校验
+- 修复 dev 多项运行时/UI/下载与冷归档核心问题并重构通知中心
+- 打磨反向代理人体工学交互（修复预览占位符、自动填名、单步创建与端口直通一键访问） / Polish reverse proxy ergonomics (fix preview placeholder, auto-naming, single-step create, and clickable port-direct links)
+- 修复 Clash Smart 核心配置失步、DNS 污染、健康检查误封与冷归档复用问题 / Fix Clash Smart core/config desync, DNS poisoning, aggressive health-check bans, and cold-archive reuse
+- 修复反代升级测试 target_url 类型回退以通过前端构建
+
+**🆕 新增功能**
+
+- 简化局域网直连反向代理流程并重构域名与证书七大子模块联动 / Simplify direct LAN reverse proxy flow and connect all seven Edge sub-modules
+- 支持裸 host:port 局域网目标直连与免域名端口直通（*）反代，无需先建端口转发
+
+**🐛 问题修复**
+
+- 新增跨引擎统一端口台账 GET /api/v1/edge/ports 与反代/端口转发/STUN 冲突校验
+- 修复 dev 多项运行时/UI/下载与冷归档核心问题并重构通知中心
+- 打磨反向代理人体工学交互（修复预览占位符、自动填名、单步创建与端口直通一键访问） / Polish reverse proxy ergonomics (fix preview placeholder, auto-naming, single-step create, and clickable port-direct links)
+- 修复 Clash Smart 核心配置失步、DNS 污染、健康检查误封与冷归档复用问题 / Fix Clash Smart core/config desync, DNS poisoning, aggressive health-check bans, and cold-archive reuse
+- 修复反代升级测试 target_url 类型回退以通过前端构建
+
+**📌 升级提醒**
+
+- 从 2026-11-24T08:59:58Z 之后的 6 个提交中整理（纳入当前合并分支的 6 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+:::
 
 ::: details beta-2.9.0 · 2026-11-24 16:48 · Beta 版
 
