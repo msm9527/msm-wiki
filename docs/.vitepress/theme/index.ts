@@ -355,7 +355,7 @@ export default {
       }
 
       const targets = document.querySelectorAll<HTMLElement>(
-        '.VPHome .VPFeatures .item, .msm-home-jump a, .VPHome .vp-doc h2'
+        '.VPHome .VPFeatures .item, .msm-home-jump a, .VPHome .vp-doc h2, .VPHome .vp-doc .msm-goal, .VPHome .vp-doc .msm-router, .VPHome .vp-doc .msm-link'
       )
       if (!targets.length) return
 

@@ -60,11 +60,12 @@
   /* ==================== 毛玻璃（苹果风） ==================== */
   /* 半透明表面 + 背景模糊 + 提饱和，用于顶栏、下拉、抽屉、Hero 图版 */
   --msm-glass-bg: rgba(255, 255, 255, 0.72);
-  --msm-glass-bg-strong: rgba(255, 255, 255, 0.82);
-  --msm-glass-border: rgba(255, 255, 255, 0.55);
+  --msm-glass-bg-strong: rgba(255, 255, 255, 0.84);
+  --msm-glass-border: rgba(255, 255, 255, 0.62);
+  --msm-surface-sheen: rgba(255, 255, 255, 0.75);
   --msm-glass-blur: 20px;
   --msm-glass-saturate: 180%;
-  --msm-glass-shadow: 0 8px 32px rgba(12, 21, 38, 0.1);
+  --msm-glass-shadow: 0 8px 32px rgba(12, 21, 38, 0.09);
 
   /* ==================== 语义色 ==================== */
   --msm-success: #10774f;
@@ -156,6 +157,7 @@
 
   /* ==================== 布局 ==================== */
   --msm-layout-max: 1440px;
+  --msm-doc-max-width: 748px;
   --msm-sidebar-width: 248px;
   --msm-navbar-height: 60px;
   --msm-grid-size: 32px;
@@ -206,10 +208,11 @@
   --msm-glow-accent: rgba(255, 171, 77, 0.16);
 
   /* 暗色毛玻璃：深靛半透明，模糊后透出底层网格与色光 */
-  --msm-glass-bg: rgba(12, 20, 40, 0.6);
-  --msm-glass-bg-strong: rgba(12, 20, 40, 0.74);
-  --msm-glass-border: rgba(126, 166, 255, 0.16);
-  --msm-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --msm-glass-bg: rgba(12, 20, 40, 0.64);
+  --msm-glass-bg-strong: rgba(12, 20, 40, 0.78);
+  --msm-glass-border: rgba(126, 166, 255, 0.18);
+  --msm-surface-sheen: rgba(255, 255, 255, 0.06);
+  --msm-glass-shadow: 0 10px 34px rgba(0, 0, 0, 0.52);
 
   --msm-success: #45c78d;
   --msm-success-soft: rgba(69, 199, 141, 0.14);

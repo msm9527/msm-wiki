@@ -56,9 +56,9 @@ Clash Meta、Clash Smart 与 Sing-Box 共享同一套导航入口与控制面：
 
 远程回家入站与终端配置分发已和自建私网统一收口，旧地址 `/proxy/home` 会自动跳转：
 
-- **自建私网（`/networking`）**：EasyTier、Tailscale、WireGuard 可多选并存
-- **回家入站（`/networking/inbound`）**：管理 Clash / Sing-Box 多协议公网入站监听器
-- **终端分发（`/networking/delivery`）**：一键生成完整客户端配置、二维码与可撤销分享链接
+- **自建私网（`/networking`）**：WireGuard、EasyTier、Tailscale 按需安装、多选并存与成员设备管理
+- **代理协议回家（`/networking/inbound`）**：管理 Clash / Sing-Box 多协议公网入站监听器、跨核心一键同步与运行检查
+- **终端配发（`/networking/delivery`）**：跨核心生成五端完整客户端配置（Clash / Clash Smart / Sing-Box reF1nd / 官方 Sing-Box / Loon）、二维码、可撤销分享短链与防代理 TUN 抢路由规则
 - **Cloudflare 内网穿透（`/cloudflare/tunnel`）**：无需公网 IP 通过 HTTPS 域名发布内网 Web 服务
 
 详见 [远程回家](/zh/guide/home)、[自建私网](/zh/guide/networking) 和 [Cloudflare 内网穿透](/zh/guide/cloudflare)。
@@ -67,7 +67,7 @@ Clash Meta、Clash Smart 与 Sing-Box 共享同一套导航入口与控制面：
 
 以下模块在 **应用商店** 安装并开启 **系统设置 → 功能开关** 后显示（同时校验 Pro 授权与用户角色）：
 
-- **域名服务（Edge 网关，`/edge`）**：进程内纯 Go 网关引擎，一站式完成服务拓扑、DDNS、ACME 证书、L7 反向代理、L4 端口转发与 STUN 穿透。详见 [域名服务](/zh/guide/domain-services)。
+- **域名服务（Edge 网关，`/edge`）**：进程内纯 Go 网关引擎，一站式完成全链路实时流量拓扑、DDNS、ACME 证书与部署钩子、L7 反向代理（智能全兼容 / 严格防跨站 / 41 款应用预设 / 端口直通 / 微缓存）、L4 转发与 443 零解密分流、STUN NAT1 穿透。详见 [域名服务](/zh/guide/domain-services)。
 - **Docker 管理（`/docker`）**：纳管本机及独立 Agent 子节点（`msmbox/msm-agent`）的容器、应用栈、镜像、存储卷、网络、更新检查、实时事件与操作审计。详见 [Docker 管理](/zh/guide/docker-center)。
 - **网络工具（`/nettools`）**：集成 Ping、DNS、MTR、Traceroute、测速、iPerf3、端口扫描、SSL、WOL 与 ARP 等诊断工具。详见 [网络工具](/zh/guide/network-tools)。
 

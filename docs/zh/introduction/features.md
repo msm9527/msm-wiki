@@ -50,53 +50,51 @@ MSM 只提供上述核心和用户自有或依法取得使用权配置的管理�
 
 ## 回家与远程接入
 
-### 多协议远程回家
+### 多协议远程回家与终端配发
 
-- Clash 与 Sing-Box 双核心支持
-- 支持 Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2 和 TUIC v5
-- 自动检测出口地址与家庭网段建议
-- 多监听器服务端配置，以及 Clash / 官方 Sing-Box / reF1nd 完整客户端配置
-- 按协议提示 TCP / UDP 转发，并检查 Docker 发布端口 / 目标端口
-- 完整配置校验、监听检查和失败回滚
+- Clash 与 Sing-Box（Pro）双核心支持，并支持跨核心一键同步回家入站参数
+- 支持 Shadowsocks、VLESS、Trojan、AnyTLS、Hysteria2 和 TUIC v5 多监听器并存
+- 自动检测出口地址、匹配 DDNS 与家庭网段，支持一键合并自建私网路由
+- 跨核心自动转换并配发 5 种客户端格式（Clash / Clash Smart / Sing-Box reF1nd / 官方 Sing-Box / Loon `.lcf`），可选融入 WireGuard 单 TUN 通道
+- 支持「仅回家网段」与「全流量经家庭出口」双策略、可撤销分享短链、轻量节点扫码及电脑端防代理 TUN 抢路由规则
+- 按协议提示 TCP / UDP 转发并自动比对 Docker 发布端口 / 目标端口，完整校验并支持失败回滚
 
 ### Cloudflare 内网穿透
 
-- Cloudflare Tunnel：使用一个 Tunnel 发布多个本机或局域网 Web 服务
+- Cloudflare Tunnel：使用一个 Tunnel 发布多个本机或局域网 Web 服务，并支持免账号 Quick Tunnel 临时体验
 - API 自动配置：跨 Zone 匹配域名、维护入口和 DNS 记录
 - 源站可选择 MSM 本机或其他局域网设备
 - 连接器安装、加密凭据、日志和逐入口诊断
 
 ### 自建私网
 
-- EasyTier：点对点与中继组网
-- Tailscale / Headscale：控制面注册、路由和出口节点
-- WireGuard：Endpoint、Peer 和一次性客户端密钥
-- 三个服务可多选并存，独立安装、自动启动、成员管理与诊断
+- WireGuard：支持 Linux 原生内核接口、DDNS Endpoint 联动、一次性客户端私钥与移动端单 TUN 融合
+- EasyTier：点对点与中继组网、DHCP / 固定虚拟 IP 切换与高级 TOML 参数编辑
+- Tailscale / Headscale：控制面注册、子网路由与出口节点
+- 三个引擎按需在应用商店安装/安全卸载，可多选并存、独立启停与诊断
 
-## 域名服务
+## 域名服务（Edge 网关）
 
 ### DDNS
 
-- 加密保存服务商凭据
-- IPv4 / IPv6 来源与定时更新
-- 服务商写入和权威解析双重状态
-- 重试、错误记录与手动诊断
+- 内置 12 类 DNS 服务商与协议（Cloudflare、阿里云、腾讯云/DNSPod、华为云、DuckDNS、Porkbun、NameSilo、deSEC、DynDNS2、RFC 2136、Webhook）
+- 加密保存服务商凭据，支持 IPv4 / IPv6 双栈独立来源与定时更新
+- 服务商写入和权威解析双重校验、重试与手动诊断
 
 ### HTTPS 证书
 
-- Let's Encrypt、ZeroSSL 和受限的自定义 ACME
-- DNS-01 简单模式
-- HTTP-01 / TLS-ALPN-01 专家模式与预检
-- PEM 导入、证书链和私钥匹配校验
-- 自动续期、退避重试和运行时加载
+- Let's Encrypt、ZeroSSL 和自定义 ACME，支持 DNS-01（含通配符）与 HTTP-01 / TLS-ALPN-01
+- PEM 导入、证书链和私钥匹配校验、行内自动签发
+- 自动续期、退避重试、引用删除保护与续期部署钩子（本机文件导出 / 重启 Docker 容器 / Webhook）
 
-### 反向代理
+### 反向代理、L4 转发与 STUN 穿透
 
-- 域名到内网 HTTP / HTTPS 服务
-- WebSocket、路径、Header、超时、重试和多上游
-- 健康检查、访问日志和发布链路诊断
-- 配置安全加载与失败恢复
-- DDNS → 证书 → 代理的一键可恢复工作流
+- 进程内纯 Go 网关引擎：支持反向代理、重定向、静态网站、直出响应与 444 静默断开五类规则，支持域名反代与免域名端口直通
+- 内置 **智能全兼容** 一键通用反代模式、**严格防跨站（对齐 Host）** 与 **41 款应用预设**
+- 四档安全姿态（含外网密码 · 内网免密）、路径级智能微缓存、批量运维、快照回滚与外部配置迁移导入
+- L4 TCP/UDP 高速转发、端口段映射、IPv6→IPv4 桥接、PROXY Protocol 与 **443 零解密多协议 SNI 分流**
+- STUN NAT1 全锥形穿透、UPnP/NAT-PMP 自动映射及 DDNS / 免端口 302 跳转联动
+- 四列全链路实时流量拓扑图（含一键隐私打码）、6 阶段发布链路诊断与独立访问/健康日志
 
 ## Docker 管理
 

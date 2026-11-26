@@ -27,7 +27,7 @@ type Node = {
 }
 
 const ICONS: Record<string, string> = {
-  dns: '<path d="M3 3h18v6H3z" rx="2"/><circle cx="7" cy="6" r=".9" fill="currentColor" stroke="none"/><path d="M11 6h6M12 9v4M12 13l-5 4M12 13l5 4"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/>',
+  dns: '<rect x="3" y="3" width="18" height="6" rx="2"/><circle cx="7" cy="6" r=".9" fill="currentColor" stroke="none"/><path d="M11 6h6M12 9v4M12 13l-5 4M12 13l5 4"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/>',
   proxy: '<path d="M12 2 4 5v6c0 5.4 3.7 10.5 8 12 4.3-1.5 8-6.6 8-12V5l-8-3Z"/><path d="M7.5 12h9M13 8.5l3.5 3.5-3.5 3.5"/>',
   home: '<path d="m3 11 9-7 9 7M5 10v10h14V10"/><path d="M8 15h8M10 12.5 7.5 15 10 17.5M14 12.5l2.5 2.5-2.5 2.5"/>',
   domain: '<circle cx="10" cy="13" r="8"/><path d="M2 13h16M10 5c2.1 2.2 3.2 4.9 3.2 8S12.1 18.8 10 21c-2.1-2.2-3.2-4.9-3.2-8S7.9 7.2 10 5ZM16 3h5v5M21 3l-6 6"/>',
@@ -56,6 +56,16 @@ const nodes: Node[] = [
         </radialGradient>
       </defs>
       <circle cx="200" cy="200" r="150" fill="url(#msm-net-core)" />
+      <circle
+        cx="200" cy="200" r="130"
+        fill="none" stroke="var(--msm-line-strong)" stroke-opacity="0.45"
+        stroke-width="1" stroke-dasharray="2 6"
+      />
+      <circle
+        cx="200" cy="200" r="76"
+        fill="none" stroke="var(--msm-brand-line)" stroke-opacity="0.35"
+        stroke-width="1"
+      />
       <g v-for="n in nodes" :key="n.key">
         <line
           :x1="n.line[0]" :y1="n.line[1]" :x2="n.line[2]" :y2="n.line[3]"
@@ -177,7 +187,13 @@ const nodes: Node[] = [
   background: var(--msm-glass-bg-strong);
   -webkit-backdrop-filter: blur(10px) saturate(160%);
   backdrop-filter: blur(10px) saturate(160%);
-  box-shadow: 0 4px 14px rgba(12, 21, 38, 0.1);
+  box-shadow: 0 4px 14px rgba(12, 21, 38, 0.1), inset 0 1px 0 var(--msm-surface-sheen);
+  transition: box-shadow var(--msm-base), transform var(--msm-base);
+}
+
+.msm-net-node:hover .msm-net-badge {
+  box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 16%, transparent),
+    0 8px 20px rgba(12, 21, 38, 0.18);
 }
 
 .msm-net-badge svg {
@@ -193,6 +209,11 @@ const nodes: Node[] = [
   text-transform: uppercase;
   color: var(--msm-ink-2);
   white-space: nowrap;
+  transition: color var(--msm-fast);
+}
+
+.msm-net-node:hover .msm-net-label {
+  color: var(--msm-ink-1);
 }
 
 @media (max-width: 767px) {

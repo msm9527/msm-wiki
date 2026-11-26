@@ -62,7 +62,7 @@
   border-bottom: none;
 }
 
-/* 顶栏菜单：激活项用琥珀下划线做“标注”，而不是填充胶囊 */
+/* 顶栏菜单：单链接与下拉分组统一使用琥珀下划线标注 */
 .VPNavBarMenuLink,
 .VPNavBarMenuGroup .button {
   position: relative;
@@ -72,7 +72,8 @@
   transition: color var(--msm-fast);
 }
 
-.VPNavBarMenuLink::after {
+.VPNavBarMenuLink::after,
+.VPNavBarMenuGroup > .button::after {
   content: '';
   position: absolute;
   left: 12px;
@@ -93,14 +94,16 @@
 }
 
 .VPNavBarMenuLink:hover::after,
-.VPNavBarMenuLink.active::after {
+.VPNavBarMenuLink.active::after,
+.VPNavBarMenuGroup > .button:hover::after,
+.VPNavBarMenuGroup.active > .button::after {
   transform: scaleX(1);
 }
 
 .VPMenu {
   border: 1px solid var(--msm-glass-border);
   border-radius: var(--msm-radius-md);
-  box-shadow: var(--msm-glass-shadow);
+  box-shadow: var(--msm-glass-shadow), inset 0 1px 0 var(--msm-surface-sheen);
   background: var(--msm-glass-bg-strong);
   -webkit-backdrop-filter: blur(var(--msm-glass-blur))
     saturate(var(--msm-glass-saturate));
@@ -216,7 +219,14 @@
 .VPSidebarItem.level-1 .link,
 .VPSidebarItem.level-2 .link {
   display: block;
-  padding: 6px 0 6px var(--msm-space-4);
+  padding: 6px var(--msm-space-2) 6px var(--msm-space-4);
+  border-radius: 0 var(--msm-radius-sm) var(--msm-radius-sm) 0;
+  transition: background-color var(--msm-fast);
+}
+
+.VPSidebarItem.level-1 .link:hover,
+.VPSidebarItem.level-2 .link:hover {
+  background: var(--msm-brand-soft);
 }
 
 .VPSidebarItem.level-1 .link .text,
@@ -231,6 +241,10 @@
 .VPSidebarItem.level-1 .link:hover .text,
 .VPSidebarItem.level-2 .link:hover .text {
   color: var(--msm-brand);
+}
+
+.VPSidebarItem.is-active > .item .link {
+  background: linear-gradient(90deg, var(--msm-accent-soft) 0%, transparent 100%);
 }
 
 .VPSidebarItem.is-active > .item .link .text {
@@ -257,20 +271,21 @@
 /* ==================== 正文容器 ==================== */
 
 /*
- * 正文列宽：带右侧目录的页面沿用 VitePress 的 688px（约 45 个汉字一行，
- * 中文读起来最稳），这里只补两个缺口：
- *   1. 没有右侧目录的页面 VitePress 不设上限，正文会一路拉到 1100px 以上；
- *   2. 这类页面还需要居中，否则整列贴着侧栏。
- * 注意不要试图用 `.VPDoc .content-container` 改 .has-aside 的宽度 ——
- * VitePress 的 `.VPDoc.has-aside .content-container[data-v-xxx]` 多一级
- * 优先级，那条声明是不会生效的。
+ * 正文列宽：在默认 688px 基础上微扩至 748px（--msm-doc-max-width），
+ * 兼顾中文长文 46–50 字/行的舒适阅读节奏，同时让 4 列表格与 ASCII 拓扑图更从容；
+ * 无右侧目录的页面同样约束宽度并居中。
+ * 使用 .Layout 前缀稳妥覆盖 VitePress scoped 的 .VPDoc.has-aside .content-container。
  */
 .VPDoc .container {
   max-width: 1400px;
 }
 
+.Layout .VPDoc.has-aside .content-container,
 .VPDoc:not(.has-aside) .content-container {
-  max-width: 688px;
+  max-width: var(--msm-doc-max-width);
+}
+
+.VPDoc:not(.has-aside) .content-container {
   margin: 0 auto;
 }
 
@@ -394,14 +409,18 @@
 .VPDocFooter .pager-link {
   border: 1px solid var(--msm-line);
   border-radius: var(--msm-radius-md);
-  background: transparent;
+  background: linear-gradient(160deg, var(--msm-bg-soft) 0%, transparent 70%);
+  box-shadow: inset 0 1px 0 var(--msm-surface-sheen);
   padding: var(--msm-space-4) var(--msm-space-5);
-  transition: border-color var(--msm-base), background-color var(--msm-base);
+  transition: border-color var(--msm-base), background-color var(--msm-base),
+    transform var(--msm-base), box-shadow var(--msm-base);
 }
 
 .VPDocFooter .pager-link:hover {
+  transform: translateY(-2px);
   border-color: var(--msm-brand-line);
   background: var(--msm-bg-soft);
+  box-shadow: var(--msm-shadow-2), inset 0 1px 0 var(--msm-surface-sheen);
 }
 
 .VPDocFooter .pager-link .desc {

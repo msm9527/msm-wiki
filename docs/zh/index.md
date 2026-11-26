@@ -28,12 +28,12 @@ features:
     linkText: 代理教程
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5.4 3.7 10.5 8 12 4.3-1.5 8-6.6 8-12V5l-8-3Z"/><path d="M7.5 12h9M13 8.5l3.5 3.5-3.5 3.5"/></svg>'
   - title: 回家与私有组网
-    details: 提供多协议远程回家、终端配置分发、Cloudflare 隧道及 EasyTier、Tailscale、WireGuard 私网
+    details: 多协议远程回家、五端跨核心融合配发、Cloudflare 隧道及 WireGuard、EasyTier、Tailscale 并存私网
     link: /zh/guide/home
     linkText: 远程接入
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-7 9 7M5 10v10h14V10"/><path d="M8 15h8M10 12.5 7.5 15 10 17.5M14 12.5l2.5 2.5-2.5 2.5"/></svg>'
   - title: Edge 域名与端口网关
-    details: 内置进程内网关引擎，一站式管理 DDNS、HTTPS 证书、反向代理、L4 端口转发与服务拓扑
+    details: 进程内纯 Go 网关引擎，一站式管理 DDNS、ACME 证书、智能全兼容反代、443 分流、STUN 穿透与实时拓扑
     link: /zh/guide/domain-services
     linkText: 域名服务
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="13" r="8"/><path d="M2 13h16M10 5c2.1 2.2 3.2 4.9 3.2 8S12.1 18.8 10 21c-2.1-2.2-3.2-4.9-3.2-8S7.9 7.2 10 5ZM16 3h5v5M21 3l-6 6"/></svg>'
