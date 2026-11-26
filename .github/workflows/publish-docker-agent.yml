@@ -217,6 +217,7 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version-file: msm-source/backend/go.mod
+          check-latest: true
           cache-dependency-path: msm-source/backend/go.sum
 
       - name: Cross-compile and verify standalone Docker Agent archives
