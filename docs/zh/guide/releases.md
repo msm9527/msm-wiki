@@ -13,80 +13,54 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 
 ## 🚀 最新稳定版本
 
-<div class="msm-release-hero msm-release-hero--stable" data-version="2.9.9" data-release-date="2026-11-28 15:10:42 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/2.9.9">
+<div class="msm-release-hero msm-release-hero--stable" data-version="2.9.10" data-release-date="2026-11-29 00:03:58 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/2.9.10">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>稳定版</span> <code>v2.9.9</code></h3>
+    <h3 class="msm-release-version"><span>稳定版</span> <code>v2.9.10</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/2.9.9" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/2.9.10" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/install.html">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>5 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>5 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-28 15:10:42 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>3 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>3 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-29 00:03:58 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDmlrDlop4gcG9ydGFibGVjb25maWcuRXJyVW5zdXBwb3J0ZWRIb21lUHJvdG9jb2zvvIzlubblnKjlm57lrrbliqjmgIHliIbkuqsgbGl2ZVJlbmRlcmVyIOS4reWwhumdnuazlSBKU09OIC8g5LiN5pSv5oyB5qC85byPIC8g5LiN5pSv5oyB5Y2P6K6u57uf5LiA5pig5bCE5Li6IEVyckludmFsaWRTaGFyZe+8iEhUVFAgNDAw77yJ77yM6YG/5YWN6L+U5ZueIDUwMCIsIi0g5riF55CG5YWo56uZ5ZCM57G75by55oCn572R5qC85LiO5Z2X57qnIHN1bW1hcnkgY29udGVudC1jZW50ZXIg5YaZ5rOV77yM5omp5bGV5Y2h54mH6Ieq54S26auY5bqm5rWL6YeP5rex5bqm5LiK6ZmQ5bm26KGl6b2Q6Ziy5Zue5b2S5rWL6K+VIiwiLSDkv67lpI0gaU9TIDE2IFdlYktpdCDnvZHmoLzlnZfovbTlr7npvZDmuqLlh7rlubbkuIvosIMgQ1NTIOiMg+WbtOafpeivouebruaghyIsIi0g5L+u5aSN6ICB54mI5pys5Y2H57qn5aSH5Lu96YGX5ryPIHN5c3RlbS5ub3RpZnkg5bm26KeE6IyD5Yqo5oCB5YiG5Lqr6Z2e5rOV5Y2P6K6u6L+U5ZueIDQwMCAvIE1pZ3JhdGUgc3lzdGVtLm5vdGlmeSBpbiB1cGdyYWRlZCBiYWNrdXAgY29uZmlncyBhbmQgcmV0dXJuIDQwMCBmb3IgaW52YWxpZCBsaXZlIGhvbWUtYWNjZXNzIHNoYXJlIHNwZWNzIiwiLSDmlrDlop4gQmFja3VwQ29uZmlnLkF1dG9CYWNrdXBJdGVtc1ZlcnNpb24g6L+B56e75qCH6K6w77yM6Ieq5Yqo5Li65pen54mI5bey6YCJIHN5c3RlbS5maWxlcyDnmoTlrZjph4/mlbDmja7lupPkuIDmrKHmgKfooaXlhaUgc3lzdGVtLm5vdGlmee+8jOWQjOaXtuS/neeVmeeUqOaIt+WQjue7reaJi+WKqOWPlua2iOWLvumAieeahOeKtuaAgSJdLCJtYWpvciI6W10sImFkZGVkIjpbIi0g5paw5aKeIHBvcnRhYmxlY29uZmlnLkVyclVuc3VwcG9ydGVkSG9tZVByb3RvY29s77yM5bm25Zyo5Zue5a625Yqo5oCB5YiG5LqrIGxpdmVSZW5kZXJlciDkuK3lsIbpnZ7ms5UgSlNPTiAvIOS4jeaUr+aMgeagvOW8jyAvIOS4jeaUr+aMgeWNj+iurue7n+S4gOaYoOWwhOS4uiBFcnJJbnZhbGlkU2hhcmXvvIhIVFRQIDQwMO+8ie+8jOmBv+WFjei/lOWbniA1MDAiLCItIOaWsOWiniBCYWNrdXBDb25maWcuQXV0b0JhY2t1cEl0ZW1zVmVyc2lvbiDov4Hnp7vmoIforrDvvIzoh6rliqjkuLrml6fniYjlt7LpgIkgc3lzdGVtLmZpbGVzIOeahOWtmOmHj+aVsOaNruW6k+S4gOasoeaAp+ihpeWFpSBzeXN0ZW0ubm90aWZ577yM5ZCM5pe25L+d55WZ55So5oi35ZCO57ut5omL5Yqo5Y+W5raI5Yu+6YCJ55qE54q25oCBIl0sImNoYW5nZWQiOlsiLSDmuIXnkIblhajnq5nlkIznsbvlvLnmgKfnvZHmoLzkuI7lnZfnuqcgc3VtbWFyeSBjb250ZW50LWNlbnRlciDlhpnms5XvvIzmianlsZXljaHniYfoh6rnhLbpq5jluqbmtYvph4/mt7HluqbkuIrpmZDlubbooaXpvZDpmLLlm57lvZLmtYvor5UiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOS/ruWkjSBpT1MgMTYgV2ViS2l0IOe9keagvOWdl+i9tOWvuem9kOa6ouWHuuW5tuS4i+iwgyBDU1Mg6IyD5Zu05p+l6K+i55uu5qCHIiwiLSDkv67lpI3ogIHniYjmnKzljYfnuqflpIfku73pgZfmvI8gc3lzdGVtLm5vdGlmeSDlubbop4TojIPliqjmgIHliIbkuqvpnZ7ms5XljY/orq7ov5Tlm54gNDAwIC8gTWlncmF0ZSBzeXN0ZW0ubm90aWZ5IGluIHVwZ3JhZGVkIGJhY2t1cCBjb25maWdzIGFuZCByZXR1cm4gNDAwIGZvciBpbnZhbGlkIGxpdmUgaG9tZS1hY2Nlc3Mgc2hhcmUgc3BlY3MiXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSDku44gMjAyNi0xMS0yOFQwNDowMjowM1og5LmL5ZCO55qEIDEg5Liq5o+Q5Lqk5Lit5pW055CG77yI57qz5YWl5b2T5YmN5ZCI5bm25YiG5pSv55qEIDQg5Liq5Y676YeN5o+Q5Lqk77yJ77yb5b2T5YmN5L2/55So5o+Q5Lqk5qCH6aKY5LiO5q2j5paH6KaB54K555Sf5oiQ6KeE5YiZ5pGY6KaB77yM5pyq57uP6L+HIEFJIOivreS5ieW9kue6s+aIlui/kOihjOmqjOivgSIsIi0g6KeE5YiZ5pGY6KaB5pyq6YeH55So5Y+v6IO96YeN5pS+5Y6G5Y+y55qE5ZCI5bm25o+Q5Lqk6K+05piO77yb6L+Z6YOo5YiG5Y+Y5YyW6ZyA6KaB57uT5ZCI5Lik5Liq5Y+R5biD54mI5pys55qE5YeA5beu5byC5qC45a+5Il19fQ== -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDkuLogREROUyDmnYPlqIHmoKHpqozooaXpvZAgVENQLzUzIOm7kea0numihOeul+S/neaKpOOAgTUzIOerr+WPo+WKq+aMgeefreacn+e8k+WtmOS4juWNleagiOeos+aAgeS4gOiHtOWMliAvIFByZXNlcnZlIERvSCBidWRnZXQgdW5kZXIgYmxhY2tob2xlZCBUQ1AvNTMsIGNhY2hlIHBvcnQtNTMgaW50ZXJjZXB0aW9uLCBhbmQgYWxpZ24gc2luZ2xlLXN0YWNrIHN0ZWFkeS1zdGF0ZSBjaGVjayIsIi0g5L+u5aSNIFVuaUZpIE9TIOWPjeS7o+WNj+iuruS4juivt+axguWktOWFvOWuuemXrumimOW5tuWQjOatpeaZuuiDvemihOiuvueKtuaAgSAvIEZpeCBVbmlGaSBPUyByZXZlcnNlLXByb3h5IEhUVFAvMS4xICYgaGVhZGVyIGNvbXBhdGliaWxpdHkgYW5kIHN5bmMgc21hcnQgcHJlc2V0IHN0YXRlIiwiLSDkv67lpI0gREROUyA1MyDnq6/lj6PooqvliqvmjIHml7bnmoTmnYPlqIHmoKHpqozlpLHotKXjgIHph43or5Xpo47mmrTkuI7or4rmlq3mir3lsYnlkIzmraXlj43ppogiXSwibWFqb3IiOltdLCJhZGRlZCI6W10sImNoYW5nZWQiOltdLCJwZXJmb3JtYW5jZSI6W10sImZpeGVkIjpbIi0g5Li6IERETlMg5p2D5aiB5qCh6aqM6KGl6b2QIFRDUC81MyDpu5HmtJ7pooTnrpfkv53miqTjgIE1MyDnq6/lj6PliqvmjIHnn63mnJ/nvJPlrZjkuI7ljZXmoIjnqLPmgIHkuIDoh7TljJYgLyBQcmVzZXJ2ZSBEb0ggYnVkZ2V0IHVuZGVyIGJsYWNraG9sZWQgVENQLzUzLCBjYWNoZSBwb3J0LTUzIGludGVyY2VwdGlvbiwgYW5kIGFsaWduIHNpbmdsZS1zdGFjayBzdGVhZHktc3RhdGUgY2hlY2siLCItIOS/ruWkjSBVbmlGaSBPUyDlj43ku6PljY/orq7kuI7or7fmsYLlpLTlhbzlrrnpl67popjlubblkIzmraXmmbrog73pooTorr7nirbmgIEgLyBGaXggVW5pRmkgT1MgcmV2ZXJzZS1wcm94eSBIVFRQLzEuMSAmIGhlYWRlciBjb21wYXRpYmlsaXR5IGFuZCBzeW5jIHNtYXJ0IHByZXNldCBzdGF0ZSIsIi0g5L+u5aSNIERETlMgNTMg56uv5Y+j6KKr5Yqr5oyB5pe255qE5p2D5aiB5qCh6aqM5aSx6LSl44CB6YeN6K+V6aOO5pq05LiO6K+K5pat5oq95bGJ5ZCM5q2l5Y+N6aaIIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMTEtMjhUMDc6Mjc6MDBaIOS5i+WQjueahCAxIOS4quaPkOS6pOS4reaVtOeQhu+8iOe6s+WFpeW9k+WJjeWQiOW5tuWIhuaUr+eahCA1IOS4quWOu+mHjeaPkOS6pO+8ie+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiLCItIOinhOWImeaRmOimgeacqumHh+eUqOWPr+iDvemHjeaUvuWOhuWPsueahOWQiOW5tuaPkOS6pOivtOaYju+8m+i/memDqOWIhuWPmOWMlumcgOimgee7k+WQiOS4pOS4quWPkeW4g+eJiOacrOeahOWHgOW3ruW8guaguOWvuSJdfX0= -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>新增 portableconfig.ErrUnsupportedHomeProtocol，并在回家动态分享 liveRenderer 中将非法 JSON / 不支持格式 / 不支持协议统一映射为 ErrInvalidShare（HTTP 400），避免返回 500</p>
+    <p>为 DDNS 权威校验补齐 TCP/53 黑洞预算保护、53 端口劫持短期缓存与单栈稳态一致化 / Preserve DoH budget under blackholed TCP/53, cache port-53 interception, and align single-stack steady-state check</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>清理全站同类弹性网格与块级 summary content-center 写法，扩展卡片自然高度测量深度上限并补齐防回归测试</p>
+    <p>修复 UniFi OS 反代协议与请求头兼容问题并同步智能预设状态 / Fix UniFi OS reverse-proxy HTTP/1.1 &amp; header compatibility and sync smart preset state</p>
   </li>
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>修复 iOS 16 WebKit 网格块轴对齐溢出并下调 CSS 范围查询目标</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>修复老版本升级备份遗漏 system.notify 并规范动态分享非法协议返回 400 / Migrate system.notify in upgraded backup configs and return 400 for invalid live home-access share specs</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>新增 BackupConfig.AutoBackupItemsVersion 迁移标记，自动为旧版已选 system.files 的存量数据库一次性补入 system.notify，同时保留用户后续手动取消勾选的状态</p>
+    <p>修复 DDNS 53 端口被劫持时的权威校验失败、重试风暴与诊断抽屉同步反馈</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-added">🆕 新增功能 <span>2</span></a>
-  <a href="#release-changed">✨ 功能增强 <span>1</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>2</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>3</span></a>
   <a href="#release-notes">📌 升级提醒 <span>2</span></a>
 </nav>
-
-<section class="msm-release-section msm-release-section--added">
-
-### 🆕 新增功能 {#release-added}
-
-- 新增 portableconfig.ErrUnsupportedHomeProtocol，并在回家动态分享 liveRenderer 中将非法 JSON / 不支持格式 / 不支持协议统一映射为 ErrInvalidShare（HTTP 400），避免返回 500
-- 新增 BackupConfig.AutoBackupItemsVersion 迁移标记，自动为旧版已选 system.files 的存量数据库一次性补入 system.notify，同时保留用户后续手动取消勾选的状态
-
-</section>
-
-<section class="msm-release-section msm-release-section--changed">
-
-### ✨ 功能增强 {#release-changed}
-
-- 清理全站同类弹性网格与块级 summary content-center 写法，扩展卡片自然高度测量深度上限并补齐防回归测试
-
-</section>
 
 <section class="msm-release-section msm-release-section--fixed">
 
 ### 🐛 问题修复 {#release-fixed}
 
-- 修复 iOS 16 WebKit 网格块轴对齐溢出并下调 CSS 范围查询目标
-- 修复老版本升级备份遗漏 system.notify 并规范动态分享非法协议返回 400 / Migrate system.notify in upgraded backup configs and return 400 for invalid live home-access share specs
+- 为 DDNS 权威校验补齐 TCP/53 黑洞预算保护、53 端口劫持短期缓存与单栈稳态一致化 / Preserve DoH budget under blackholed TCP/53, cache port-53 interception, and align single-stack steady-state check
+- 修复 UniFi OS 反代协议与请求头兼容问题并同步智能预设状态 / Fix UniFi OS reverse-proxy HTTP/1.1 & header compatibility and sync smart preset state
+- 修复 DDNS 53 端口被劫持时的权威校验失败、重试风暴与诊断抽屉同步反馈
 
 </section>
 
@@ -94,17 +68,17 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-11-28T04:02:03Z 之后的 1 个提交中整理（纳入当前合并分支的 4 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 从 2026-11-28T07:27:00Z 之后的 1 个提交中整理（纳入当前合并分支的 5 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 - 规则摘要未采用可能重放历史的合并提交说明；这部分变化需要结合两个发布版本的净差异核对
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：stable（稳定版）
-- **源提交**： [`f4f1138`](https://github.com/msm9527/msm/commit/f4f11381cc2ff798167776302a16c1e27c220ed6)
-- **提交信息**：merge(release): 合并 MSM 2.9.9 至 main / Merge MSM 2.9.9 into main
+- **源提交**： [`ffe2242`](https://github.com/msm9527/msm/commit/ffe22420786d192dc0f444be475a5be3f35677a2)
+- **提交信息**：merge(release): 合并 MSM 2.9.10 至 main / Merge MSM 2.9.10 into main
 - **提交作者**：msm
-- **提交时间**：2026-11-28 15:10:42 CST
+- **提交时间**：2026-11-29 00:03:58 CST
 - **下载说明**：同一发布页内提供各平台二进制、安装包、派网 APX 与 SHA256 校验清单
 :::
 
@@ -113,6 +87,39 @@ description: MSM 稳定版亮点、完整更新、升级提醒与历史发布记
 ## 📚 历史版本
 
 > 下面仅列出最近几个版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details 2.9.9 · 2026-11-28 15:10 · 稳定版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/2.9.9" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 新增 portableconfig.ErrUnsupportedHomeProtocol，并在回家动态分享 liveRenderer 中将非法 JSON / 不支持格式 / 不支持协议统一映射为 ErrInvalidShare（HTTP 400），避免返回 500
+- 清理全站同类弹性网格与块级 summary content-center 写法，扩展卡片自然高度测量深度上限并补齐防回归测试
+- 修复 iOS 16 WebKit 网格块轴对齐溢出并下调 CSS 范围查询目标
+- 修复老版本升级备份遗漏 system.notify 并规范动态分享非法协议返回 400 / Migrate system.notify in upgraded backup configs and return 400 for invalid live home-access share specs
+- 新增 BackupConfig.AutoBackupItemsVersion 迁移标记，自动为旧版已选 system.files 的存量数据库一次性补入 system.notify，同时保留用户后续手动取消勾选的状态
+
+**🆕 新增功能**
+
+- 新增 portableconfig.ErrUnsupportedHomeProtocol，并在回家动态分享 liveRenderer 中将非法 JSON / 不支持格式 / 不支持协议统一映射为 ErrInvalidShare（HTTP 400），避免返回 500
+- 新增 BackupConfig.AutoBackupItemsVersion 迁移标记，自动为旧版已选 system.files 的存量数据库一次性补入 system.notify，同时保留用户后续手动取消勾选的状态
+
+**✨ 功能增强**
+
+- 清理全站同类弹性网格与块级 summary content-center 写法，扩展卡片自然高度测量深度上限并补齐防回归测试
+
+**🐛 问题修复**
+
+- 修复 iOS 16 WebKit 网格块轴对齐溢出并下调 CSS 范围查询目标
+- 修复老版本升级备份遗漏 system.notify 并规范动态分享非法协议返回 400 / Migrate system.notify in upgraded backup configs and return 400 for invalid live home-access share specs
+
+**📌 升级提醒**
+
+- 从 2026-11-28T04:02:03Z 之后的 1 个提交中整理（纳入当前合并分支的 4 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 规则摘要未采用可能重放历史的合并提交说明；这部分变化需要结合两个发布版本的净差异核对
+
+:::
 
 ::: details 2.9.8 · 2026-11-28 11:56 · 稳定版
 
