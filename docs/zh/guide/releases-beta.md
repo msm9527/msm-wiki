@@ -13,44 +13,80 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.9.8" data-release-date="2026-11-28 11:56:50 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.8">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.9.9" data-release-date="2026-11-28 15:10:37 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.9">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.9.8</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.9.9</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.8" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.9" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>1 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>1 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-28 11:56:50 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>5 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>5 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-28 15:10:37 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDkv67lpI3ogIHmqKHmnb/op4TliJnplJrngrnlgJLnva7kuI7op4TliJnpm4bmvI/ooaXlubborrDlvZXnmbvlvZXpooTlk4jluIzop4TojIMiXSwibWFqb3IiOltdLCJhZGRlZCI6W10sImNoYW5nZWQiOltdLCJwZXJmb3JtYW5jZSI6W10sImZpeGVkIjpbIi0g5L+u5aSN6ICB5qih5p2/6KeE5YiZ6ZSa54K55YCS572u5LiO6KeE5YiZ6ZuG5ryP6KGl5bm26K6w5b2V55m75b2V6aKE5ZOI5biM6KeE6IyDIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMTEtMjhUMDI6MTM6MTVaIOS5i+WQjueahCAyIOS4quaPkOS6pOS4reaVtOeQhu+8iOe6s+WFpeW9k+WJjeWQiOW5tuWIhuaUr+eahCAyIOS4quWOu+mHjeaPkOS6pO+8ie+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiXX19 -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDmlrDlop4gcG9ydGFibGVjb25maWcuRXJyVW5zdXBwb3J0ZWRIb21lUHJvdG9jb2zvvIzlubblnKjlm57lrrbliqjmgIHliIbkuqsgbGl2ZVJlbmRlcmVyIOS4reWwhumdnuazlSBKU09OIC8g5LiN5pSv5oyB5qC85byPIC8g5LiN5pSv5oyB5Y2P6K6u57uf5LiA5pig5bCE5Li6IEVyckludmFsaWRTaGFyZe+8iEhUVFAgNDAw77yJ77yM6YG/5YWN6L+U5ZueIDUwMCIsIi0g5riF55CG5YWo56uZ5ZCM57G75by55oCn572R5qC85LiO5Z2X57qnIHN1bW1hcnkgY29udGVudC1jZW50ZXIg5YaZ5rOV77yM5omp5bGV5Y2h54mH6Ieq54S26auY5bqm5rWL6YeP5rex5bqm5LiK6ZmQ5bm26KGl6b2Q6Ziy5Zue5b2S5rWL6K+VIiwiLSDkv67lpI0gaU9TIDE2IFdlYktpdCDnvZHmoLzlnZfovbTlr7npvZDmuqLlh7rlubbkuIvosIMgQ1NTIOiMg+WbtOafpeivouebruaghyIsIi0g5L+u5aSN6ICB54mI5pys5Y2H57qn5aSH5Lu96YGX5ryPIHN5c3RlbS5ub3RpZnkg5bm26KeE6IyD5Yqo5oCB5YiG5Lqr6Z2e5rOV5Y2P6K6u6L+U5ZueIDQwMCAvIE1pZ3JhdGUgc3lzdGVtLm5vdGlmeSBpbiB1cGdyYWRlZCBiYWNrdXAgY29uZmlncyBhbmQgcmV0dXJuIDQwMCBmb3IgaW52YWxpZCBsaXZlIGhvbWUtYWNjZXNzIHNoYXJlIHNwZWNzIiwiLSDmlrDlop4gQmFja3VwQ29uZmlnLkF1dG9CYWNrdXBJdGVtc1ZlcnNpb24g6L+B56e75qCH6K6w77yM6Ieq5Yqo5Li65pen54mI5bey6YCJIHN5c3RlbS5maWxlcyDnmoTlrZjph4/mlbDmja7lupPkuIDmrKHmgKfooaXlhaUgc3lzdGVtLm5vdGlmee+8jOWQjOaXtuS/neeVmeeUqOaIt+WQjue7reaJi+WKqOWPlua2iOWLvumAieeahOeKtuaAgSJdLCJtYWpvciI6W10sImFkZGVkIjpbIi0g5paw5aKeIHBvcnRhYmxlY29uZmlnLkVyclVuc3VwcG9ydGVkSG9tZVByb3RvY29s77yM5bm25Zyo5Zue5a625Yqo5oCB5YiG5LqrIGxpdmVSZW5kZXJlciDkuK3lsIbpnZ7ms5UgSlNPTiAvIOS4jeaUr+aMgeagvOW8jyAvIOS4jeaUr+aMgeWNj+iurue7n+S4gOaYoOWwhOS4uiBFcnJJbnZhbGlkU2hhcmXvvIhIVFRQIDQwMO+8ie+8jOmBv+WFjei/lOWbniA1MDAiLCItIOaWsOWiniBCYWNrdXBDb25maWcuQXV0b0JhY2t1cEl0ZW1zVmVyc2lvbiDov4Hnp7vmoIforrDvvIzoh6rliqjkuLrml6fniYjlt7LpgIkgc3lzdGVtLmZpbGVzIOeahOWtmOmHj+aVsOaNruW6k+S4gOasoeaAp+ihpeWFpSBzeXN0ZW0ubm90aWZ577yM5ZCM5pe25L+d55WZ55So5oi35ZCO57ut5omL5Yqo5Y+W5raI5Yu+6YCJ55qE54q25oCBIl0sImNoYW5nZWQiOlsiLSDmuIXnkIblhajnq5nlkIznsbvlvLnmgKfnvZHmoLzkuI7lnZfnuqcgc3VtbWFyeSBjb250ZW50LWNlbnRlciDlhpnms5XvvIzmianlsZXljaHniYfoh6rnhLbpq5jluqbmtYvph4/mt7HluqbkuIrpmZDlubbooaXpvZDpmLLlm57lvZLmtYvor5UiXSwicGVyZm9ybWFuY2UiOltdLCJmaXhlZCI6WyItIOS/ruWkjSBpT1MgMTYgV2ViS2l0IOe9keagvOWdl+i9tOWvuem9kOa6ouWHuuW5tuS4i+iwgyBDU1Mg6IyD5Zu05p+l6K+i55uu5qCHIiwiLSDkv67lpI3ogIHniYjmnKzljYfnuqflpIfku73pgZfmvI8gc3lzdGVtLm5vdGlmeSDlubbop4TojIPliqjmgIHliIbkuqvpnZ7ms5XljY/orq7ov5Tlm54gNDAwIC8gTWlncmF0ZSBzeXN0ZW0ubm90aWZ5IGluIHVwZ3JhZGVkIGJhY2t1cCBjb25maWdzIGFuZCByZXR1cm4gNDAwIGZvciBpbnZhbGlkIGxpdmUgaG9tZS1hY2Nlc3Mgc2hhcmUgc3BlY3MiXSwic2VjdXJpdHkiOltdLCJkZXByZWNhdGVkIjpbXSwibm90ZXMiOlsiLSDku44gMjAyNi0xMS0yOFQwNDowNToxMlog5LmL5ZCO55qEIDMg5Liq5o+Q5Lqk5Lit5pW055CG77yI57qz5YWl5b2T5YmN5ZCI5bm25YiG5pSv55qEIDMg5Liq5Y676YeN5o+Q5Lqk77yJ77yb5b2T5YmN5L2/55So5o+Q5Lqk5qCH6aKY5LiO5q2j5paH6KaB54K555Sf5oiQ6KeE5YiZ5pGY6KaB77yM5pyq57uP6L+HIEFJIOivreS5ieW9kue6s+aIlui/kOihjOmqjOivgSJdfX0= -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>修复老模板规则锚点倒置与规则集漏补并记录登录预哈希规范</p>
+    <p>新增 portableconfig.ErrUnsupportedHomeProtocol，并在回家动态分享 liveRenderer 中将非法 JSON / 不支持格式 / 不支持协议统一映射为 ErrInvalidShare（HTTP 400），避免返回 500</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">02</span>
+    <p>清理全站同类弹性网格与块级 summary content-center 写法，扩展卡片自然高度测量深度上限并补齐防回归测试</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">03</span>
+    <p>修复 iOS 16 WebKit 网格块轴对齐溢出并下调 CSS 范围查询目标</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">04</span>
+    <p>修复老版本升级备份遗漏 system.notify 并规范动态分享非法协议返回 400 / Migrate system.notify in upgraded backup configs and return 400 for invalid live home-access share specs</p>
+  </li>
+  <li class="msm-release-highlight">
+    <span class="msm-release-highlight-index" aria-hidden="true">05</span>
+    <p>新增 BackupConfig.AutoBackupItemsVersion 迁移标记，自动为旧版已选 system.files 的存量数据库一次性补入 system.notify，同时保留用户后续手动取消勾选的状态</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-fixed">🐛 问题修复 <span>1</span></a>
+  <a href="#release-added">🆕 新增功能 <span>2</span></a>
+  <a href="#release-changed">✨ 功能增强 <span>1</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>2</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
+
+<section class="msm-release-section msm-release-section--added">
+
+### 🆕 新增功能 {#release-added}
+
+- 新增 portableconfig.ErrUnsupportedHomeProtocol，并在回家动态分享 liveRenderer 中将非法 JSON / 不支持格式 / 不支持协议统一映射为 ErrInvalidShare（HTTP 400），避免返回 500
+- 新增 BackupConfig.AutoBackupItemsVersion 迁移标记，自动为旧版已选 system.files 的存量数据库一次性补入 system.notify，同时保留用户后续手动取消勾选的状态
+
+</section>
+
+<section class="msm-release-section msm-release-section--changed">
+
+### ✨ 功能增强 {#release-changed}
+
+- 清理全站同类弹性网格与块级 summary content-center 写法，扩展卡片自然高度测量深度上限并补齐防回归测试
+
+</section>
 
 <section class="msm-release-section msm-release-section--fixed">
 
 ### 🐛 问题修复 {#release-fixed}
 
-- 修复老模板规则锚点倒置与规则集漏补并记录登录预哈希规范
+- 修复 iOS 16 WebKit 网格块轴对齐溢出并下调 CSS 范围查询目标
+- 修复老版本升级备份遗漏 system.notify 并规范动态分享非法协议返回 400 / Migrate system.notify in upgraded backup configs and return 400 for invalid live home-access share specs
 
 </section>
 
@@ -58,16 +94,16 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-11-28T02:13:15Z 之后的 2 个提交中整理（纳入当前合并分支的 2 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 从 2026-11-28T04:05:12Z 之后的 3 个提交中整理（纳入当前合并分支的 3 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`8494290`](https://github.com/msm9527/msm/commit/8494290fd4da23e72cf6dc884d3419b867145904)
-- **提交信息**：chore(release): 升级版本至 2.9.8 并同步 API 文档 / Bump version to 2.9.8 and sync OpenAPI docs
+- **源提交**： [`718ddbc`](https://github.com/msm9527/msm/commit/718ddbc330818c966cba496365e32fd757ec31be)
+- **提交信息**：chore(release): 升级版本至 2.9.9 并同步 API 文档 / Bump version to 2.9.9 and sync OpenAPI docs
 - **提交作者**：msm
-- **提交时间**：2026-11-28 11:56:50 CST
+- **提交时间**：2026-11-28 15:10:37 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -76,6 +112,24 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.9.8 · 2026-11-28 11:56 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.8" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 修复老模板规则锚点倒置与规则集漏补并记录登录预哈希规范
+
+**🐛 问题修复**
+
+- 修复老模板规则锚点倒置与规则集漏补并记录登录预哈希规范
+
+**📌 升级提醒**
+
+- 从 2026-11-28T02:13:15Z 之后的 2 个提交中整理（纳入当前合并分支的 2 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+:::
 
 ::: details beta-2.9.7 · 2026-11-28 10:03 · Beta 版
 
