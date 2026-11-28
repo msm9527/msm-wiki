@@ -13,89 +13,44 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ## 🧪 最新 Beta 版本
 
-<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.9.7" data-release-date="2026-11-28 10:03:21 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.7">
+<div class="msm-release-hero msm-release-hero--beta" data-version="beta-2.9.8" data-release-date="2026-11-28 11:56:50 CST" data-release-url="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.8">
   <div class="msm-release-hero-copy">
-    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.9.7</code></h3>
+    <h3 class="msm-release-version"><span>Beta 版</span> <code>beta-2.9.8</code></h3>
   </div>
   <div class="msm-release-actions">
-    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.7" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
+    <a class="msm-release-action msm-release-action--primary" href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.8" target="_blank" rel="noreferrer">下载此版本 <span aria-hidden="true">↗</span></a>
     <a class="msm-release-action" href="/zh/guide/releases-beta.html#一键安装">安装指南 <span aria-hidden="true">→</span></a>
   </div>
 </div>
 <div class="msm-release-metrics" aria-label="发布概览">
-  <div class="msm-release-metric"><span>更新</span><strong>10 项</strong></div>
-  <div class="msm-release-metric"><span>亮点</span><strong>6 条</strong></div>
-  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-28 10:03:21 CST</strong></div>
+  <div class="msm-release-metric"><span>更新</span><strong>1 项</strong></div>
+  <div class="msm-release-metric"><span>亮点</span><strong>1 条</strong></div>
+  <div class="msm-release-metric"><span>源码提交日期</span><strong>2026-11-28 11:56:50 CST</strong></div>
 </div>
 
-<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDlkK/liqjmnJ/ml6DmjZ/lop7ph4/lkIzmraXogIHphY3nva7mlofku7blhoXnva7liIbmtYHop4TliJkgLyBOb24tZGVzdHJ1Y3RpdmVseSByZWNvbmNpbGUgYnVpbHQtaW4gcm91dGluZyBydWxlcyBpbnRvIGV4aXN0aW5nIHJ1bnRpbWUgY29uZmlncyBvbiBzdGFydHVwIiwiLSDnp7vpmaTot6/nlLHov4flnLrkuI4gZmFkZS1pbiDnmoTnurXlkJHkvY3np7vvvIzlhajlsYDlkK/nlKggc2Nyb2xsYmFyLWd1dHRlcjogc3RhYmxl77yM5a+56b2Q5L6n5qCP6Z2Z5oCB5Zue6YCA5YaF6L656LedIiwiLSDkv67lpI3kuq7mmpfoibLpqqjmnrbmiavlhYnliqjnlLvlubblrp7njrDlhajnq5nlhoXlrrnlr7npvZDpqqjmnrblsY/kuI7ot6jpobXpm7bot7Plj5giLCItIOWinuW8uiBBSS9QbGV4L0hUVFBETlMg5YiG5rWB5bm25pSv5oyB5a625bqtIFdpLUZpIFNTSUQg6Ieq5Yqo55u06L+eIC8gRW5oYW5jZSBBSSwgUGxleCwgSFRUUEROUy9QQ0ROIHJ1bGVzLCBTdXJnZS9Mb29uIHByb2ZpbGVzLCBhbmQgaG9tZSBXaS1GaSBTU0lEIGF1dG8tZGlyZWN0IiwiLSBoYXJkZW4gbG9zc2xlc3MgYnVpbHRpbiBydWxlIHVwZ3JhZGUgcmVjb25jaWxlcnMgYW5kIGFkZCBmdWxsIHNpbXVsYXRpb24gc3VpdGUgLyDliqDlm7rlhoXnva7op4TliJnml6DmjZ/ljYfnuqfmlLbmlZvlmajlubbooaXpvZDlpJrlnLrmma/lhoXmoLjmqKHmi5/moKHpqowiLCItIOS/ruWkjeS6ri/mmpfoibIgLnNrZWxldG9uLXNoaW1tZXIg5omr5YWJ6auY5YWJIFRva2VuIOW5tuaUueS4uiBHUFUgdHJhbnNsYXRlWCDljIDpgJ/miavov4fvvIznu5/kuIDlhajnq5npqqjmnrbljp/or63mm7/pmaTmt7fnlKggYW5pbWF0ZS1wdWxzZSJdLCJtYWpvciI6W10sImFkZGVkIjpbIi0g5ZCv5Yqo5pyf5peg5o2f5aKe6YeP5ZCM5q2l6ICB6YWN572u5paH5Lu25YaF572u5YiG5rWB6KeE5YiZIC8gTm9uLWRlc3RydWN0aXZlbHkgcmVjb25jaWxlIGJ1aWx0LWluIHJvdXRpbmcgcnVsZXMgaW50byBleGlzdGluZyBydW50aW1lIGNvbmZpZ3Mgb24gc3RhcnR1cCIsIi0g5aKe5by6IEFJL1BsZXgvSFRUUEROUyDliIbmtYHlubbmlK/mjIHlrrbluq0gV2ktRmkgU1NJRCDoh6rliqjnm7Tov54gLyBFbmhhbmNlIEFJLCBQbGV4LCBIVFRQRE5TL1BDRE4gcnVsZXMsIFN1cmdlL0xvb24gcHJvZmlsZXMsIGFuZCBob21lIFdpLUZpIFNTSUQgYXV0by1kaXJlY3QiLCItIOaWsOWiniAxNSDlpZfkuI7nnJ/lrp7pobXpnaLmoIXmoLzlj4rpobbmoI/kuIDmr5TkuIDlr7npvZDnmoQgUGFnZVNrZWxldG9uIOWPmOS9k+S4juWFqOi3r+eUseaYoOWwhO+8jOihpem9kCA1NCDpobnljZXmtYsiLCItIOaWsOWiniBQbGV4IOWxgOWfn+e9keivgeS5puWfn+WQjSAocGxleC5kaXJlY3QgLyB2NC5wbGV4LnR2KSDnnJ/lrp4gSVAg55u06L+e5LiO5YWD5pWw5o2u5Luj55CG5YiG5rWBIl0sImNoYW5nZWQiOlsiLSDnp7vpmaTot6/nlLHov4flnLrkuI4gZmFkZS1pbiDnmoTnurXlkJHkvY3np7vvvIzlhajlsYDlkK/nlKggc2Nyb2xsYmFyLWd1dHRlcjogc3RhYmxl77yM5a+56b2Q5L6n5qCP6Z2Z5oCB5Zue6YCA5YaF6L656LedIiwiLSDljYfnuqcgTG9vbiAvIFN1cmdlIOm7mOiupCBBSSDop4TliJnpm4boh7MgZGxlci1pbyBBSSBTdWl0Ze+8iOWQqyBDaGF0R1BUIOivremfsyBVRFAgSVDvvInvvIzooaXpvZAgU3VyZ2UgZXh0ZW5kZWQtbWF0Y2hpbmcgLyBwcmUtbWF0Y2hpbmcgLyBpY21wLWZvcndhcmRpbmcg5LiOIDAuMC4wLjAvMzIg5oum5oiqIl0sInBlcmZvcm1hbmNlIjpbXSwiZml4ZWQiOlsiLSDkv67lpI3kuq7mmpfoibLpqqjmnrbmiavlhYnliqjnlLvlubblrp7njrDlhajnq5nlhoXlrrnlr7npvZDpqqjmnrblsY/kuI7ot6jpobXpm7bot7Plj5giLCItIGhhcmRlbiBsb3NzbGVzcyBidWlsdGluIHJ1bGUgdXBncmFkZSByZWNvbmNpbGVycyBhbmQgYWRkIGZ1bGwgc2ltdWxhdGlvbiBzdWl0ZSAvIOWKoOWbuuWGhee9ruinhOWImeaXoOaNn+WNh+e6p+aUtuaVm+WZqOW5tuihpem9kOWkmuWcuuaZr+WGheaguOaooeaLn+agoemqjCIsIi0g5L+u5aSN5LquL+aal+iJsiAuc2tlbGV0b24tc2hpbW1lciDmiavlhYnpq5jlhYkgVG9rZW4g5bm25pS55Li6IEdQVSB0cmFuc2xhdGVYIOWMgOmAn+aJq+i/h++8jOe7n+S4gOWFqOermemqqOaetuWOn+ivreabv+mZpOa3t+eUqCBhbmltYXRlLXB1bHNlIiwiLSDkv67lpI0gQ29waWxvdCAvIEFJIOmJtOadg+WIhuijguS4jiBHb29nbGUgVm9pY2Ug5riv5Yy65ryC56e777yM6KGl5YWFIE9wZW5BSSAoQVM0MDE1MTgpIOS4jiBBbnRocm9waWMgKEFTMzk5MzU4KSDljp/nlJ8gQkdQIOe9keautSJdLCJzZWN1cml0eSI6W10sImRlcHJlY2F0ZWQiOltdLCJub3RlcyI6WyItIOS7jiAyMDI2LTExLTI3VDE2OjQxOjU2WiDkuYvlkI7nmoQgNSDkuKrmj5DkuqTkuK3mlbTnkIbvvIjnurPlhaXlvZPliY3lkIjlubbliIbmlK/nmoQgNSDkuKrljrvph43mj5DkuqTvvInvvJvlvZPliY3kvb/nlKjmj5DkuqTmoIfpopjkuI7mraPmlofopoHngrnnlJ/miJDop4TliJnmkZjopoHvvIzmnKrnu4/ov4cgQUkg6K+t5LmJ5b2S57qz5oiW6L+Q6KGM6aqM6K+BIl19fQ== -->
+<!-- msm-release-data:eyJzY2hlbWEiOjEsInNlY3Rpb25zIjp7ImhpZ2hsaWdodHMiOlsiLSDkv67lpI3ogIHmqKHmnb/op4TliJnplJrngrnlgJLnva7kuI7op4TliJnpm4bmvI/ooaXlubborrDlvZXnmbvlvZXpooTlk4jluIzop4TojIMiXSwibWFqb3IiOltdLCJhZGRlZCI6W10sImNoYW5nZWQiOltdLCJwZXJmb3JtYW5jZSI6W10sImZpeGVkIjpbIi0g5L+u5aSN6ICB5qih5p2/6KeE5YiZ6ZSa54K55YCS572u5LiO6KeE5YiZ6ZuG5ryP6KGl5bm26K6w5b2V55m75b2V6aKE5ZOI5biM6KeE6IyDIl0sInNlY3VyaXR5IjpbXSwiZGVwcmVjYXRlZCI6W10sIm5vdGVzIjpbIi0g5LuOIDIwMjYtMTEtMjhUMDI6MTM6MTVaIOS5i+WQjueahCAyIOS4quaPkOS6pOS4reaVtOeQhu+8iOe6s+WFpeW9k+WJjeWQiOW5tuWIhuaUr+eahCAyIOS4quWOu+mHjeaPkOS6pO+8ie+8m+W9k+WJjeS9v+eUqOaPkOS6pOagh+mimOS4juato+aWh+imgeeCueeUn+aIkOinhOWImeaRmOimge+8jOacque7j+i/hyBBSSDor63kuYnlvZLnurPmiJbov5DooYzpqozor4EiXX19 -->
 
 ### 🎉 本次亮点 {#release-highlights}
 
 <ol class="msm-release-highlights">
   <li class="msm-release-highlight">
     <span class="msm-release-highlight-index" aria-hidden="true">01</span>
-    <p>启动期无损增量同步老配置文件内置分流规则 / Non-destructively reconcile built-in routing rules into existing runtime configs on startup</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">02</span>
-    <p>移除路由过场与 fade-in 的纵向位移，全局启用 scrollbar-gutter: stable，对齐侧栏静态回退内边距</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">03</span>
-    <p>修复亮暗色骨架扫光动画并实现全站内容对齐骨架屏与跨页零跳变</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">04</span>
-    <p>增强 AI/Plex/HTTPDNS 分流并支持家庭 Wi-Fi SSID 自动直连 / Enhance AI, Plex, HTTPDNS/PCDN rules, Surge/Loon profiles, and home Wi-Fi SSID auto-direct</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">05</span>
-    <p>harden lossless builtin rule upgrade reconcilers and add full simulation suite / 加固内置规则无损升级收敛器并补齐多场景内核模拟校验</p>
-  </li>
-  <li class="msm-release-highlight">
-    <span class="msm-release-highlight-index" aria-hidden="true">06</span>
-    <p>修复亮/暗色 .skeleton-shimmer 扫光高光 Token 并改为 GPU translateX 匀速扫过，统一全站骨架原语替除混用 animate-pulse</p>
+    <p>修复老模板规则锚点倒置与规则集漏补并记录登录预哈希规范</p>
   </li>
 </ol>
 
 ### 📋 完整更新 {#release-details}
 
 <nav class="msm-release-summary-nav" aria-label="更新分类">
-  <a href="#release-added">🆕 新增功能 <span>4</span></a>
-  <a href="#release-changed">✨ 功能增强 <span>2</span></a>
-  <a href="#release-fixed">🐛 问题修复 <span>4</span></a>
+  <a href="#release-fixed">🐛 问题修复 <span>1</span></a>
   <a href="#release-notes">📌 升级提醒 <span>1</span></a>
 </nav>
-
-<section class="msm-release-section msm-release-section--added">
-
-### 🆕 新增功能 {#release-added}
-
-- 启动期无损增量同步老配置文件内置分流规则 / Non-destructively reconcile built-in routing rules into existing runtime configs on startup
-- 增强 AI/Plex/HTTPDNS 分流并支持家庭 Wi-Fi SSID 自动直连 / Enhance AI, Plex, HTTPDNS/PCDN rules, Surge/Loon profiles, and home Wi-Fi SSID auto-direct
-- 新增 15 套与真实页面栅格及顶栏一比一对齐的 PageSkeleton 变体与全路由映射，补齐 54 项单测
-- 新增 Plex 局域网证书域名 (plex.direct / v4.plex.tv) 真实 IP 直连与元数据代理分流
-
-</section>
-
-<section class="msm-release-section msm-release-section--changed">
-
-### ✨ 功能增强 {#release-changed}
-
-- 移除路由过场与 fade-in 的纵向位移，全局启用 scrollbar-gutter: stable，对齐侧栏静态回退内边距
-- 升级 Loon / Surge 默认 AI 规则集至 dler-io AI Suite（含 ChatGPT 语音 UDP IP），补齐 Surge extended-matching / pre-matching / icmp-forwarding 与 0.0.0.0/32 拦截
-
-</section>
 
 <section class="msm-release-section msm-release-section--fixed">
 
 ### 🐛 问题修复 {#release-fixed}
 
-- 修复亮暗色骨架扫光动画并实现全站内容对齐骨架屏与跨页零跳变
-- harden lossless builtin rule upgrade reconcilers and add full simulation suite / 加固内置规则无损升级收敛器并补齐多场景内核模拟校验
-- 修复亮/暗色 .skeleton-shimmer 扫光高光 Token 并改为 GPU translateX 匀速扫过，统一全站骨架原语替除混用 animate-pulse
-- 修复 Copilot / AI 鉴权分裂与 Google Voice 港区漂移，补充 OpenAI (AS401518) 与 Anthropic (AS399358) 原生 BGP 网段
+- 修复老模板规则锚点倒置与规则集漏补并记录登录预哈希规范
 
 </section>
 
@@ -103,16 +58,16 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 
 ### 📌 升级提醒 {#release-notes}
 
-- 从 2026-11-27T16:41:56Z 之后的 5 个提交中整理（纳入当前合并分支的 5 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+- 从 2026-11-28T02:13:15Z 之后的 2 个提交中整理（纳入当前合并分支的 2 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
 
 </section>
 
 ::: details 📋 构建信息
 - **发布通道**：beta（Beta 版）
-- **源提交**： [`f9d05db`](https://github.com/msm9527/msm/commit/f9d05db72ab7b16c3295b1ab599ac7113d4b6720)
-- **提交信息**：chore(release): 升级版本至 2.9.7 并同步 API 文档 / Bump version to 2.9.7 and sync OpenAPI docs
+- **源提交**： [`8494290`](https://github.com/msm9527/msm/commit/8494290fd4da23e72cf6dc884d3419b867145904)
+- **提交信息**：chore(release): 升级版本至 2.9.8 并同步 API 文档 / Bump version to 2.9.8 and sync OpenAPI docs
 - **提交作者**：msm
-- **提交时间**：2026-11-28 10:03:21 CST
+- **提交时间**：2026-11-28 11:56:50 CST
 - **下载说明**：同一发布页内提供各平台二进制、OpenWrt IPK/APK、LuCI 插件、派网 APX 与 SHA256 校验清单
 :::
 
@@ -121,6 +76,44 @@ description: MSM Beta 版本亮点、完整更新、升级提醒与历史发布�
 ## 📚 历史 Beta 版本
 
 > 下面仅列出最近几个 Beta 版本的主要变更，完整变更记录以 GitHub Release 为准。
+
+::: details beta-2.9.7 · 2026-11-28 10:03 · Beta 版
+
+<div class="msm-release-history-link"><a href="https://github.com/msm9527/msm-wiki/releases/tag/beta-2.9.7" target="_blank" rel="noreferrer">查看 GitHub Release <span aria-hidden="true">↗</span></a></div>
+
+**🎉 本次亮点**
+
+- 启动期无损增量同步老配置文件内置分流规则 / Non-destructively reconcile built-in routing rules into existing runtime configs on startup
+- 移除路由过场与 fade-in 的纵向位移，全局启用 scrollbar-gutter: stable，对齐侧栏静态回退内边距
+- 修复亮暗色骨架扫光动画并实现全站内容对齐骨架屏与跨页零跳变
+- 增强 AI/Plex/HTTPDNS 分流并支持家庭 Wi-Fi SSID 自动直连 / Enhance AI, Plex, HTTPDNS/PCDN rules, Surge/Loon profiles, and home Wi-Fi SSID auto-direct
+- harden lossless builtin rule upgrade reconcilers and add full simulation suite / 加固内置规则无损升级收敛器并补齐多场景内核模拟校验
+- 修复亮/暗色 .skeleton-shimmer 扫光高光 Token 并改为 GPU translateX 匀速扫过，统一全站骨架原语替除混用 animate-pulse
+
+**🆕 新增功能**
+
+- 启动期无损增量同步老配置文件内置分流规则 / Non-destructively reconcile built-in routing rules into existing runtime configs on startup
+- 增强 AI/Plex/HTTPDNS 分流并支持家庭 Wi-Fi SSID 自动直连 / Enhance AI, Plex, HTTPDNS/PCDN rules, Surge/Loon profiles, and home Wi-Fi SSID auto-direct
+- 新增 15 套与真实页面栅格及顶栏一比一对齐的 PageSkeleton 变体与全路由映射，补齐 54 项单测
+- 新增 Plex 局域网证书域名 (plex.direct / v4.plex.tv) 真实 IP 直连与元数据代理分流
+
+**✨ 功能增强**
+
+- 移除路由过场与 fade-in 的纵向位移，全局启用 scrollbar-gutter: stable，对齐侧栏静态回退内边距
+- 升级 Loon / Surge 默认 AI 规则集至 dler-io AI Suite（含 ChatGPT 语音 UDP IP），补齐 Surge extended-matching / pre-matching / icmp-forwarding 与 0.0.0.0/32 拦截
+
+**🐛 问题修复**
+
+- 修复亮暗色骨架扫光动画并实现全站内容对齐骨架屏与跨页零跳变
+- harden lossless builtin rule upgrade reconcilers and add full simulation suite / 加固内置规则无损升级收敛器并补齐多场景内核模拟校验
+- 修复亮/暗色 .skeleton-shimmer 扫光高光 Token 并改为 GPU translateX 匀速扫过，统一全站骨架原语替除混用 animate-pulse
+- 修复 Copilot / AI 鉴权分裂与 Google Voice 港区漂移，补充 OpenAI (AS401518) 与 Anthropic (AS399358) 原生 BGP 网段
+
+**📌 升级提醒**
+
+- 从 2026-11-27T16:41:56Z 之后的 5 个提交中整理（纳入当前合并分支的 5 个去重提交）；当前使用提交标题与正文要点生成规则摘要，未经过 AI 语义归纳或运行验证
+
+:::
 
 ::: details beta-2.9.6 · 2026-11-28 00:34 · Beta 版
 
